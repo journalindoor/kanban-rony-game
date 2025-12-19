@@ -112,7 +112,39 @@
 
     const nextCol = COLUMN_ORDER[idx + 1]
     if(K.canMoveCard(cardEl, nextCol)) return nextCol
+    
+    // Special case: if in Homologando and can skip to Publicado, return that
+    if(currentCol === 'Homologando' && K.canMoveCard(cardEl, 'Publicado')){
+      return 'Publicado'
+    }
+    
     return null
+  }
+
+  // Move card to next valid column (for button click)
+  K.moveCardToNextColumn = function(cardEl){
+    if(!cardEl) return false
+    
+    const nextCol = K.getNextColumn(cardEl)
+    if(!nextCol){
+      console.log('Card cannot advance: requirements not met')
+      return false
+    }
+    
+    const targetZone = document.querySelector(`.cards[data-col="${nextCol}"]`)
+    if(!targetZone){
+      console.warn(`Target zone ${nextCol} not found`)
+      return false
+    }
+    
+    // Move the card
+    targetZone.appendChild(cardEl)
+    console.log(`Card moved to ${nextCol}`)
+    
+    // Save state
+    if(typeof K.saveState === 'function') K.saveState()
+    
+    return true
   }
 
 })(window.Kanban)
