@@ -56,11 +56,13 @@
         const v = randInt(2,18)
         value.textContent = String(v)
         if(typeof K.saveState === 'function') K.saveState()
+        if(typeof K.updateIndicatorState === 'function') K.updateIndicatorState(item)
       })
 
       item.appendChild(label)
       item.appendChild(value)
       indicators.appendChild(item)
+      if(typeof K.updateIndicatorState === 'function') K.updateIndicatorState(item)
     })
 
     el.appendChild(indicators)
@@ -80,5 +82,34 @@
     })
 
     return el
+  }
+
+  // Visual state helper: adds/removes 'has-role' based on DOM
+  K.updateCardVisualState = function(cardEl){
+    if(!cardEl) return
+    const hasRole = !!cardEl.querySelector('.role')
+    cardEl.classList.toggle('has-role', hasRole)
+  }
+
+  // Sync all cards (useful after bulk render)
+  K.syncCardVisualStates = function(){
+    document.querySelectorAll('.card').forEach(function(c){
+      K.updateCardVisualState(c)
+    })
+  }
+
+  // Indicator state helper: adds/removes 'indicator-done' based on .ind-value === 0
+  K.updateIndicatorState = function(indicatorEl){
+    if(!indicatorEl) return
+    const valueEl = indicatorEl.querySelector('.ind-value')
+    const num = parseInt((valueEl && valueEl.textContent) || '0', 10) || 0
+    indicatorEl.classList.toggle('indicator-done', num === 0)
+  }
+
+  // Sync all indicators across the board
+  K.syncIndicatorStates = function(){
+    document.querySelectorAll('.indicator').forEach(function(ind){
+      K.updateIndicatorState(ind)
+    })
   }
 })(window.Kanban)

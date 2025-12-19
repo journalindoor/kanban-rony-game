@@ -36,6 +36,7 @@ h1{margin:0 0 12px 0;font-size:20px}
 .column-header{font-weight:700;margin-bottom:8px;color:#111}
 .cards{flex:1;min-height:120px;padding:6px;overflow:auto}
 .card{background:var(--card-bg);padding:10px;margin-bottom:8px;border-radius:6px;box-shadow:0 1px 4px rgba(16,24,40,0.06);cursor:grab;display:flex;flex-direction:column}
+.card.has-role{outline:2px solid rgba(43,138,239,0.25);box-shadow:0 2px 8px rgba(43,138,239,0.12)}
 .card.dragging{opacity:0.5}
 .drop-over{outline:3px dashed rgba(43,138,239,0.18);border-radius:6px}
 .start-button{background:var(--accent);color:#fff;border:none;padding:8px 10px;border-radius:6px;cursor:pointer}
@@ -52,6 +53,9 @@ h1{margin:0 0 12px 0;font-size:20px}
 .indicator{background:rgba(0,0,0,0.03);padding:8px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
 .ind-label{font-size:12px;color:#4b5563}
 .ind-value{font-weight:700;color:var(--accent);font-size:13px;background:rgba(43,138,239,0.06);padding:4px 10px;border-radius:999px}
+/* Indicator finished state */
+.indicator.indicator-done{background:rgba(22,163,74,0.12);outline:2px solid rgba(22,163,74,0.25)}
+.indicator.indicator-done .ind-value{background:rgba(22,163,74,0.18);color:#065f46}
 
 /* If using the inline wrapper above, it will add spacing */
 /* Example: <div style="margin-top:8px"><button id="startButton" class="start-button">Iniciar</button></div> */

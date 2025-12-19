@@ -46,6 +46,7 @@
               const cardEl = document.querySelector(`.card[data-id="${cardId}"]`)
               if(cardEl){
                 cardEl.appendChild(roleEl)
+                if(typeof K.updateCardVisualState === 'function') K.updateCardVisualState(cardEl)
               }
             } else {
               document.querySelector('.roles-area').appendChild(roleEl)
@@ -61,6 +62,8 @@
             if(el) K.renderRole(K.roleModels[rName], el)
           })
         }
+        if(typeof K.syncCardVisualStates === 'function') K.syncCardVisualStates()
+        if(typeof K.syncIndicatorStates === 'function') K.syncIndicatorStates()
     }
   }
 

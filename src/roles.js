@@ -41,6 +41,7 @@
     cardEl.appendChild(roleEl)
     roleEl.dataset.attached = 'true'
     roleEl.classList.add('role-attached')
+    if(typeof K.updateCardVisualState === 'function') K.updateCardVisualState(cardEl)
     // maintain runtime mapping of assignments
     K.roleAssignments = K.roleAssignments || {}
     K.roleAssignments[roleEl.getAttribute('data-role')] = parseInt(cardEl.getAttribute('data-id'), 10)
@@ -52,9 +53,11 @@
   function detachRole(roleEl){
     const container = document.querySelector(rolesContainerSelector)
     if(!container) return false
+    const prevCard = roleEl.closest('.card')
     container.appendChild(roleEl)
     delete roleEl.dataset.attached
     roleEl.classList.remove('role-attached')
+    if(prevCard && typeof K.updateCardVisualState === 'function') K.updateCardVisualState(prevCard)
     K.roleAssignments = K.roleAssignments || {}
     K.roleAssignments[roleEl.getAttribute('data-role')] = null
     if(typeof K.saveState === 'function') K.saveState()

@@ -77,6 +77,7 @@
     const next = Math.max(0, atual - roll)
 
     valueEl.textContent = String(next)
+    if(typeof K.updateIndicatorState === 'function') K.updateIndicatorState(targetIndicator)
 
     results.push({
       role: roleName,
@@ -89,6 +90,7 @@
   })
 
   if (typeof K.saveState === 'function') K.saveState()
+  if (typeof K.syncIndicatorStates === 'function') K.syncIndicatorStates()
   return results
 }
 
