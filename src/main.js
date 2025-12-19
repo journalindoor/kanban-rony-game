@@ -90,14 +90,27 @@
           console.error('Error running start turn', e)
         }
 
-        // Always create a new card in Backlog as before
+        // Backlog capacity rule: create only up to 5 total
         try{
-          const zone = document.querySelector('.cards[data-col="Backlog"]')
-          if(zone){
-            zone.appendChild(K.createCard())
-            if(typeof K.saveState === 'function') K.saveState()
+          const capacity = (typeof K.remainingBacklogCapacity === 'function') ? K.remainingBacklogCapacity(5) : (function(){
+            const zone = document.querySelector('.cards[data-col="Backlog"]')
+            const count = zone ? zone.querySelectorAll('.card').length : 0
+            return Math.max(0, 5 - count)
+          })()
+
+          if(capacity > 0){
+            if(typeof K.fillBacklogToMax === 'function'){
+              K.fillBacklogToMax(5)
+            } else {
+              const zone = document.querySelector('.cards[data-col="Backlog"]')
+              for(let i=0;i<capacity;i++) if(zone) zone.appendChild(K.createCard())
+              if(typeof K.saveState === 'function') K.saveState()
+            }
+          } else {
+            // no space: do not create any new cards
+            console.log('Backlog already has 5 cards; no new cards created.')
           }
-        }catch(e){ console.error('Error creating backlog card', e) }
+        }catch(e){ console.error('Error applying backlog capacity rule', e) }
       })
     }
 
