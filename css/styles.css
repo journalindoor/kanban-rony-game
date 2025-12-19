@@ -106,9 +106,9 @@ h1{margin:0 0 12px 0;font-size:20px}
   transform:scale(1.03);
 }
 
-.role#role-analista{background:#2563eb}
-.role#role-programador{background:#16a34a}
-.role#role-qa{background:#f59e0b;color:#111}
+.role[data-role^="Analista"]{background:#2563eb;color:#fff}
+.role[data-role^="Programador"]{background:#16a34a;color:#fff}
+.role[data-role^="QA/Tester"]{background:#f59e0b;color:#111}
 .role.role-attached{opacity:0.95;cursor:grab;border:2px solid rgba(0,0,0,0.06)}
 .role.dragging-role{opacity:0.6}
 

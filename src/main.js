@@ -70,10 +70,24 @@
   K.resetGame = function(){
     if(!confirm('Reiniciar o jogo? Isso apagará o progresso salvo.')) return
     try{ localStorage.removeItem(K.STORAGE_KEY) }catch(e){}
+    // clear assignments and role models so fresh talentos are generated
+    K.roleAssignments = {}
+    K.roleModels = {}
+    // move all role elements back to roles area
+    const rolesArea = document.querySelector('.roles-area')
+    if(rolesArea){
+      document.querySelectorAll('.role').forEach(r=>{
+        rolesArea.appendChild(r)
+        delete r.dataset.attached
+        r.classList.remove('role-attached')
+      })
+    }
     K._idCounter = 1
     K.clearZones()
     const backlogZone = document.querySelector('.cards[data-col="Backlog"]')
     if(backlogZone) backlogZone.appendChild(K.createCard('Titulo do Card'))
+    // reinitialize role models with new talentos and render
+    if(typeof K.initializeRoles === 'function') K.initializeRoles(true)
     if(typeof K.saveState === 'function') K.saveState()
   }
 
