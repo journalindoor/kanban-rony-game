@@ -76,7 +76,14 @@
     const roll = Math.floor(Math.random() * maxEff) + 1
     const next = Math.max(0, atual - roll)
 
+    // Update indicator value in DOM
     valueEl.textContent = String(next)
+    
+    // Update visual state (color) of indicator
+    if(typeof K.updateIndicatorState === 'function') K.updateIndicatorState(targetIndicator)
+    
+    // Auto-detach roles if indicator reached 0
+    if(typeof K.checkAndDetachCompletedRoles === 'function') K.checkAndDetachCompletedRoles(cardEl)
 
     results.push({
       role: roleName,
@@ -88,7 +95,9 @@
     })
   })
 
+  // Save and sync all changes once at the end
   if (typeof K.saveState === 'function') K.saveState()
+  if (typeof K.syncIndicatorStates === 'function') K.syncIndicatorStates()
   return results
 }
 

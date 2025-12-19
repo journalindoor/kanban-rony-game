@@ -33,7 +33,7 @@
     header.appendChild(titleEl)
     el.appendChild(header)
 
-    // Difficulty indicators: four, names based on columns
+    // Difficulty indicators per column (SprintBacklog is queue only, no indicator)
     const indicatorNames = ['Refinamento','Fazendo','Homologando','Ajustes']
     const indicators = document.createElement('div')
     indicators.className = 'indicators'
@@ -55,12 +55,24 @@
       item.addEventListener('click', ()=>{
         const v = randInt(2,18)
         value.textContent = String(v)
+        
+        // Update visual state of indicator
+        if(typeof K.updateIndicatorState === 'function') K.updateIndicatorState(item)
+        
+        // Check and auto-detach roles if indicator reached 0
+        const cardEl = item.closest('.card')
+        if(cardEl && typeof K.checkAndDetachCompletedRoles === 'function') K.checkAndDetachCompletedRoles(cardEl)
+        
+        // Persist state
         if(typeof K.saveState === 'function') K.saveState()
       })
 
       item.appendChild(label)
       item.appendChild(value)
       indicators.appendChild(item)
+      if(typeof K.updateIndicatorState === 'function') K.updateIndicatorState(item)
+      const cardEl = item.closest('.card')
+      if(cardEl && typeof K.checkAndDetachCompletedRoles === 'function') K.checkAndDetachCompletedRoles(cardEl)
     })
 
     el.appendChild(indicators)
@@ -80,5 +92,34 @@
     })
 
     return el
+  }
+
+  // Visual state helper: adds/removes 'has-role' based on DOM
+  K.updateCardVisualState = function(cardEl){
+    if(!cardEl) return
+    const hasRole = !!cardEl.querySelector('.role')
+    cardEl.classList.toggle('has-role', hasRole)
+  }
+
+  // Sync all cards (useful after bulk render)
+  K.syncCardVisualStates = function(){
+    document.querySelectorAll('.card').forEach(function(c){
+      K.updateCardVisualState(c)
+    })
+  }
+
+  // Indicator state helper: adds/removes 'indicator-done' based on .ind-value === 0
+  K.updateIndicatorState = function(indicatorEl){
+    if(!indicatorEl) return
+    const valueEl = indicatorEl.querySelector('.ind-value')
+    const num = parseInt((valueEl && valueEl.textContent) || '0', 10) || 0
+    indicatorEl.classList.toggle('indicator-done', num === 0)
+  }
+
+  // Sync all indicators across the board
+  K.syncIndicatorStates = function(){
+    document.querySelectorAll('.indicator').forEach(function(ind){
+      K.updateIndicatorState(ind)
+    })
   }
 })(window.Kanban)

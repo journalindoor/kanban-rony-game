@@ -17,7 +17,8 @@
           const indicators = {}
           cardEl.querySelectorAll('.indicator').forEach(ind=>{
             const label = (ind.querySelector('.ind-label') || {}).textContent || ''
-            const value = parseInt((ind.querySelector('.ind-value') || {}).textContent,10) || 1
+            const raw = parseInt((ind.querySelector('.ind-value') || {}).textContent,10)
+            const value = Number.isFinite(raw) ? raw : 1
             if(label) indicators[label] = value
           })
           state.columns[name].push({ id, title, indicators })
