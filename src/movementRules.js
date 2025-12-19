@@ -1,0 +1,105 @@
+// movementRules.js — validate sequential card movement between columns
+(function(K){
+  K = K || (window.Kanban = window.Kanban || {})
+
+  // Column order (sequence)
+  const COLUMN_ORDER = ['Backlog', 'Refinamento', 'SprintBacklog', 'Fazendo', 'Homologando', 'Ajustes', 'Publicado']
+
+  // Transition rules: from column → required indicator name for move to next column
+  const TRANSITION_RULES = {
+    'Backlog': null,              // No condition, always allowed
+    'Refinamento': 'Refinamento', // Refinamento must be 0
+    'SprintBacklog': 'Refinamento', // Refinamento must be 0 (queue stage)
+    'Fazendo': 'Fazendo',         // Fazendo must be 0
+    'Homologando': 'Homologando', // Homologando must be 0
+    'Ajustes': 'Ajustes',         // Ajustes must be 0
+    'Publicado': null             // No movement out (final stage)
+  }
+
+  // Get indicator value for a card by column name
+  // Returns the numeric value or 0 if not found
+  function getIndicatorValue(cardEl, colName){
+    if(!cardEl || !colName) return 0
+    
+    const indicators = cardEl.querySelectorAll('.indicator')
+    for(let i = 0; i < indicators.length; i++){
+      const labelEl = indicators[i].querySelector('.ind-label')
+      const label = (labelEl && labelEl.textContent) ? labelEl.textContent.trim() : ''
+      
+      if(label === colName){
+        const valueEl = indicators[i].querySelector('.ind-value')
+        const raw = parseInt((valueEl && valueEl.textContent) || '0', 10)
+        return Number.isFinite(raw) ? raw : 0
+      }
+    }
+    return 0
+  }
+
+  // Validate if card can move from current column to target column
+  K.canMoveCard = function(cardEl, targetColName){
+    if(!cardEl || !targetColName) return false
+
+    // Get current column
+    const currentColEl = cardEl.closest('.column')
+    const currentCol = currentColEl ? currentColEl.getAttribute('data-col') : null
+    if(!currentCol) return false
+
+    // Find positions in sequence
+    const currentIdx = COLUMN_ORDER.indexOf(currentCol)
+    const targetIdx = COLUMN_ORDER.indexOf(targetColName)
+
+    // Both columns must be valid
+    if(currentIdx === -1 || targetIdx === -1){
+      console.warn(`Invalid column: current="${currentCol}", target="${targetColName}"`)
+      return false
+    }
+
+    // Can only move to next column or stay in same
+    const isMovingForward = targetIdx === currentIdx + 1
+    const isStayingSame = targetIdx === currentIdx
+
+    if(!isMovingForward && !isStayingSame){
+      console.warn(`Cannot jump columns: from ${currentCol} (idx ${currentIdx}) to ${targetColName} (idx ${targetIdx})`)
+      return false
+    }
+
+    // If trying to move to same column, allow
+    if(isStayingSame) return true
+
+    // If moving to next column, check condition
+    if(isMovingForward){
+      const requiredIndicator = TRANSITION_RULES[currentCol]
+      
+      // If no condition required, allow
+      if(requiredIndicator === null){
+        console.log(`Movement ${currentCol} → ${targetColName}: no condition, allowed`)
+        return true
+      }
+      
+      // Check if required indicator is zero
+      const indicatorValue = getIndicatorValue(cardEl, requiredIndicator)
+      const allowed = (indicatorValue === 0)
+      
+      console.log(`Movement ${currentCol} → ${targetColName}: checking ${requiredIndicator}=${indicatorValue}, ${allowed ? 'allowed' : 'blocked'}`)
+      return allowed
+    }
+
+    return false
+  }
+
+  // Helper: get next allowed column for a card
+  K.getNextColumn = function(cardEl){
+    if(!cardEl) return null
+    const currentColEl = cardEl.closest('.column')
+    const currentCol = currentColEl ? currentColEl.getAttribute('data-col') : null
+    if(!currentCol) return null
+
+    const idx = COLUMN_ORDER.indexOf(currentCol)
+    if(idx === -1 || idx >= COLUMN_ORDER.length - 1) return null
+
+    const nextCol = COLUMN_ORDER[idx + 1]
+    if(K.canMoveCard(cardEl, nextCol)) return nextCol
+    return null
+  }
+
+})(window.Kanban)

@@ -74,6 +74,43 @@ Ao clicar em "Iniciar":
 
 ---
 
+## 6.1 Fluxo de Movimentação entre Colunas
+
+A movimentação de cards entre colunas segue regras rígidas baseadas no estado de conclusão do trabalho.
+
+### Regras de fluxo:
+
+- **Backlog → Refinamento**
+  - Permitido a qualquer momento
+
+- **Refinamento → SprintBacklog**
+  - Permitido somente quando o indicador de Refinamento for igual a zero
+
+- **SprintBacklog**
+  - Coluna de fila
+  - Não possui indicador de dificuldade próprio
+
+- **SprintBacklog → Fazendo**
+  - Permitido somente quando o indicador de Refinamento for igual a zero
+
+- **Fazendo → Homologando**
+  - Permitido somente quando o indicador de Fazendo for igual a zero
+
+- **Homologando → Ajustes**
+  - Permitido somente quando o indicador de Homologando for igual a zero
+
+- **Ajustes → Publicado**
+  - Permitido somente quando o indicador de Ajustes for igual a zero
+
+### Regras gerais:
+
+- Um card **não pode** avançar de coluna se a regra correspondente não for atendida
+- Tentativas inválidas de movimentação não devem alterar o estado do jogo
+- A interface deve refletir fielmente se a movimentação é permitida ou não
+
+
+---
+
 ## 7. Liberação de Papéis
 
 - Um papel só deve ser removido de um card quando:
