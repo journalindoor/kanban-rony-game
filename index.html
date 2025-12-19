@@ -13,9 +13,24 @@
 			<h1>Kanban - Rony Game</h1>
             <!-- Top controls moved here -->
             <div class="top-controls">
-                <button id="startButton" class="start-button">Iniciar</button>
+				<button id="startButton" class="start-button">Iniciar Turno</button>
                 <button id="resetButton" class="reset-button">Reiniciar</button>
             </div>
+
+			<!-- Status bar for day counter and future metrics -->
+			<div class="status-bar">
+				<div class="status-metrics">
+					<div class="metric">
+						<span class="metric-label">Dias passados</span>
+						<span class="metric-value" id="dayCounter">0</span>
+					</div>
+				</div>
+				<div class="status-actions">
+					<button class="metric-button" disabled title="Em breve">Cicle time</button>
+					<button class="metric-button" disabled title="Em breve">WIP</button>
+					<button class="metric-button" disabled title="Em breve">Throughput</button>
+				</div>
+			</div>
 			<div class="board" id="board">
 				<div class="column" data-col="Backlog">
 					<div class="column-header">Backlog</div>

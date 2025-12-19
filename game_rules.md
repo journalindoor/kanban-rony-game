@@ -36,6 +36,10 @@ Papéis disponíveis:
 - Programador
 - QA/Tester
 
+- Cada papel possui um **Talento Natural** sorteado ao carregar o jogo
+  - Valor inteiro entre **1 e 3**
+  - Permanece imutável até o jogo ser reiniciado
+
 Regras:
 - Um papel só pode estar associado a **um card por vez**
 - Um card pode ter **apenas um papel associado**
@@ -49,6 +53,7 @@ Regras:
   - Talento
   - Disposição
 - A eficiência máxima é definida por esses atributos
+  - Talento é sorteado uma única vez (1 a 3) no carregamento do jogo e não muda até reiniciar
 - Ao iniciar o turno:
   - Um valor aleatório entre `1` e `eficiência máxima` é sorteado
   - Esse valor é subtraído da dificuldade correta

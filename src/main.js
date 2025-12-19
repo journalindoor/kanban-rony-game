@@ -6,6 +6,13 @@
   K._idCounter = K._idCounter || 1
   K.nextId = function(){ return K._idCounter++ }
 
+  // day counter state
+  K.dayCount = Number.isFinite(K.dayCount) ? K.dayCount : 0
+  K.updateDayCounterDisplay = function(){
+    const el = document.getElementById('dayCounter')
+    if(el) el.textContent = String(K.dayCount || 0)
+  }
+
   K.clearZones = function(){
     K.columnNames.forEach(name=>{
       const zone = document.querySelector('.cards[data-col="'+name+'"]')
@@ -73,6 +80,7 @@
     // clear assignments and role models so fresh talentos are generated
     K.roleAssignments = {}
     K.roleModels = {}
+    K.dayCount = 0
     // move all role elements back to roles area
     const rolesArea = document.querySelector('.roles-area')
     if(rolesArea){
@@ -88,6 +96,7 @@
     if(backlogZone) backlogZone.appendChild(K.createCard('Titulo do Card'))
     // reinitialize role models with new talentos and render
     if(typeof K.initializeRoles === 'function') K.initializeRoles(true)
+    if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
     if(typeof K.saveState === 'function') K.saveState()
   }
 
@@ -96,6 +105,9 @@
     const startBtn = document.getElementById('startButton')
     if(startBtn){
       startBtn.addEventListener('click', ()=>{
+        // increment day counter on each turn start
+        K.dayCount = (K.dayCount || 0) + 1
+        if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
         try{
           if(typeof K.runStartTurn === 'function'){
             const results = K.runStartTurn()
@@ -128,6 +140,9 @@
             console.log('Backlog already has 5 cards; no new cards created.')
           }
         }catch(e){ console.error('Error applying backlog capacity rule', e) }
+
+        // persist updated state (including day counter) after the turn action
+        if(typeof K.saveState === 'function') K.saveState()
       })
     }
 
@@ -136,12 +151,17 @@
 
     // initialize board from storage or create default
     const saved = (typeof K.loadState === 'function') ? K.loadState() : null
-    if(saved) K.renderFromState(saved)
+    if(saved){
+      if(Number.isFinite(saved.dayCount)) K.dayCount = saved.dayCount
+      K.renderFromState(saved)
+    }
     else {
       const backlogZone = document.querySelector('.cards[data-col="Backlog"]')
       if(backlogZone) backlogZone.appendChild(K.createCard('Titulo do Card'))
       if(typeof K.saveState === 'function') K.saveState()
     }
+
+    if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
 
     // wire drop zones
     if(typeof K.setupDropZones === 'function') K.setupDropZones()
