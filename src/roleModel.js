@@ -98,14 +98,22 @@
   // roleInstances container
   K.roleModels = K.roleModels || {}
 
-  // initialize defaults if not present
-  document.addEventListener('DOMContentLoaded', ()=>{
-    const defaults = [ ['Analista',2], ['Programador',3], ['QA/Tester',1] ]
+  function randTalento(){ return Math.max(1, Math.min(3, Math.floor(Math.random()*3)+1)) }
+
+  // initialize default roles; if force=true, replace existing models
+  K.initializeRoles = function(force = false){
+    const defaults = [ ['Analista', randTalento()], ['Programador', randTalento()], ['QA/Tester', randTalento()] ]
     defaults.forEach(([name, talento])=>{
-      if(!K.roleModels[name]) K.roleModels[name] = new Role(name, talento)
+      if(!force && K.roleModels[name]) return
+      K.roleModels[name] = new Role(name, talento)
       const el = document.querySelector('[data-role="'+name+'"]')
       if(el) renderRole(K.roleModels[name], el)
     })
+  }
+
+  // initialize defaults if not present
+  document.addEventListener('DOMContentLoaded', ()=>{
+    K.initializeRoles(false)
   })
 
 })(window.Kanban)

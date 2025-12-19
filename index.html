@@ -13,9 +13,25 @@
 			<h1>Kanban - Rony Game</h1>
             <!-- Top controls moved here -->
             <div class="top-controls">
-                <button id="startButton" class="start-button">Iniciar</button>
+				<button id="startButton" class="start-button">Iniciar Turno</button>
                 <button id="resetButton" class="reset-button">Reiniciar</button>
+				<button id="toggleArchivedButton" class="archived-toggle-button">Arquivados</button>
             </div>
+
+			<!-- Status bar for day counter and future metrics -->
+			<div class="status-bar">
+				<div class="status-metrics">
+					<div class="metric">
+						<span class="metric-label">Dias passados</span>
+						<span class="metric-value" id="dayCounter">0</span>
+					</div>
+				</div>
+				<div class="status-actions">
+					<button class="metric-button" disabled title="Em breve">Cicle time</button>
+					<button class="metric-button" disabled title="Em breve">WIP</button>
+					<button class="metric-button" disabled title="Em breve">Throughput</button>
+				</div>
+			</div>
 			<div class="board" id="board">
 				<div class="column" data-col="Backlog">
 					<div class="column-header">Backlog</div>
@@ -51,6 +67,12 @@
 					<div class="column-header">Publicado</div>
 					<div class="cards" data-col="Publicado"></div>
 				</div>
+
+				<!-- Arquivados column (hidden by default) -->
+				<div class="column archived-column archived-hidden" data-col="Arquivados">
+					<div class="column-header">Arquivados</div>
+					<div class="cards" data-col="Arquivados"></div>
+				</div>
 			</div>
 		</div>
 
@@ -68,6 +90,7 @@
 		<script src="src/cards.js" defer></script>
 		<script src="src/dragdrop.js" defer></script>
 		<script src="src/movementRules.js" defer></script>
+		<script src="src/adjustmentsRules.js" defer></script>
 		<script src="src/roles.js" defer></script>
 		<script src="src/roleModel.js" defer></script>
 		<script src="src/gameLogic.js" defer></script>

@@ -4,17 +4,6 @@
 
   function randInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min }
 
-  // Ensure default column difficulties exist
-  K.columnDifficulties = K.columnDifficulties || {
-    Refinamento: 10,
-    SprintBacklog: 12,
-    Fazendo: 15,
-    Homologando: 8,
-    Ajustes: 6,
-    Backlog: 2,
-    Publicado: 2
-  }
-
   // Apply one role's random contribution to the column difficulty
   // Pure function: takes current difficulties map and returns new map and a result object
   function applyRoleToColumn(difficulties, roleName, cardId, roleModel, cardColumnName){
@@ -81,6 +70,11 @@
     
     // Update visual state (color) of indicator
     if(typeof K.updateIndicatorState === 'function') K.updateIndicatorState(targetIndicator)
+    
+    // If card is in Homologando, calculate Ajustes based on efficiency
+    if(colName === 'Homologando'){
+      if(typeof K.calculateAdjustesForHomologando === 'function') K.calculateAdjustesForHomologando(cardEl)
+    }
     
     // Auto-detach roles if indicator reached 0
     if(typeof K.checkAndDetachCompletedRoles === 'function') K.checkAndDetachCompletedRoles(cardEl)

@@ -24,7 +24,7 @@ Qualquer lógica implementada no código deve respeitar este manual.
     - SprintBacklog
     - Fazendo
     - Homologando
-    - Ajustes
+    - Ajustes (nasce em 0)
 - Nenhuma dificuldade pode ser negativa
 
 ---
@@ -35,6 +35,10 @@ Papéis disponíveis:
 - Analista
 - Programador
 - QA/Tester
+
+- Cada papel possui um **Talento Natural** sorteado ao carregar o jogo
+  - Valor inteiro entre **1 e 3**
+  - Permanece imutável até o jogo ser reiniciado
 
 Regras:
 - Um papel só pode estar associado a **um card por vez**
@@ -49,6 +53,7 @@ Regras:
   - Talento
   - Disposição
 - A eficiência máxima é definida por esses atributos
+  - Talento é sorteado uma única vez (1 a 3) no carregamento do jogo e não muda até reiniciar
 - Ao iniciar o turno:
   - Um valor aleatório entre `1` e `eficiência máxima` é sorteado
   - Esse valor é subtraído da dificuldade correta
@@ -68,9 +73,21 @@ Ao clicar em "Iniciar":
 
 ## 6. Indicadores e Colunas
 
-- Cada coluna possui um indicador correspondente
-- A dificuldade reduzida deve ser **a da coluna onde o card está**
-- Indicadores de outras colunas não interferem
+
+## 6.2 Regras específicas da coluna Ajustes
+
+- Ao nascer no Backlog, o indicador de Ajustes inicia sempre em **0**.
+- Ao clicar no botão "Iniciar", **durante o turno de trabalho**:
+  - Se o card estiver na coluna Homologando **e** tiver um papel associado, decide-se se há ajustes necessários
+  - A decisão é baseada na eficiência do papel que está homologando:
+    - Eficiência 1 a 2 → 50% de chance de gerar ajustes
+    - Eficiência 3 a 4 → 25% de chance de gerar ajustes
+    - Eficiência 5 a 6 → 5% de chance de gerar ajustes
+    - Eficiência 0 → Nenhum ajuste é gerado (permanece zero)
+- Se gerar ajustes:
+  - O valor de Ajustes é **> 0**, aleatório, com máximo **2 × eficiência** do papel em Homologando.
+- Se não gerar ajustes:
+  - O indicador de Ajustes permanece **0** e o card pode pular a coluna Ajustes (Homologando → Publicado).
 
 ---
 
@@ -98,6 +115,9 @@ A movimentação de cards entre colunas segue regras rígidas baseadas no estado
 
 - **Homologando → Ajustes**
   - Permitido somente quando o indicador de Homologando for igual a zero
+
+- **Homologando → Publicado**
+  - Permitido quando o indicador de Homologando for igual a zero **e** o indicador de Ajustes for igual a zero (pode pular Ajustes neste caso)
 
 - **Ajustes → Publicado**
   - Permitido somente quando o indicador de Ajustes for igual a zero
