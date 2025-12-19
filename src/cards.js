@@ -55,14 +55,24 @@
       item.addEventListener('click', ()=>{
         const v = randInt(2,18)
         value.textContent = String(v)
-        if(typeof K.saveState === 'function') K.saveState()
+        
+        // Update visual state of indicator
         if(typeof K.updateIndicatorState === 'function') K.updateIndicatorState(item)
+        
+        // Check and auto-detach roles if indicator reached 0
+        const cardEl = item.closest('.card')
+        if(cardEl && typeof K.checkAndDetachCompletedRoles === 'function') K.checkAndDetachCompletedRoles(cardEl)
+        
+        // Persist state
+        if(typeof K.saveState === 'function') K.saveState()
       })
 
       item.appendChild(label)
       item.appendChild(value)
       indicators.appendChild(item)
       if(typeof K.updateIndicatorState === 'function') K.updateIndicatorState(item)
+      const cardEl = item.closest('.card')
+      if(cardEl && typeof K.checkAndDetachCompletedRoles === 'function') K.checkAndDetachCompletedRoles(cardEl)
     })
 
     el.appendChild(indicators)
