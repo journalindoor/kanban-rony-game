@@ -17,7 +17,8 @@
         e.preventDefault()
         if(K.dragged){
           const zoneCol = zone.getAttribute('data-col')
-          
+          const fromCol = K.dragged.dataset.fromCol || null
+
           // Check backlog size limit
           if(zoneCol === 'Backlog'){
             const count = zone.querySelectorAll('.card').length
@@ -26,7 +27,7 @@
               return
             }
           }
-          
+
           // Validate movement according to column sequence rules
           if(typeof K.canMoveCard === 'function'){
             if(!K.canMoveCard(K.dragged, zoneCol)){
@@ -35,8 +36,9 @@
               return
             }
           }
-          
+
           zone.appendChild(K.dragged)
+          delete K.dragged.dataset.fromCol
         }
         zone.classList.remove('drop-over')
         if(typeof K.saveState === 'function') K.saveState()

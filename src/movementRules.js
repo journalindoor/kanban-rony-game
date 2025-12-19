@@ -55,11 +55,23 @@
       return false
     }
 
-    // Can only move to next column or stay in same
     const isMovingForward = targetIdx === currentIdx + 1
     const isStayingSame = targetIdx === currentIdx
+    const isJumpingAhead = targetIdx > currentIdx + 1
 
-    if(!isMovingForward && !isStayingSame){
+    // Special case: Homologando -> Publicado allowed when Homologando==0 AND Ajustes==0
+    if(currentCol === 'Homologando' && targetColName === 'Publicado'){
+      const homVal = getIndicatorValue(cardEl, 'Homologando')
+      const ajVal = getIndicatorValue(cardEl, 'Ajustes')
+      const allowed = homVal === 0 && ajVal === 0
+      if(!allowed){
+        console.warn(`Cannot jump Homologando -> Publicado. Homologando=${homVal}, Ajustes=${ajVal}`)
+      }
+      return allowed
+    }
+
+    // Block any other jumps beyond next column
+    if(isJumpingAhead){
       console.warn(`Cannot jump columns: from ${currentCol} (idx ${currentIdx}) to ${targetColName} (idx ${targetIdx})`)
       return false
     }

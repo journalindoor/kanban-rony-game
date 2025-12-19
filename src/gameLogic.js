@@ -82,6 +82,11 @@
     // Update visual state (color) of indicator
     if(typeof K.updateIndicatorState === 'function') K.updateIndicatorState(targetIndicator)
     
+    // If card is in Homologando, calculate Ajustes based on efficiency
+    if(colName === 'Homologando'){
+      if(typeof K.calculateAdjustesForHomologando === 'function') K.calculateAdjustesForHomologando(cardEl)
+    }
+    
     // Auto-detach roles if indicator reached 0
     if(typeof K.checkAndDetachCompletedRoles === 'function') K.checkAndDetachCompletedRoles(cardEl)
 

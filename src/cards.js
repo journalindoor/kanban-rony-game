@@ -48,24 +48,18 @@
 
       const value = document.createElement('div')
       value.className = 'ind-value'
-      const initial = (indicatorsObj && indicatorsObj[name]) ? Math.max(2, indicatorsObj[name]) : randInt(2,18)
+      // Ajustes nasce em 0 por regra; demais indicadores recebem valor aleatório
+      let initial
+      if(indicatorsObj && indicatorsObj[name] !== undefined){
+        initial = Math.max(0, indicatorsObj[name])
+      } else if(name === 'Ajustes'){
+        initial = 0
+      } else {
+        initial = randInt(2,18)
+      }
       value.textContent = String(initial)
 
-      // clicking assigns a new random value between 1..18 and saves
-      item.addEventListener('click', ()=>{
-        const v = randInt(2,18)
-        value.textContent = String(v)
-        
-        // Update visual state of indicator
-        if(typeof K.updateIndicatorState === 'function') K.updateIndicatorState(item)
-        
-        // Check and auto-detach roles if indicator reached 0
-        const cardEl = item.closest('.card')
-        if(cardEl && typeof K.checkAndDetachCompletedRoles === 'function') K.checkAndDetachCompletedRoles(cardEl)
-        
-        // Persist state
-        if(typeof K.saveState === 'function') K.saveState()
-      })
+      // Indicators are non-interactive; values change only via game logic
 
       item.appendChild(label)
       item.appendChild(value)
@@ -81,6 +75,8 @@
     el.draggable = true
     el.addEventListener('dragstart', e=>{
       K.dragged = el
+      const col = el.closest('.column')
+      if(col) el.dataset.fromCol = col.getAttribute('data-col') || ''
       el.classList.add('dragging')
       e.dataTransfer.effectAllowed = 'move'
     })
