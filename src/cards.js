@@ -33,8 +33,8 @@
     header.appendChild(titleEl)
     el.appendChild(header)
 
-    // Difficulty indicators per column (includes SprintBacklog)
-    const indicatorNames = ['Refinamento','SprintBacklog','Fazendo','Homologando','Ajustes']
+    // Difficulty indicators per column (SprintBacklog is queue only, no indicator)
+    const indicatorNames = ['Refinamento','Fazendo','Homologando','Ajustes']
     const indicators = document.createElement('div')
     indicators.className = 'indicators'
 

@@ -6,10 +6,11 @@
   const COLUMN_ORDER = ['Backlog', 'Refinamento', 'SprintBacklog', 'Fazendo', 'Homologando', 'Ajustes', 'Publicado']
 
   // Transition rules: from column → required indicator name for move to next column
+  // Note: SprintBacklog has NO indicator (it's a queue); transitions use Refinamento for all queue movement
   const TRANSITION_RULES = {
     'Backlog': null,              // No condition, always allowed
     'Refinamento': 'Refinamento', // Refinamento must be 0
-    'SprintBacklog': 'Refinamento', // Refinamento must be 0 (queue stage)
+    'SprintBacklog': 'Refinamento', // Refinamento must be 0 (queue stage, no own indicator)
     'Fazendo': 'Fazendo',         // Fazendo must be 0
     'Homologando': 'Homologando', // Homologando must be 0
     'Ajustes': 'Ajustes',         // Ajustes must be 0
