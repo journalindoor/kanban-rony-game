@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>Kanban Rony Game</title>
+		<link rel="stylesheet" href="css/styles.css">
+	</head>
+	<body>
+
+    <div class="game-layout">
+      <div class="container">
+			<h1>Kanban</h1>
+			<div class="board" id="board">
+				<div class="column" data-col="Backlog">
+					<div class="column-header">Backlog</div>
+					<div class="cards" data-col="Backlog"></div>
+					<div style="margin-top:8px;display:flex;gap:8px">
+							<button id="startButton" class="start-button">Iniciar</button>
+							<button id="resetButton" class="reset-button">Reiniciar</button>
+						</div>
+				</div>
+
+				<div class="column" data-col="Refinamento">
+					<div class="column-header">Refinamento</div>
+					<div class="cards" data-col="Refinamento"></div>
+				</div>
+
+				<div class="column" data-col="SprintBacklog">
+					<div class="column-header">SprintBacklog</div>
+					<div class="cards" data-col="SprintBacklog"></div>
+				</div>
+
+				<div class="column" data-col="Fazendo">
+					<div class="column-header">Fazendo</div>
+					<div class="cards" data-col="Fazendo"></div>
+				</div>
+
+				<div class="column" data-col="Homologando">
+					<div class="column-header">Homologando</div>
+					<div class="cards" data-col="Homologando"></div>
+				</div>
+
+				<div class="column" data-col="Ajustes">
+					<div class="column-header">Ajustes</div>
+					<div class="cards" data-col="Ajustes"></div>
+				</div>
+
+				<div class="column" data-col="Publicado">
+					<div class="column-header">Publicado</div>
+					<div class="cards" data-col="Publicado"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Roles area -->
+		<div class="roles-area" id="rolesArea">
+			<div class="role" data-role="Analista" id="role-analista">Azul<br>Analista</div>
+			<div class="role" data-role="Programador" id="role-programador">Verde<br>Programador</div>
+			<div class="role" data-role="QA/Tester" id="role-qa">Amarelo<br>QA/Tester</div>
+		</div>
+    </div>
+
+		
+
+		<script src="src/storage.js" defer></script>
+		<script src="src/cards.js" defer></script>
+		<script src="src/dragdrop.js" defer></script>
+		<script src="src/roles.js" defer></script>
+		<script src="src/roleModel.js" defer></script>
+		<script src="src/gameLogic.js" defer></script>
+		<script src="src/main.js" defer></script>
+	</body>
+</html>
+

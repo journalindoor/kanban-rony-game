@@ -1,0 +1,97 @@
+:root{--gap:16px;--col-bg:#f4f6f8;--card-bg:#fff;--accent:#2b8aef}
+html,body{
+  height:100%;
+  margin:0;
+  font-family:Inter,Segoe UI,Helvetica,Arial,sans-serif;
+  background:#eef2f5;
+}
+
+body{
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  overflow:hidden;
+}
+
+.container{
+  padding:18px;
+  height:60vh;
+  box-sizing:border-box;
+  overflow:hidden;
+}
+
+h1{margin:0 0 12px 0;font-size:20px}
+.board{
+  display:flex;
+  gap:var(--gap);
+  align-items:flex-start;
+  height:100%;
+  overflow-x:auto;
+  padding-bottom:8px;
+}
+
+.column{background:var(--col-bg);border-radius:8px;padding:12px;min-width:240px;max-width:320px;display:flex;flex-direction:column;box-shadow:0 1px 0 rgba(0,0,0,0.04)}
+.column-header{font-weight:700;margin-bottom:8px;color:#111}
+.cards{flex:1;min-height:120px;padding:6px;overflow:auto}
+.card{background:var(--card-bg);padding:10px;margin-bottom:8px;border-radius:6px;box-shadow:0 1px 4px rgba(16,24,40,0.06);cursor:grab;display:flex;flex-direction:column}
+.card.dragging{opacity:0.5}
+.drop-over{outline:3px dashed rgba(43,138,239,0.18);border-radius:6px}
+.start-button{background:var(--accent);color:#fff;border:none;padding:8px 10px;border-radius:6px;cursor:pointer}
+
+.reset-button{background:#ef4444;color:#fff;border:none;padding:8px 10px;border-radius:6px;cursor:pointer}
+.reset-button:hover{opacity:0.92}
+
+.card-header{display:flex;justify-content:space-between;align-items:center}
+.card-title{font-weight:700;font-size:14px;color:#111}
+.card-id{background:rgba(43,138,239,0.08);color:var(--accent);padding:2px 8px;border-radius:999px;font-size:12px}
+
+/* Difficulty indicators */
+.indicators{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.indicator{background:rgba(0,0,0,0.03);padding:8px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.ind-label{font-size:12px;color:#4b5563}
+.ind-value{font-weight:700;color:var(--accent);font-size:13px;background:rgba(43,138,239,0.06);padding:4px 10px;border-radius:999px}
+
+/* If using the inline wrapper above, it will add spacing */
+/* Example: <div style="margin-top:8px"><button id="startButton" class="start-button">Iniciar</button></div> */
+@media (max-width:800px){.column{min-width:200px}}
+
+/* Roles area */
+.roles-area{
+  height:40vh;
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  padding:14px;
+  box-sizing:border-box;
+  overflow-y:auto;
+  border-top:2px solid rgba(0,0,0,0.08);
+}
+
+
+.role{min-width:120px;max-width:200px;min-height:56px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;color:#fff;font-weight:700;cursor:grab;user-select:none;padding:8px;box-sizing:border-box;white-space:normal}
+.role#role-analista{background:#2563eb}
+.role#role-programador{background:#16a34a}
+.role#role-qa{background:#f59e0b;color:#111}
+.role.role-attached{opacity:0.95;cursor:grab;border:2px solid rgba(0,0,0,0.06)}
+.role.dragging-role{opacity:0.6}
+
+.card .role{width:88px;height:40px;margin-top:8px}
+
+/* Compact view when role is inside a card: show only title and eficiencia */
+.card .role{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px;gap:4px}
+.card .role .role-name{font-size:12px;font-weight:700;margin:0;white-space:normal;text-overflow:ellipsis;text-align:center}
+.card .role .role-table{margin:0}
+.card .role .role-table tr:first-child{display:none}
+.card .role .role-table td{display:none}
+.card .role .role-table td:last-child{display:block;font-weight:800;font-size:14px;padding-top:2px}
+
+.role-name{font-size:13px;font-weight:800;margin-bottom:6px;text-align:center}
+.role-table{font-size:13px}
+
+/* role table styling */
+.role-table{width:100%;border-collapse:collapse;text-align:center;font-size:13px;margin-top:6px}
+.role-table th{font-weight:600;padding:4px}
+.role-table td{padding:6px;font-weight:700}
+
+/* game layout styling */
+.game-layout{display:flex;width:100vw;height:100vh;overflow:hidden;}
