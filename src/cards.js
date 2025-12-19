@@ -71,6 +71,18 @@
 
     el.appendChild(indicators)
 
+    // Add "Próxima Coluna" button
+    const nextColBtn = document.createElement('button')
+    nextColBtn.className = 'next-column-btn'
+    nextColBtn.textContent = 'Próxima Coluna'
+    nextColBtn.addEventListener('click', (e)=>{
+      e.stopPropagation()
+      if(typeof K.moveCardToNextColumn === 'function'){
+        K.moveCardToNextColumn(el)
+      }
+    })
+    el.appendChild(nextColBtn)
+
     // drag handling uses Kanban.dragged shared state
     el.draggable = true
     el.addEventListener('dragstart', e=>{

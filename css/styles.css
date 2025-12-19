@@ -114,6 +114,24 @@ h1{margin:0 0 12px 0;font-size:20px}
 
 .card .role{width:88px;height:40px;margin-top:8px}
 
+/* Next column button */
+.next-column-btn{
+  margin-top:8px;
+  padding:6px 10px;
+  background:#2b8aef;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:600;
+  width:100%;
+  transition:background 0.2s ease;
+}
+.next-column-btn:hover{
+  background:#1d6ac7;
+}
+
 /* Compact view when role is inside a card: show only title and eficiencia */
 .card .role{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px;gap:4px}
 .card .role .role-name{font-size:12px;font-weight:700;margin:0;white-space:normal;text-overflow:ellipsis;text-align:center}
