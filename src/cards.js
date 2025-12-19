@@ -33,8 +33,8 @@
     header.appendChild(titleEl)
     el.appendChild(header)
 
-    // Difficulty indicators: four, names based on columns
-    const indicatorNames = ['Refinamento','Fazendo','Homologando','Ajustes']
+    // Difficulty indicators per column (includes SprintBacklog)
+    const indicatorNames = ['Refinamento','SprintBacklog','Fazendo','Homologando','Ajustes']
     const indicators = document.createElement('div')
     indicators.className = 'indicators'
 

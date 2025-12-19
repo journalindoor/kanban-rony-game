@@ -15,7 +15,17 @@
       zone.addEventListener('dragleave', ()=>zone.classList.remove('drop-over'))
       zone.addEventListener('drop', e=>{
         e.preventDefault()
-        if(K.dragged) zone.appendChild(K.dragged)
+        if(K.dragged){
+          const zoneCol = zone.getAttribute('data-col')
+          if(zoneCol === 'Backlog'){
+            const count = zone.querySelectorAll('.card').length
+            if(count >= 5){
+              zone.classList.remove('drop-over')
+              return
+            }
+          }
+          zone.appendChild(K.dragged)
+        }
         zone.classList.remove('drop-over')
         if(typeof K.saveState === 'function') K.saveState()
       })

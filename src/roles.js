@@ -28,6 +28,8 @@
   function attachRoleToCard(roleEl, cardEl){
     if(!roleEl || !cardEl) return false
     if(isCardInBacklog(cardEl)) return false
+    // enforce single role per card
+    if(cardEl.querySelector('.role')) return false
     // ensure role not already attached elsewhere
     const roleName = roleEl.getAttribute('data-role')
     const current = document.querySelector('[data-role="'+roleName+'"]')
