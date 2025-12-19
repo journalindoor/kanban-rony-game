@@ -13,6 +13,16 @@
     if(el) el.textContent = String(K.dayCount || 0)
   }
 
+  // Move all cards from Publicado to Arquivados
+  K.archivePublishedCards = function(){
+    const publishedZone = document.querySelector('.cards[data-col="Publicado"]')
+    const archivedZone = document.querySelector('.cards[data-col="Arquivados"]')
+    if(!publishedZone || !archivedZone) return 0
+    const toMove = Array.from(publishedZone.querySelectorAll('.card'))
+    toMove.forEach(card=> archivedZone.appendChild(card))
+    return toMove.length
+  }
+
   K.clearZones = function(){
     K.columnNames.forEach(name=>{
       const zone = document.querySelector('.cards[data-col="'+name+'"]')
@@ -141,6 +151,12 @@
           }
         }catch(e){ console.error('Error applying backlog capacity rule', e) }
 
+        // auto-archive: move any cards in Publicado to Arquivados
+        try{
+          const moved = (typeof K.archivePublishedCards === 'function') ? K.archivePublishedCards() : 0
+          if(moved>0) console.log(`Archived ${moved} published card(s).`)
+        }catch(e){ console.error('Error archiving published cards', e) }
+
         // persist updated state (including day counter) after the turn action
         if(typeof K.saveState === 'function') K.saveState()
       })
@@ -171,6 +187,15 @@
       Object.keys(K.roleModels).forEach(rName=>{
         const el = document.querySelector(`[data-role="${rName}"]`)
         if(el) K.renderRole(K.roleModels[rName], el)
+      })
+    }
+
+    // Toggle archived column visibility
+    const toggleArchivedBtn = document.getElementById('toggleArchivedButton')
+    if(toggleArchivedBtn){
+      toggleArchivedBtn.addEventListener('click', ()=>{
+        const archivedCol = document.querySelector('.column[data-col="Arquivados"]')
+        if(archivedCol) archivedCol.classList.toggle('archived-hidden')
       })
     }
   })

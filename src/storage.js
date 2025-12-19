@@ -2,7 +2,7 @@
 (function(K){
   K = K || (window.Kanban = window.Kanban || {})
   K.STORAGE_KEY = 'kanbanState_v1'
-  K.columnNames = ['Backlog','Refinamento','SprintBacklog','Fazendo','Homologando','Ajustes','Publicado']
+  K.columnNames = ['Backlog','Refinamento','SprintBacklog','Fazendo','Homologando','Ajustes','Publicado','Arquivados']
 
   K.saveState = function(){
     const board = document.getElementById('board')

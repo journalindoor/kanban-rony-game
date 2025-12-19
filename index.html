@@ -15,6 +15,7 @@
             <div class="top-controls">
 				<button id="startButton" class="start-button">Iniciar Turno</button>
                 <button id="resetButton" class="reset-button">Reiniciar</button>
+				<button id="toggleArchivedButton" class="archived-toggle-button">Arquivados</button>
             </div>
 
 			<!-- Status bar for day counter and future metrics -->
@@ -65,6 +66,12 @@
 				<div class="column" data-col="Publicado">
 					<div class="column-header">Publicado</div>
 					<div class="cards" data-col="Publicado"></div>
+				</div>
+
+				<!-- Arquivados column (hidden by default) -->
+				<div class="column archived-column archived-hidden" data-col="Arquivados">
+					<div class="column-header">Arquivados</div>
+					<div class="cards" data-col="Arquivados"></div>
 				</div>
 			</div>
 		</div>
