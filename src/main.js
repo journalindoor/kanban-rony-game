@@ -129,19 +129,6 @@
       if(typeof K.saveState === 'function') K.saveState()
     }
 
-    // sync displayed indicators with current column difficulties
-    if(K.columnDifficulties){
-      Object.keys(K.columnDifficulties).forEach(colName=>{
-        document.querySelectorAll('.indicator').forEach(ind=>{
-          const label = (ind.querySelector('.ind-label') || {}).textContent || ''
-          if(label === colName){
-            const valEl = ind.querySelector('.ind-value')
-            if(valEl) valEl.textContent = String(K.columnDifficulties[colName])
-          }
-        })
-      })
-    }
-
     // wire drop zones
     if(typeof K.setupDropZones === 'function') K.setupDropZones()
 
