@@ -10,15 +10,16 @@
 
     <div class="game-layout">
       <div class="container">
-			<h1>Kanban</h1>
+			<h1>Kanban - Rony Game</h1>
+            <!-- Top controls moved here -->
+            <div class="top-controls">
+                <button id="startButton" class="start-button">Iniciar</button>
+                <button id="resetButton" class="reset-button">Reiniciar</button>
+            </div>
 			<div class="board" id="board">
 				<div class="column" data-col="Backlog">
 					<div class="column-header">Backlog</div>
 					<div class="cards" data-col="Backlog"></div>
-					<div style="margin-top:8px;display:flex;gap:8px">
-							<button id="startButton" class="start-button">Iniciar</button>
-							<button id="resetButton" class="reset-button">Reiniciar</button>
-						</div>
 				</div>
 
 				<div class="column" data-col="Refinamento">
