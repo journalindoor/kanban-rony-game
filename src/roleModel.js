@@ -58,48 +58,38 @@
       removeBtn.setAttribute('data-role-name', role.name)
       titleWrapper.appendChild(removeBtn)
 
-      // build a 2-row table: header "Tal + Fel = Efi" and values row
-      const table = document.createElement('table')
-      table.className = 'role-table'
-      const headerRow = document.createElement('tr')
-      const headers = ['Tal','+','Fel','=','Efi']
-      if(!Array.isArray(headers)){
-        console.warn('role headers not an array', headers)
-      } else {
-        for(let i=0;i<headers.length;i++){
-          const th = document.createElement('th')
-          th.textContent = headers[i]
-          headerRow.appendChild(th)
-        }
-      }
-      const valuesRow = document.createElement('tr')
-      // Tal
-      const tdTal = document.createElement('td')
-      tdTal.textContent = role.talentoNatural
-      valuesRow.appendChild(tdTal)
-      // +
-      const tdPlus = document.createElement('td')
-      tdPlus.textContent = '+'
-      valuesRow.appendChild(tdPlus)
-      // Fel (with controls)
-      const tdFel = document.createElement('td')
-      tdFel.textContent = role.felicidade
-      valuesRow.appendChild(tdFel)
-      // =
-      const tdEq = document.createElement('td')
-      tdEq.textContent = '='
-      valuesRow.appendChild(tdEq)
-      // Efi
-      const tdEfi = document.createElement('td')
-      tdEfi.textContent = role.eficiencia
-      valuesRow.appendChild(tdEfi)
+      // Compact stats container with emojis
+      const statsContainer = document.createElement('div')
+      statsContainer.className = 'role-stats'
+      
+      // Eficiência (destaque principal)
+      const eficienciaDiv = document.createElement('div')
+      eficienciaDiv.className = 'role-stat-main'
+      eficienciaDiv.innerHTML = `⚡ ${role.eficiencia}`
+      eficienciaDiv.title = 'Eficiência'
+      statsContainer.appendChild(eficienciaDiv)
+      
+      // Felicidade e Talento (linha secundária)
+      const secondaryDiv = document.createElement('div')
+      secondaryDiv.className = 'role-stat-secondary'
+      
+      const felicidadeSpan = document.createElement('span')
+      felicidadeSpan.className = 'role-stat-item'
+      felicidadeSpan.innerHTML = `😊 ${role.felicidade}`
+      felicidadeSpan.title = 'Felicidade'
+      
+      const talentoSpan = document.createElement('span')
+      talentoSpan.className = 'role-stat-item'
+      talentoSpan.innerHTML = `🎯 ${role.talentoNatural}`
+      talentoSpan.title = 'Talento Natural'
+      
+      secondaryDiv.appendChild(felicidadeSpan)
+      secondaryDiv.appendChild(talentoSpan)
+      statsContainer.appendChild(secondaryDiv)
 
-      table.appendChild(headerRow)
-      table.appendChild(valuesRow)
-
-      // append title and values table (felicidade is read-only via UI)
+      // append title and stats
       el.appendChild(titleWrapper)
-      el.appendChild(table)
+      el.appendChild(statsContainer)
     }
 
   // expose
