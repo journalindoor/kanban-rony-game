@@ -81,6 +81,28 @@
     })
   }
 
+  // Manual detach via button
+  function detachRoleManually(roleName){
+    const roleEl = document.querySelector('[data-role="'+roleName+'"]')
+    if(roleEl && roleEl.dataset.attached === 'true'){
+      detachRole(roleEl)
+    }
+  }
+
+  // Setup delegated click handler for remove buttons
+  function setupRemoveButtonHandlers(){
+    document.addEventListener('click', (e)=>{
+      if(e.target.classList.contains('role-remove-btn')){
+        e.stopPropagation()
+        e.preventDefault()
+        const roleName = e.target.getAttribute('data-role-name')
+        if(roleName){
+          detachRoleManually(roleName)
+        }
+      }
+    })
+  }
+
   // Delegated handlers to accept drop on cards and on roles container
   function setupDelegatedDrops(){
     document.addEventListener('dragover', e=>{
@@ -113,6 +135,11 @@
   document.addEventListener('DOMContentLoaded', ()=>{
     setupRoleSquares()
     setupDelegatedDrops()
+    setupRemoveButtonHandlers()
   })
+
+  // Expose public API
+  K.detachRole = detachRole
+  K.detachRoleManually = detachRoleManually
 
 })(window.Kanban)

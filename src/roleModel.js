@@ -40,9 +40,23 @@
     function renderRole(role, el){
       if(!el) return
       el.innerHTML = ''
+      
+      // Create wrapper for title and remove button
+      const titleWrapper = document.createElement('div')
+      titleWrapper.className = 'role-title-wrapper'
+      
       const title = document.createElement('div')
       title.className = 'role-name'
       title.textContent = role.name
+      titleWrapper.appendChild(title)
+      
+      // Always render remove button (visibility controlled by CSS)
+      const removeBtn = document.createElement('button')
+      removeBtn.className = 'role-remove-btn'
+      removeBtn.innerHTML = '×'
+      removeBtn.title = 'Desassociar papel'
+      removeBtn.setAttribute('data-role-name', role.name)
+      titleWrapper.appendChild(removeBtn)
 
       // build a 2-row table: header "Tal + Fel = Efi" and values row
       const table = document.createElement('table')
@@ -84,7 +98,7 @@
       table.appendChild(valuesRow)
 
       // append title and values table (felicidade is read-only via UI)
-      el.appendChild(title)
+      el.appendChild(titleWrapper)
       el.appendChild(table)
     }
 
