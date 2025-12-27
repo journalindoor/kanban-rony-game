@@ -53,7 +53,7 @@
   flex-direction:column;
 }
 
-.office-wall{
+.office-floor{
   flex:1;
   background:repeating-linear-gradient(
     90deg,
@@ -65,8 +65,8 @@
   border-bottom:3px solid #3a3a52;
 }
 
-.office-floor{
-  height:40%;
+.office-wall{
+  height:25%;
   background:repeating-linear-gradient(
     45deg,
     #4a4a6a 0px,
@@ -176,6 +176,47 @@
   border-radius:4px;
 }
 
+/* ============================================
+   CENTRAL DESKS BLOCK (6 workstations)
+   Bloco centralizado com 6 mesas em 2 colunas
+   Será substituído por sprites futuramente
+   ============================================ */
+
+.office-desks{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  display:flex;
+  gap:5px; /* Espaço entre as colunas */
+  z-index:8;
+}
+
+/* Colunas de mesas */
+.desk-column{
+  display:flex;
+  flex-direction:column;
+  gap:20px; /* Espaçamento vertical entre mesas */
+  align-items:center;
+}
+
+/* Ajustes específicos por coluna (futuro: orientação de sprites) */
+.desk-column-left{
+  /* Coluna esquerda */
+}
+
+.desk-column-right{
+  /* Coluna direita */
+}
+
+/* Mesas dentro das colunas - usar classe existente .office-item .item-desk */
+.office-desks .office-item.item-desk{
+  position:relative; /* Relativo ao container da coluna */
+  width:48px;
+  height:40px;
+  /* Cores e estilo já definidos abaixo */
+}
+
 /* Office Items Container (furniture, decorations) */
 .office-items{
   position:absolute;
@@ -192,16 +233,16 @@
   box-shadow:0 2px 4px rgba(0,0,0,0.3);
 }
 
-/* Item placeholders */
+/* Item placeholders - SERÃO SUBSTITUÍDOS POR SPRITES */
 .item-desk{
-  background:linear-gradient(135deg, #8b4513 0%, #654321 100%);
+  background:linear-gradient(135deg, #8b4513 0%, #654321 100%); /* Placeholder: marrom */
   border:2px solid #4a2c0f;
   width:48px;
   height:40px;
 }
 
 .item-plant{
-  background:linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  background:linear-gradient(135deg, #22c55e 0%, #16a34a 100%); /* Placeholder: verde */
   border:2px solid #15803d;
   width:28px;
   height:36px;
@@ -269,6 +310,20 @@
     width:40px;
     height:40px;
   }
+  
+  /* Ajustar espaçamento das mesas em telas menores */
+  .office-desks{
+    gap:5px;
+  }
+  
+  .desk-column{
+    gap:16px;
+  }
+  
+  .office-desks .office-item.item-desk{
+    width:40px;
+    height:32px;
+  }
 }
 
 /* Mobile layout: controlled width, minimum height, centered */
@@ -294,6 +349,20 @@
   .character-label{
     font-size:10px;
     padding:2px 6px;
+  }
+  
+  /* Ajustar mesas para mobile */
+  .office-desks{
+    gap:5px;
+  }
+  
+  .desk-column{
+    gap:14px;
+  }
+  
+  .office-desks .office-item.item-desk{
+    width:36px;
+    height:28px;
   }
 }
 
