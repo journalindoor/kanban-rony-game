@@ -15,7 +15,7 @@ body{
 
 .container{
   padding:18px;
-  height:60vh;
+  height:100%;
   box-sizing:border-box;
   overflow:hidden;
   display:flex;
@@ -29,6 +29,7 @@ h1{margin:0 0 12px 0;font-size:20px}
   align-items:flex-start;
   height:100%;
   overflow-x:auto;
+  overflow-y:auto;
   padding-bottom:8px;
 }
 
@@ -63,43 +64,64 @@ h1{margin:0 0 12px 0;font-size:20px}
 
 /* Roles area */
 .roles-area{
-  height:40vh;
-  width:100%;
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  display:flex;
   gap:12px;
-  padding:14px;
-  box-sizing:border-box;
-  border-top:1px solid rgba(0,0,0,0.08);
-  overflow-y:auto;
-  align-content:start;
+  align-items:center;
+  flex-wrap:wrap;
 }
 
 
 .card .role{
   aspect-ratio:auto;
-  width:88px;
-  height:40px;
+  width:80px;
+  height:auto;
+  min-height:42px;
+  margin-top:8px;
+  padding:4px 6px;
 }
 
 .role{
-  aspect-ratio: 1 / 1;   /* 🔥 mantém quadrado */
-  width:100%;
-  min-width:110px;
-  max-width:160px;
+  min-width:70px;
+  max-width:100px;
+  aspect-ratio:auto;
 
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
+  gap:4px;
 
-  padding:8px;
-  border-radius:10px;
+  padding:6px 8px;
+  border-radius:8px;
   font-weight:700;
+  font-size:11px;
   cursor:grab;
   user-select:none;
 
   transition:transform 0.15s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width:800px){
+  .status-bar{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  
+  .status-left{
+    flex-direction:column;
+    width:100%;
+  }
+  
+  .roles-area{
+    width:100%;
+    justify-content:center;
+  }
+  
+  .role{
+    min-width:70px;
+    padding:6px 8px;
+  }
 }
 
 .role:hover{
@@ -111,8 +133,6 @@ h1{margin:0 0 12px 0;font-size:20px}
 .role[data-role^="QA/Tester"]{background:#f59e0b;color:#111}
 .role.role-attached{opacity:0.95;cursor:grab;border:2px solid rgba(0,0,0,0.06)}
 .role.dragging-role{opacity:0.6}
-
-.card .role{width:88px;height:40px;margin-top:8px}
 
 /* Next column button */
 .next-column-btn{
@@ -132,24 +152,133 @@ h1{margin:0 0 12px 0;font-size:20px}
   background:#1d6ac7;
 }
 
-/* Compact view when role is inside a card: show only title and eficiencia */
-.card .role{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px;gap:4px}
-.card .role .role-name{font-size:12px;font-weight:700;margin:0;white-space:normal;text-overflow:ellipsis;text-align:center}
-.card .role .role-table{margin:0}
-.card .role .role-table tr:first-child{display:none}
-.card .role .role-table td{display:none}
-.card .role .role-table td:last-child{display:block;font-weight:800;font-size:14px;padding-top:2px}
+/* Role stats container */
+.role-stats{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+  width:100%;
+}
 
-.role-name{font-size:13px;font-weight:800;margin-bottom:6px;text-align:center}
-.role-table{font-size:13px}
+/* Main stat (Eficiência) */
+.role-stat-main{
+  font-size:18px;
+  font-weight:800;
+  line-height:1;
+  text-align:center;
+}
 
-/* role table styling */
-.role-table{width:100%;border-collapse:collapse;text-align:center;font-size:13px;margin-top:6px}
-.role-table th{font-weight:600;padding:4px}
-.role-table td{padding:6px;font-weight:700}
+/* Secondary stats row (Felicidade + Talento) */
+.role-stat-secondary{
+  display:flex;
+  gap:8px;
+  font-size:13px;
+  font-weight:600;
+  justify-content:center;
+  align-items:center;
+}
 
-/* game layout styling */
-.game-layout{width:100vw;height:100vh;overflow:hidden;}
+.role-stat-item{
+  display:inline-flex;
+  align-items:center;
+  gap:2px;
+  line-height:1;
+}
+
+/* Compact view when role is inside a card */
+.card .role{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+}
+
+.card .role .role-name{
+  font-size:10px;
+  font-weight:700;
+  margin:0;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  text-align:center;
+  opacity:0.85;
+}
+
+.card .role .role-stat-main{
+  font-size:16px;
+}
+
+.card .role .role-stat-secondary{
+  font-size:11px;
+  gap:6px;
+}
+
+.role-name{
+  font-size:12px;
+  font-weight:700;
+  text-align:center;
+  margin-bottom:2px;
+}
+
+/* Role title wrapper for title + remove button */
+.role-title-wrapper{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  width:100%;
+  position:relative;
+}
+
+/* Remove button for attached roles */
+.role-remove-btn{
+  background:rgba(239,68,68,0.9);
+  color:#fff;
+  border:none;
+  border-radius:50%;
+  width:18px;
+  height:18px;
+  font-size:14px;
+  line-height:1;
+  cursor:pointer;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  flex-shrink:0;
+  transition:all 0.15s ease;
+  font-weight:bold;
+}
+
+/* Show button only when role is attached */
+.role[data-attached="true"] .role-remove-btn,
+.role.role-attached .role-remove-btn{
+  display:flex;
+}
+
+.role-remove-btn:hover{
+  background:#dc2626;
+  transform:scale(1.1);
+}
+
+.role-remove-btn:active{
+  transform:scale(0.95);
+}
+
+/* Ensure button is visible when role is in card */
+.card .role .role-title-wrapper{
+  margin-bottom:2px;
+}
+
+/* Game layout */
+.game-layout{
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
 
 /* Top controls (Start/Reset) under the title */
 .top-controls{
@@ -168,11 +297,18 @@ h1{margin:0 0 12px 0;font-size:20px}
   padding:10px 12px;
   margin:0 0 12px 0;
   display:flex;
-  gap:12px;
+  gap:16px;
   flex-wrap:wrap;
   align-items:center;
   justify-content:space-between;
   box-shadow:0 1px 2px rgba(0,0,0,0.03);
+}
+
+.status-left{
+  display:flex;
+  gap:16px;
+  align-items:center;
+  flex-wrap:wrap;
 }
 
 .status-metrics{display:flex;gap:12px;align-items:center;flex-wrap:wrap}

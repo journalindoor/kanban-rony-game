@@ -133,13 +133,30 @@ A movimentação de cards entre colunas segue regras rígidas baseadas no estado
 
 ## 7. Liberação de Papéis
 
-- Um papel só deve ser removido de um card quando:
+### 7.1 Liberação Automática
+
+- Um papel é **automaticamente removido** de um card quando:
   - O card estiver em uma coluna específica
   - **O indicador daquela coluna chegar a zero**
 - Quando isso acontece:
   - O papel é desassociado do card
   - O papel retorna automaticamente para a `.roles-area`
   - O estado interno do jogo é atualizado
+
+### 7.2 Desassociação Manual
+
+- O jogador pode **desassociar manualmente** um papel de um card a qualquer momento:
+  - Um botão "×" (remover) aparece ao lado do nome do papel quando ele está associado a um card
+  - Ao clicar no botão "×":
+    - O papel é imediatamente desassociado do card
+    - O papel retorna automaticamente para a `.roles-area`
+    - O estado interno do jogo é atualizado
+    - A persistência é acionada
+- Regras da desassociação manual:
+  - Pode ser feita em qualquer coluna
+  - Não afeta os indicadores de dificuldade do card
+  - Não interfere nas regras de movimentação entre colunas
+  - Compatível com a liberação automática (quando indicador chega a zero)
 
 ---
 
