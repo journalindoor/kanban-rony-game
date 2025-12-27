@@ -5,9 +5,9 @@
 
 /* Office Panel Container */
 .office-panel{
-  width:280px;
-  min-width:280px;
-  max-width:280px;
+  width:300px;
+  min-width:300px;
+  max-width:300px;
   height:100%;
   display:flex;
   flex-direction:column;
@@ -268,5 +268,38 @@
   .character-sprite{
     width:40px;
     height:40px;
+  }
+}
+
+/* Mobile layout: controlled width, minimum height, centered */
+@media (max-width:768px){
+  .office-panel{
+    width:100%;
+    min-width:0;
+    max-width:420px;
+    height:auto;
+    min-height:400px;
+    flex:0 0 auto;
+  }
+  
+  .office-viewport{
+    min-height:280px;
+  }
+  
+  .character-sprite{
+    width:36px;
+    height:36px;
+  }
+  
+  .character-label{
+    font-size:10px;
+    padding:2px 6px;
+  }
+}
+
+/* Extra small devices: full width */
+@media (max-width:480px){
+  .office-panel{
+    max-width:100%;
   }
 }

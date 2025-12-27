@@ -12,14 +12,31 @@
   flex-direction:column;
 }
 
+/* Mobile: allow game-layout to grow */
+@media (max-width:768px){
+  .game-layout{
+    height:auto;
+    min-height:100vh;
+    overflow:visible;
+  }
+}
+
 /* Main container */
 .container{
   padding:18px;
   height:100%;
   box-sizing:border-box;
-  overflow:hidden;
   display:flex;
   flex-direction:column;
+}
+
+/* Mobile: allow vertical growth */
+@media (max-width:768px){
+  .container{
+    padding:12px;
+    height:auto;
+    min-height:auto;
+  }
 }
 
 /* Main content area: horizontal layout for board + office panel */
@@ -29,4 +46,16 @@
   flex:1;
   min-height:0;
   overflow:hidden;
+}
+
+/* Responsive: vertical layout for mobile */
+@media (max-width:768px){
+  .main-content{
+    flex-direction:column;
+    gap:16px;
+    min-height:auto;
+    overflow:visible;
+    align-items:center;
+    flex:0 1 auto;
+  }
 }

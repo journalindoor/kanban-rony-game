@@ -24,6 +24,15 @@ body{
   overflow:hidden;
 }
 
+/* Mobile: allow body to scroll */
+@media (max-width:768px){
+  body{
+    height:auto;
+    min-height:100vh;
+    overflow-y:auto;
+  }
+}
+
 h1{
   margin:0 0 12px 0;
   font-size:20px;

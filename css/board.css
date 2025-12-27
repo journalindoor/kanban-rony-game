@@ -173,3 +173,18 @@
     min-width:200px;
   }
 }
+
+/* Mobile layout adjustments */
+@media (max-width:768px){
+  .board{
+    flex:0 0 auto;
+    width:100%;
+    min-height:500px;
+    height:auto;
+    max-height:none;
+  }
+  
+  .column{
+    min-width:180px;
+  }
+}
