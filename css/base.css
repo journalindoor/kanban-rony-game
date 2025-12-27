@@ -1,0 +1,30 @@
+/* ============================================
+   BASE STYLES
+   Variables, resets, and global typography
+   ============================================ */
+
+:root{
+  --gap:16px;
+  --col-bg:#f4f6f8;
+  --card-bg:#fff;
+  --accent:#2b8aef;
+}
+
+html,body{
+  height:100%;
+  margin:0;
+  font-family:Inter,Segoe UI,Helvetica,Arial,sans-serif;
+  background:#eef2f5;
+}
+
+body{
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  overflow:hidden;
+}
+
+h1{
+  margin:0 0 12px 0;
+  font-size:20px;
+}

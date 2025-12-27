@@ -1,0 +1,43 @@
+/* ============================================
+   TOP CONTROLS
+   Start, reset, and archived toggle buttons
+   ============================================ */
+
+.top-controls{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+  margin:8px 0 12px 0;
+}
+
+.start-button{
+  background:var(--accent);
+  color:#fff;
+  border:none;
+  padding:8px 10px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.reset-button{
+  background:#ef4444;
+  color:#fff;
+  border:none;
+  padding:8px 10px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.reset-button:hover{
+  opacity:0.92;
+}
+
+.archived-toggle-button{
+  background:#6b7280;
+  color:#fff;
+  border:none;
+  padding:8px 10px;
+  border-radius:6px;
+  cursor:pointer;
+}

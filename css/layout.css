@@ -1,0 +1,32 @@
+/* ============================================
+   LAYOUT
+   Main structural layout containers
+   ============================================ */
+
+/* Game layout wrapper */
+.game-layout{
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+/* Main container */
+.container{
+  padding:18px;
+  height:100%;
+  box-sizing:border-box;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+/* Main content area: horizontal layout for board + office panel */
+.main-content{
+  display:flex;
+  gap:16px;
+  flex:1;
+  min-height:0;
+  overflow:hidden;
+}

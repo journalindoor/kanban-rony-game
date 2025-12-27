@@ -4,7 +4,14 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
 		<title>Kanban Rony Game</title>
-		<link rel="stylesheet" href="css/styles.css">
+		<!-- CSS imports in cascading order -->
+		<link rel="stylesheet" href="css/base.css">
+		<link rel="stylesheet" href="css/layout.css">
+		<link rel="stylesheet" href="css/top-controls.css">
+		<link rel="stylesheet" href="css/status-bar.css">
+		<link rel="stylesheet" href="css/board.css">
+		<link rel="stylesheet" href="css/components.css">
+		<link rel="stylesheet" href="css/office-panel.css">
 	</head>
 	<body>
 
@@ -17,7 +24,6 @@
                 <button id="resetButton" class="reset-button">Reiniciar</button>
 				<button id="toggleArchivedButton" class="archived-toggle-button">Arquivados</button>
             </div>
-
 			<!-- Status bar for day counter and future metrics -->
 			<div class="status-bar">
 				<div class="status-left">
@@ -40,7 +46,11 @@
 					<button class="metric-button" disabled title="Em breve">Throughput</button>
 				</div>
 			</div>
-			<div class="board" id="board">
+			
+			<!-- Main Content Area: Board + Office Panel -->
+			<div class="main-content">
+				<!-- Kanban Board -->
+				<div class="board" id="board">
 				<div class="column" data-col="Backlog">
 					<div class="column-header">Backlog</div>
 					<div class="cards" data-col="Backlog"></div>
@@ -82,7 +92,58 @@
 					<div class="cards" data-col="Arquivados"></div>
 				</div>
 			</div>
-		</div>
+			
+			<!-- Office Panel - Pixel Art Workspace -->
+			<div class="office-panel" id="officePanel">
+				<div class="office-header">
+					<h2 class="office-title">Escritório</h2>
+				</div>
+				<div class="office-viewport">
+					<!-- Office Background -->
+					<div class="office-background">
+						<div class="office-floor"></div>
+						<div class="office-wall"></div>
+					</div>
+					
+					<!-- Team Characters Container -->
+					<div class="office-characters" id="officeCharacters">
+						<!-- Character 1: Analista -->
+						<div class="character character-analyst" data-role="Analista">
+							<div class="character-sprite sprite-idle"></div>
+							<div class="character-label">Analista</div>
+						</div>
+						
+						<!-- Character 2: Programador -->
+						<div class="character character-developer" data-role="Programador">
+							<div class="character-sprite sprite-idle"></div>
+							<div class="character-label">Dev</div>
+						</div>
+						
+						<!-- Character 3: QA/Tester -->
+						<div class="character character-tester" data-role="QA/Tester">
+							<div class="character-sprite sprite-idle"></div>
+							<div class="character-label">QA</div>
+						</div>
+					</div>
+					
+					<!-- Furniture/Items Container (extensible) -->
+					<div class="office-items" id="officeItems">
+						<!-- Placeholder furniture items -->
+						<div class="office-item item-desk" style="left: 20%; bottom: 30%;"></div>
+						<div class="office-item item-plant" style="right: 15%; bottom: 25%;"></div>
+					</div>
+				</div>
+				
+				<!-- Office Footer (extensible for future features) -->
+				<div class="office-footer">
+					<div class="office-status">
+						<span class="status-icon">💼</span>
+						<span class="status-text">Time em repouso</span>
+					</div>
+				</div>
+			</div>
+			</div><!-- .main-content -->
+		</div><!-- .container -->
 
 		
 
