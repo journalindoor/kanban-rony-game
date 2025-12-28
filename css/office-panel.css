@@ -113,67 +113,50 @@
   overflow:hidden;
 }
 
-/* Idle animation placeholder */
-.sprite-idle{
-  animation:idle-bounce 2s ease-in-out infinite;
-}
-
-@keyframes idle-bounce{
-  0%, 100%{ transform:translateY(0); }
-  50%{ transform:translateY(-2px); }
-}
-
 /* Character-specific colors (placeholder pixel art style) */
 .character-analyst .character-sprite{
-  background:linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-  border:2px solid #1e3a8a;
+  width:48px;
+  height:48px;
+  background-image:url('../assets/developer.gif');
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
+  image-rendering:pixelated;
+  image-rendering:-moz-crisp-edges;
+  image-rendering:crisp-edges;
+  border:none;
+  box-shadow:none;
+  border-radius:0;
 }
 
 .character-developer .character-sprite{
-  background:linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-  border:2px solid #166534;
+  width:48px;
+  height:48px;
+  background-image:url('../assets/developer.gif');
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
+  image-rendering:pixelated;
+  image-rendering:-moz-crisp-edges;
+  image-rendering:crisp-edges;
+  border:none;
+  box-shadow:none;
+  border-radius:0;
 }
 
 .character-tester .character-sprite{
-  background:linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  border:2px solid #b45309;
-}
-
-/* Pixel art facial feature placeholders */
-.character-sprite::before{
-  content:'';
-  position:absolute;
-  width:6px;
-  height:6px;
-  background:#fff;
-  border-radius:50%;
-  top:16px;
-  left:14px;
-  box-shadow:12px 0 0 #fff;
-}
-
-.character-sprite::after{
-  content:'';
-  position:absolute;
-  width:16px;
-  height:4px;
-  background:#fff;
-  border-radius:2px;
-  bottom:12px;
-  left:50%;
-  transform:translateX(-50%);
-  opacity:0.8;
-}
-
-/* Character Labels */
-.character-label{
-  font-size:11px;
-  font-weight:600;
-  color:#e0e0ff;
-  text-shadow:0 1px 2px rgba(0,0,0,0.5);
-  background:rgba(0,0,0,0.3);
-  padding:3px 8px;
-  border-radius:4px;
+  width:48px;
+  height:48px;
+  background-image:url('../assets/developer.gif');
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
+  image-rendering:pixelated;
+  image-rendering:-moz-crisp-edges;
+  image-rendering:crisp-edges;
+  border:none;
+  box-shadow:none;
+  border-radius:0;
 }
 
 /* ============================================
@@ -196,25 +179,63 @@
 .desk-column{
   display:flex;
   flex-direction:column;
-  gap:20px; /* Espaçamento vertical entre mesas */
+  gap:20px; /* Espaçamento vertical entre estações */
   align-items:center;
+}
+
+/* Estação de trabalho (wrapper para mesa + cadeira) */
+.desk-station{
+  display:flex;
+  align-items:center;
+  gap:8px; /* Espaço entre cadeira e mesa */
 }
 
 /* Ajustes específicos por coluna (futuro: orientação de sprites) */
 .desk-column-left{
-  /* Coluna esquerda */
+  /* Coluna esquerda: cadeira à esquerda da mesa */
 }
 
 .desk-column-right{
-  /* Coluna direita */
+  /* Coluna direita: cadeira à direita da mesa */
 }
 
-/* Mesas dentro das colunas - usar classe existente .office-item .item-desk */
+/* Mesas dentro das colunas - SPRITE individual */
 .office-desks .office-item.item-desk{
   position:relative; /* Relativo ao container da coluna */
-  width:48px;
-  height:40px;
-  /* Cores e estilo já definidos abaixo */
+  width:40px;
+  height:64px;
+  background-image:url('../assets/mesa1.png');
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
+  image-rendering:pixelated;
+  image-rendering:-moz-crisp-edges;
+  image-rendering:crisp-edges;
+  box-shadow:none; /* Remover sombra do sprite */
+  border-radius:0; /* Remover border-radius */
+  /* Sprite pode evoluir futuramente */
+}
+
+/* Cadeiras dentro das estações - SPRITE individual */
+.office-desks .office-item.item-chair{
+  position:relative;
+  width:32px;
+  height:48px;
+  background-image:url('../assets/cadeira1.png');
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
+  image-rendering:pixelated;
+  image-rendering:-moz-crisp-edges;
+  image-rendering:crisp-edges;
+  box-shadow:none;
+  border-radius:0;
+  border:none;
+}
+
+/* Cadeiras da coluna esquerda: espelhadas horizontalmente */
+.desk-column-left .office-item.item-chair{
+  transform:scaleX(-1);
 }
 
 /* Office Items Container (furniture, decorations) */
@@ -233,10 +254,9 @@
   box-shadow:0 2px 4px rgba(0,0,0,0.3);
 }
 
-/* Item placeholders - SERÃO SUBSTITUÍDOS POR SPRITES */
+/* Item placeholders */
 .item-desk{
-  background:linear-gradient(135deg, #8b4513 0%, #654321 100%); /* Placeholder: marrom */
-  border:2px solid #4a2c0f;
+  /* Estilo base da mesa (sobrescrito no .office-desks) */
   width:48px;
   height:40px;
 }
@@ -247,6 +267,9 @@
   width:28px;
   height:36px;
   border-radius:50% 50% 20% 20%;
+  right:10px; /* Encostado na parede direita */
+  top:50%;
+  transform:translateY(-50%);
 }
 
 /* Office Footer */
@@ -320,9 +343,18 @@
     gap:16px;
   }
   
+  .desk-station{
+    gap:6px;
+  }
+  
   .office-desks .office-item.item-desk{
-    width:40px;
-    height:32px;
+    width:32px;
+    height:51px;
+  }
+  
+  .office-desks .office-item.item-chair{
+    width:26px;
+    height:38px;
   }
 }
 
@@ -346,11 +378,6 @@
     height:36px;
   }
   
-  .character-label{
-    font-size:10px;
-    padding:2px 6px;
-  }
-  
   /* Ajustar mesas para mobile */
   .office-desks{
     gap:5px;
@@ -360,9 +387,18 @@
     gap:14px;
   }
   
+  .desk-station{
+    gap:5px;
+  }
+  
   .office-desks .office-item.item-desk{
-    width:36px;
-    height:28px;
+    width:28px;
+    height:45px;
+  }
+  
+  .office-desks .office-item.item-chair{
+    width:22px;
+    height:34px;
   }
 }
 
