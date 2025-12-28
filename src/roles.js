@@ -48,6 +48,12 @@
     K.roleAssignments = K.roleAssignments || {}
     K.roleAssignments[roleEl.getAttribute('data-role')] = parseInt(cardEl.getAttribute('data-id'), 10)
     if(typeof K.saveState === 'function') K.saveState()
+    // Update only the specific office character affected
+    if(typeof K.updateCharacterState === 'function'){
+      const roleName = roleEl.getAttribute('data-role')
+      const character = document.querySelector(`.office-characters .character[data-role="${roleName}"]`)
+      if(character) K.updateCharacterState(character)
+    }
     return true
   }
 
@@ -63,6 +69,12 @@
     K.roleAssignments = K.roleAssignments || {}
     K.roleAssignments[roleEl.getAttribute('data-role')] = null
     if(typeof K.saveState === 'function') K.saveState()
+    // Update only the specific office character affected
+    if(typeof K.updateCharacterState === 'function'){
+      const roleName = roleEl.getAttribute('data-role')
+      const character = document.querySelector(`.office-characters .character[data-role="${roleName}"]`)
+      if(character) K.updateCharacterState(character)
+    }
     return true
   }
 

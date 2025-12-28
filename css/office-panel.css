@@ -97,10 +97,35 @@
   align-items:center;
   gap:6px;
   transition:transform 0.3s ease;
+  position:relative;
 }
 
 .character:hover{
   transform:translateY(-4px);
+}
+
+/* ============================================
+   CHARACTER STATES (working / idle)
+   ============================================ */
+
+/* Personagem trabalhando - parado na estação */
+.character.state-working{
+  opacity:1;
+}
+
+.character.state-working .character-sprite{
+  /* Pode adicionar indicador visual como borda ou glow */
+  filter:brightness(1.1);
+}
+
+/* Personagem idle - andando pelo escritório */
+.character.state-idle{
+  opacity:1;
+}
+
+.character.state-idle .character-sprite{
+  /* Personagem livre mantém visual normal */
+  filter:brightness(1);
 }
 
 /* Character Sprite - Placeholder pixel art */

@@ -108,6 +108,8 @@
     if(typeof K.initializeRoles === 'function') K.initializeRoles(true)
     if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
     if(typeof K.saveState === 'function') K.saveState()
+    // Reset office characters state after reset
+    if(typeof K.updateAllCharacters === 'function') K.updateAllCharacters()
   }
 
   // Wire UI buttons
@@ -159,6 +161,9 @@
 
         // persist updated state (including day counter) after the turn action
         if(typeof K.saveState === 'function') K.saveState()
+        
+        // Update office characters state after turn
+        if(typeof K.updateAllCharacters === 'function') K.updateAllCharacters()
       })
     }
 
@@ -197,6 +202,12 @@
         const archivedCol = document.querySelector('.column[data-col="Arquivados"]')
         if(archivedCol) archivedCol.classList.toggle('archived-hidden')
       })
+    }
+    
+    // Initialize office characters system
+    if(typeof K.initOfficeCharacters === 'function'){
+      // Wait a bit to ensure all other systems are ready
+      setTimeout(() => K.initOfficeCharacters(), 100)
     }
   })
 
