@@ -240,6 +240,26 @@
     const valueEl = indicatorEl.querySelector('.ind-value')
     const num = parseInt((valueEl && valueEl.textContent) || '0', 10) || 0
     indicatorEl.classList.toggle('indicator-done', num === 0)
+    
+    // Destacar indicador ativo baseado na coluna do card
+    const cardEl = indicatorEl.closest('.card')
+    if(cardEl) {
+      const cardsContainer = cardEl.closest('.cards')
+      const currentColumn = cardsContainer ? cardsContainer.getAttribute('data-col') : null
+      const labelEl = indicatorEl.querySelector('.ind-label')
+      const indicatorLabel = labelEl ? labelEl.textContent : ''
+      
+      // Mapeamento coluna -> indicador
+      const columnToIndicator = {
+        'Refinamento': 'Refinamento',
+        'Fazendo': 'Fazendo',
+        'Homologando': 'Homologando',
+        'Ajustes': 'Ajustes'
+      }
+      
+      const isActive = currentColumn && columnToIndicator[currentColumn] === indicatorLabel && num > 0
+      indicatorEl.classList.toggle('indicator-active', isActive)
+    }
   }
 
   // Sync all indicators across the board

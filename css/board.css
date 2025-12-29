@@ -163,6 +163,22 @@
   color:#065f46;
 }
 
+/* Indicator active state (current column) */
+.indicator.indicator-active{
+  background:rgba(239,68,68,0.12);
+  outline:2px solid rgba(239,68,68,0.35);
+}
+
+.indicator.indicator-active .ind-label{
+  color:#991b1b;
+  font-weight:600;
+}
+
+.indicator.indicator-active .ind-value{
+  background:rgba(239,68,68,0.20);
+  color:#991b1b;
+}
+
 /* Next column button */
 .next-column-btn{
   margin-top:8px;

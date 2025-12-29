@@ -6,7 +6,7 @@
   K.CHAPTER_CONFIG = {
     1: {
       name: 'Sobreviva à Sprint',
-      moneyGoal: 100,
+      moneyGoal: 500,
       nextChapter: 'chapter2.html'
     },
     2: {
