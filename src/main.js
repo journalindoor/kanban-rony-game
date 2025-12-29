@@ -203,12 +203,6 @@
         if(archivedCol) archivedCol.classList.toggle('archived-hidden')
       })
     }
-    
-    // Initialize office characters system
-    if(typeof K.initOfficeCharacters === 'function'){
-      // Wait a bit to ensure all other systems are ready
-      setTimeout(() => K.initOfficeCharacters(), 100)
-    }
   })
 
 })(window.Kanban)
