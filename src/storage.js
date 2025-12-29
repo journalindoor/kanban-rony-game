@@ -1,7 +1,24 @@
 // storage.js — persistence helpers
 (function(K){
   K = K || (window.Kanban = window.Kanban || {})
-  K.STORAGE_KEY = 'kanbanState_v1'
+  
+  // Detect storage key based on current page
+  K.getStorageKey = function() {
+    const path = window.location.pathname
+    const chapterMatch = path.match(/chapter(\d+)\.html/)
+    
+    if (chapterMatch) {
+      // Chapter-specific storage (e.g., 'kanbanState_chapter1')
+      return `kanbanState_chapter${chapterMatch[1]}`
+    } else {
+      // Free mode storage (index.html)
+      return 'kanbanState_freemode'
+    }
+  }
+  
+  K.STORAGE_KEY = K.getStorageKey()
+  console.log('Using storage key:', K.STORAGE_KEY)
+  
   K.columnNames = ['Backlog','Refinamento','SprintBacklog','Fazendo','Homologando','Ajustes','Publicado','Arquivados']
 
   K.saveState = function(){

@@ -220,6 +220,28 @@
     const resetBtn = document.getElementById('resetButton')
     if(resetBtn) resetBtn.addEventListener('click', K.resetGame)
 
+    // Chapter 1 start button (only in index.html)
+    const startChapter1Btn = document.getElementById('startChapter1Button')
+    if(startChapter1Btn){
+      startChapter1Btn.addEventListener('click', function(){
+        const confirmed = confirm(
+          'Iniciar o Capítulo 1?\n\n' +
+          'Isso iniciará um novo jogo do zero. ' +
+          'Todo o progresso do modo livre será descartado.\n\n' +
+          'Deseja continuar?'
+        )
+        if(confirmed){
+          // Clear any existing transfer data to ensure clean start
+          try {
+            localStorage.removeItem('KANBAN_CHAPTER_TRANSFER')
+          } catch(e) {}
+          
+          // Navigate to chapter 1
+          window.location.href = 'chapter1.html'
+        }
+      })
+    }
+
     // initialize board from storage or create default
     const saved = (typeof K.loadState === 'function') ? K.loadState() : null
     if(saved){
