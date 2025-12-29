@@ -43,6 +43,8 @@
         zone.appendChild(el)
       })
     })
+    // Inicializa sprites após renderizar cards
+    if(K.initCharacterSprites) K.initCharacterSprites()
     // restore role attachments if present
     if(state.roles){
         // restore role attachments and hydrate role model data if present
@@ -108,8 +110,6 @@
     if(typeof K.initializeRoles === 'function') K.initializeRoles(true)
     if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
     if(typeof K.saveState === 'function') K.saveState()
-    // Reset office characters state after reset
-    if(typeof K.updateAllCharacters === 'function') K.updateAllCharacters()
   }
 
   // Wire UI buttons
@@ -161,9 +161,6 @@
 
         // persist updated state (including day counter) after the turn action
         if(typeof K.saveState === 'function') K.saveState()
-        
-        // Update office characters state after turn
-        if(typeof K.updateAllCharacters === 'function') K.updateAllCharacters()
       })
     }
 
