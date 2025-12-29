@@ -6,7 +6,7 @@
   K.CHAPTER_CONFIG = {
     1: {
       name: 'Sobreviva à Sprint',
-      moneyGoal: 500,
+      moneyGoal: 100,
       nextChapter: 'chapter2.html'
     },
     2: {
@@ -51,6 +51,16 @@
 
     const currentMoney = K.money || 0
     
+    // Habilitar botão assim que atingir o objetivo
+    if (currentMoney >= config.moneyGoal) {
+      if (K.currentChapter === 'chapter1' || K.currentChapter === 1) {
+        K.chapter1GoalAchieved = true
+        if(typeof K.enableChapter2Button === 'function') {
+          K.enableChapter2Button()
+        }
+      }
+    }
+    
     // Check if goal reached and modal not shown yet
     if (currentMoney >= config.moneyGoal && !K.chapterGoalShown) {
       K.chapterGoalShown = true
@@ -89,8 +99,32 @@
     if (stayBtn) {
       stayBtn.onclick = function() {
         modal.style.display = 'none'
-        // Player can continue accumulating money
+        // Marcar que o objetivo foi atingido
+        K.chapter1GoalAchieved = true
+        // Salvar estado
+        if(typeof K.saveState === 'function') K.saveState()
+        // Habilitar botão para ir ao capítulo 2
+        K.enableChapter2Button()
       }
+    }
+  }
+
+  // Habilitar/desabilitar botão do capítulo 2
+  K.enableChapter2Button = function() {
+    const btn = document.getElementById('goToChapter2Button')
+    if (btn) {
+      btn.disabled = false
+      btn.onclick = function() {
+        K.transferStateToNextChapter()
+      }
+    }
+  }
+
+  K.disableChapter2Button = function() {
+    const btn = document.getElementById('goToChapter2Button')
+    if (btn) {
+      btn.disabled = true
+      btn.onclick = null
     }
   }
 
@@ -240,17 +274,5 @@
     }
   })
 
-  // Hook into addMoney to check chapter goal
-  const originalAddMoney = K.addMoney
-  if (originalAddMoney) {
-    K.addMoney = function(amount) {
-      originalAddMoney.call(K, amount)
-      
-      // Check chapter goal after money update
-      setTimeout(function() {
-        K.checkChapterGoal()
-      }, 900) // Wait for animation to complete
-    }
-  }
 
 })(window.Kanban)

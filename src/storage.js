@@ -23,7 +23,7 @@
 
   K.saveState = function(){
     const board = document.getElementById('board')
-    const state = { idCounter: (K._idCounter||1), columns: {}, dayCount: K.dayCount || 0, money: K.money || 0 }
+    const state = { idCounter: (K._idCounter||1), columns: {}, dayCount: K.dayCount || 0, money: K.money || 0, chapter1GoalAchieved: K.chapter1GoalAchieved || false }
     K.columnNames.forEach(name=>{
       const zone = board.querySelector('.cards[data-col="'+name+'"]')
       state.columns[name] = []
@@ -67,6 +67,7 @@
       const parsed = JSON.parse(raw)
       if(Number.isFinite(parsed.dayCount)) K.dayCount = parsed.dayCount
       if(Number.isFinite(parsed.money)) K.money = parsed.money
+      K.chapter1GoalAchieved = parsed.chapter1GoalAchieved || false
       // if column difficulties saved, restore into K but enforce minimum 2
       if(parsed.columnDifficulties){
         K.columnDifficulties = K.columnDifficulties || {}

@@ -141,8 +141,24 @@
     targetZone.appendChild(cardEl)
     console.log(`Card moved to ${nextCol}`)
     
-    // Save state
-    if(typeof K.saveState === 'function') K.saveState()
+    // If moved to Publicado, detach any role AFTER moving
+    if(nextCol === 'Publicado'){
+      setTimeout(() => {
+        if(typeof K.detachRoleFromCard === 'function'){
+          K.detachRoleFromCard(cardEl)
+          console.log('Role detached after moving to Publicado')
+        }
+        // Also run auto-detach as backup
+        if(typeof K.autoDetachRolesInPublicado === 'function'){
+          K.autoDetachRolesInPublicado()
+        }
+        // Save state after detaching
+        if(typeof K.saveState === 'function') K.saveState()
+      }, 10)
+    } else {
+      // Save state normally for other columns
+      if(typeof K.saveState === 'function') K.saveState()
+    }
     
     return true
   }

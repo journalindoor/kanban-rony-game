@@ -15,31 +15,60 @@
 
   // money system
   K.money = Number.isFinite(K.money) ? K.money : 0
+  K.moneyAnimationActive = false
+  K.moneyAnimationTimeout = null
+  
   K.updateMoneyDisplay = function(){
     const el = document.getElementById('moneyCounter')
     if(el) el.textContent = '$' + String(K.money || 0)
   }
+  
   K.addMoney = function(amount){
-    const startValue = K.money || 0
-    const endValue = startValue + amount
-    const duration = 800 // duração total da animação em ms
-    const steps = Math.min(amount, 50) // máximo de 50 passos para não ficar muito lento
-    const increment = amount / steps
+    const startDisplayValue = K.money || 0
+    
+    // Adicionar valor imediatamente ao total interno
+    K.money = (K.money || 0) + amount
+    const endValue = K.money
+    
+    // Cancelar animação anterior se existir
+    if(K.moneyAnimationTimeout) {
+      clearTimeout(K.moneyAnimationTimeout)
+      K.moneyAnimationTimeout = null
+    }
+    
+    // Se já houver animação rodando, não iniciar outra (espera terminar)
+    if(K.moneyAnimationActive) {
+      K.updateMoneyDisplay() // Atualiza para valor final imediatamente
+      return
+    }
+    
+    // Iniciar animação visual
+    K.moneyAnimationActive = true
+    const duration = 800
+    const steps = Math.min(amount, 50)
+    const increment = (endValue - startDisplayValue) / steps
     const stepDuration = duration / steps
     
     let currentStep = 0
+    let displayValue = startDisplayValue
     
     const animate = () => {
       currentStep++
       if(currentStep <= steps){
-        K.money = Math.round(startValue + (increment * currentStep))
-        K.updateMoneyDisplay()
-        setTimeout(animate, stepDuration)
+        displayValue = Math.round(startDisplayValue + (increment * currentStep))
+        const el = document.getElementById('moneyCounter')
+        if(el) el.textContent = '$' + displayValue
+        K.moneyAnimationTimeout = setTimeout(animate, stepDuration)
       } else {
-        // Garantir que o valor final seja exato
-        K.money = endValue
+        // Garantir valor final exato
         K.updateMoneyDisplay()
+        K.moneyAnimationActive = false
+        
+        // Salvar estado após animação
         if(typeof K.saveState === 'function') K.saveState()
+        
+        // Verificar objetivo do capítulo
+        if(typeof K.checkChapterGoal === 'function') K.checkChapterGoal()
       }
     }
     
@@ -95,6 +124,14 @@
     if(K.initCharacterSprites) K.initCharacterSprites()
     // Atualizar displays
     if(K.updateMoneyDisplay) K.updateMoneyDisplay()
+    // Se no capítulo 1, configurar estado do botão do capítulo 2
+    if(K.currentChapter === 'chapter1') {
+      if(K.chapter1GoalAchieved && typeof K.enableChapter2Button === 'function') {
+        K.enableChapter2Button()
+      } else if(typeof K.disableChapter2Button === 'function') {
+        K.disableChapter2Button()
+      }
+    }
     // restore role attachments if present
     if(state.roles){
         // restore role attachments and hydrate role model data if present
@@ -252,6 +289,8 @@
       const backlogZone = document.querySelector('.cards[data-col="Backlog"]')
       if(backlogZone) backlogZone.appendChild(K.createCard('Titulo do Card'))
       if(typeof K.saveState === 'function') K.saveState()
+      // Inicializar sprites quando não há save
+      if(typeof K.initCharacterSprites === 'function') K.initCharacterSprites()
     }
 
     if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()

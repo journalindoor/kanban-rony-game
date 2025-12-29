@@ -24,10 +24,16 @@
     return col && col.getAttribute('data-col') === 'Backlog'
   }
 
+  function isCardInPublicado(card){
+    const col = card.closest('.column')
+    return col && col.getAttribute('data-col') === 'Publicado'
+  }
+
   // attach role element to card
   function attachRoleToCard(roleEl, cardEl){
     if(!roleEl || !cardEl) return false
     if(isCardInBacklog(cardEl)) return false
+    if(isCardInPublicado(cardEl)) return false
     // enforce single role per card
     if(cardEl.querySelector('.role')) return false
     // ensure role not already attached elsewhere
@@ -73,6 +79,28 @@
     }
     if(typeof K.saveState === 'function') K.saveState()
     return true
+  }
+
+  // Detach any role from a card (helper function)
+  K.detachRoleFromCard = function(cardEl){
+    if(!cardEl) return false
+    const roleEl = cardEl.querySelector('.role')
+    if(!roleEl) return false
+    console.log('Detaching role from card:', cardEl.dataset.id, 'Role:', roleEl.dataset.role)
+    return detachRole(roleEl)
+  }
+
+  // Auto-detach roles from cards in Publicado column
+  K.autoDetachRolesInPublicado = function(){
+    const publicadoZone = document.querySelector('.cards[data-col="Publicado"]')
+    if(!publicadoZone) return
+    
+    const cardsWithRoles = publicadoZone.querySelectorAll('.card .role')
+    cardsWithRoles.forEach(roleEl => {
+      const cardEl = roleEl.closest('.card')
+      console.log('Auto-detaching role from card in Publicado:', cardEl?.dataset?.id)
+      detachRole(roleEl)
+    })
   }
 
   // Setup drag listeners on role squares
