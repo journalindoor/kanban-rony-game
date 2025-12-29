@@ -133,6 +133,7 @@
         }
         if(typeof K.syncCardVisualStates === 'function') K.syncCardVisualStates()
         if(typeof K.syncIndicatorStates === 'function') K.syncIndicatorStates()
+        if(typeof K.syncAllNextColumnButtons === 'function') K.syncAllNextColumnButtons()
     }
   }
 

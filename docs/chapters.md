@@ -52,20 +52,32 @@ Primeiro contato do jogador com o sistema Kanban. Uma experiência pura de desco
 ### Configuração Inicial
 
 - **Team Dev**: 3 integrantes (1 Analista, 1 Programador, 1 QA/Tester)
-- **Métricas visíveis**: Apenas contador de dias
+- **Métricas visíveis**: Contador de dias e dinheiro acumulado
 - **Métricas ocultas**: Cycle time, throughput, WIP (ainda não são mostrados)
 - **Mecânicas disponíveis**: Movimentação de cards, associação de papéis, execução de turnos
 
 ### Duração e Objetivo
 
-- **Duração**: Exatamente 10 dias (1 sprint completa)
-- **Objetivo principal**: Entregar o máximo de cards possível
-- **Critério de conclusão**: Ao final do 10º dia, o capítulo termina automaticamente
+- **Duração**: Jogo livre sem limite de dias
+- **Objetivo principal**: Entregar cards e acumular **$1000**
+- **Critério de conclusão**: Quando o jogador acumula $1000, o jogo pergunta se deseja prosseguir para o Capítulo 2
+
+### Sistema de Progressão
+
+Ao atingir $1000:
+- O jogo apresenta uma mensagem de parabéns
+- Pergunta ao jogador: "Deseja prosseguir para o próximo capítulo?"
+- Se sim: transição para o Capítulo 2 mantendo estado acumulado
+- Se não: continua jogando livremente no Capítulo 1 para acumular mais recursos
 
 ### Recompensa
 
 - O jogador **acumula valor** (dinheiro) baseado nos cards publicados
-- Fórmula de recompensa será definida durante a implementação
+- Sistema de valores por complexidade:
+  - Complexidade 3-12: $10
+  - Complexidade 13-24: $25
+  - Complexidade 25-36: $50
+  - Complexidade 37-54: $100
 - O valor acumulado será usado no Capítulo 2 para contratar novos integrantes
 
 ### Aprendizado Implícito
@@ -73,14 +85,15 @@ Primeiro contato do jogador com o sistema Kanban. Uma experiência pura de desco
 Através da experiência prática, o jogador descobre:
 
 - **Gargalos naturais**: Onde o trabalho se acumula no fluxo
-- **Limites do time**: O que 3 pessoas conseguem fazer em 10 dias
+- **Limites do time**: O que 3 pessoas conseguem fazer
 - **Impacto dos ajustes**: Como retrabalho afeta a capacidade de entrega
 - **Importância do fluxo**: Movimentar cards vs. finalizar trabalho
 - **Papel da homologação**: Como QA afeta a qualidade e ritmo
+- **Gestão de recursos**: Equilibrar entregas com acúmulo de capital
 
 ### Narrativa
 
-> "Você tem 10 dias para provar seu valor. Uma equipe pequena, muitas tarefas, e o relógio correndo. Faça o melhor que puder."
+> "Você começa pequeno. Uma equipe de três, muitas tarefas, e um objetivo: acumular $1000. Aprenda fazendo. Cada card entregue é dinheiro no bolso e experiência acumulada."
 
 ---
 
@@ -93,7 +106,7 @@ Expansão do time através de contratação. O jogador experimenta a complexidad
 ### Configuração Inicial
 
 - **Team Dev**: Continua do Capítulo 1 (3 integrantes)
-- **Valor inicial**: O dinheiro acumulado no Capítulo 1
+- **Valor inicial**: O dinheiro acumulado no Capítulo 1 (mínimo $1000)
 - **Nova mecânica**: **Contratação de novos integrantes**
 - **Métricas visíveis**: Contador de dias, valor disponível
 
@@ -105,6 +118,8 @@ Expansão do time através de contratação. O jogador experimenta a complexidad
   - 2 Programadores
   - 2 QA/Testers
 - **Critério de conclusão**: Quando o jogador tiver contratado todos os 3 integrantes adicionais
+
+**Nota:** Os critérios de conclusão dos capítulos seguintes serão definidos posteriormente.
 
 ### Mecânica de Contratação
 
@@ -149,12 +164,6 @@ Primeiro capítulo de **aprendizado intencional**. O jogador é apresentado expl
   - Cálculo do cycle time médio
 - **Métricas visíveis**: Dias passados, cycle time por card, cycle time médio
 
-### Duração e Objetivo
-
-- **Duração**: Período definido (a ser especificado durante implementação)
-- **Objetivo principal**: Publicar um número mínimo de cards mantendo o **cycle time médio abaixo de um limite**
-- **Critério de conclusão**: Meta de entregas com cycle time controlado
-
 ### Conceito Ensinado: Cycle Time
 
 **Definição apresentada ao jogador:**
@@ -165,6 +174,8 @@ Primeiro capítulo de **aprendizado intencional**. O jogador é apresentado expl
 - Identificar cards que ficam muito tempo em uma coluna
 - Entender que velocidade individual ≠ velocidade do sistema
 - Ajustes e retrabalho aumentam cycle time drasticamente
+
+**Nota:** Duração, objetivo e critérios de conclusão serão definidos posteriormente.
 
 ### Narrativa
 
@@ -187,14 +198,6 @@ Segundo capítulo de aprendizado intencional. O jogador é apresentado explicita
   - Gráfico de tendência ao longo do tempo
 - **Métricas visíveis**: Dias passados, cycle time, throughput por período
 
-### Duração e Objetivo
-
-- **Duração**: Período contínuo (a ser especificado durante implementação)
-- **Objetivo principal**: Manter um **throughput estável** ao longo do tempo
-  - Evitar picos seguidos de quedas
-  - Demonstrar consistência em entregas
-- **Critério de conclusão**: Atingir throughput médio mínimo com baixa variação
-
 ### Conceito Ensinado: Throughput
 
 **Definição apresentada ao jogador:**
@@ -205,6 +208,8 @@ Segundo capítulo de aprendizado intencional. O jogador é apresentado explicita
 - Fluxo contínuo > trabalho em rajadas
 - Planejamento sustentável evita burnout e retrabalho
 - Variação alta indica problemas no sistema
+
+**Nota:** Duração, objetivo e critérios de conclusão serão definidos posteriormente.
 
 ### Narrativa
 
@@ -226,15 +231,6 @@ Capítulo final de aprendizado intencional. O jogador é apresentado explicitame
   - Contador visual de cards em andamento
   - Penalidades progressivas por excesso de WIP
 - **Métricas visíveis**: Dias passados, cycle time, throughput, WIP atual
-
-### Duração e Objetivo
-
-- **Duração**: Período contínuo (a ser especificado durante implementação)
-- **Objetivo principal**: Equilibrar WIP, cycle time e throughput
-  - Manter WIP dentro de limites saudáveis
-  - Publicar cards mantendo métricas equilibradas
-  - Demonstrar compreensão do sistema completo
-- **Critério de conclusão**: Atingir metas de entrega sem exceder WIP máximo
 
 ### Conceito Ensinado: WIP (Work In Progress)
 
@@ -259,6 +255,8 @@ Quando o WIP ultrapassa limites saudáveis:
 - Cycle time de todos os cards em andamento aumenta
 - Feedback visual indica sobrecarga do sistema
 
+**Nota:** Duração, objetivo e critérios de conclusão serão definidos posteriormente.
+
 ### Narrativa
 
 > "Você aprendeu a medir tempo, a manter ritmo... mas ainda há um inimigo escondido: tentar fazer tudo ao mesmo tempo. Limite o trabalho em andamento. Finalize antes de começar."
@@ -278,7 +276,7 @@ Cada capítulo será implementado como um arquivo `.html` separado:
 
 ### Navegação entre Capítulos
 
-- Ao concluir um capítulo, o jogador é direcionado automaticamente ao próximo
+- Ao concluir um capítulo, o jogador é perguntado se deseja prosseguir
 - O estado é transferido através de localStorage ou API
 - Possibilidade de revisitar capítulos anteriores (a definir)
 
@@ -308,24 +306,28 @@ Antes da implementação dos capítulos:
 
 ### Progressão de Complexidade
 
-- **Capítulo 1**: Sobrevivência básica
-- **Capítulo 2**: Crescimento e complexidade
+- **Capítulo 1**: Acúmulo de recursos ($1000 como meta)
+- **Capítulo 2**: Crescimento e complexidade (contratação)
 - **Capítulo 3**: Medição e otimização (tempo)
 - **Capítulo 4**: Previsibilidade e ritmo (quantidade)
 - **Capítulo 5**: Controle e equilíbrio (sistema completo)
 
 ### Status Atual
 
-**Este documento é apenas design conceitual.**
+**Este documento é design conceitual com implementação parcial.**
 
-A implementação dos capítulos será realizada em etapas futuras, após:
+- ✅ Capítulo 1: Critério de conclusão definido ($1000)
+- ⏳ Capítulos 2-5: Critérios de conclusão a serem definidos
+
+A implementação completa dos capítulos será realizada em etapas futuras, após:
 - Validação do design com stakeholders
 - Refinamento do layout atual
 - Planejamento técnico detalhado
-- Definição de valores e parâmetros de jogo
+- Definição de valores e parâmetros dos capítulos 2-5
 
 ---
 
 **Documento criado em:** 27 de dezembro de 2025  
-**Versão:** 1.0 (design inicial)  
-**Status:** Conceitual — aguardando implementação
+**Última atualização:** 29 de dezembro de 2025  
+**Versão:** 1.1 (atualização: critério Capítulo 1)  
+**Status:** Conceitual — implementação parcial em andamento

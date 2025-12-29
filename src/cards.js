@@ -20,8 +20,11 @@
 
   // Calcula o pagamento baseado na complexidade total (sistema de faixas)
   K.calculateCardReward = function(complexity) {
-    if (complexity < 3 || complexity > 54) {
-      console.warn(`Complexidade fora do range esperado: ${complexity}`)
+    // Cards com complexidade muito baixa (0-2) ou muito alta (>54) não têm valor
+    // Isso é normal para cards recém-criados
+    if (complexity < 3) return 0
+    if (complexity > 54) {
+      console.warn(`Complexidade acima do máximo: ${complexity}`)
       return 0
     }
     
@@ -160,9 +163,18 @@
       e.stopPropagation()
       if(typeof K.moveCardToNextColumn === 'function'){
         K.moveCardToNextColumn(el)
+        // Atualizar estado do botão após movimento
+        setTimeout(() => {
+          if(typeof K.updateNextColumnButtonState === 'function') K.updateNextColumnButtonState(el)
+        }, 50)
       }
     })
     el.appendChild(nextColBtn)
+    
+    // Inicializar estado do botão
+    setTimeout(() => {
+      if(typeof K.updateNextColumnButtonState === 'function') K.updateNextColumnButtonState(el)
+    }, 0)
 
     // drag handling uses Kanban.dragged shared state
     el.draggable = true
@@ -181,6 +193,31 @@
     })
 
     return el
+  }
+
+  // Atualiza o estado visual do botão "Próxima Coluna" baseado nas regras de movimento
+  K.updateNextColumnButtonState = function(cardEl) {
+    if(!cardEl) return
+    const btn = cardEl.querySelector('.next-column-btn')
+    if(!btn) return
+    
+    const nextCol = typeof K.getNextColumn === 'function' ? K.getNextColumn(cardEl) : null
+    const canMove = !!nextCol
+    
+    if(canMove) {
+      btn.classList.remove('btn-disabled')
+      btn.classList.add('btn-enabled')
+    } else {
+      btn.classList.remove('btn-enabled')
+      btn.classList.add('btn-disabled')
+    }
+  }
+
+  // Sincroniza estado de todos os botões na tela
+  K.syncAllNextColumnButtons = function() {
+    document.querySelectorAll('.card').forEach(card => {
+      K.updateNextColumnButtonState(card)
+    })
   }
 
   // Visual state helper: adds/removes 'has-role' based on DOM
