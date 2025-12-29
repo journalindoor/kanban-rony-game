@@ -237,6 +237,120 @@ A movimentação de cards entre colunas segue regras rígidas baseadas no estado
   - Papéis associados aos cards
   - Contador de ID para geração de novos cards
   - Contador de dias
+  - Dinheiro acumulado
+  - Status de pagamento de cada card (paid flag)
   - Dados dos modelos de papéis (talento natural e felicidade)
 - Recarregar a página restaura o estado salvo
 - Reiniciar o jogo apaga o estado salvo e gera novos talentos naturais para os papéis
+
+---
+
+## 13. Sistema Monetário
+
+### 13.1 Contador de Dinheiro
+
+- O jogador possui um contador de dinheiro exibido na barra de status (`.status-metrics`)
+- Valor inicial: $0
+- O dinheiro é persistido junto com o estado do jogo
+- É resetado para $0 quando o jogador clica em "Reiniciar"
+
+### 13.2 Valor dos Cards
+
+- Cada card possui um valor monetário fixo calculado na sua criação
+- O valor é baseado na **complexidade total** do card (soma dos 3 indicadores principais)
+- Complexidade = Refinamento + Fazendo + Homologando
+- O indicador "Ajustes" NÃO é incluído no cálculo da complexidade
+
+### 13.3 Faixas de Pagamento
+
+O sistema usa faixas (tiers) de complexidade para determinar o valor do card:
+
+| Complexidade Total | Valor do Card |
+|-------------------|---------------|
+| 3 a 12            | $10          |
+| 13 a 24           | $25          |
+| 25 a 36           | $50          |
+| 37 a 54           | $100         |
+
+### 13.4 Pagamento ao Arquivar
+
+- O valor de um card é pago **UMA ÚNICA VEZ** quando o card é arquivado
+- Momento do pagamento: Quando o card sai de "Publicado" e entra em "Arquivados"
+- Cada card possui uma flag interna (`data-paid`) que controla se já foi pago
+- Garantias do sistema:
+  - ❌ Cards já arquivados não geram valor recorrente
+  - ❌ Re-renderizações não duplicam pagamento
+  - ❌ Movimento manual não aciona pagamento
+  - ✅ Apenas a transição Publicado → Arquivado paga
+  - ✅ Flag permanente impede qualquer duplicação
+
+### 13.5 Feedback Visual
+
+- Quando um card é pago, aparece um indicador verde "+$X" ao lado do contador de dinheiro
+- O indicador aparece com animação (pop) e desaparece após 2 segundos
+- O valor é imediatamente somado ao total do jogador
+
+---
+
+## 14. Sistema de Escritório (Office Panel)
+
+### 14.1 Grid de Videochamada
+
+- O painel de escritório exibe um grid 3×3 com 9 áreas de videochamada
+- Organização por tipo de papel:
+  - Linha 1: 3 Analistas (analista-1, analista-2, analista-3)
+  - Linha 2: 3 Programadores (programador-1, programador-2, programador-3)
+  - Linha 3: 3 QAs (qa-1, qa-2, qa-3)
+
+### 14.2 Composição Visual dos Personagens
+
+Cada área de videochamada usa um sistema de camadas (layers):
+
+1. **Camada inferior (character-body)**: Sprite do personagem
+   - Varia conforme o status (idle/working)
+   - Exemplo: `programador1-idle.gif`, `programador1-working.gif`
+
+2. **Camada superior (character-computer)**: Computador
+   - Sempre visível acima do personagem
+   - Sprite: `computador1.png`
+
+### 14.3 Sistema de Status
+
+- Cada personagem possui um status atual: `idle` ou `working`
+- Status inicial: `idle`
+- Mudanças de status:
+  - `idle` → `working`: Quando um papel é associado a um card
+  - `working` → `idle`: Quando o papel é desassociado do card
+
+### 14.4 Mapeamento Role → Character
+
+- Cada papel da `.roles-area` está mapeado para um personagem específico:
+  - "Analista" → `analista-1`
+  - "Programador" → `programador-1`
+  - "QA/Tester" → `qa-1`
+- Quando um papel é arrastado para um card, o personagem correspondente muda para status `working`
+- Quando o papel é removido (manual ou automaticamente), o personagem volta para `idle`
+
+### 14.5 Sistema de Desbloqueio
+
+- Estado inicial do jogo:
+  - 3 personagens desbloqueados: `analista-1`, `programador-1`, `qa-1`
+  - 6 personagens bloqueados: todos os demais
+- Personagens desbloqueados:
+  - Exibem sprites normalmente (personagem + computador)
+  - Respondem a mudanças de status
+- Personagens bloqueados:
+  - Exibem apenas sprite `offline.png` com opacidade reduzida
+  - Não respondem a mudanças de status
+- Os 9 slots estão sempre visíveis no grid (layout fixo)
+
+### 14.6 Sprites e Assets
+
+- Todos os sprites são renderizados com `image-rendering: pixelated` para manter estilo pixel art
+- Assets organizados na pasta `/assets`
+- Nomenclatura dos sprites:
+  - Personagens: `[tipo][numero]-[status].gif` (ex: `programador1-idle.gif`)
+  - Computador: `computador1.png`
+  - Offline: `offline.png`
+
+---

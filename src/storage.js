@@ -6,7 +6,7 @@
 
   K.saveState = function(){
     const board = document.getElementById('board')
-    const state = { idCounter: (K._idCounter||1), columns: {}, dayCount: K.dayCount || 0 }
+    const state = { idCounter: (K._idCounter||1), columns: {}, dayCount: K.dayCount || 0, money: K.money || 0 }
     K.columnNames.forEach(name=>{
       const zone = board.querySelector('.cards[data-col="'+name+'"]')
       state.columns[name] = []
@@ -14,6 +14,7 @@
         zone.querySelectorAll('.card').forEach(cardEl=>{
           const id = parseInt(cardEl.getAttribute('data-id'),10) || null
           const title = (cardEl.querySelector('.card-title') || {}).textContent || 'Titulo do Card'
+          const paid = cardEl.dataset.paid === 'true'
           const indicators = {}
           cardEl.querySelectorAll('.indicator').forEach(ind=>{
             const label = (ind.querySelector('.ind-label') || {}).textContent || ''
@@ -21,7 +22,7 @@
             const value = Number.isFinite(raw) ? raw : 1
             if(label) indicators[label] = value
           })
-          state.columns[name].push({ id, title, indicators })
+          state.columns[name].push({ id, title, indicators, paid })
         })
       }
     })
@@ -48,6 +49,7 @@
       if(!raw) return null
       const parsed = JSON.parse(raw)
       if(Number.isFinite(parsed.dayCount)) K.dayCount = parsed.dayCount
+      if(Number.isFinite(parsed.money)) K.money = parsed.money
       // if column difficulties saved, restore into K but enforce minimum 2
       if(parsed.columnDifficulties){
         K.columnDifficulties = K.columnDifficulties || {}
