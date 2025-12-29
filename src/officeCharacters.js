@@ -15,6 +15,20 @@
     'qa-3': { status: 'idle', roleType: 'QA/Tester' }
   }
 
+  // Controle de personagens desbloqueados
+  // Estado inicial: apenas 1 de cada tipo disponível
+  K.unlockedCharacters = {
+    'analista-1': true,
+    'analista-2': false,
+    'analista-3': false,
+    'programador-1': true,
+    'programador-2': false,
+    'programador-3': false,
+    'qa-1': true,
+    'qa-2': false,
+    'qa-3': false
+  }
+
   // Mapeamento role name -> character-id
   // Conecta os papeis da roles-area com os personagens do office-viewport
   K.roleToCharacterMap = {
@@ -74,6 +88,20 @@
 
     const spriteArea = tile.querySelector('.tile-sprite')
     if (!spriteArea) return
+
+    // Verificar se o personagem está desbloqueado
+    const isUnlocked = K.unlockedCharacters[characterId]
+    
+    // Se não estiver desbloqueado, renderizar apenas offline
+    if (!isUnlocked) {
+      spriteArea.innerHTML = ''
+      const offlineLayer = document.createElement('img')
+      offlineLayer.src = 'assets/offline.png'
+      offlineLayer.alt = 'offline'
+      offlineLayer.className = 'character-layer character-offline'
+      spriteArea.appendChild(offlineLayer)
+      return
+    }
 
     // Buscar sprites específicos do personagem
     const characterSprites = K.characterSpriteMap[characterId]
