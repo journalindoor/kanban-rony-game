@@ -43,6 +43,12 @@
         // Update assignment map
         K.roleAssignments = K.roleAssignments || {}
         K.roleAssignments[roleName] = null
+        
+        // Sincronizar personagem no office-viewport (idle)
+        if(typeof K.syncCharacterWithRole === 'function') {
+          K.syncCharacterWithRole(roleName, false)
+        }
+        
         detached = true
         
         console.log(`Role "${roleName}" detached (indicator reached 0)`)

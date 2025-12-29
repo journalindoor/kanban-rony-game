@@ -24,10 +24,16 @@
     return col && col.getAttribute('data-col') === 'Backlog'
   }
 
+  function isCardInPublicado(card){
+    const col = card.closest('.column')
+    return col && col.getAttribute('data-col') === 'Publicado'
+  }
+
   // attach role element to card
   function attachRoleToCard(roleEl, cardEl){
     if(!roleEl || !cardEl) return false
     if(isCardInBacklog(cardEl)) return false
+    if(isCardInPublicado(cardEl)) return false
     // enforce single role per card
     if(cardEl.querySelector('.role')) return false
     // ensure role not already attached elsewhere
@@ -47,6 +53,10 @@
     // maintain runtime mapping of assignments
     K.roleAssignments = K.roleAssignments || {}
     K.roleAssignments[roleEl.getAttribute('data-role')] = parseInt(cardEl.getAttribute('data-id'), 10)
+    // Sincronizar personagem no office-viewport (working)
+    if(typeof K.syncCharacterWithRole === 'function') {
+      K.syncCharacterWithRole(roleEl.getAttribute('data-role'), true)
+    }
     if(typeof K.saveState === 'function') K.saveState()
     return true
   }
@@ -56,14 +66,41 @@
     const container = document.querySelector(rolesContainerSelector)
     if(!container) return false
     const prevCard = roleEl.closest('.card')
+    const roleName = roleEl.getAttribute('data-role')
     container.appendChild(roleEl)
     delete roleEl.dataset.attached
     roleEl.classList.remove('role-attached')
     if(prevCard && typeof K.updateCardVisualState === 'function') K.updateCardVisualState(prevCard)
     K.roleAssignments = K.roleAssignments || {}
-    K.roleAssignments[roleEl.getAttribute('data-role')] = null
+    K.roleAssignments[roleName] = null
+    // Sincronizar personagem no office-viewport (idle)
+    if(typeof K.syncCharacterWithRole === 'function') {
+      K.syncCharacterWithRole(roleName, false)
+    }
     if(typeof K.saveState === 'function') K.saveState()
     return true
+  }
+
+  // Detach any role from a card (helper function)
+  K.detachRoleFromCard = function(cardEl){
+    if(!cardEl) return false
+    const roleEl = cardEl.querySelector('.role')
+    if(!roleEl) return false
+    console.log('Detaching role from card:', cardEl.dataset.id, 'Role:', roleEl.dataset.role)
+    return detachRole(roleEl)
+  }
+
+  // Auto-detach roles from cards in Publicado column
+  K.autoDetachRolesInPublicado = function(){
+    const publicadoZone = document.querySelector('.cards[data-col="Publicado"]')
+    if(!publicadoZone) return
+    
+    const cardsWithRoles = publicadoZone.querySelectorAll('.card .role')
+    cardsWithRoles.forEach(roleEl => {
+      const cardEl = roleEl.closest('.card')
+      console.log('Auto-detaching role from card in Publicado:', cardEl?.dataset?.id)
+      detachRole(roleEl)
+    })
   }
 
   // Setup drag listeners on role squares

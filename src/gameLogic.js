@@ -92,6 +92,7 @@
   // Save and sync all changes once at the end
   if (typeof K.saveState === 'function') K.saveState()
   if (typeof K.syncIndicatorStates === 'function') K.syncIndicatorStates()
+  if (typeof K.syncAllNextColumnButtons === 'function') K.syncAllNextColumnButtons()
   return results
 }
 

@@ -1,12 +1,29 @@
 // storage.js — persistence helpers
 (function(K){
   K = K || (window.Kanban = window.Kanban || {})
-  K.STORAGE_KEY = 'kanbanState_v1'
+  
+  // Detect storage key based on current page
+  K.getStorageKey = function() {
+    const path = window.location.pathname
+    const chapterMatch = path.match(/chapter(\d+)\.html/)
+    
+    if (chapterMatch) {
+      // Chapter-specific storage (e.g., 'kanbanState_chapter1')
+      return `kanbanState_chapter${chapterMatch[1]}`
+    } else {
+      // Free mode storage (index.html)
+      return 'kanbanState_freemode'
+    }
+  }
+  
+  K.STORAGE_KEY = K.getStorageKey()
+  console.log('Using storage key:', K.STORAGE_KEY)
+  
   K.columnNames = ['Backlog','Refinamento','SprintBacklog','Fazendo','Homologando','Ajustes','Publicado','Arquivados']
 
   K.saveState = function(){
     const board = document.getElementById('board')
-    const state = { idCounter: (K._idCounter||1), columns: {}, dayCount: K.dayCount || 0 }
+    const state = { idCounter: (K._idCounter||1), columns: {}, dayCount: K.dayCount || 0, money: K.money || 0, chapter1GoalAchieved: K.chapter1GoalAchieved || false }
     K.columnNames.forEach(name=>{
       const zone = board.querySelector('.cards[data-col="'+name+'"]')
       state.columns[name] = []
@@ -14,6 +31,7 @@
         zone.querySelectorAll('.card').forEach(cardEl=>{
           const id = parseInt(cardEl.getAttribute('data-id'),10) || null
           const title = (cardEl.querySelector('.card-title') || {}).textContent || 'Titulo do Card'
+          const paid = cardEl.dataset.paid === 'true'
           const indicators = {}
           cardEl.querySelectorAll('.indicator').forEach(ind=>{
             const label = (ind.querySelector('.ind-label') || {}).textContent || ''
@@ -21,7 +39,7 @@
             const value = Number.isFinite(raw) ? raw : 1
             if(label) indicators[label] = value
           })
-          state.columns[name].push({ id, title, indicators })
+          state.columns[name].push({ id, title, indicators, paid })
         })
       }
     })
@@ -48,6 +66,8 @@
       if(!raw) return null
       const parsed = JSON.parse(raw)
       if(Number.isFinite(parsed.dayCount)) K.dayCount = parsed.dayCount
+      if(Number.isFinite(parsed.money)) K.money = parsed.money
+      K.chapter1GoalAchieved = parsed.chapter1GoalAchieved || false
       // if column difficulties saved, restore into K but enforce minimum 2
       if(parsed.columnDifficulties){
         K.columnDifficulties = K.columnDifficulties || {}

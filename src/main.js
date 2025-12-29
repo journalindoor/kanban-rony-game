@@ -13,13 +13,90 @@
     if(el) el.textContent = String(K.dayCount || 0)
   }
 
+  // money system
+  K.money = Number.isFinite(K.money) ? K.money : 0
+  K.moneyAnimationActive = false
+  K.moneyAnimationTimeout = null
+  
+  K.updateMoneyDisplay = function(){
+    const el = document.getElementById('moneyCounter')
+    if(el) el.textContent = '$' + String(K.money || 0)
+  }
+  
+  K.addMoney = function(amount){
+    const startDisplayValue = K.money || 0
+    
+    // Adicionar valor imediatamente ao total interno
+    K.money = (K.money || 0) + amount
+    const endValue = K.money
+    
+    // Cancelar animação anterior se existir
+    if(K.moneyAnimationTimeout) {
+      clearTimeout(K.moneyAnimationTimeout)
+      K.moneyAnimationTimeout = null
+    }
+    
+    // Se já houver animação rodando, não iniciar outra (espera terminar)
+    if(K.moneyAnimationActive) {
+      K.updateMoneyDisplay() // Atualiza para valor final imediatamente
+      return
+    }
+    
+    // Iniciar animação visual
+    K.moneyAnimationActive = true
+    const duration = 800
+    const steps = Math.min(amount, 50)
+    const increment = (endValue - startDisplayValue) / steps
+    const stepDuration = duration / steps
+    
+    let currentStep = 0
+    let displayValue = startDisplayValue
+    
+    const animate = () => {
+      currentStep++
+      if(currentStep <= steps){
+        displayValue = Math.round(startDisplayValue + (increment * currentStep))
+        const el = document.getElementById('moneyCounter')
+        if(el) el.textContent = '$' + displayValue
+        K.moneyAnimationTimeout = setTimeout(animate, stepDuration)
+      } else {
+        // Garantir valor final exato
+        K.updateMoneyDisplay()
+        K.moneyAnimationActive = false
+        
+        // Salvar estado após animação
+        if(typeof K.saveState === 'function') K.saveState()
+        
+        // Verificar objetivo do capítulo
+        if(typeof K.checkChapterGoal === 'function') K.checkChapterGoal()
+      }
+    }
+    
+    animate()
+  }
+  K.removeMoney = function(amount){
+    K.money = Math.max(0, (K.money || 0) - amount)
+    K.updateMoneyDisplay()
+    if(typeof K.saveState === 'function') K.saveState()
+  }
+
   // Move all cards from Publicado to Arquivados
   K.archivePublishedCards = function(){
     const publishedZone = document.querySelector('.cards[data-col="Publicado"]')
     const archivedZone = document.querySelector('.cards[data-col="Arquivados"]')
     if(!publishedZone || !archivedZone) return 0
     const toMove = Array.from(publishedZone.querySelectorAll('.card'))
-    toMove.forEach(card=> archivedZone.appendChild(card))
+    console.log(`Arquivando ${toMove.length} cards de Publicado`)
+    toMove.forEach(card=> {
+      // Processar pagamento ANTES de mover (transição Publicado → Arquivado)
+      if(typeof K.processCardPayment === 'function') {
+        const paid = K.processCardPayment(card)
+        console.log(`Tentativa de pagamento card ${card.dataset.id}: ${paid ? 'SUCESSO' : 'FALHA/JÁ PAGO'}`)
+      } else {
+        console.warn('K.processCardPayment não está definida!')
+      }
+      archivedZone.appendChild(card)
+    })
     return toMove.length
   }
 
@@ -39,10 +116,22 @@
       if(!zone) return
       const arr = (state.columns && state.columns[name]) ? state.columns[name] : []
       arr.forEach(c=>{
-        const el = K.createCard(c.title || 'Titulo do Card', c.id, c.indicators || null)
+        const el = K.createCard(c.title || 'Titulo do Card', c.id, c.indicators || null, c.paid || false)
         zone.appendChild(el)
       })
     })
+    // Inicializa sprites após renderizar cards
+    if(K.initCharacterSprites) K.initCharacterSprites()
+    // Atualizar displays
+    if(K.updateMoneyDisplay) K.updateMoneyDisplay()
+    // Se no capítulo 1, configurar estado do botão do capítulo 2
+    if(K.currentChapter === 'chapter1') {
+      if(K.chapter1GoalAchieved && typeof K.enableChapter2Button === 'function') {
+        K.enableChapter2Button()
+      } else if(typeof K.disableChapter2Button === 'function') {
+        K.disableChapter2Button()
+      }
+    }
     // restore role attachments if present
     if(state.roles){
         // restore role attachments and hydrate role model data if present
@@ -81,6 +170,7 @@
         }
         if(typeof K.syncCardVisualStates === 'function') K.syncCardVisualStates()
         if(typeof K.syncIndicatorStates === 'function') K.syncIndicatorStates()
+        if(typeof K.syncAllNextColumnButtons === 'function') K.syncAllNextColumnButtons()
     }
   }
 
@@ -91,6 +181,7 @@
     K.roleAssignments = {}
     K.roleModels = {}
     K.dayCount = 0
+    K.money = 0
     // move all role elements back to roles area
     const rolesArea = document.querySelector('.roles-area')
     if(rolesArea){
@@ -107,6 +198,7 @@
     // reinitialize role models with new talentos and render
     if(typeof K.initializeRoles === 'function') K.initializeRoles(true)
     if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
+    if(typeof K.updateMoneyDisplay === 'function') K.updateMoneyDisplay()
     if(typeof K.saveState === 'function') K.saveState()
   }
 
@@ -165,6 +257,28 @@
     const resetBtn = document.getElementById('resetButton')
     if(resetBtn) resetBtn.addEventListener('click', K.resetGame)
 
+    // Chapter 1 start button (only in index.html)
+    const startChapter1Btn = document.getElementById('startChapter1Button')
+    if(startChapter1Btn){
+      startChapter1Btn.addEventListener('click', function(){
+        const confirmed = confirm(
+          'Iniciar o Capítulo 1?\n\n' +
+          'Isso iniciará um novo jogo do zero. ' +
+          'Todo o progresso do modo livre será descartado.\n\n' +
+          'Deseja continuar?'
+        )
+        if(confirmed){
+          // Clear any existing transfer data to ensure clean start
+          try {
+            localStorage.removeItem('KANBAN_CHAPTER_TRANSFER')
+          } catch(e) {}
+          
+          // Navigate to chapter 1
+          window.location.href = 'chapter1.html'
+        }
+      })
+    }
+
     // initialize board from storage or create default
     const saved = (typeof K.loadState === 'function') ? K.loadState() : null
     if(saved){
@@ -175,9 +289,12 @@
       const backlogZone = document.querySelector('.cards[data-col="Backlog"]')
       if(backlogZone) backlogZone.appendChild(K.createCard('Titulo do Card'))
       if(typeof K.saveState === 'function') K.saveState()
+      // Inicializar sprites quando não há save
+      if(typeof K.initCharacterSprites === 'function') K.initCharacterSprites()
     }
 
     if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
+    if(typeof K.updateMoneyDisplay === 'function') K.updateMoneyDisplay()
 
     // wire drop zones
     if(typeof K.setupDropZones === 'function') K.setupDropZones()
@@ -189,6 +306,9 @@
         if(el) K.renderRole(K.roleModels[rName], el)
       })
     }
+    
+    // Sincronizar stats dos personagens no office-viewport
+    if(typeof K.syncAllCharacterStats === 'function') K.syncAllCharacterStats()
 
     // Toggle archived column visibility
     const toggleArchivedBtn = document.getElementById('toggleArchivedButton')

@@ -1,0 +1,238 @@
+/* ============================================
+   BOARD
+   Kanban board, columns, cards, and indicators
+   ============================================ */
+
+.board{
+  display:flex;
+  gap:var(--gap);
+  align-items:flex-start;
+  flex:1;
+  height:100%;
+  overflow-x:auto;
+  overflow-y:auto;
+  padding-bottom:8px;
+}
+
+/* Ensure the board flexes to fill remaining height inside container */
+.container .board{
+  flex:1;
+  height:auto;
+  min-height:0;
+}
+
+/* Main content ensures board fills properly */
+.main-content .board{
+  flex:1;
+  min-width:0;
+}
+
+/* Columns */
+.column{
+  background:var(--col-bg);
+  border-radius:8px;
+  padding:12px;
+  min-width:240px;
+  max-width:320px;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 1px 0 rgba(0,0,0,0.04);
+}
+
+.column-header{
+  font-weight:700;
+  margin-bottom:8px;
+  color:#111;
+}
+
+.cards{
+  flex:1;
+  min-height:120px;
+  padding:6px;
+  overflow:auto;
+}
+
+/* Archived column */
+.archived-column.archived-hidden{
+  display:none;
+}
+
+/* Cards */
+.card{
+  background:var(--card-bg);
+  padding:10px;
+  margin-bottom:8px;
+  border-radius:6px;
+  box-shadow:0 1px 4px rgba(16,24,40,0.06);
+  cursor:grab;
+  display:flex;
+  flex-direction:column;
+}
+
+.card.has-role{
+  background:#e0ecff;
+  outline:2px solid rgba(43,138,239,0.25);
+  box-shadow:0 2px 8px rgba(43,138,239,0.12);
+}
+
+.card.dragging{
+  opacity:0.5;
+}
+
+.drop-over{
+  outline:3px dashed rgba(43,138,239,0.18);
+  border-radius:6px;
+}
+
+/* Card header */
+.card-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.card-title{
+  font-weight:700;
+  font-size:14px;
+  color:#111;
+}
+
+.card-id{
+  background:rgba(43,138,239,0.08);
+  color:var(--accent);
+  padding:2px 8px;
+  border-radius:999px;
+  font-size:12px;
+}
+
+/* Card value area */
+.card-value{
+  display:flex;
+  justify-content:flex-end;
+  padding:6px 0;
+  border-bottom:1px solid #eee;
+  margin-bottom:8px;
+}
+
+.value-amount{
+  font-size:13px;
+  font-weight:700;
+  color:#2ecc71;
+}
+
+/* Difficulty indicators */
+.indicators{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-top:8px;
+}
+
+.indicator{
+  background:rgba(0,0,0,0.03);
+  padding:8px;
+  border-radius:6px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
+}
+
+.ind-label{
+  font-size:12px;
+  color:#4b5563;
+}
+
+.ind-value{
+  font-weight:700;
+  color:var(--accent);
+  font-size:13px;
+  background:rgba(43,138,239,0.06);
+  padding:4px 10px;
+  border-radius:999px;
+}
+
+/* Indicator finished state */
+.indicator.indicator-done{
+  background:rgba(22,163,74,0.12);
+  outline:2px solid rgba(22,163,74,0.25);
+}
+
+.indicator.indicator-done .ind-value{
+  background:rgba(22,163,74,0.18);
+  color:#065f46;
+}
+
+/* Indicator active state (current column) */
+.indicator.indicator-active{
+  background:rgba(239,68,68,0.12);
+  outline:2px solid rgba(239,68,68,0.35);
+}
+
+.indicator.indicator-active .ind-label{
+  color:#991b1b;
+  font-weight:600;
+}
+
+.indicator.indicator-active .ind-value{
+  background:rgba(239,68,68,0.20);
+  color:#991b1b;
+}
+
+/* Next column button */
+.next-column-btn{
+  margin-top:8px;
+  padding:6px 10px;
+  background:#9ca3af;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  cursor:not-allowed;
+  font-size:12px;
+  font-weight:600;
+  width:100%;
+  transition:background 0.2s ease;
+}
+
+/* Estado habilitado (azul) */
+.next-column-btn.btn-enabled{
+  background:#2b8aef;
+  cursor:pointer;
+}
+
+.next-column-btn.btn-enabled:hover{
+  background:#1d6ac7;
+}
+
+/* Estado desabilitado (cinza) */
+.next-column-btn.btn-disabled{
+  background:#9ca3af;
+  cursor:not-allowed;
+  opacity:0.7;
+}
+
+.next-column-btn.btn-disabled:hover{
+  background:#9ca3af;
+}
+
+/* Responsive adjustments */
+@media (max-width:800px){
+  .column{
+    min-width:200px;
+  }
+}
+
+/* Mobile layout adjustments */
+@media (max-width:768px){
+  .board{
+    flex:0 0 auto;
+    width:100%;
+    min-height:500px;
+    height:auto;
+    max-height:none;
+  }
+  
+  .column{
+    min-width:180px;
+  }
+}

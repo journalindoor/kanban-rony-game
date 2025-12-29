@@ -90,6 +90,11 @@
       // append title and stats
       el.appendChild(titleWrapper)
       el.appendChild(statsContainer)
+      
+      // Sincronizar stats com o personagem no office-viewport
+      if(typeof K.updateCharacterStats === 'function') {
+        K.updateCharacterStats(role.name)
+      }
     }
 
   // expose

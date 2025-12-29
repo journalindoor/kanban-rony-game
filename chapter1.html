@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
-		<title>Kanban Rony Game</title>
+		<title>Capítulo 1: Sobreviva à Sprint - Kanban Rony Game</title>
 		<!-- CSS imports in cascading order -->
 		<link rel="stylesheet" href="css/base.css">
 		<link rel="stylesheet" href="css/layout.css">
@@ -12,18 +12,20 @@
 		<link rel="stylesheet" href="css/board.css">
 		<link rel="stylesheet" href="css/components.css">
 		<link rel="stylesheet" href="css/office-panel.css">
+		<link rel="stylesheet" href="css/modal.css">
 	</head>
 	<body>
 
     <div class="game-layout">
       <div class="container">
-			<h1>Kanban - Rony Game <span class="mode-badge">Modo Livre</span></h1>
+			<h1>Kanban - Rony Game <span class="chapter-badge">Capítulo 1</span></h1>
             <!-- Top controls moved here -->
             <div class="top-controls">
 				<button id="startButton" class="start-button">Iniciar Turno</button>
                 <button id="resetButton" class="reset-button">Reiniciar</button>
 				<button id="toggleArchivedButton" class="archived-toggle-button">Arquivados</button>
-				<button id="startChapter1Button" class="chapter-start-button">Iniciar Capítulo 1</button>
+				<button id="backToFreeModeButton" class="freemode-button">Voltar ao Modo Livre</button>
+				<button id="goToChapter2Button" class="chapter-start-button" disabled>Ir para Capítulo 2</button>
             </div>
 			<!-- Status bar for day counter and future metrics -->
 			<div class="status-bar">
@@ -239,11 +241,38 @@
 			</div><!-- .main-content -->
 		</div><!-- .container -->
 
+		<!-- Chapter Transition Modal -->
+		<div id="chapterTransitionModal" class="modal-overlay" style="display:none;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2>🎉 Parabéns!</h2>
+				</div>
+				<div class="modal-body">
+					<p class="modal-message">Você acumulou <strong>$500</strong> e completou o Capítulo 1!</p>
+					<p class="modal-subtitle">Deseja prosseguir para o próximo capítulo?</p>
+					<div class="modal-stats">
+						<div class="stat-item">
+							<span class="stat-label">Dias passados:</span>
+							<span class="stat-value" id="modalDays">0</span>
+						</div>
+						<div class="stat-item">
+							<span class="stat-label">Dinheiro acumulado:</span>
+							<span class="stat-value" id="modalMoney">$0</span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="continueChapterBtn" class="modal-btn modal-btn-primary">Prosseguir para Capítulo 2</button>
+					<button id="stayChapterBtn" class="modal-btn modal-btn-secondary">Continuar no Capítulo 1</button>
+				</div>
+			</div>
+		</div>
+
 		<!-- Game Footer -->
 		<footer class="game-footer">
 			<div class="footer-content">
 				<div class="footer-info">
-					<span class="footer-version">Versão 1.0.0</span>
+					<span class="footer-version">Versão 1.0.0 - Capítulo 1</span>
 					<span class="footer-separator">|</span>
 					<span class="footer-author">Criado por Rony</span>
 				</div>
@@ -252,8 +281,6 @@
 				</div>
 			</div>
 		</footer>
-
-		
 
 		<script src="src/storage.js" defer></script>
 		<script src="src/officeCharacters.js" defer></script>
@@ -267,6 +294,6 @@
 		<script src="src/backlogRules.js" defer></script>
 		<script src="src/progressionRules.js" defer></script>
 		<script src="src/main.js" defer></script>
+		<script src="src/chapterManager.js" defer></script>
 	</body>
 </html>
-

@@ -39,6 +39,23 @@
 
           zone.appendChild(K.dragged)
           delete K.dragged.dataset.fromCol
+          
+          // Atualizar estados dos indicadores para destacar o correto
+          if(typeof K.syncIndicatorStates === 'function') K.syncIndicatorStates()
+          
+          // If dropped in Publicado, detach any role AFTER moving
+          if(zoneCol === 'Publicado'){
+            setTimeout(() => {
+              if(typeof K.detachRoleFromCard === 'function'){
+                K.detachRoleFromCard(K.dragged)
+                console.log('Role detached after dropping in Publicado')
+              }
+              // Also run auto-detach as backup
+              if(typeof K.autoDetachRolesInPublicado === 'function'){
+                K.autoDetachRolesInPublicado()
+              }
+            }, 10)
+          }
         }
         zone.classList.remove('drop-over')
         if(typeof K.saveState === 'function') K.saveState()
