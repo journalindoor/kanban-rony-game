@@ -49,6 +49,13 @@
     cardEl.appendChild(roleEl)
     roleEl.dataset.attached = 'true'
     roleEl.classList.add('role-attached')
+    
+    // Mover card para última posição da coluna
+    const cardsContainer = cardEl.closest('.cards')
+    if(cardsContainer){
+      cardsContainer.appendChild(cardEl)
+    }
+    
     if(typeof K.updateCardVisualState === 'function') K.updateCardVisualState(cardEl)
     // maintain runtime mapping of assignments
     K.roleAssignments = K.roleAssignments || {}
