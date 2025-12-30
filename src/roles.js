@@ -58,6 +58,7 @@
     if(typeof K.updateCardVisualState === 'function') K.updateCardVisualState(cardEl)
     // maintain runtime mapping of assignments
     K.roleAssignments = K.roleAssignments || {}
+    // Converter ID para número (todos os IDs são numéricos agora)
     K.roleAssignments[roleEl.getAttribute('data-role')] = parseInt(cardEl.getAttribute('data-id'), 10)
     // Sincronizar personagem no office-viewport (working)
     if(typeof K.syncCharacterWithRole === 'function') {

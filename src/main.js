@@ -177,6 +177,18 @@
   K.resetGame = function(){
     if(!confirm('Reiniciar o jogo? Isso apagará o progresso salvo.')) return
     try{ localStorage.removeItem(K.STORAGE_KEY) }catch(e){}
+    
+    // Clear used cards list to allow reusing cards from bank
+    try{
+      const usedCardsKey = K.getUsedCardsKey ? K.getUsedCardsKey() : null
+      if(usedCardsKey){
+        localStorage.removeItem(usedCardsKey)
+        console.log('[resetGame] Lista de cards usados limpa')
+      }
+    }catch(e){
+      console.warn('[resetGame] Erro ao limpar cards usados:', e)
+    }
+    
     // clear assignments and role models so fresh talentos are generated
     K.roleAssignments = {}
     K.roleModels = {}

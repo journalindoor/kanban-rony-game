@@ -29,30 +29,65 @@
   const assignments = K.roleAssignments || {}
   const results = []
 
+  console.log('[gameLogic] === INÍCIO DO TURNO ===')
+  console.log('[gameLogic] Assignments:', assignments)
+  console.log('[gameLogic] RoleModels:', K.roleModels)
+
   Object.keys(assignments).forEach(roleName => {
+    console.log('[gameLogic] Processando role:', roleName)
+    
     const cardId = assignments[roleName]
-    if (!cardId) return
+    if (!cardId) {
+      console.log('[gameLogic] - Sem card atribuído')
+      return
+    }
+    console.log('[gameLogic] - Card ID:', cardId)
 
     const roleModel = K.roleModels && K.roleModels[roleName]
-    if (!roleModel) return
+    if (!roleModel) {
+      console.log('[gameLogic] - RoleModel não encontrado')
+      return
+    }
+    console.log('[gameLogic] - RoleModel encontrado, eficiência:', roleModel.eficiencia)
 
     const cardEl = document.querySelector(`.card[data-id="${cardId}"]`)
-    if (!cardEl) return
+    if (!cardEl) {
+      console.log('[gameLogic] - Elemento do card não encontrado no DOM')
+      return
+    }
+    console.log('[gameLogic] - Card encontrado no DOM')
 
     const colEl = cardEl.closest('.column')
     const colName = colEl ? colEl.getAttribute('data-col') : null
-    if (!colName) return
+    if (!colName) {
+      console.log('[gameLogic] - Coluna não identificada')
+      return
+    }
+    console.log('[gameLogic] - Card está na coluna:', colName)
+    
+    // SprintBacklog e outras colunas sem indicadores não devem processar
+    const columnsWithoutIndicators = ['Backlog', 'SprintBacklog', 'Publicado', 'Arquivados']
+    if (columnsWithoutIndicators.includes(colName)) {
+      console.log('[gameLogic] - Coluna', colName, 'não tem indicador para trabalhar')
+      return
+    }
 
     // encontra o indicador do card correspondente à coluna atual
     const indicators = cardEl.querySelectorAll('.indicator')
     let targetIndicator = null
 
+    console.log('[gameLogic] - Procurando indicador com label:', colName)
     indicators.forEach(ind => {
       const label = ind.querySelector('.ind-label')?.textContent
+      console.log('[gameLogic]   * Indicador:', label, '| Valor:', ind.querySelector('.ind-value')?.textContent)
       if (label === colName) targetIndicator = ind
     })
 
-    if (!targetIndicator) return
+    if (!targetIndicator) {
+      console.warn('[gameLogic] - ERRO: Indicador não encontrado para coluna:', colName)
+      return
+    }
+    console.log('[gameLogic] - Indicador correspondente encontrado!')
 
     const valueEl = targetIndicator.querySelector('.ind-value')
     if (!valueEl) return

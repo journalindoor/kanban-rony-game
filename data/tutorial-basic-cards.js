@@ -4,7 +4,7 @@ window.TUTORIAL_BASIC_CARDS = {
   "description": "Cards pré-definidos para o tutorial básico",
   "cards": [
     {
-      "id": "tut-01",
+      "id": 9001,
       "title": "Configurar Login Simples",
       "indicators": {
         "Refinamento": 2,
@@ -14,7 +14,7 @@ window.TUTORIAL_BASIC_CARDS = {
       }
     },
     {
-      "id": "tut-02",
+      "id": 9002,
       "title": "Criar Página Inicial",
       "indicators": {
         "Refinamento": 3,
@@ -24,7 +24,7 @@ window.TUTORIAL_BASIC_CARDS = {
       }
     },
     {
-      "id": "tut-03",
+      "id": 9003,
       "title": "Adicionar Menu de Navegação",
       "indicators": {
         "Refinamento": 2,

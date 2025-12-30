@@ -79,8 +79,11 @@
   
   // Gera um card aleatório (lógica existente)
   K.generateRandomCard = function(){
-    const id = K.nextId ? K.nextId() : (K._idCounter ? K._idCounter++ : 1)
-    const title = 'Card #' + id
+    // Cards aleatórios começam em 1 e usam K._idCounter
+    const baseId = K.nextId ? K.nextId() : (K._idCounter ? K._idCounter++ : 1)
+    // Formatar como 0001, 0002, 0003...
+    const id = baseId
+    const title = 'Card #' + baseId
     
     // Indicadores aleatórios (mantém lógica existente)
     const indicators = {

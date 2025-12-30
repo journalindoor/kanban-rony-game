@@ -276,6 +276,8 @@
 			</div>
 		</footer>
 
+		
+
 		<!-- Welcome modal script -->
 		<script>
 			// Check if user has already seen the welcome modal
@@ -296,23 +298,20 @@
 				// Start tutorial button
 				if(startTutorialBtn){
 					startTutorialBtn.addEventListener('click', function(){
-						const confirmed = confirm(
-							'Iniciar Tutorial?\n\n' +
-							'Você será guiado passo a passo pelas mecânicas do jogo.\n' +
-							'Poderá retornar ao Modo Livre a qualquer momento.\n\n' +
-							'Deseja continuar?'
-						);
-						
-						if(confirmed){
-							localStorage.setItem('kanban_welcome_seen', 'true');
-							window.location.href = 'tutorial.html';
-						}
-					});
-				}
-				
-				// Skip tutorial button
-				if(skipTutorialBtn){
-					skipTutorialBtn.addEventListener('click', function(){
+					const confirmed = confirm(
+						'Iniciar Tutorial?\n\n' +
+						'Você será guiado passo a passo pelas mecânicas do jogo.\n' +
+						'Poderá retornar ao Modo Livre a qualquer momento.\n\n' +
+						'Deseja continuar?'
+					);
+					
+					if(confirmed){
+						localStorage.setItem('kanban_welcome_seen', 'true');
+						window.location.href = 'tutorial.html';
+					}
+				});
+			}
+			
 						localStorage.setItem('kanban_welcome_seen', 'true');
 						if(modal) modal.style.display = 'none';
 					});
@@ -328,21 +327,19 @@
 				// Go to tutorial button
 				if(goToTutorialButton){
 					goToTutorialButton.addEventListener('click', function(){
-						const confirmed = confirm(
-							'Ir para o Tutorial?\n\n' +
-							'Seu progresso no Modo Livre será salvo automaticamente.\n' +
-							'Você poderá retornar a qualquer momento.\n\n' +
-							'Deseja continuar?'
-						);
-						
-						if(confirmed){
-							window.location.href = 'tutorial.html';
-						}
-					});
-				}
-			});
-		</script>
-		<script src="src/storage.js" defer></script>
+					const confirmed = confirm(
+						'Ir para o Tutorial?\n\n' +
+						'Seu progresso no Modo Livre será salvo automaticamente.\n' +
+						'Você poderá retornar a qualquer momento.\n\n' +
+						'Deseja continuar?'
+					);
+					
+					if(confirmed){
+						window.location.href = 'tutorial.html';
+					}
+				});
+			}
+		});
 		<script src="src/cardBankManager.js" defer></script>
 		<script src="src/officeCharacters.js" defer></script>
 		<script src="src/cards.js" defer></script>
@@ -357,3 +354,4 @@
 		<script src="src/main.js" defer></script>
 	</body>
 </html>
+
