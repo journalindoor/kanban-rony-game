@@ -4,7 +4,7 @@ window.CHAPTER_1_CARDS = {
   "description": "Cards pré-definidos para o capítulo 1",
   "cards": [
     {
-      "id": "c1-01",
+      "id": 1001,
       "title": "Sistema de Autenticação",
       "indicators": {
         "Refinamento": 5,
@@ -14,7 +14,7 @@ window.CHAPTER_1_CARDS = {
       }
     },
     {
-      "id": "c1-02",
+      "id": 1002,
       "title": "Dashboard Principal",
       "indicators": {
         "Refinamento": 6,
@@ -24,7 +24,7 @@ window.CHAPTER_1_CARDS = {
       }
     },
     {
-      "id": "c1-03",
+      "id": 1003,
       "title": "Perfil de Usuário",
       "indicators": {
         "Refinamento": 4,
@@ -34,7 +34,7 @@ window.CHAPTER_1_CARDS = {
       }
     },
     {
-      "id": "c1-04",
+      "id": 1004,
       "title": "Sistema de Notificações",
       "indicators": {
         "Refinamento": 7,
@@ -44,7 +44,7 @@ window.CHAPTER_1_CARDS = {
       }
     },
     {
-      "id": "c1-05",
+      "id": 1005,
       "title": "Integração com API",
       "indicators": {
         "Refinamento": 8,

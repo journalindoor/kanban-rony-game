@@ -17,6 +17,7 @@
   K.money = Number.isFinite(K.money) ? K.money : 0
   K.moneyAnimationActive = false
   K.moneyAnimationTimeout = null
+  K.moneyAnimationTargetValue = 0 // Valor alvo da animação
   
   K.updateMoneyDisplay = function(){
     const el = document.getElementById('moneyCounter')
@@ -24,51 +25,61 @@
   }
   
   K.addMoney = function(amount){
-    const startDisplayValue = K.money || 0
+    console.log('[addMoney] Chamado com amount:', amount)
     
     // Adicionar valor imediatamente ao total interno
     K.money = (K.money || 0) + amount
-    const endValue = K.money
+    const newTargetValue = K.money
+    console.log('[addMoney] Novo valor total:', newTargetValue)
     
-    // Cancelar animação anterior se existir
-    if(K.moneyAnimationTimeout) {
-      clearTimeout(K.moneyAnimationTimeout)
-      K.moneyAnimationTimeout = null
-    }
-    
-    // Se já houver animação rodando, não iniciar outra (espera terminar)
+    // Se já houver animação rodando, apenas atualizar o valor alvo
     if(K.moneyAnimationActive) {
-      K.updateMoneyDisplay() // Atualiza para valor final imediatamente
+      console.log('[addMoney] Animação já ativa, atualizando valor alvo para:', newTargetValue)
+      K.moneyAnimationTargetValue = newTargetValue
       return
     }
     
-    // Iniciar animação visual
+    // Iniciar nova animação
+    console.log('[addMoney] Iniciando nova animação')
     K.moneyAnimationActive = true
-    const duration = 800
-    const steps = Math.min(amount, 50)
-    const increment = (endValue - startDisplayValue) / steps
-    const stepDuration = duration / steps
+    K.moneyAnimationTargetValue = newTargetValue
     
-    let currentStep = 0
-    let displayValue = startDisplayValue
+    const startDisplayValue = parseInt(document.getElementById('moneyCounter')?.textContent.replace('$', '') || '0', 10)
+    const duration = 800
+    const startTime = Date.now()
     
     const animate = () => {
-      currentStep++
-      if(currentStep <= steps){
-        displayValue = Math.round(startDisplayValue + (increment * currentStep))
-        const el = document.getElementById('moneyCounter')
-        if(el) el.textContent = '$' + displayValue
-        K.moneyAnimationTimeout = setTimeout(animate, stepDuration)
+      const elapsed = Date.now() - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      
+      // Usar o valor alvo atual (pode ter mudado se outro card foi arquivado)
+      const currentTarget = K.moneyAnimationTargetValue
+      const displayValue = Math.round(startDisplayValue + ((currentTarget - startDisplayValue) * progress))
+      
+      const el = document.getElementById('moneyCounter')
+      if(el) el.textContent = '$' + displayValue
+      
+      if(progress < 1){
+        K.moneyAnimationTimeout = setTimeout(animate, 16) // ~60fps
       } else {
-        // Garantir valor final exato
-        K.updateMoneyDisplay()
-        K.moneyAnimationActive = false
-        
-        // Salvar estado após animação
-        if(typeof K.saveState === 'function') K.saveState()
-        
-        // Verificar objetivo do capítulo
-        if(typeof K.checkChapterGoal === 'function') K.checkChapterGoal()
+        // Animação terminou - verificar se valor alvo mudou durante a animação
+        if(K.moneyAnimationTargetValue !== currentTarget){
+          // Valor mudou, continuar animando
+          console.log('[addMoney] Valor mudou durante animação, continuando...')
+          animate()
+        } else {
+          // Garantir valor final exato
+          K.updateMoneyDisplay()
+          K.moneyAnimationActive = false
+          K.moneyAnimationTimeout = null
+          console.log('[addMoney] Animação concluída')
+          
+          // Salvar estado após animação
+          if(typeof K.saveState === 'function') K.saveState()
+          
+          // Verificar objetivo do capítulo
+          if(typeof K.checkChapterGoal === 'function') K.checkChapterGoal()
+        }
       }
     }
     
@@ -177,6 +188,18 @@
   K.resetGame = function(){
     if(!confirm('Reiniciar o jogo? Isso apagará o progresso salvo.')) return
     try{ localStorage.removeItem(K.STORAGE_KEY) }catch(e){}
+    
+    // Clear used cards list to allow reusing cards from bank
+    try{
+      const usedCardsKey = K.getUsedCardsKey ? K.getUsedCardsKey() : null
+      if(usedCardsKey){
+        localStorage.removeItem(usedCardsKey)
+        console.log('[resetGame] Lista de cards usados limpa')
+      }
+    }catch(e){
+      console.warn('[resetGame] Erro ao limpar cards usados:', e)
+    }
+    
     // clear assignments and role models so fresh talentos are generated
     K.roleAssignments = {}
     K.roleModels = {}

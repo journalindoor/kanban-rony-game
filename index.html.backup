@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
-		<title>Tutorial - Kanban Rony Game</title>
+		<title>Kanban Rony Game</title>
 		<!-- CSS imports in cascading order -->
 		<link rel="stylesheet" href="css/base.css">
 		<link rel="stylesheet" href="css/layout.css">
@@ -12,20 +12,20 @@
 		<link rel="stylesheet" href="css/board.css">
 		<link rel="stylesheet" href="css/components.css">
 		<link rel="stylesheet" href="css/office-panel.css">
-		<!-- Tutorial-specific CSS -->
-		<link rel="stylesheet" href="css/tutorial.css">
+		<link rel="stylesheet" href="css/modal.css">
 	</head>
 	<body>
 
     <div class="game-layout">
       <div class="container">
-			<h1>Kanban - Rony Game <span class="tutorial-badge">Tutorial</span></h1>
+			<h1>Kanban - Rony Game <span class="mode-badge">Modo Livre</span></h1>
             <!-- Top controls moved here -->
             <div class="top-controls">
 				<button id="startButton" class="start-button">Iniciar Turno</button>
                 <button id="resetButton" class="reset-button">Reiniciar</button>
 				<button id="toggleArchivedButton" class="archived-toggle-button">Arquivados</button>
-				<button id="backToFreeModeButton" class="freemode-button">Voltar ao Modo Livre</button>
+				<button id="goToTutorialButton" class="tutorial-button">Tutorial</button>
+				<button id="startChapter1Button" class="chapter-start-button">Iniciar Capítulo 1</button>
             </div>
 			<!-- Status bar for day counter and future metrics -->
 			<div class="status-bar">
@@ -142,7 +142,7 @@
 								<div class="info-stats">
 									<span class="stat-item">😊 0</span>
 									<span class="stat-item">🎯 0</span>
-									<span class="stat-item">⚡  0</span>
+									<span class="stat-item">⚡ 0</span>
 								</div>
 							</div>
 						</div>
@@ -241,25 +241,26 @@
 			</div><!-- .main-content -->
 		</div><!-- .container -->
 
-		<!-- Tutorial-specific UI elements -->
-		<div id="tutorialOverlay" class="tutorial-overlay hidden">
-			<div class="tutorial-backdrop"></div>
-			<div class="tutorial-message-box">
-				<div class="tutorial-message-header">
-					<span class="tutorial-step-indicator">Passo <span id="tutorialStepNumber">1</span></span>
+		<!-- Welcome Modal -->
+		<div id="welcomeModal" class="modal-overlay" style="display:flex;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2>Bem-vindo ao Kanban Rony Game! 🎮</h2>
 				</div>
-				<div class="tutorial-message-content" id="tutorialMessage">
-					Bem-vindo ao tutorial!
+				<div class="modal-body">
+					<p style="font-size:16px; line-height:1.6; color:#4b5563; margin:0 0 20px 0;">
+						Este é um jogo de simulação Kanban onde você gerencia o fluxo de trabalho de uma equipe de desenvolvimento.
+					</p>
+					<p style="font-size:16px; line-height:1.6; color:#4b5563; margin:0 0 20px 0;">
+						Você gostaria de fazer o <strong>tutorial</strong> para aprender os conceitos básicos?
+					</p>
 				</div>
-				<div class="tutorial-message-actions">
-					<button id="tutorialPrevButton" class="tutorial-button tutorial-button-secondary" disabled>Anterior</button>
-					<button id="tutorialNextButton" class="tutorial-button tutorial-button-primary">Próximo</button>
+				<div class="modal-actions">
+					<button id="skipTutorialBtn" class="modal-button modal-button-secondary">Pular Tutorial</button>
+					<button id="startTutorialBtn" class="modal-button modal-button-primary">Fazer Tutorial</button>
 				</div>
 			</div>
 		</div>
-
-		<!-- Tutorial highlight element -->
-		<div id="tutorialHighlight" class="tutorial-highlight hidden"></div>
 
 		<!-- Game Footer -->
 		<footer class="game-footer">
@@ -275,28 +276,71 @@
 			</div>
 		</footer>
 
-		<!-- Game scripts (common) -->
+		
+
+		<!-- Welcome modal script -->
 		<script>
-			// Back to free mode button handler
+			// Check if user has already seen the welcome modal
+			const hasSeenWelcome = localStorage.getItem('kanban_welcome_seen');
+			
 			window.addEventListener('DOMContentLoaded', function(){
-				const backButton = document.getElementById('backToFreeModeButton');
-				if(backButton){
-					backButton.addEventListener('click', function(){
-						const confirmed = confirm(
-							'Voltar ao Modo Livre?\n\n' +
-							'Você poderá retornar ao tutorial a qualquer momento.\n\n' +
-							'Deseja continuar?'
-						);
-						
-						if(confirmed){
-							window.location.href = 'index.html';
-						}
+				const modal = document.getElementById('welcomeModal');
+				const startTutorialBtn = document.getElementById('startTutorialBtn');
+				const skipTutorialBtn = document.getElementById('skipTutorialBtn');
+				const resetButton = document.getElementById('resetButton');
+				const goToTutorialButton = document.getElementById('goToTutorialButton');
+				
+				// Hide modal if already seen
+				if(hasSeenWelcome){
+					if(modal) modal.style.display = 'none';
+				}
+				
+				// Start tutorial button
+				if(startTutorialBtn){
+					startTutorialBtn.addEventListener('click', function(){
+					const confirmed = confirm(
+						'Iniciar Tutorial?\n\n' +
+						'Você será guiado passo a passo pelas mecânicas do jogo.\n' +
+						'Poderá retornar ao Modo Livre a qualquer momento.\n\n' +
+						'Deseja continuar?'
+					);
+					
+					if(confirmed){
+						localStorage.setItem('kanban_welcome_seen', 'true');
+						window.location.href = 'tutorial.html';
+					}
+				});
+			}
+			
+						localStorage.setItem('kanban_welcome_seen', 'true');
+						if(modal) modal.style.display = 'none';
 					});
 				}
-			});
-		</script>
-		
-		<script src="src/storage.js" defer></script>	<script src="data/tutorial-basic-cards.js"></script>		<script src="src/cardBankManager.js" defer></script>
+				
+				// Reset button - clear welcome flag so modal appears again on refresh
+				if(resetButton){
+					resetButton.addEventListener('click', function(){
+						localStorage.removeItem('kanban_welcome_seen');
+					});
+				}
+				
+				// Go to tutorial button
+				if(goToTutorialButton){
+					goToTutorialButton.addEventListener('click', function(){
+					const confirmed = confirm(
+						'Ir para o Tutorial?\n\n' +
+						'Seu progresso no Modo Livre será salvo automaticamente.\n' +
+						'Você poderá retornar a qualquer momento.\n\n' +
+						'Deseja continuar?'
+					);
+					
+					if(confirmed){
+						window.location.href = 'tutorial.html';
+					}
+				});
+			}
+		});
+		<script src="src/cardBankManager.js" defer></script>
 		<script src="src/officeCharacters.js" defer></script>
 		<script src="src/cards.js" defer></script>
 		<script src="src/dragdrop.js" defer></script>
@@ -308,8 +352,6 @@
 		<script src="src/backlogRules.js" defer></script>
 		<script src="src/progressionRules.js" defer></script>
 		<script src="src/main.js" defer></script>
-		
-		<!-- Tutorial-specific scripts (loaded last to hook into game) -->
-		<script src="src/tutorial.js" defer></script>
 	</body>
 </html>
+
