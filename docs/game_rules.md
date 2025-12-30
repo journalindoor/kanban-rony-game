@@ -45,7 +45,27 @@ Regras:
 - Um card pode ter **apenas um papel associado**
 - Papéis livres ficam na `.roles-area`, que está localizada dentro da barra de status (`.status-bar`) no topo da interface, à direita das métricas
 - Papéis não podem ser associados a cards que estão na coluna "Backlog"
-- **Cards com papéis associados são automaticamente movidos para o final da coluna** (última posição) quando o papel é atribuído
+
+---
+
+## 3.1 Posicionamento Automático de Cards
+
+O jogo reordena automaticamente os cards dentro das colunas baseado em seu status:
+
+### 3.1.1 Card Recebe Papel
+- Quando um papel é associado a um card, o card é **movido para o final da coluna** (última posição)
+- Objetivo: Priorizar visualmente cards sem papel que ainda precisam de atenção
+
+### 3.1.2 Card Completa Requisito
+- Quando um indicador chega a zero e o card está pronto para ser movido para a próxima coluna:
+  - O card é **movido para o topo da coluna** (primeira posição)
+  - Objetivo: Destacar cards prontos para avançar no fluxo
+  - Aplica-se a todas as colunas com indicadores (Refinamento, Fazendo, Homologando, Ajustes)
+
+### 3.1.3 Regra Geral de Ordenação
+- **Topo**: Cards com trabalho concluído (indicador da coluna = 0)
+- **Meio**: Cards sem papel associado
+- **Fim**: Cards com papel em andamento
 
 ---
 

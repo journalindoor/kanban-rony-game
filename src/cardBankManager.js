@@ -26,12 +26,17 @@
       return null
     }
     
+    console.log('[cardBankManager] Procurando por window["' + dataKey + '"]')
+    console.log('[cardBankManager] window.' + dataKey + ' existe?', typeof window[dataKey])
+    
     if(!window[dataKey]){
       console.warn('[cardBankManager] Dados não encontrados:', dataKey)
+      console.log('[cardBankManager] Chaves disponíveis em window:', Object.keys(window).filter(k => k.includes('CARDS')))
       return null
     }
     
     const data = window[dataKey]
+    console.log('[cardBankManager] Dados encontrados:', data)
     console.log('[cardBankManager] Cards carregados de', dataKey, ':', data.cards ? data.cards.length : 0)
     return data.cards || []
   }
@@ -88,9 +93,8 @@
     return { id, title, indicators }
   }
   
-  // Função principal: gera backlog completo
-  K.generateBacklog = function(){
-    const MAX_BACKLOG = 5
+  // Função principal: gera backlog completo ou parcial
+  K.generateBacklog = function(maxCards = 5){
     const MAX_BANK_CARDS = 3
     
     const context = K.detectPageContext()
@@ -106,7 +110,7 @@
       console.log('[cardBankManager] Cards carregados:', cardBank)
       if(cardBank){
         availableCards = K.getAvailableCardsFromBank(cardBank)
-        console.log('[cardBankManager] Cards disponíveis (não arquivados):', availableCards.length, availableCards)
+        console.log('[cardBankManager] Cards disponíveis (não usados):', availableCards.length, availableCards)
       } else {
         console.warn('[cardBankManager] loadCardBank retornou null ou undefined')
       }
@@ -114,16 +118,16 @@
       console.log('[cardBankManager] Nenhum banco de dados definido para este contexto')
     }
     
-    // 2. Adicionar até 3 cards do banco (prioridade)
-    const bankCardsToAdd = Math.min(availableCards.length, MAX_BANK_CARDS)
+    // 2. Adicionar até 3 cards do banco (prioridade), respeitando o limite solicitado
+    const bankCardsToAdd = Math.min(availableCards.length, MAX_BANK_CARDS, maxCards)
     console.log('[cardBankManager] Adicionando', bankCardsToAdd, 'cards do banco ao backlog')
     for(let i = 0; i < bankCardsToAdd; i++){
       console.log('[cardBankManager] Adicionando card do banco:', availableCards[i].title)
       backlog.push(availableCards[i])
     }
     
-    // 3. Completar com cards aleatórios
-    const randomCardsNeeded = MAX_BACKLOG - backlog.length
+    // 3. Completar com cards aleatórios até atingir maxCards
+    const randomCardsNeeded = maxCards - backlog.length
     console.log('[cardBankManager] Adicionando', randomCardsNeeded, 'cards aleatórios')
     for(let i = 0; i < randomCardsNeeded; i++){
       const randomCard = K.generateRandomCard()

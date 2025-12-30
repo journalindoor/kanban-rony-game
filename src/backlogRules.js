@@ -44,11 +44,8 @@
     
     // Nova implementação usando o sistema de banco de cards
     if(typeof K.generateBacklog === 'function'){
-      // Gerar apenas os cards necessários
-      const allCards = K.generateBacklog()
-      
-      // Pegar apenas a quantidade necessária
-      const cardsToAdd = allCards.slice(0, needed)
+      // Gerar apenas os cards necessários (prioritizando banco de dados)
+      const cardsToAdd = K.generateBacklog(needed)
       
       if(typeof K.renderBacklogCards === 'function'){
         K.renderBacklogCards(cardsToAdd)

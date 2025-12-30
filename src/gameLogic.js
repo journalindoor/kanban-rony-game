@@ -71,6 +71,11 @@
     // Update visual state (color) of indicator
     if(typeof K.updateIndicatorState === 'function') K.updateIndicatorState(targetIndicator)
     
+    // Move card to top if indicator reached 0 (ready to advance)
+    if(next === 0 && typeof K.moveCardToTopOfColumn === 'function'){
+      K.moveCardToTopOfColumn(cardEl)
+    }
+    
     // If card is in Homologando, calculate Ajustes based on efficiency
     if(colName === 'Homologando'){
       if(typeof K.calculateAdjustesForHomologando === 'function') K.calculateAdjustesForHomologando(cardEl)

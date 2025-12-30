@@ -268,4 +268,31 @@
       K.updateIndicatorState(ind)
     })
   }
+
+  // Move card to top of its current column (when work is completed)
+  K.moveCardToTopOfColumn = function(cardEl){
+    if(!cardEl) return
+    
+    const cardsContainer = cardEl.parentElement
+    if(!cardsContainer || !cardsContainer.classList.contains('cards')) return
+    
+    // Move to first position
+    const firstCard = cardsContainer.querySelector('.card')
+    if(firstCard && firstCard !== cardEl){
+      cardsContainer.insertBefore(cardEl, firstCard)
+      console.log('[cards] Card movido para o topo da coluna (trabalho concluído)')
+    }
+  }
+
+  // Move card to bottom of its current column (when role is attached)
+  K.moveCardToBottomOfColumn = function(cardEl){
+    if(!cardEl) return
+    
+    const cardsContainer = cardEl.parentElement
+    if(!cardsContainer || !cardsContainer.classList.contains('cards')) return
+    
+    // Move to last position
+    cardsContainer.appendChild(cardEl)
+    console.log('[cards] Card movido para o fim da coluna (papel associado)')
+  }
 })(window.Kanban)
