@@ -282,7 +282,15 @@
 				const backButton = document.getElementById('backToFreeModeButton');
 				if(backButton){
 					backButton.addEventListener('click', function(){
-						window.location.href = 'index.html';
+						const confirmed = confirm(
+							'Voltar ao Modo Livre?\n\n' +
+							'Você poderá retornar ao tutorial a qualquer momento.\n\n' +
+							'Deseja continuar?'
+						);
+						
+						if(confirmed){
+							window.location.href = 'index.html';
+						}
 					});
 				}
 			});
