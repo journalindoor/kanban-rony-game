@@ -325,11 +325,20 @@ O sistema usa faixas (tiers) de complexidade para determinar o valor do card:
 
 ### 13.5 Feedback Visual
 
-- Quando um card é pago, o valor é **imediatamente somado** ao contador de dinheiro
-- Aparece uma animação de incremento visual no contador
-- O sistema usa um contador animado que incrementa gradualmente do valor antigo para o novo
-- A animação ocorre em passos rápidos (20ms por incremento) para dar feedback visual ao jogador
-- Durante a animação, uma flag `moneyAnimationActive` impede que múltiplas animações ocorram simultaneamente
+- Quando um card é pago, o valor é **imediatamente somado** ao total interno de dinheiro (`K.money`)
+- Aparece uma animação suave de incremento visual no contador da UI
+- Sistema de animação:
+  - Duração fixa de 800ms com ~60fps (16ms por frame)
+  - Usa interpolação baseada em tempo para suavidade
+  - Se múltiplos cards forem pagos simultaneamente:
+    - O primeiro inicia a animação normalmente
+    - Os valores seguintes atualizam o **valor alvo** da animação
+    - A animação continua suavemente até o valor final acumulado
+  - Flag `moneyAnimationActive` gerencia o estado da animação
+  - Variável `moneyAnimationTargetValue` armazena o valor alvo (pode mudar durante a animação)
+- Após a animação concluir:
+  - Estado do jogo é salvo
+  - Objetivos do capítulo são verificados (se aplicável)
 
 ---
 
@@ -348,11 +357,17 @@ O sistema usa faixas (tiers) de complexidade para determinar o valor do card:
 ### 15.2 Estrutura dos Cards do Banco
 
 Cada card no banco possui:
-- **id**: Identificador único no formato:
-  - Tutorial: `tut-01`, `tut-02`, etc.
-  - Capítulos: `c1-01`, `c2-01`, etc.
+- **id**: Identificador numérico único seguindo o padrão:
+  - **Cards Aleatórios**: 1, 2, 3, 4... (incrementados sequencialmente)
+  - **Tutorial**: 9001, 9002, 9003... (série 9000)
+  - **Capítulo 1**: 1001, 1002, 1003, 1004, 1005 (série 1000)
+  - **Capítulo 2**: 2001, 2002, 2003... (série 2000)
+  - **Capítulo 3**: 3001, 3002, 3003... (série 3000)
+  - E assim sucessivamente para outros capítulos
 - **title**: Nome descritivo do card
 - **indicators**: Objeto com os valores de Refinamento, Fazendo, Homologando e Ajustes
+
+**Observação**: Todos os IDs são números inteiros para facilitar processamento e evitar problemas de conversão.
 
 ### 15.3 Prioridade de Geração
 
