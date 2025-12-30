@@ -10,6 +10,27 @@ O Kanban Rony Game simula um processo de desenvolvimento ágil onde:
 - Cada papel tem eficiência baseada em Talento Natural e Felicidade
 - O trabalho progride a cada turno, reduzindo os indicadores de dificuldade
 - Cards podem ter ajustes identificados durante homologação
+- Sistema de capítulos com objetivos e progressão
+- Tutorial interativo para novos jogadores
+- Sistema monetário com pagamentos por complexidade
+
+## 🎮 Modos de Jogo
+
+### Modo Livre (index.html)
+- Jogo sandbox sem objetivos específicos
+- Cards gerados aleatoriamente
+- Ideal para praticar e experimentar
+
+### Tutorial (tutorial.html)
+- Sistema guiado passo a passo
+- Cards pré-definidos com dificuldade reduzida
+- Ensina mecânicas básicas do jogo
+
+### Capítulos (chapter1.html, chapter2.html, etc.)
+- Missões com objetivos específicos
+- Cards pré-definidos temáticos
+- Progressão entre capítulos
+- **Capítulo 1**: "Sobreviva à Sprint" - Objetivo: Acumular $500
 
 ## 🎮 Como Jogar
 
@@ -21,27 +42,45 @@ O Kanban Rony Game simula um processo de desenvolvimento ágil onde:
    - Avançar o contador de dias
 
 2. **Associar Papéis**: Arraste um papel da área inferior e solte em um card para associá-lo
+   - Cards com papéis associados vão automaticamente para o **fim da coluna**
 
 3. **Desassociar Papéis**: 
    - Clique no botão "×" ao lado do nome do papel no card
    - Ou aguarde a liberação automática quando o indicador da coluna chegar a zero
 
-4. **Mover Cards**: Arraste cards entre colunas respeitando as regras de movimentação
+4. **Mover Cards**: Use o botão "Próxima Coluna" respeitando as regras de movimentação
+   - Cards com indicador zerado vão automaticamente para o **topo da coluna**
 
-5. **Acompanhar Progresso**: Observe os indicadores de dificuldade sendo reduzidos a cada turno
+5. **Acompanhar Progresso**: 
+   - Observe os indicadores de dificuldade sendo reduzidos a cada turno
+   - Indicador vermelho = coluna atual (em trabalho)
+   - Indicador verde = trabalho concluído (valor zero)
+
+6. **Ganhar Dinheiro**: 
+   - Cards arquivados geram pagamento baseado na complexidade
+   - Animação suave mostra o dinheiro sendo acumulado
 
 ### Controles
 
 - **Iniciar Turno**: Executa um ciclo de trabalho
 - **Reiniciar**: Reseta o jogo para o estado inicial
 - **Arquivados**: Mostra/oculta cards já publicados
+- **Tutorial**: Acessa o tutorial interativo
+- **Iniciar Capítulo 1**: Inicia o primeiro capítulo com objetivos
 
 ## 🏗️ Estrutura do Projeto
 
 ```
 kanbanRonyGame/
 ├── css/
-│   └── styles.css              # Estilos principais do board e componentes
+│   ├── base.css                # Estilos base e reset
+│   ├── layout.css              # Layout geral e grid
+│   ├── board.css               # Estilos do board Kanban
+│   ├── components.css          # Componentes (cards, botões)
+│   ├── status-bar.css          # Barra de status
+│   ├── top-controls.css        # Controles superiores
+│   ├── office-panel.css        # Painel de escritório/personagens
+│   └── modal.css               # Modais e overlays
 ├── src/
 │   ├── storage.js              # Persistência em localStorage
 │   ├── cards.js                # Criação e manipulação de cards
@@ -53,19 +92,71 @@ kanbanRonyGame/
 │   ├── backlogRules.js         # Regras do Backlog
 │   ├── progressionRules.js     # Progressão de indicadores e liberação de papéis
 │   ├── gameLogic.js            # Lógica central do turno
+│   ├── cardBankManager.js      # Gerenciamento de cards pré-definidos
+│   ├── chapterManager.js       # Sistema de capítulos e progressão
+│   ├── officeCharacters.js     # Personagens no painel de escritório
 │   └── main.js                 # Inicialização e UI
-├── index.html                  # Arquivo principal
-├── game_rules.md               # Regras oficiais do jogo
+├── data/
+│   ├── chapter-1-cards.js      # Cards do Capítulo 1 (IDs 1001-1005)
+│   └── tutorial-basic-cards.js # Cards do Tutorial (IDs 9001-9003)
+├── docs/
+│   └── game_rules.md           # Regras oficiais detalhadas
+├── index.html                  # Modo Livre
+├── chapter1.html               # Capítulo 1
+├── tutorial.html               # Tutorial
+├── CARD_BANK.md                # Documentação do sistema de cards
 ├── PERSISTENCIA_FIX.md         # Documentação de correções
 └── README.md                   # Este arquivo
 ```
 
 ## 📖 Documentação
 
-- **[game_rules.md](game_rules.md)**: Regras oficiais e detalhadas do jogo
-- **[PERSISTENCIA_FIX.md](PERSISTENCIA_FIX.md)**: Histórico de correções
+- **[docs/game_rules.md](docs/game_rules.md)**: Regras oficiais e detalhadas do jogo
+- **[PERSISTENCIA_FIX.md](PERSISTENCIA_FIX.md)**: Histórico de correções de persistência
+- **[CARD_BANK.md](CARD_BANK.md)**: Sistema de banco de cards pré-definidos
 
 ## 🎯 Características Principais
+
+### Sistema de Cards Pré-definidos
+
+O jogo agora possui **bancos de cards** organizados por contexto:
+- **IDs Numéricos Padronizados**:
+  - Cards Aleatórios: 1, 2, 3, 4...
+  - Tutorial: 9001, 9002, 9003...
+  - Capítulo 1: 1001-1005
+  - Capítulos Futuros: 2001+, 3001+, etc.
+- **Sistema de Cards Usados**: Cada card só pode ser usado uma vez por sessão
+- **Prioridade**: Até 3 cards do banco aparecem primeiro, o resto é aleatório
+- **Contextual**: Cada modo de jogo tem seu próprio banco
+
+### Sistema Monetário
+
+- Cards completados geram pagamento baseado em **complexidade total**
+- Faixas de pagamento:
+  - 3-12 pontos: $10
+  - 13-24 pontos: $25
+  - 25-36 pontos: $50
+  - 37-54 pontos: $100
+- **Animação suave** ao receber dinheiro (800ms, ~60fps)
+- Pagamentos múltiplos simultâneos são acumulados na animação
+
+### Sistema de Capítulos
+
+- **Capítulo 1**: "Sobreviva à Sprint"
+  - Objetivo: Acumular $500
+  - 5 cards pré-definidos temáticos
+  - Botão de progressão para Capítulo 2 (habilitado ao atingir meta)
+- Transferência de estado entre capítulos:
+  - Dinheiro acumulado
+  - Talentos dos personagens
+  - Dias jogados
+- Cada capítulo sempre inicia do zero (fresh start)
+
+### Tutorial Interativo
+
+- Sistema de passos guiados
+- Cards pré-definidos com menor dificuldade
+- Navegação livre entre tutorial e modo livre
 
 ### Papéis (Roles)
 - **Analista** (Azul): Especialista em refinamento
@@ -76,6 +167,13 @@ Cada papel possui:
 - **Talento Natural**: 1-3 (sorteado no início do jogo)
 - **Felicidade**: 0-3 (ajustável durante o jogo)
 - **Eficiência**: Talento + Felicidade (máximo 6)
+
+### Escritório Virtual
+
+- Grid de videochamada 3x3 com personagens pixel art
+- Estados visuais: Idle (parado) / Working (trabalhando)
+- Sincronização com papéis associados aos cards
+- Exibição de stats: Felicidade, Eficiência, Energia
 
 ### Colunas do Kanban
 
@@ -95,6 +193,17 @@ Cada card possui indicadores para:
 - Fazendo
 - Homologando
 - Ajustes (gerado dinamicamente)
+
+**Estados Visuais**:
+- 🔴 Vermelho: Indicador ativo (coluna atual, em trabalho)
+- 🟢 Verde: Indicador concluído (valor zero)
+- ⚪ Padrão: Indicador pendente
+
+### Posicionamento Automático de Cards
+
+- **Card com papel associado**: Move para o **fim da coluna** automaticamente
+- **Card com indicador zerado**: Move para o **topo da coluna** automaticamente
+- Sistema visual claro de prioridade de trabalho
 
 ### Regras de Movimentação
 
@@ -180,24 +289,63 @@ O jogo salva automaticamente o estado no `localStorage` do navegador:
 - Papéis associados aos cards
 - Dados dos papéis (Talento Natural, Felicidade)
 - Contador de dias
+- Dinheiro acumulado
+- Cards já usados (para não reutilizar cards do banco)
+- Estado de pagamento dos cards (flag `paid`)
+
+**Chaves de Storage por Modo**:
+- Modo Livre: `kanbanState_freemode`
+- Tutorial: `kanbanState_tutorial`
+- Capítulo 1: `kanbanState_chapter1`
+- Cards Usados: `[chave]_usedCards`
 
 Para limpar o estado salvo, clique em **Reiniciar**.
 
 ## 🎨 Tecnologias
 
 - **HTML5**: Estrutura semântica
-- **CSS3**: Grid, Flexbox, transições
+- **CSS3**: Grid, Flexbox, transições, animações
 - **JavaScript Vanilla**: Sem frameworks, apenas ES6+
 - **LocalStorage API**: Persistência de dados
+- **Responsive Design**: Adaptação para mobile (max-width: 800px)
+
+## 🔄 Atualizações Recentes
+
+### Sistema de Cards Pré-definidos
+- Banco de cards organizado por contexto (Tutorial, Capítulos)
+- IDs numéricos padronizados para melhor gestão
+- Sistema de rastreamento de cards usados
+
+### Sistema de Capítulos
+- Capítulo 1 implementado com objetivo de $500
+- Transferência de estado entre capítulos
+- Botões de navegação com confirmações
+
+### Melhorias Visuais
+- Indicadores coloridos (vermelho = ativo, verde = concluído)
+- Animação suave de dinheiro (suporta múltiplos pagamentos)
+- Painel de escritório com personagens animados
+- Layout responsivo para mobile
+
+### Correções de Bugs
+- IDs numéricos resolvem problema de conversão NaN
+- Animação de dinheiro funciona com pagamentos simultâneos
+- Cards do banco agora têm dificuldade reduzida corretamente
+- Reset do jogo limpa lista de cards usados
 
 ## 📝 Roadmap / Futuras Melhorias
 
+- [ ] Capítulos 2-5 com novos objetivos e desafios
+- [ ] Mais cards pré-definidos para cada capítulo
 - [ ] Métricas avançadas (Cycle Time, Lead Time, Throughput)
-- [ ] Sistema de conquistas
+- [ ] Sistema de conquistas e badges
 - [ ] Eventos aleatórios durante o jogo
 - [ ] Mais papéis e especializações
+- [ ] Sistema de níveis e upgrades de personagens
 - [ ] Modo multiplayer/competitivo
-- [ ] Gráficos de desempenho
+- [ ] Gráficos de desempenho e estatísticas
+- [ ] Sons e música de fundo
+- [ ] Animações mais elaboradas para personagens
 
 ## 🤝 Contribuindo
 
