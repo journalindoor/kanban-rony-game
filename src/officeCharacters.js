@@ -16,25 +16,31 @@
   }
 
   // Controle de personagens desbloqueados
-  // Estado inicial: apenas 1 de cada tipo disponível
+  // LIBERAÇÃO COMPLETA: todos os 9 personagens disponíveis desde o início
   K.unlockedCharacters = {
     'analista-1': true,
-    'analista-2': false,
-    'analista-3': false,
+    'analista-2': true,
+    'analista-3': true,
     'programador-1': true,
-    'programador-2': false,
-    'programador-3': false,
+    'programador-2': true,
+    'programador-3': true,
     'qa-1': true,
-    'qa-2': false,
-    'qa-3': false
+    'qa-2': true,
+    'qa-3': true
   }
 
   // Mapeamento role name -> character-id
   // Conecta os papeis da roles-area com os personagens do office-viewport
   K.roleToCharacterMap = {
-    'Analista': 'analista-1',
-    'Programador': 'programador-1',
-    'QA/Tester': 'qa-1'
+    'Analista 1': 'analista-1',
+    'Analista 2': 'analista-2',
+    'Analista 3': 'analista-3',
+    'Programador 1': 'programador-1',
+    'Programador 2': 'programador-2',
+    'Programador 3': 'programador-3',
+    'QA/Tester 1': 'qa-1',
+    'QA/Tester 2': 'qa-2',
+    'QA/Tester 3': 'qa-3'
   }
 
   // Mapeamento extensível: characterId -> { idle, working, ... }

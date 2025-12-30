@@ -111,7 +111,17 @@
 
   // initialize default roles; if force=true, replace existing models
   K.initializeRoles = function(force = false){
-    const defaults = [ ['Analista', randTalento()], ['Programador', randTalento()], ['QA/Tester', randTalento()] ]
+    const defaults = [
+      ['Analista 1', randTalento()],
+      ['Analista 2', randTalento()],
+      ['Analista 3', randTalento()],
+      ['Programador 1', randTalento()],
+      ['Programador 2', randTalento()],
+      ['Programador 3', randTalento()],
+      ['QA/Tester 1', randTalento()],
+      ['QA/Tester 2', randTalento()],
+      ['QA/Tester 3', randTalento()]
+    ]
     defaults.forEach(([name, talento])=>{
       if(!force && K.roleModels[name]) return
       K.roleModels[name] = new Role(name, talento)
