@@ -193,8 +193,6 @@
     }
     K._idCounter = 1
     K.clearZones()
-    const backlogZone = document.querySelector('.cards[data-col="Backlog"]')
-    if(backlogZone) backlogZone.appendChild(K.createCard('Titulo do Card'))
     // reinitialize role models with new talentos and render
     if(typeof K.initializeRoles === 'function') K.initializeRoles(true)
     if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
@@ -286,8 +284,7 @@
       K.renderFromState(saved)
     }
     else {
-      const backlogZone = document.querySelector('.cards[data-col="Backlog"]')
-      if(backlogZone) backlogZone.appendChild(K.createCard('Titulo do Card'))
+      // Não criar card inicial - backlog começa vazio
       if(typeof K.saveState === 'function') K.saveState()
       // Inicializar sprites quando não há save
       if(typeof K.initCharacterSprites === 'function') K.initCharacterSprites()

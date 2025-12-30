@@ -246,6 +246,8 @@
       // Clear chapter 1 saved state to ensure fresh start
       try {
         localStorage.removeItem('kanbanState_chapter1')
+        // Limpar também a lista de cards usados
+        localStorage.removeItem('kanbanState_chapter1_usedCards')
       } catch(e) {}
       
       return

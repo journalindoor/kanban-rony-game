@@ -50,10 +50,9 @@
     roleEl.dataset.attached = 'true'
     roleEl.classList.add('role-attached')
     
-    // Mover card para última posição da coluna
-    const cardsContainer = cardEl.closest('.cards')
-    if(cardsContainer){
-      cardsContainer.appendChild(cardEl)
+    // Mover card para última posição da coluna usando função centralizada
+    if(typeof K.moveCardToBottomOfColumn === 'function'){
+      K.moveCardToBottomOfColumn(cardEl)
     }
     
     if(typeof K.updateCardVisualState === 'function') K.updateCardVisualState(cardEl)

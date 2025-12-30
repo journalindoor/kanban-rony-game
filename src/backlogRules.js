@@ -22,6 +22,7 @@
     return Math.max(0, max - count)
   }
 
+  // DEPRECATED: Usar K.populateBacklog() do cardBankManager.js
   K.createBacklogCards = function(n){
     const zone = getBacklogZone()
     if(!zone || !n || n <= 0) return 0
@@ -34,7 +35,26 @@
     return created
   }
 
+  // DEPRECATED: Usar K.populateBacklog() do cardBankManager.js
   K.fillBacklogToMax = function(max = MAX_BACKLOG){
+    const currentCount = K.getBacklogCount()
+    if(currentCount >= max) return 0
+    
+    const needed = max - currentCount
+    
+    // Nova implementação usando o sistema de banco de cards
+    if(typeof K.generateBacklog === 'function'){
+      // Gerar apenas os cards necessários (prioritizando banco de dados)
+      const cardsToAdd = K.generateBacklog(needed)
+      
+      if(typeof K.renderBacklogCards === 'function'){
+        K.renderBacklogCards(cardsToAdd)
+      }
+      
+      return cardsToAdd.length
+    }
+    
+    // Fallback para lógica antiga se cardBankManager não estiver carregado
     const remaining = K.remainingBacklogCapacity(max)
     if(remaining <= 0) return 0
     return K.createBacklogCards(remaining)

@@ -48,6 +48,27 @@ Regras:
 
 ---
 
+## 3.1 Posicionamento Automático de Cards
+
+O jogo reordena automaticamente os cards dentro das colunas baseado em seu status:
+
+### 3.1.1 Card Recebe Papel
+- Quando um papel é associado a um card, o card é **movido para o final da coluna** (última posição)
+- Objetivo: Priorizar visualmente cards sem papel que ainda precisam de atenção
+
+### 3.1.2 Card Completa Requisito
+- Quando um indicador chega a zero e o card está pronto para ser movido para a próxima coluna:
+  - O card é **movido para o topo da coluna** (primeira posição)
+  - Objetivo: Destacar cards prontos para avançar no fluxo
+  - Aplica-se a todas as colunas com indicadores (Refinamento, Fazendo, Homologando, Ajustes)
+
+### 3.1.3 Regra Geral de Ordenação
+- **Topo**: Cards com trabalho concluído (indicador da coluna = 0)
+- **Meio**: Cards sem papel associado
+- **Fim**: Cards com papel em andamento
+
+---
+
 ## 4. Eficiência dos Papéis
 
 - Cada papel possui:
@@ -153,15 +174,27 @@ A movimentação de cards entre colunas segue regras rígidas baseadas no estado
 
 ### 7.1 Liberação Automática
 
-- Um papel é **automaticamente removido** de um card quando:
-  - **O indicador correspondente à coluna ATUAL do card chegar a zero**
-  - Ou seja, se o card está em "Fazendo", o papel é liberado quando o indicador "Fazendo" chega a 0
-  - Se o card está em "Homologando", o papel é liberado quando o indicador "Homologando" chega a 0
+Um papel é **automaticamente removido** de um card nas seguintes situações:
+
+#### 7.1.1 Conclusão do Trabalho na Coluna Atual
+
+- Quando o **indicador correspondente à coluna ATUAL do card chegar a zero**:
+  - Card em "Fazendo" → papel liberado quando indicador "Fazendo" = 0
+  - Card em "Homologando" → papel liberado quando indicador "Homologando" = 0
+  - Card em "Refinamento" → papel liberado quando indicador "Refinamento" = 0
 - Quando isso acontece:
   - O papel é desassociado do card
   - O papel retorna automaticamente para a `.roles-area`
   - O estado interno do jogo é atualizado
-- **Importante**: A liberação automática só ocorre para a coluna onde o card **está atualmente posicionado**, não para outras colunas cujos indicadores podem ter chegado a zero anteriormente
+- **Importante**: A liberação só ocorre para a coluna onde o card **está atualmente posicionado**, não para outras colunas
+
+#### 7.1.2 Proteção contra Arquivamento
+
+- **Antes de um card ser movido para "Arquivados"**, qualquer papel associado é automaticamente desassociado
+- Objetivo: Evitar que papéis sejam "perdidos" junto com cards arquivados
+- Momento da verificação: Durante o arquivamento automático ao clicar em "Iniciar Turno"
+- Mesmo que o card em "Publicado" ainda tenha um papel associado (cenário improvável), o papel é liberado antes do arquivamento
+- Papéis liberados retornam imediatamente para a `.roles-area` e ficam disponíveis para uso
 
 ### 7.2 Desassociação Manual
 
@@ -191,6 +224,12 @@ A movimentação de cards entre colunas segue regras rígidas baseadas no estado
 - Indicador com valor zero:
   - Fundo verde
   - Classe CSS: `.indicator-done`
+- **Indicador ativo** (baseado na coluna atual do card):
+  - Fundo vermelho claro com borda vermelha
+  - Classe CSS: `.indicator-active`
+  - Aplica-se ao indicador correspondente à coluna onde o card está posicionado
+  - Exemplo: Card em "Fazendo" → indicador "Fazendo" fica vermelho
+  - Prioridade visual: `.indicator-done` (verde) sobrepõe `.indicator-active` quando valor = 0
 
 ### 8.3 Papéis
 - Cada papel exibe:
@@ -286,9 +325,154 @@ O sistema usa faixas (tiers) de complexidade para determinar o valor do card:
 
 ### 13.5 Feedback Visual
 
-- Quando um card é pago, aparece um indicador verde "+$X" ao lado do contador de dinheiro
-- O indicador aparece com animação (pop) e desaparece após 2 segundos
-- O valor é imediatamente somado ao total do jogador
+- Quando um card é pago, o valor é **imediatamente somado** ao contador de dinheiro
+- Aparece uma animação de incremento visual no contador
+- O sistema usa um contador animado que incrementa gradualmente do valor antigo para o novo
+- A animação ocorre em passos rápidos (20ms por incremento) para dar feedback visual ao jogador
+- Durante a animação, uma flag `moneyAnimationActive` impede que múltiplas animações ocorram simultaneamente
+
+---
+
+## 15. Sistema de Banco de Cards
+
+### 15.1 Cards Pré-definidos
+
+- O jogo utiliza **bancos de cards pré-definidos** armazenados em arquivos JavaScript
+- Localização: `/data/`
+- Formato: Objetos JavaScript atribuídos a `window.NOME_DO_BANCO`
+- Bancos disponíveis:
+  - **Tutorial**: `window.TUTORIAL_BASIC_CARDS` (arquivo: `tutorial-basic-cards.js`)
+  - **Capítulo 1**: `window.CHAPTER_1_CARDS` (arquivo: `chapter-1-cards.js`)
+  - Capítulos 2-5: A serem implementados
+
+### 15.2 Estrutura dos Cards do Banco
+
+Cada card no banco possui:
+- **id**: Identificador único no formato:
+  - Tutorial: `tut-01`, `tut-02`, etc.
+  - Capítulos: `c1-01`, `c2-01`, etc.
+- **title**: Nome descritivo do card
+- **indicators**: Objeto com os valores de Refinamento, Fazendo, Homologando e Ajustes
+
+### 15.3 Prioridade de Geração
+
+Quando o backlog precisa ser preenchido:
+1. **Primeiro**: Até 3 cards são selecionados do banco de dados (se disponíveis)
+2. **Depois**: O restante é preenchido com cards aleatórios até completar 5
+
+### 15.4 Sistema de Cards Usados
+
+- Cada card do banco **só pode ser usado uma única vez**
+- Quando um card entra no Backlog, seu ID é registrado no localStorage
+- Chave de armazenamento: `[storageKey]_usedCards`
+  - Exemplo: `kanbanState_chapter1_usedCards`
+- Cards já usados são **permanentemente excluídos** da lista de cards disponíveis
+- Este controle é independente por modo de jogo:
+  - Tutorial tem sua própria lista de usados
+  - Cada capítulo tem sua própria lista de usados
+  - Modo livre não usa banco de cards
+
+### 15.5 Detecção de Contexto
+
+O sistema detecta automaticamente qual banco usar baseado no arquivo HTML:
+- `tutorial.html` → `TUTORIAL_BASIC_CARDS`
+- `chapter1.html` → `CHAPTER_1_CARDS`
+- `chapter2.html` → `CHAPTER_2_CARDS` (quando implementado)
+- `index.html` (modo livre) → Nenhum banco, apenas cards aleatórios
+
+### 15.6 Importação nos HTMLs
+
+- Cada página importa seu banco de dados específico antes do `cardBankManager.js`
+- Ordem de importação:
+  1. `src/storage.js`
+  2. `data/[banco-especifico].js` (ex: `chapter-1-cards.js`)
+  3. `src/cardBankManager.js`
+  4. Demais scripts do jogo
+
+---
+
+## 16. Sistema de Capítulos
+
+### 16.1 Estrutura de Capítulos
+
+O jogo possui 5 capítulos sequenciais:
+- Cada capítulo tem suas próprias metas e desafios
+- Cada capítulo mantém estado separado no localStorage
+- Nomenclatura dos arquivos: `chapter1.html`, `chapter2.html`, etc.
+
+### 16.2 Configuração do Capítulo 1
+
+- **Nome**: "Sobreviva à Sprint"
+- **Meta principal**: Acumular $500
+- **Acesso ao próximo capítulo**: Habilitado ao atingir a meta
+
+### 16.3 Botão de Progressão
+
+- Cada capítulo exibe um botão "Capítulo X" na barra superior
+- Estados do botão:
+  - **Desabilitado** (cinza): Meta não atingida
+  - **Habilitado** (ativo): Meta atingida, pode avançar
+- O botão está sempre visível, mas apenas clicável quando a meta for concluída
+
+### 16.4 Transferência de Estado
+
+Quando o jogador avança para o próximo capítulo:
+- O estado final do capítulo atual é salvo
+- Personagens desbloqueados são transferidos
+- Dinheiro acumulado é transferido
+- Papéis com seus atributos são transferidos
+- Cards em andamento NÃO são transferidos (capítulo começa limpo)
+
+### 16.5 Verificação de Metas
+
+- A verificação da meta ocorre:
+  - Após cada arquivamento de card (quando dinheiro é adicionado)
+  - Ao carregar o jogo (se já tinha atingido anteriormente)
+- Quando a meta é atingida:
+  - Botão do próximo capítulo é habilitado automaticamente
+  - Uma notificação visual indica a conquista
+
+---
+
+## 17. Sistema de Tutorial
+
+### 17.1 Estrutura do Tutorial
+
+- Página dedicada: `tutorial.html`
+- Sistema de overlay que cobre a interface do jogo
+- Guia passo-a-passo interativo
+- Destaque visual de elementos específicos
+
+### 17.2 Componentes do Tutorial
+
+- **Overlay**: Camada semi-transparente que cobre toda a tela
+- **Message Box**: Caixa de mensagem flutuante com instruções
+- **Highlight**: Contorno que destaca elementos específicos da UI
+- **Botões de navegação**: "Próximo", "Anterior", "Pular Tutorial"
+
+### 17.3 Modal de Boas-Vindas
+
+- Aparece automaticamente na primeira visita ao jogo (`index.html`)
+- Pergunta se o jogador deseja fazer o tutorial
+- Controle de exibição via localStorage: `kanban_welcome_seen`
+- Opções:
+  - **Fazer Tutorial**: Redireciona para `tutorial.html`
+  - **Pular**: Fecha o modal e inicia no modo livre
+
+### 17.4 Acesso ao Tutorial
+
+- Botão "Tutorial" disponível na barra superior de todas as páginas
+- Cor roxa (#8b5cf6) para diferenciação visual
+- Permite revisitar o tutorial a qualquer momento
+- Botão de retorno em `tutorial.html` para voltar ao modo livre
+
+### 17.5 Gerenciamento de Ações
+
+Durante o tutorial:
+- Ações do jogo podem ser desabilitadas seletivamente
+- Classe `.tutorial-disabled` aplicada a elementos bloqueados
+- Efeito visual: opacidade reduzida + grayscale
+- `pointer-events: none` impede interação
 
 ---
 
