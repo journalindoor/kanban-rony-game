@@ -170,12 +170,24 @@
   border-color:#3a5a7a;
 }
 
+.video-row[data-role-type="Analista"] .tile-sprite{
+  background:#82A1B1;
+}
+
 .video-row[data-role-type="Programador"] .video-tile{
   border-color:#3a7a5a;
 }
 
+.video-row[data-role-type="Programador"] .tile-sprite{
+  background:#8DB596;
+}
+
 .video-row[data-role-type="QA/Tester"] .video-tile{
   border-color:#7a5a3a;
+}
+
+.video-row[data-role-type="QA/Tester"] .tile-sprite{
+  background:#E3D081;
 }
 
 /* Office Footer */

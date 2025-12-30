@@ -231,6 +231,10 @@
         // increment day counter on each turn start
         K.dayCount = (K.dayCount || 0) + 1
         if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
+        
+        // Update office status message (changes every turn)
+        if(typeof K.updateOfficeStatus === 'function') K.updateOfficeStatus()
+        
         try{
           if(typeof K.runStartTurn === 'function'){
             const results = K.runStartTurn()
