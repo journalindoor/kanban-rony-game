@@ -40,6 +40,13 @@
           zone.appendChild(K.dragged)
           delete K.dragged.dataset.fromCol
           
+          // Atualizar estado do personagem anexado (se houver)
+          const roleEl = K.dragged.querySelector('.role')
+          if(roleEl && typeof K.applyCharacterState === 'function'){
+            const roleName = roleEl.getAttribute('data-role')
+            K.applyCharacterState(roleName)
+          }
+          
           // Atualizar estados dos indicadores para destacar o correto
           if(typeof K.syncIndicatorStates === 'function') K.syncIndicatorStates()
           

@@ -141,6 +141,13 @@
     targetZone.appendChild(cardEl)
     console.log(`Card moved to ${nextCol}`)
     
+    // Atualizar estado do personagem anexado (se houver)
+    const roleEl = cardEl.querySelector('.role')
+    if(roleEl && typeof K.applyCharacterState === 'function'){
+      const roleName = roleEl.getAttribute('data-role')
+      K.applyCharacterState(roleName)
+    }
+    
     // Atualizar estados dos indicadores para destacar o correto
     if(typeof K.syncIndicatorStates === 'function') K.syncIndicatorStates()
     

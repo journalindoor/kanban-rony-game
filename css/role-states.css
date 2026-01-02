@@ -1,0 +1,161 @@
+/* role-states.css - Sistema de visibilidade 100% CSS para felicidade/eficiência */
+
+/* ====================
+   REGRA BASE: Tudo escondido por padrão
+   ==================== */
+.happiness-0,
+.happiness-2,
+.happiness-3,
+.happiness-6,
+.efficiency-0,
+.efficiency-2,
+.efficiency-3,
+.efficiency-6 {
+  display: none;
+}
+
+/* Layout principal dos stats */
+.role-stats {
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+/* Linha 1: Talento + Felicidade (status base) */
+.base-stats-line {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 3px;
+}
+
+/* Linha 2: Eficiência (resultado) */
+.efficiency-line {
+  display: flex;
+  align-items: center;
+}
+
+/* Talento sempre visível */
+.talent-value {
+  display: inline-block;
+  font-weight: bold;
+}
+
+/* Containers para felicidade e eficiência */
+.happiness-container,
+.efficiency-container {
+  display: inline-block;
+}
+
+/* Apenas UMA felicidade deve aparecer por vez */
+.happiness-container .happiness-0,
+.happiness-container .happiness-2,
+.happiness-container .happiness-3,
+.happiness-container .happiness-6 {
+  display: none;
+}
+
+/* Apenas UMA eficiência deve aparecer por vez */
+.efficiency-container .efficiency-0,
+.efficiency-container .efficiency-2,
+.efficiency-container .efficiency-3,
+.efficiency-container .efficiency-6 {
+  display: none;
+}
+
+/* ====================
+   SEM CARD (data-assigned="false")
+   Mostrar estado 0 para qualquer cargo
+   ==================== */
+.role[data-assigned="false"] .happiness-container .happiness-0,
+.role[data-assigned="false"] .efficiency-container .efficiency-0 {
+  display: inline-block;
+}
+
+/* ====================
+   ANALISTA
+   ==================== */
+
+/* Refinamento → estado 6 */
+.role[data-role-type="analista"][data-assigned="true"][data-column="refinamento"] .happiness-container .happiness-6,
+.role[data-role-type="analista"][data-assigned="true"][data-column="refinamento"] .efficiency-container .efficiency-6 {
+  display: inline-block;
+}
+
+/* Qualquer outra coluna → estado 2 */
+.role[data-role-type="analista"][data-assigned="true"][data-column="backlog"] .happiness-container .happiness-2,
+.role[data-role-type="analista"][data-assigned="true"][data-column="backlog"] .efficiency-container .efficiency-2,
+.role[data-role-type="analista"][data-assigned="true"][data-column="sprintbacklog"] .happiness-container .happiness-2,
+.role[data-role-type="analista"][data-assigned="true"][data-column="sprintbacklog"] .efficiency-container .efficiency-2,
+.role[data-role-type="analista"][data-assigned="true"][data-column="fazendo"] .happiness-container .happiness-2,
+.role[data-role-type="analista"][data-assigned="true"][data-column="fazendo"] .efficiency-container .efficiency-2,
+.role[data-role-type="analista"][data-assigned="true"][data-column="ajustes"] .happiness-container .happiness-2,
+.role[data-role-type="analista"][data-assigned="true"][data-column="ajustes"] .efficiency-container .efficiency-2,
+.role[data-role-type="analista"][data-assigned="true"][data-column="homologando"] .happiness-container .happiness-2,
+.role[data-role-type="analista"][data-assigned="true"][data-column="homologando"] .efficiency-container .efficiency-2,
+.role[data-role-type="analista"][data-assigned="true"][data-column="publicado"] .happiness-container .happiness-2,
+.role[data-role-type="analista"][data-assigned="true"][data-column="publicado"] .efficiency-container .efficiency-2,
+.role[data-role-type="analista"][data-assigned="true"][data-column="arquivados"] .happiness-container .happiness-2,
+.role[data-role-type="analista"][data-assigned="true"][data-column="arquivados"] .efficiency-container .efficiency-2 {
+  display: inline-block;
+}
+
+/* ====================
+   PROGRAMADOR
+   ==================== */
+
+/* Fazendo → estado 6 */
+.role[data-role-type="programador"][data-assigned="true"][data-column="fazendo"] .happiness-container .happiness-6,
+.role[data-role-type="programador"][data-assigned="true"][data-column="fazendo"] .efficiency-container .efficiency-6 {
+  display: inline-block;
+}
+
+/* Ajustes → estado 3 (exclusivo) */
+.role[data-role-type="programador"][data-assigned="true"][data-column="ajustes"] .happiness-container .happiness-3,
+.role[data-role-type="programador"][data-assigned="true"][data-column="ajustes"] .efficiency-container .efficiency-3 {
+  display: inline-block;
+}
+
+/* Qualquer outra coluna → estado 2 */
+.role[data-role-type="programador"][data-assigned="true"][data-column="backlog"] .happiness-container .happiness-2,
+.role[data-role-type="programador"][data-assigned="true"][data-column="backlog"] .efficiency-container .efficiency-2,
+.role[data-role-type="programador"][data-assigned="true"][data-column="refinamento"] .happiness-container .happiness-2,
+.role[data-role-type="programador"][data-assigned="true"][data-column="refinamento"] .efficiency-container .efficiency-2,
+.role[data-role-type="programador"][data-assigned="true"][data-column="sprintbacklog"] .happiness-container .happiness-2,
+.role[data-role-type="programador"][data-assigned="true"][data-column="sprintbacklog"] .efficiency-container .efficiency-2,
+.role[data-role-type="programador"][data-assigned="true"][data-column="homologando"] .happiness-container .happiness-2,
+.role[data-role-type="programador"][data-assigned="true"][data-column="homologando"] .efficiency-container .efficiency-2,
+.role[data-role-type="programador"][data-assigned="true"][data-column="publicado"] .happiness-container .happiness-2,
+.role[data-role-type="programador"][data-assigned="true"][data-column="publicado"] .efficiency-container .efficiency-2,
+.role[data-role-type="programador"][data-assigned="true"][data-column="arquivados"] .happiness-container .happiness-2,
+.role[data-role-type="programador"][data-assigned="true"][data-column="arquivados"] .efficiency-container .efficiency-2 {
+  display: inline-block;
+}
+
+/* ====================
+   QA
+   ==================== */
+
+/* Homologando → estado 6 */
+.role[data-role-type="qa"][data-assigned="true"][data-column="homologando"] .happiness-container .happiness-6,
+.role[data-role-type="qa"][data-assigned="true"][data-column="homologando"] .efficiency-container .efficiency-6 {
+  display: inline-block;
+}
+
+/* Qualquer outra coluna → estado 2 */
+.role[data-role-type="qa"][data-assigned="true"][data-column="backlog"] .happiness-container .happiness-2,
+.role[data-role-type="qa"][data-assigned="true"][data-column="backlog"] .efficiency-container .efficiency-2,
+.role[data-role-type="qa"][data-assigned="true"][data-column="refinamento"] .happiness-container .happiness-2,
+.role[data-role-type="qa"][data-assigned="true"][data-column="refinamento"] .efficiency-container .efficiency-2,
+.role[data-role-type="qa"][data-assigned="true"][data-column="sprintbacklog"] .happiness-container .happiness-2,
+.role[data-role-type="qa"][data-assigned="true"][data-column="sprintbacklog"] .efficiency-container .efficiency-2,
+.role[data-role-type="qa"][data-assigned="true"][data-column="fazendo"] .happiness-container .happiness-2,
+.role[data-role-type="qa"][data-assigned="true"][data-column="fazendo"] .efficiency-container .efficiency-2,
+.role[data-role-type="qa"][data-assigned="true"][data-column="ajustes"] .happiness-container .happiness-2,
+.role[data-role-type="qa"][data-assigned="true"][data-column="ajustes"] .efficiency-container .efficiency-2,
+.role[data-role-type="qa"][data-assigned="true"][data-column="publicado"] .happiness-container .happiness-2,
+.role[data-role-type="qa"][data-assigned="true"][data-column="publicado"] .efficiency-container .efficiency-2,
+.role[data-role-type="qa"][data-assigned="true"][data-column="arquivados"] .happiness-container .happiness-2,
+.role[data-role-type="qa"][data-assigned="true"][data-column="arquivados"] .efficiency-container .efficiency-2 {
+  display: inline-block;
+}
+

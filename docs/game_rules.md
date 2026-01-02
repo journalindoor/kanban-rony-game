@@ -73,7 +73,7 @@ O jogo reordena automaticamente os cards dentro das colunas baseado em seu statu
 
 - Cada papel possui:
   - **Talento Natural**: Sorteado uma única vez (1 a 3) no carregamento do jogo e não muda até reiniciar
-  - **Felicidade**: Valor variável de 0 até o máximo permitido (atualmente 0, mas pode ser implementado no futuro)
+  - **Felicidade**: Valor variável baseado na coluna onde o card está posicionado
   - **Eficiência Máxima**: 6 (limite superior independente do talento e felicidade)
 - A **eficiência atual** é calculada como:
   - `eficiência = min(6, talentoNatural + felicidade)`
@@ -81,6 +81,42 @@ O jogo reordena automaticamente os cards dentro das colunas baseado em seu statu
   - Um valor aleatório entre `1` e `eficiência máxima` é sorteado
   - Esse valor é subtraído da dificuldade do indicador correspondente à coluna onde o card está posicionado
   - Apenas o indicador da coluna atual é afetado (não se reduz dificuldade de outras colunas)
+
+### 4.1 Sistema de Felicidade Contextual
+
+A felicidade dos papéis varia automaticamente baseado na coluna onde o card está posicionado:
+
+#### Analista
+- **Refinamento**: Felicidade 6 (😊 Feliz) → Eficiência = Talento + 6
+- **Outras colunas**: Felicidade 2 (🙂 Contente) → Eficiência = Talento + 2
+
+#### Programador
+- **Fazendo**: Felicidade 6 (😊 Feliz) → Eficiência = Talento + 6
+- **Ajustes**: Felicidade 3 (😌 Satisfeito) → Eficiência = Talento + 3
+- **Outras colunas**: Felicidade 2 (🙂 Contente) → Eficiência = Talento + 2
+
+#### QA/Tester
+- **Homologando**: Felicidade 6 (😊 Feliz) → Eficiência = Talento + 6
+- **Outras colunas**: Felicidade 2 (🙂 Contente) → Eficiência = Talento + 2
+
+### 4.2 Estados Pré-calculados
+
+- Cada papel possui **estados pré-calculados** criados no momento da inicialização:
+  - `felicidadeState0 = 0` / `eficienciaState0 = talento + 0`
+  - `felicidadeState2 = 2` / `eficienciaState2 = talento + 2`
+  - `felicidadeState3 = 3` / `eficienciaState3 = talento + 3` (só Programador)
+  - `felicidadeState6 = 6` / `eficienciaState6 = talento + 6`
+
+- Esses valores são **imutáveis** após criação (exceto se o talento for alterado via `fromJSON`)
+- A interface exibe o estado correspondente à situação atual do papel
+- **Sistema 100% CSS**: A visibilidade dos estados é controlada exclusivamente via CSS usando `data-*` attributes
+
+### 4.3 Implementação Técnica
+
+- **Controle de Visibilidade**: Atributos `data-role-type`, `data-assigned`, `data-column`
+- **Estados DOM**: Todos os estados (0, 2, 3, 6) são renderizados no HTML
+- **CSS**: Regras específicas mostram apenas o estado ativo baseado nos atributos
+- **JavaScript**: Apenas define contexto via atributos, não calcula visibilidade
 
 ---
 
