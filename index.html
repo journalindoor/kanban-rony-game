@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
-		<title>Kanban Rony Game</title>
+		<title>RonyOffice</title>
 		<!-- CSS imports in cascading order -->
 		<link rel="stylesheet" href="css/base.css">
 		<link rel="stylesheet" href="css/layout.css">
@@ -18,7 +18,7 @@
 
     <div class="game-layout">
       <div class="container">
-			<h1>Kanban - Rony Game <span class="mode-badge">Modo Livre</span></h1>
+			<h1>RonyOffice <span class="mode-badge">Modo Livre</span></h1>
 			<!-- Status bar for day counter and future metrics -->
 			<div class="status-bar">
 				<div class="status-left">
@@ -132,12 +132,12 @@
 				<div class="top-controls">
 					<button id="startButton" class="start-button">Iniciar Turno</button>
 					<button id="resetButton" class="reset-button">Reiniciar</button>
-					<button id="goToTutorialButton" class="tutorial-button">Tutorial</button>
-					<button id="startChapter1Button" class="chapter-start-button">Capítulo 1</button>
-				</div>
-				
-				<div class="office-viewport">
-				<!-- Grid de Videochamada 3x3 -->
+				<button id="manualButton" class="manual-button" onclick="window.open('manual.html', '_blank')">📖 Manual</button>
+				<button id="goToTutorialButton" class="tutorial-button">Tutorial</button>
+				<button id="startChapter1Button" class="chapter-start-button">Capítulo 1</button>
+			</div>
+			
+			<div class="office-viewport">
 				<div class="video-grid">
 					<!-- Fileira 1: Analistas -->
 					<div class="video-row" data-role-type="Analista">
@@ -215,22 +215,22 @@
 					</div>
 				</div>
 			</div>
-				
-				<!-- Office Footer (extensible for future features) -->
-				<div class="office-footer">
-					<div class="office-status">
-						<span class="status-text">Time em repouso</span>
-					</div>
+			
+			<!-- Office Footer (extensible for future features) -->
+			<div class="office-footer">
+				<div class="office-status">
+					<span class="status-text">Time em repouso</span>
 				</div>
 			</div>
-			</div><!-- .main-content -->
+		</div><!-- .office-panel -->
+		</div><!-- .main-content -->
 		</div><!-- .container -->
 
 		<!-- Welcome Modal -->
 		<div id="welcomeModal" class="modal-overlay" style="display:flex;">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h2>Bem-vindo ao Kanban Rony Game! 🎮</h2>
+					<h2>Bem-vindo ao RonyOffice! 🎮</h2>
 				</div>
 				<div class="modal-body" style="display:flex; gap:20px; align-items:center;">
 					<div class="modal-character" style="flex:0 0 30%; display:flex; justify-content:center; align-items:center;">
@@ -259,6 +259,8 @@
 					<span class="footer-version">Versão 1.0.0</span>
 					<span class="footer-separator">|</span>
 					<span class="footer-author">Criado por Rony</span>
+					<span class="footer-separator">|</span>
+					<a href="https://www.linkedin.com/in/ronaldojr/" target="_blank" class="footer-linkedin" rel="noopener noreferrer">LinkedIn</a>
 				</div>
 				<div class="footer-date">
 					<span>© 2025</span>

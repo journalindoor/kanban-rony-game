@@ -23,7 +23,7 @@
 
     // Passo 1.1 — Boas-vindas
     {
-      title: '🎮 Bem-vindo ao Kanban Rony Game!',
+      title: '🎮 Bem-vindo ao RonyOffice!',
       message: `
         <p>Se você é ansioso, ótimo.<br>
         Aqui a ansiedade aparece rápido quando o sistema responde às suas decisões.</p>
@@ -96,8 +96,7 @@
         <p>Cada turno representa 1 dia de trabalho.</p>
         <p>Enquanto ele não for clicado, nada acontece.<br>
         O jogo espera você se preparar.</p>
-        <p>Mover cards, associar papéis e pensar nas decisões<br>
-        vem antes de iniciar o turno.</p>
+        <p>Mover cards, associar papéis e pensar nas decisões vem antes de iniciar o turno.</p>
         <p>Quando você clica em Iniciar Turno, o dia passa, o trabalho acontece<br>
         <strong>e as consequências aparecem.</strong></p>
       `,

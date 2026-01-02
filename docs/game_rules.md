@@ -1,4 +1,4 @@
-# Kanban – Rony Game
+# RonyOffice
 ## Manual de Regras do Jogo
 
 Este documento define as regras oficiais do jogo.

@@ -1,10 +1,10 @@
-# Kanban Rony Game
+# RonyOffice
 
 Um jogo de simulação Kanban onde você gerencia cards através de um fluxo de trabalho, associa papéis (Analista, Programador, QA/Tester) aos cards e acompanha o progresso do desenvolvimento.
 
 ## 📋 Visão Geral
 
-O Kanban Rony Game simula um processo de desenvolvimento ágil onde:
+O RonyOffice simula um processo de desenvolvimento ágil onde:
 - Cards representam tarefas que fluem através de diferentes colunas
 - Papéis (roles) podem ser associados aos cards para realizar trabalho
 - Cada papel tem eficiência baseada em Talento Natural e Felicidade
