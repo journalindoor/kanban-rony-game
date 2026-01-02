@@ -60,11 +60,6 @@
       }, 100);
     }
     
-    // Mover card para última posição da coluna usando função centralizada
-    if(typeof K.moveCardToBottomOfColumn === 'function'){
-      K.moveCardToBottomOfColumn(cardEl)
-    }
-    
     if(typeof K.updateCardVisualState === 'function') K.updateCardVisualState(cardEl)
     // maintain runtime mapping of assignments
     K.roleAssignments = K.roleAssignments || {}

@@ -52,20 +52,16 @@ Regras:
 
 O jogo reordena automaticamente os cards dentro das colunas baseado em seu status:
 
-### 3.1.1 Card Recebe Papel
-- Quando um papel é associado a um card, o card é **movido para o final da coluna** (última posição)
-- Objetivo: Priorizar visualmente cards sem papel que ainda precisam de atenção
-
-### 3.1.2 Card Completa Requisito
+### 3.1.1 Card Completa Requisito
 - Quando um indicador chega a zero e o card está pronto para ser movido para a próxima coluna:
   - O card é **movido para o topo da coluna** (primeira posição)
   - Objetivo: Destacar cards prontos para avançar no fluxo
   - Aplica-se a todas as colunas com indicadores (Refinamento, Fazendo, Homologando, Ajustes)
 
-### 3.1.3 Regra Geral de Ordenação
+### 3.1.2 Regra Geral de Ordenação
 - **Topo**: Cards com trabalho concluído (indicador da coluna = 0)
-- **Meio**: Cards sem papel associado
-- **Fim**: Cards com papel em andamento
+- **Restante**: Cards na ordem em que foram adicionados/movidos para a coluna
+- **Nota**: Cards não são mais reordenados automaticamente ao associar um papel
 
 ---
 
@@ -550,7 +546,18 @@ Durante o tutorial:
 
 ## 14. Sistema de Escritório (Office Panel)
 
-### 14.1 Grid de Videochamada
+### 14.1 Posicionamento e Layout
+
+- O painel de escritório (`.office-panel`) está posicionado à **esquerda** da interface
+- O board Kanban (`.board`) está posicionado à **direita**
+- Layout horizontal controlado via CSS flexbox `order`
+- Dentro do `.office-panel`:
+  1. `.office-header` - Título "RonyOffice"
+  2. `.top-controls` - Botões de controle do jogo (Iniciar Turno, Reiniciar, etc.)
+  3. `.office-viewport` - Grid de videochamada
+  4. `.office-footer` - Status do time
+
+### 14.2 Grid de Videochamada
 
 - O painel de escritório exibe um grid 3×3 com 9 áreas de videochamada
 - Organização por tipo de papel:
@@ -558,7 +565,7 @@ Durante o tutorial:
   - Linha 2: 3 Programadores (programador-1, programador-2, programador-3)
   - Linha 3: 3 QAs (qa-1, qa-2, qa-3)
 
-### 14.2 Composição Visual dos Personagens
+### 14.3 Composição Visual dos Personagens
 
 Cada área de videochamada usa um sistema de camadas (layers):
 
@@ -570,7 +577,7 @@ Cada área de videochamada usa um sistema de camadas (layers):
    - Sempre visível acima do personagem
    - Sprite: `computador1.png`
 
-### 14.3 Sistema de Status
+### 14.4 Sistema de Status
 
 - Cada personagem possui um status atual: `idle` ou `working`
 - Status inicial: `idle`
@@ -578,7 +585,7 @@ Cada área de videochamada usa um sistema de camadas (layers):
   - `idle` → `working`: Quando um papel é associado a um card
   - `working` → `idle`: Quando o papel é desassociado do card
 
-### 14.4 Mapeamento Role → Character
+### 14.5 Mapeamento Role → Character
 
 - Cada papel da `.roles-area` está mapeado para um personagem específico:
   - "Analista 1" → `analista-1`
@@ -593,7 +600,7 @@ Cada área de videochamada usa um sistema de camadas (layers):
 - Quando um papel é arrastado para um card, o personagem correspondente muda para status `working`
 - Quando o papel é removido (manual ou automaticamente), o personagem volta para `idle`
 
-### 14.4.1 Exibição de Cargos no Painel de Videochamada
+### 14.5.1 Exibição de Cargos no Painel de Videochamada
 
 - Cada tile de vídeo (`.video-tile`) exibe:
   - Nome do personagem em `.info-name` (ex: "Rony")
@@ -605,7 +612,7 @@ Cada área de videochamada usa um sistema de camadas (layers):
   - `data-character-id="qa-3"` → `.info-role` contém "QA/Tester 3"
 - **Nota**: Antiga área `.info-stats` foi removida (obsoleta)
 
-### 14.5 Sistema de Desbloqueio
+### 14.6 Sistema de Desbloqueio
 
 - Estado inicial do jogo:
   - 3 personagens desbloqueados: `analista-1`, `programador-1`, `qa-1`
@@ -618,7 +625,7 @@ Cada área de videochamada usa um sistema de camadas (layers):
   - Não respondem a mudanças de status
 - Os 9 slots estão sempre visíveis no grid (layout fixo)
 
-### 14.6 Sprites e Assets
+### 14.7 Sprites e Assets
 
 - Todos os sprites são renderizados com `image-rendering: pixelated` para manter estilo pixel art
 - Assets organizados na pasta `/assets`
@@ -626,5 +633,17 @@ Cada área de videochamada usa um sistema de camadas (layers):
   - Personagens: `[tipo][numero]-[status].gif` (ex: `programador1-idle.gif`)
   - Computador: `computador1.png`
   - Offline: `offline.png`
+
+### 14.8 Coluna Arquivados
+
+- A coluna Arquivados possui comportamento especial:
+  - Por padrão, inicia **colapsada** (classe `.archived-hidden`)
+  - Quando colapsada: largura reduzida para 40px, título vertical (de baixo para cima)
+  - Quando expandida: largura normal, exibe cards
+- **Interação**: Clique no título da coluna para expandir/colapsar
+  - É a **única coluna** com este comportamento
+  - Cursor pointer indica que é clicável
+  - Transição suave de 0.3s
+- **Nota**: Botão "Arquivados" foi removido dos controles (funcionalidade integrada à coluna)
 
 ---

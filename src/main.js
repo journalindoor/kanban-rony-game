@@ -364,13 +364,15 @@
       })
     }
 
-    // Toggle archived column visibility
-    const toggleArchivedBtn = document.getElementById('toggleArchivedButton')
-    if(toggleArchivedBtn){
-      toggleArchivedBtn.addEventListener('click', ()=>{
-        const archivedCol = document.querySelector('.column[data-col="Arquivados"]')
-        if(archivedCol) archivedCol.classList.toggle('archived-hidden')
-      })
+    // Toggle archived column by clicking its header
+    const archivedCol = document.querySelector('.column[data-col="Arquivados"]')
+    if(archivedCol){
+      const archivedHeader = archivedCol.querySelector('.column-header')
+      if(archivedHeader){
+        archivedHeader.addEventListener('click', ()=>{
+          archivedCol.classList.toggle('archived-hidden')
+        })
+      }
     }
   })
 

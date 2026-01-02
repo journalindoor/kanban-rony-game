@@ -48,6 +48,15 @@
   overflow:hidden;
 }
 
+/* Order: office-panel à esquerda, board à direita */
+.main-content .office-panel{
+  order:1;
+}
+
+.main-content .board{
+  order:2;
+}
+
 /* Responsive: vertical layout for mobile */
 @media (max-width:768px){
   .main-content{

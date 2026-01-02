@@ -351,16 +351,6 @@ h1{margin:0 0 12px 0;font-size:20px}
   min-width:0;
 }
 
-/* Archived column toggle + visibility */
-.archived-toggle-button{
-  background:#6b7280;
-  color:#fff;
-  border:none;
-  padding:8px 10px;
-  border-radius:6px;
-  cursor:pointer;
-}
-.archived-column.archived-hidden{display:none}
 /* ============================================
    OFFICE PANEL - Pixel Art Workspace
    ============================================ */
