@@ -91,6 +91,30 @@
     if(typeof K.saveState === 'function') K.saveState()
   }
 
+  // WIP (Work In Progress) Counter System
+  K.updateWipCounters = function(){
+    // Query all WIP counter elements
+    const counters = document.querySelectorAll('.wip-counter[data-counter-col]')
+    
+    counters.forEach(counter => {
+      const columnName = counter.getAttribute('data-counter-col')
+      if(!columnName) return
+      
+      // Find the corresponding cards container
+      const cardsContainer = document.querySelector(`.cards[data-col="${columnName}"]`)
+      if(!cardsContainer) return
+      
+      // Count cards in this column
+      const cardCount = cardsContainer.querySelectorAll('.card').length
+      
+      // Backlog has limit of 5, others are unlimited (∞)
+      const limit = (columnName === 'Backlog') ? '5' : '∞'
+      
+      // Update counter display
+      counter.textContent = `${cardCount}/${limit}`
+    })
+  }
+
   // Move all cards from Publicado to Arquivados
   K.archivePublishedCards = function(){
     const publishedZone = document.querySelector('.cards[data-col="Publicado"]')
@@ -108,6 +132,10 @@
       }
       archivedZone.appendChild(card)
     })
+    
+    // Update WIP counters after archiving
+    if(typeof K.updateWipCounters === 'function') K.updateWipCounters()
+    
     return toMove.length
   }
 
@@ -183,6 +211,9 @@
         if(typeof K.syncIndicatorStates === 'function') K.syncIndicatorStates()
         if(typeof K.syncAllNextColumnButtons === 'function') K.syncAllNextColumnButtons()
     }
+    
+    // Update WIP counters after state restoration
+    if(typeof K.updateWipCounters === 'function') K.updateWipCounters()
   }
 
   K.resetGame = function(){
@@ -220,6 +251,7 @@
     if(typeof K.initializeRoles === 'function') K.initializeRoles(true)
     if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
     if(typeof K.updateMoneyDisplay === 'function') K.updateMoneyDisplay()
+    if(typeof K.updateWipCounters === 'function') K.updateWipCounters()
     if(typeof K.saveState === 'function') K.saveState()
   }
 
@@ -319,6 +351,7 @@
 
     if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
     if(typeof K.updateMoneyDisplay === 'function') K.updateMoneyDisplay()
+    if(typeof K.updateWipCounters === 'function') K.updateWipCounters()
 
     // wire drop zones
     if(typeof K.setupDropZones === 'function') K.setupDropZones()

@@ -144,6 +144,9 @@
     // Atualizar estados dos indicadores para destacar o correto
     if(typeof K.syncIndicatorStates === 'function') K.syncIndicatorStates()
     
+    // Update WIP counters after card movement
+    if(typeof K.updateWipCounters === 'function') K.updateWipCounters()
+    
     // If moved to Publicado, detach any role AFTER moving
     if(nextCol === 'Publicado'){
       setTimeout(() => {

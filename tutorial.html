@@ -42,13 +42,13 @@
 					</div>
 					<!-- Roles area -->
 					<div class="roles-area" id="rolesArea">
-						<div class="role" data-role="Analista 1" id="role-analista-1">Azul<br>Analista 1</div>
+						<div class="role" data-role="Analista 1" id="role-analista-1">Azul<br>Rony</div>
 						<div class="role" data-role="Analista 2" id="role-analista-2">Azul<br>Analista 2</div>
 						<div class="role" data-role="Analista 3" id="role-analista-3">Azul<br>Analista 3</div>
-						<div class="role" data-role="Programador 1" id="role-programador-1">Verde<br>Programador 1</div>
+						<div class="role" data-role="Programador 1" id="role-programador-1">Verde<br>Rony</div>
 						<div class="role" data-role="Programador 2" id="role-programador-2">Verde<br>Programador 2</div>
 						<div class="role" data-role="Programador 3" id="role-programador-3">Verde<br>Programador 3</div>
-						<div class="role" data-role="QA/Tester 1" id="role-qa-1">Amarelo<br>QA/Tester 1</div>
+						<div class="role" data-role="QA/Tester 1" id="role-qa-1">Amarelo<br>Rony</div>
 						<div class="role" data-role="QA/Tester 2" id="role-qa-2">Amarelo<br>QA/Tester 2</div>
 						<div class="role" data-role="QA/Tester 3" id="role-qa-3">Amarelo<br>QA/Tester 3</div>
 					</div>
@@ -65,45 +65,69 @@
 				<!-- Kanban Board -->
 				<div class="board" id="board">
 				<div class="column" data-col="Backlog">
-					<div class="column-header">Backlog</div>
-					<div class="cards" data-col="Backlog"></div>
+				<div class="column-header">
+					Backlog
+					<span class="wip-counter" data-counter-col="Backlog">0/5</span>
 				</div>
+				<div class="cards" data-col="Backlog"></div>
+			</div>
 
-				<div class="column" data-col="Refinamento">
-					<div class="column-header">Refinamento</div>
-					<div class="cards" data-col="Refinamento"></div>
+			<div class="column" data-col="Refinamento">
+				<div class="column-header">
+					Refinamento
+					<span class="wip-counter" data-counter-col="Refinamento">0/∞</span>
 				</div>
+				<div class="cards" data-col="Refinamento"></div>
+			</div>
 
-				<div class="column" data-col="SprintBacklog">
-					<div class="column-header">SprintBacklog</div>
-					<div class="cards" data-col="SprintBacklog"></div>
+			<div class="column" data-col="SprintBacklog">
+				<div class="column-header">
+					SprintBacklog
+					<span class="wip-counter" data-counter-col="SprintBacklog">0/∞</span>
 				</div>
+				<div class="cards" data-col="SprintBacklog"></div>
+			</div>
 
-				<div class="column" data-col="Fazendo">
-					<div class="column-header">Fazendo</div>
-					<div class="cards" data-col="Fazendo"></div>
+			<div class="column" data-col="Fazendo">
+				<div class="column-header">
+					Fazendo
+					<span class="wip-counter" data-counter-col="Fazendo">0/∞</span>
 				</div>
+				<div class="cards" data-col="Fazendo"></div>
+			</div>
 
-				<div class="column" data-col="Homologando">
-					<div class="column-header">Homologando</div>
-					<div class="cards" data-col="Homologando"></div>
+			<div class="column" data-col="Homologando">
+				<div class="column-header">
+					Homologando
+					<span class="wip-counter" data-counter-col="Homologando">0/∞</span>
 				</div>
+				<div class="cards" data-col="Homologando"></div>
+			</div>
 
-				<div class="column" data-col="Ajustes">
-					<div class="column-header">Ajustes</div>
-					<div class="cards" data-col="Ajustes"></div>
+			<div class="column" data-col="Ajustes">
+				<div class="column-header">
+					Ajustes
+					<span class="wip-counter" data-counter-col="Ajustes">0/∞</span>
 				</div>
+				<div class="cards" data-col="Ajustes"></div>
+			</div>
 
-				<div class="column" data-col="Publicado">
-					<div class="column-header">Publicado</div>
-					<div class="cards" data-col="Publicado"></div>
+			<div class="column" data-col="Publicado">
+				<div class="column-header">
+					Publicado
+					<span class="wip-counter" data-counter-col="Publicado">0/∞</span>
 				</div>
+				<div class="cards" data-col="Publicado"></div>
+			</div>
 
-				<!-- Arquivados column (hidden by default) -->
-				<div class="column archived-column archived-hidden" data-col="Arquivados">
-					<div class="column-header">Arquivados</div>
-					<div class="cards" data-col="Arquivados"></div>
+			<!-- Arquivados column (hidden by default) -->
+			<div class="column archived-column archived-hidden" data-col="Arquivados">
+				<div class="column-header">
+					Arquivados
+					<span class="wip-counter" data-counter-col="Arquivados">0/∞</span>
 				</div>
+				<div class="cards" data-col="Arquivados"></div>
+			</div>
 			</div>
 			
 			<!-- Office Panel - Pixel Art Workspace -->
@@ -119,7 +143,7 @@
 						<div class="video-tile" data-character-id="analista-1">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">Analista 1</div>
+							<div class="info-name">Rony</div>
 								<div class="info-role">Analista</div>
 								<div class="info-stats">
 									<span class="stat-item">😊 0</span>
@@ -131,7 +155,7 @@
 						<div class="video-tile" data-character-id="analista-2">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">Analista 2</div>
+							<div class="info-name">Rony</div>
 								<div class="info-role">Analista</div>
 								<div class="info-stats">
 									<span class="stat-item">😊 0</span>
@@ -143,7 +167,7 @@
 						<div class="video-tile" data-character-id="analista-3">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">Analista 3</div>
+							<div class="info-name">Rony</div>
 								<div class="info-role">Analista</div>
 								<div class="info-stats">
 									<span class="stat-item">😊 0</span>
@@ -159,7 +183,7 @@
 						<div class="video-tile" data-character-id="programador-1">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">Programador 1</div>
+							<div class="info-name">Rony</div>
 								<div class="info-role">Programador</div>
 								<div class="info-stats">
 									<span class="stat-item">😊 0</span>
@@ -171,7 +195,7 @@
 						<div class="video-tile" data-character-id="programador-2">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">Programador 2</div>
+							<div class="info-name">Rony</div>
 								<div class="info-role">Programador</div>
 								<div class="info-stats">
 									<span class="stat-item">😊 0</span>
@@ -183,7 +207,7 @@
 						<div class="video-tile" data-character-id="programador-3">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">Programador 3</div>
+							<div class="info-name">Rony</div>
 								<div class="info-role">Programador</div>
 								<div class="info-stats">
 									<span class="stat-item">😊 0</span>
@@ -199,7 +223,7 @@
 						<div class="video-tile" data-character-id="qa-1">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">QA 1</div>
+							<div class="info-name">Rony</div>
 								<div class="info-role">QA/Tester</div>
 								<div class="info-stats">
 									<span class="stat-item">😊 0</span>
@@ -211,7 +235,7 @@
 						<div class="video-tile" data-character-id="qa-2">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">QA 2</div>
+							<div class="info-name">Rony</div>
 								<div class="info-role">QA/Tester</div>
 								<div class="info-stats">
 									<span class="stat-item">😊 0</span>
@@ -223,7 +247,7 @@
 						<div class="video-tile" data-character-id="qa-3">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">QA 3</div>
+							<div class="info-name">Rony</div>
 								<div class="info-role">QA/Tester</div>
 								<div class="info-stats">
 									<span class="stat-item">😊 0</span>

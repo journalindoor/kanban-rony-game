@@ -43,6 +43,9 @@
           // Atualizar estados dos indicadores para destacar o correto
           if(typeof K.syncIndicatorStates === 'function') K.syncIndicatorStates()
           
+          // Update WIP counters after card movement
+          if(typeof K.updateWipCounters === 'function') K.updateWipCounters()
+          
           // If dropped in Publicado, detach any role AFTER moving
           if(zoneCol === 'Publicado'){
             setTimeout(() => {
