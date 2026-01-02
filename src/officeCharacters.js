@@ -177,34 +177,33 @@
   }
 
   // Atualiza os stats do personagem no office-viewport baseado no roleModel
-  K.updateCharacterStats = function(roleName) {
-    const characterId = K.roleToCharacterMap[roleName]
-    if (!characterId) return
+  // Funções removidas: updateCharacterStats e syncAllCharacterStats
+  // O painel de office não exibe mais stats individuais dos personagens
+  // Os stats são exibidos apenas nos elementos .role nas áreas de trabalho
 
-    const tile = document.querySelector(`[data-character-id="${characterId}"]`)
-    if (!tile) return
-
-    const roleModel = K.roleModels && K.roleModels[roleName]
-    if (!roleModel) return
-
-    // Atualizar os 3 stats: felicidade, talento, eficiência
-    const statsContainer = tile.querySelector('.info-stats')
-    if (!statsContainer) return
-
-    const statItems = statsContainer.querySelectorAll('.stat-item')
-    if (statItems.length >= 3) {
-      statItems[0].textContent = `😊 ${roleModel.felicidade}`
-      statItems[1].textContent = `🎯 ${roleModel.talentoNatural}`
-      statItems[2].textContent = `⚡ ${roleModel.eficiencia}`
-    }
-  }
-
-  // Sincroniza todos os stats dos personagens desbloqueados
-  K.syncAllCharacterStats = function() {
+  // ==========================================
+  // SINCRONIZAÇÃO DE NOMES
+  // ==========================================
+  // [DESATIVADA] Sincroniza nomes dos personagens da status-bar para a videochamada
+  // Nomes agora hardcoded no HTML para economizar processamento
+  // Mantida comentada para uso futuro se necessário
+  
+  /*
+  K.syncCharacterNames = function() {
     Object.keys(K.roleToCharacterMap).forEach(roleName => {
-      K.updateCharacterStats(roleName)
+      const characterId = K.roleToCharacterMap[roleName]
+      const roleEl = document.querySelector(`[data-role="${roleName}"]`)
+      if (!roleEl) return
+      const roleNameEl = roleEl.querySelector('.role-name')
+      if (!roleNameEl) return
+      const tileEl = document.querySelector(`[data-character-id="${characterId}"]`)
+      if (!tileEl) return
+      const infoRoleEl = tileEl.querySelector('.info-role')
+      if (!infoRoleEl) return
+      infoRoleEl.textContent = roleNameEl.textContent
     })
   }
+  */
 
 })(window.Kanban)
 

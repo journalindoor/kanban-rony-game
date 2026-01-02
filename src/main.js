@@ -363,9 +363,6 @@
         if(el) K.renderRole(K.roleModels[rName], el)
       })
     }
-    
-    // Sincronizar stats dos personagens no office-viewport
-    if(typeof K.syncAllCharacterStats === 'function') K.syncAllCharacterStats()
 
     // Toggle archived column visibility
     const toggleArchivedBtn = document.getElementById('toggleArchivedButton')

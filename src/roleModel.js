@@ -167,12 +167,19 @@
       })
     }
 
+    // OBSOLETO: Mantido apenas para compatibilidade com código legado (office panel)
+    // O sistema atual usa getActiveEfficiency() ao invés deste getter
     get eficiencia(){
       const raw = this.talentoNatural + this.felicidade
       return Math.min(this.maxEficiencia, raw)
     }
 
-    // Retorna a eficiência ativa baseada na coluna onde o card está
+    // ==========================================
+    // MÉTODO PRINCIPAL: Retorna eficiência ativa
+    // ==========================================
+    // Retorna a eficiência PRÉ-CALCULADA baseada na coluna onde o card está.
+    // NÃO recalcula valores, apenas seleciona o estado correto.
+    // Chamado por: gameLogic.js (runStartTurn), adjustmentsRules.js
     getActiveEfficiency(columnName){
       if (!columnName) return this.eficienciaState0
 
@@ -210,16 +217,19 @@
       return activeEff
     }
 
-    aumentarFelicidade(n = 1){
-      const maxFel = this.maxEficiencia - this.talentoNatural
-      this.felicidade = Math.min(maxFel, this.felicidade + n)
-      return this.felicidade
-    }
-
-    diminuirFelicidade(n = 1){
-      this.felicidade = Math.max(0, this.felicidade - n)
-      return this.felicidade
-    }
+    // MÉTODOS OBSOLETOS (não usados no sistema atual)
+    // Mantidos apenas para não quebrar código legado
+    // O sistema atual usa estados pré-calculados via getActiveEfficiency()
+    // aumentarFelicidade(n = 1){
+    //   const maxFel = this.maxEficiencia - this.talentoNatural
+    //   this.felicidade = Math.min(maxFel, this.felicidade + n)
+    //   return this.felicidade
+    // }
+    // 
+    // diminuirFelicidade(n = 1){
+    //   this.felicidade = Math.max(0, this.felicidade - n)
+    //   return this.felicidade
+    // }
 
     toJSON(){
       return { name: this.name, talentoNatural: this.talentoNatural, felicidade: this.felicidade }
@@ -410,9 +420,10 @@
       el.appendChild(titleWrapper)
       el.appendChild(statsContainer)
       
-      // Sincronizar stats com o personagem no office-viewport
-      if(typeof K.updateCharacterStats === 'function') {
-        K.updateCharacterStats(role.name)
+      // Sincronizar nome do personagem com a videochamada
+      if(typeof K.syncCharacterNames === 'function') {
+        // Usar timeout para garantir que o DOM foi atualizado
+        setTimeout(() => K.syncCharacterNames(), 0)
       }
       
       // Agendar re-estabelecimento de event listeners após todas as renderizações

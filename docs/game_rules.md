@@ -581,11 +581,29 @@ Cada área de videochamada usa um sistema de camadas (layers):
 ### 14.4 Mapeamento Role → Character
 
 - Cada papel da `.roles-area` está mapeado para um personagem específico:
-  - "Analista" → `analista-1`
-  - "Programador" → `programador-1`
-  - "QA/Tester" → `qa-1`
+  - "Analista 1" → `analista-1`
+  - "Analista 2" → `analista-2`
+  - "Analista 3" → `analista-3`
+  - "Programador 1" → `programador-1`
+  - "Programador 2" → `programador-2`
+  - "Programador 3" → `programador-3`
+  - "QA/Tester 1" → `qa-1`
+  - "QA/Tester 2" → `qa-2`
+  - "QA/Tester 3" → `qa-3`
 - Quando um papel é arrastado para um card, o personagem correspondente muda para status `working`
 - Quando o papel é removido (manual ou automaticamente), o personagem volta para `idle`
+
+### 14.4.1 Exibição de Cargos no Painel de Videochamada
+
+- Cada tile de vídeo (`.video-tile`) exibe:
+  - Nome do personagem em `.info-name` (ex: "Rony")
+  - Cargo identificado em `.info-role` (ex: "Analista 1", "Programador 2", "QA/Tester 3")
+- Os cargos são **hardcoded** diretamente no HTML de cada tile:
+  - Correspondência direta com o `data-character-id` do tile
+  - `data-character-id="analista-1"` → `.info-role` contém "Analista 1"
+  - `data-character-id="programador-2"` → `.info-role` contém "Programador 2"
+  - `data-character-id="qa-3"` → `.info-role` contém "QA/Tester 3"
+- **Nota**: Antiga área `.info-stats` foi removida (obsoleta)
 
 ### 14.5 Sistema de Desbloqueio
 

@@ -270,8 +270,7 @@
         })
       }
 
-      // Sync character stats and sprites
-      if (typeof K.syncAllCharacterStats === 'function') K.syncAllCharacterStats()
+      // Sync character sprites
       if (typeof K.initCharacterSprites === 'function') K.initCharacterSprites()
     }
   })
