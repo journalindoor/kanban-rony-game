@@ -246,25 +246,22 @@
 			</div><!-- .main-content -->
 		</div><!-- .container -->
 
-		<!-- Tutorial-specific UI elements -->
-		<div id="tutorialOverlay" class="tutorial-overlay hidden">
-			<div class="tutorial-backdrop"></div>
-			<div class="tutorial-message-box">
-				<div class="tutorial-message-header">
-					<span class="tutorial-step-indicator">Passo <span id="tutorialStepNumber">1</span></span>
-				</div>
-				<div class="tutorial-message-content" id="tutorialMessage">
-					Bem-vindo ao tutorial!
-				</div>
-				<div class="tutorial-message-actions">
-					<button id="tutorialPrevButton" class="tutorial-button tutorial-button-secondary" disabled>Anterior</button>
-					<button id="tutorialNextButton" class="tutorial-button tutorial-button-primary">Próximo</button>
-				</div>
+		<!-- Tutorial UI (SEM backdrop, SEM escurecer tela) -->
+		<div id="tutorialMessageBox" class="tutorial-message-box">
+			<div class="tutorial-message-header">
+				<span id="tutorialStepCounter">0 / 0</span>
+				<button id="tutorialClose" class="tutorial-close-button" title="Pular Tutorial">×</button>
+			</div>
+			<div class="tutorial-message-body">
+				<h3 id="tutorialMessageTitle">Tutorial</h3>
+				<div id="tutorialMessageText">Mensagem do tutorial</div>
+			</div>
+			<div class="tutorial-message-footer">
+				<button id="tutorialPrev" class="tutorial-btn tutorial-btn-secondary">Anterior</button>
+				<button id="tutorialSkip" class="tutorial-btn tutorial-btn-text">Pular</button>
+				<button id="tutorialNext" class="tutorial-btn tutorial-btn-primary">Próximo</button>
 			</div>
 		</div>
-
-		<!-- Tutorial highlight element -->
-		<div id="tutorialHighlight" class="tutorial-highlight hidden"></div>
 
 		<!-- Game Footer -->
 		<footer class="game-footer">
@@ -281,26 +278,6 @@
 		</footer>
 
 		<!-- Game scripts (common) -->
-		<script>
-			// Back to free mode button handler
-			window.addEventListener('DOMContentLoaded', function(){
-				const backButton = document.getElementById('backToFreeModeButton');
-				if(backButton){
-					backButton.addEventListener('click', function(){
-						const confirmed = confirm(
-							'Voltar ao Modo Livre?\n\n' +
-							'Você poderá retornar ao tutorial a qualquer momento.\n\n' +
-							'Deseja continuar?'
-						);
-						
-						if(confirmed){
-							window.location.href = 'index.html';
-						}
-					});
-				}
-			});
-		</script>
-		
 		<script src="src/storage.js" defer></script>	<script src="data/tutorial-basic-cards.js"></script>		<script src="src/cardBankManager.js" defer></script>
 		<script src="src/officeCharacters.js" defer></script>
 		<script src="src/cards.js" defer></script>
@@ -315,7 +292,11 @@
 		<script src="src/officeStatusMessages.js" defer></script>
 		<script src="src/main.js" defer></script>
 		
-		<!-- Tutorial-specific scripts (loaded last to hook into game) -->
-		<script src="src/tutorial.js" defer></script>
+		<!-- Tutorial System: Arquitetura Modular -->
+		<!-- MODELO CONCEITUAL: Orquestrador de Estados + Guia Reativo + Filtro de Ações -->
+		<script src="src/tutorial.state.js" defer></script>
+		<script src="src/tutorial.ui.js" defer></script>
+		<script src="src/tutorial.steps.js" defer></script>
+		<script src="src/tutorial.controller.js" defer></script>
 	</body>
 </html>
