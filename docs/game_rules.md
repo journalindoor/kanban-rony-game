@@ -75,10 +75,10 @@ O jogo reordena automaticamente os cards dentro das colunas baseado em seu statu
   - **Talento Natural**: Sorteado uma única vez (1 a 3) no carregamento do jogo e não muda até reiniciar
   - **Felicidade**: Valor variável baseado na coluna onde o card está posicionado
   - **Eficiência Máxima**: 6 (limite superior independente do talento e felicidade)
-- A **eficiência atual** é calculada como:
-  - `eficiência = min(6, talentoNatural + felicidade)`
+- A **eficiência ativa** é determinada pela coluna onde o card está posicionado:
+  - `eficiência ativa = talentoNatural + felicidade contextual`
 - Ao iniciar o turno:
-  - Um valor aleatório entre `1` e `eficiência máxima` é sorteado
+  - Um valor aleatório entre `1` e `eficiência ativa` é sorteado
   - Esse valor é subtraído da dificuldade do indicador correspondente à coluna onde o card está posicionado
   - Apenas o indicador da coluna atual é afetado (não se reduz dificuldade de outras colunas)
 
@@ -117,6 +117,27 @@ A felicidade dos papéis varia automaticamente baseado na coluna onde o card est
 - **Estados DOM**: Todos os estados (0, 2, 3, 6) são renderizados no HTML
 - **CSS**: Regras específicas mostram apenas o estado ativo baseado nos atributos
 - **JavaScript**: Apenas define contexto via atributos, não calcula visibilidade
+
+### 4.4 Uso no Progresso de Cards
+
+- **Durante o turno** (`runStartTurn`):
+  - O sistema identifica a coluna atual do card
+  - Chama `roleModel.getActiveEfficiency(columnName)` para obter a eficiência correta
+  - Usa essa eficiência ativa para calcular o progresso do trabalho
+
+- **Mudança de coluna**:
+  - Quando um card muda de coluna, a eficiência ativa muda automaticamente
+  - No próximo turno, a nova eficiência será usada
+  - Nenhum recálculo manual necessário
+
+- **Cálculo de Ajustes** (Homologando):
+  - Usa `getActiveEfficiency('Homologando')` para determinar a probabilidade de bugs
+  - QA feliz (eficiência 6+) → 5% de chance de bugs
+  - QA em outras colunas (eficiência 3-4) → 25-50% de chance de bugs
+
+- **Benefício estratégico**:
+  - Colocar o personagem certo na coluna certa acelera o trabalho
+  - Exemplo: Analista em Refinamento trabalha 3× mais rápido que em outras colunas (se talento = 1)
 
 ---
 

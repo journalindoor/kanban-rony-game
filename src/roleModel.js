@@ -172,6 +172,44 @@
       return Math.min(this.maxEficiencia, raw)
     }
 
+    // Retorna a eficiência ativa baseada na coluna onde o card está
+    getActiveEfficiency(columnName){
+      if (!columnName) return this.eficienciaState0
+
+      const col = columnName.toLowerCase()
+      const roleType = this.name.split(' ')[0]
+
+      let activeEff = this.eficienciaState0
+
+      // Analista: Refinamento = 6, outros = 2
+      if (roleType === 'Analista') {
+        if (col === 'refinamento') activeEff = this.eficienciaState6
+        else activeEff = this.eficienciaState2
+      }
+
+      // Programador: Fazendo = 6, Ajustes = 3, outros = 2
+      else if (roleType === 'Programador') {
+        if (col === 'fazendo') activeEff = this.eficienciaState6
+        else if (col === 'ajustes') activeEff = this.eficienciaState3
+        else activeEff = this.eficienciaState2
+      }
+
+      // QA/Tester: Homologando = 6, outros = 2
+      else if (roleType.startsWith('QA')) {
+        if (col === 'homologando') activeEff = this.eficienciaState6
+        else activeEff = this.eficienciaState2
+      }
+
+      console.log(`[getActiveEfficiency] ${this.name} em ${columnName}:`, {
+        roleType,
+        coluna: col,
+        talento: this.talentoNatural,
+        eficienciaAtiva: activeEff
+      })
+
+      return activeEff
+    }
+
     aumentarFelicidade(n = 1){
       const maxFel = this.maxEficiencia - this.talentoNatural
       this.felicidade = Math.min(maxFel, this.felicidade + n)

@@ -93,12 +93,18 @@
     if (!valueEl) return
 
     const atual = parseInt(valueEl.textContent, 10) || 0
-    const maxEff = Math.floor(roleModel.eficiencia)
+    
+    // Usar eficiência ativa baseada na coluna atual
+    const maxEff = Math.floor(roleModel.getActiveEfficiency(colName))
+    
+    console.log('[gameLogic] - Eficiência ativa para', roleName, 'em', colName, '=', maxEff)
 
     if (maxEff < 1 || atual <= 0) return
 
     const roll = Math.floor(Math.random() * maxEff) + 1
     const next = Math.max(0, atual - roll)
+    
+    console.log('[gameLogic] - Roll:', roll, '| Antes:', atual, '→ Depois:', next)
 
     // Update indicator value in DOM
     valueEl.textContent = String(next)
