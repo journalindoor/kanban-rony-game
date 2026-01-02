@@ -248,7 +248,13 @@
     finish: function() {
       K.TutorialState.finish();
       K.TutorialUI.hide();
-      window.location.href = 'index.html';
+      
+      // Alerta de conclusão
+      alert('🎉 Parabéns! Você concluiu o tutorial!\n\nAgora você pode explorar livremente o jogo.\n\nQuando estiver pronto, clique em "Voltar ao Modo Livre" no menu superior para retornar ao modo livre.');
+      
+      // NÃO redireciona automaticamente
+      // O jogador permanece no tutorial.html e pode explorar livremente
+      // Usa o botão "Voltar ao Modo Livre" quando quiser sair
     }
   };
 
@@ -256,6 +262,21 @@
   document.addEventListener('DOMContentLoaded', function() {
     if (K.TutorialState.tutorialActive) {
       K.TutorialController.init();
+    }
+    
+    // Botão "Voltar ao Modo Livre" (tutorial.html)
+    const backToFreeModeBtn = document.getElementById('backToFreeModeButton');
+    if (backToFreeModeBtn) {
+      backToFreeModeBtn.addEventListener('click', function() {
+        const confirmed = confirm(
+          'Voltar ao Modo Livre?\n\n' +
+          'Você pode retornar ao tutorial a qualquer momento.\n\n' +
+          'Deseja continuar?'
+        );
+        if (confirmed) {
+          window.location.href = 'index.html';
+        }
+      });
     }
   });
 
