@@ -163,6 +163,59 @@
     })
   }
 
+  // ==========================================
+  // EFEITO DE LOGIN SEQUENCIAL (COSMÉTICO)
+  // Personagens aparecem um por um ao iniciar o jogo
+  // ==========================================
+
+  // Ordem fixa de entrada dos personagens
+  K.characterLoginSequence = [
+    'analista-1',
+    'programador-3',
+    'qa-2',
+    'programador-1',
+    'analista-2',
+    'qa-1',
+    'programador-2',
+    'analista-3',
+    'qa-3'
+  ]
+
+  // Inicializa com efeito de login sequencial
+  K.initCharacterSpritesWithSequence = function(delayMs = 500, initialDelayMs = 2000) {
+    // Primeiro, renderiza todos como offline
+    Object.keys(K.characterStates).forEach(characterId => {
+      const spriteArea = document.querySelector(`[data-character-id="${characterId}"] .tile-sprite`)
+      if (!spriteArea) return
+
+      // Forçar offline inicial
+      spriteArea.innerHTML = ''
+      const offlineLayer = document.createElement('img')
+      offlineLayer.src = 'assets/offline.png'
+      offlineLayer.alt = 'offline'
+      offlineLayer.className = 'character-layer character-offline'
+      spriteArea.appendChild(offlineLayer)
+    })
+
+    // Aguarda 2 segundos antes de começar a sequência de login
+    setTimeout(() => {
+      // Depois, "loga" cada personagem na ordem definida
+      K.characterLoginSequence.forEach((characterId, index) => {
+        setTimeout(() => {
+          // Verificar se personagem está desbloqueado
+          const isUnlocked = K.unlockedCharacters[characterId]
+          if (!isUnlocked) {
+            // Personagem bloqueado permanece offline
+            return
+          }
+
+          // Atualizar sprite normalmente (vai para idle)
+          K.updateCharacterSprite(characterId)
+        }, index * delayMs)
+      })
+    }, initialDelayMs)
+  }
+
   // Sincroniza status do personagem baseado em role assignment
   K.syncCharacterWithRole = function(roleName, isWorking) {
     const characterId = K.roleToCharacterMap[roleName]

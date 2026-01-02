@@ -281,6 +281,13 @@
 				// Hide modal if already seen
 				if(hasSeenWelcome){
 					if(modal) modal.style.display = 'none';
+					
+					// Se modal já foi visto, iniciar sprites normalmente após delay
+					setTimeout(() => {
+						if(typeof window.Kanban.initCharacterSpritesWithSequence === 'function') {
+							window.Kanban.initCharacterSpritesWithSequence(500, 2000);
+						}
+					}, 100);
 				}
 				
 				// Start tutorial button
@@ -305,6 +312,13 @@
 					skipTutorialBtn.addEventListener('click', function(){
 						localStorage.setItem('kanban_welcome_seen', 'true');
 						if(modal) modal.style.display = 'none';
+						
+						// Iniciar carregamento de sprites após fechar modal
+						setTimeout(() => {
+							if(typeof window.Kanban.initCharacterSpritesWithSequence === 'function') {
+								window.Kanban.initCharacterSpritesWithSequence(500, 2000);
+							}
+						}, 100);
 					});
 				}
 				

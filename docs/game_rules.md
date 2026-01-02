@@ -646,4 +646,29 @@ Cada área de videochamada usa um sistema de camadas (layers):
   - Transição suave de 0.3s
 - **Nota**: Botão "Arquivados" foi removido dos controles (funcionalidade integrada à coluna)
 
+### 14.9 Efeito de Login Sequencial (Cosmético)
+
+- Ao iniciar o jogo, os personagens "logam" no escritório de forma sequencial
+- **Comportamento**:
+  - Todos os slots começam exibindo `offline.png`
+  - Após delay inicial de 2 segundos, personagens começam a aparecer
+  - Cada personagem entra com intervalo de 500ms entre eles
+  - Ordem fixa e configurável (definida em `K.characterLoginSequence`)
+- **Ordem padrão de entrada**:
+  ```
+  analista-1 → programador-3 → qa-2 → programador-1 →
+  analista-2 → qa-1 → programador-2 → analista-3 → qa-3
+  ```
+- **Compatibilidade com desbloqueio**:
+  - Antes de "logar" um personagem, verifica `K.unlockedCharacters`
+  - Personagens bloqueados permanecem offline (não animam)
+  - Sistema preparado para capítulos com desbloqueio progressivo
+- **Modo Livre (index.html)**:
+  - Aguarda fechamento do modal de boas-vindas antes de iniciar
+  - Se modal já foi visto, inicia automaticamente após 2s
+  - Garante que usuário não perca o efeito visual
+- **Outros modos**: Tutorial e capítulos iniciam efeito normalmente após 2s
+- **Objetivo**: Quebrar sincronia visual dos GIFs e dar sensação de time entrando
+- **Nota**: Efeito puramente cosmético, não afeta lógica do jogo
+
 ---

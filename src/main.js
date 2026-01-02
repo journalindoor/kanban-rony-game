@@ -159,8 +159,12 @@
         zone.appendChild(el)
       })
     })
-    // Inicializa sprites após renderizar cards
-    if(K.initCharacterSprites) K.initCharacterSprites()
+    // Inicializa sprites com efeito de login sequencial
+    // No modo livre (index.html), aguarda fechamento do modal de boas-vindas
+    const isFreeModeWithModal = document.getElementById('welcomeModal') !== null
+    if(!isFreeModeWithModal && K.initCharacterSpritesWithSequence) {
+      K.initCharacterSpritesWithSequence(500, 2000)
+    }
     // Atualizar displays
     if(K.updateMoneyDisplay) K.updateMoneyDisplay()
     // Se no capítulo 1, configurar estado do botão do capítulo 2
@@ -345,8 +349,13 @@
     else {
       // Não criar card inicial - backlog começa vazio
       if(typeof K.saveState === 'function') K.saveState()
-      // Inicializar sprites quando não há save
-      if(typeof K.initCharacterSprites === 'function') K.initCharacterSprites()
+      
+      // Inicializar sprites com efeito de login sequencial
+      // No modo livre (index.html), aguarda fechamento do modal de boas-vindas
+      const isFreeModeWithModal = document.getElementById('welcomeModal') !== null
+      if(!isFreeModeWithModal && typeof K.initCharacterSpritesWithSequence === 'function') {
+        K.initCharacterSpritesWithSequence(500, 2000)
+      }
     }
 
     if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()

@@ -25,10 +25,13 @@
     {
       title: '🎮 Bem-vindo ao Kanban Rony Game!',
       message: `
-        <p>Aqui você não arrasta card por esporte.<br>
-        Cada decisão puxa um fio.<br>
-        E o sistema responde.</p>
-        <p><strong>Respira fundo… e vamos começar.</strong></p>
+        <p>Se você é ansioso, ótimo.<br>
+        Aqui a ansiedade aparece rápido quando o sistema responde às suas decisões.</p>
+        <p>Nada acontece por acaso.<br>
+        Cada escolha puxa um fio.<br>
+        E o jogo sempre devolve algo em troca.</p>
+        <p>Respira fundo.<br>
+        <strong>Vamos começar com calma.</strong></p>
       `,
       highlight: null,
       ronySprite: '0 0', // Rony Normal
@@ -42,12 +45,14 @@
 
     // Passo 1.2 — Visão Geral do Board
     {
-      title: '👀 Esse é o seu fluxo de trabalho',
+      title: '👀 Esse é o seu board.',
       message: `
-        <p>Parece simples agora…<br>
-        mas nada aqui acontece por acaso.</p>
-        <p>O caos é opcional.<br>
-        <strong>A consequência, não.</strong></p>
+        <p>Aqui você vê todo o fluxo do trabalho:<br>
+        de onde as demandas nascem até onde elas são entregues.</p>
+        <p>Os cards se movem da esquerda para a direita, passando por etapas diferentes.<br>
+        Cada coluna representa um momento do trabalho.</p>
+        <p>Entender esse fluxo é essencial.<br>
+        <strong>Todo o jogo acontece aqui.</strong></p>
       `,
       highlight: '#board',
       ronySprite: '-100px 0', // Rony Apontando
@@ -64,14 +69,12 @@
 
     // Passo 1.3 — Área de Papéis (Pessoas)
     {
-      title: '🧠 Aqui estão as pessoas do seu time',
+      title: '🧠 Aqui estão as pessoas do seu time.',
       message: `
         <p>Este é um jogo de turnos.<br>
         Antes de iniciar um turno, você se prepara.</p>
-        <p>É aqui que você escolhe<br>
-        quem vai trabalhar em cada card.</p>
-        <p><strong>Mover cards, definir papéis e pensar<br>
-        faz parte do planejamento do turno.</strong></p>
+        <p>Os papéis representam pessoas e eles são associados aos cards.</p>
+        <p><strong>Escolher quem vai trabalhar em cada card faz parte do planejamento do turno.</strong></p>
       `,
       highlight: '#rolesArea',
       ronySprite: '-100px 0', // Rony Apontando
@@ -88,17 +91,15 @@
 
     // Passo 1.4 — Botão "Iniciar Turno"
     {
-      title: '▶️ Este botão inicia o turno',
+      title: '▶️ Este botão inicia o turno.',
       message: `
-        <p>Enquanto ele não for clicado,<br>
-        <strong>nada acontece.</strong></p>
-        <p>O jogo espera você:<br>
-        mover cards,<br>
-        atribuir papéis<br>
-        e pensar nas escolhas.</p>
-        <p>Quando você clicar em Iniciar Turno,<br>
-        o sistema executa tudo<br>
-        <strong>e as consequências entram em cena.</strong></p>
+        <p>Cada turno representa 1 dia de trabalho.</p>
+        <p>Enquanto ele não for clicado, nada acontece.<br>
+        O jogo espera você se preparar.</p>
+        <p>Mover cards, associar papéis e pensar nas decisões<br>
+        vem antes de iniciar o turno.</p>
+        <p>Quando você clica em Iniciar Turno, o dia passa, o trabalho acontece<br>
+        <strong>e as consequências aparecem.</strong></p>
       `,
       highlight: '#startButton',
       ronySprite: '-85px -100px', // Rony Thumbs Up
@@ -120,13 +121,14 @@
 
     // Passo 2.1 — O Backlog
     {
-      title: '📋 Esse é o Backlog',
+      title: '📋 Esse é o Backlog.',
       message: `
         <p>Ele aceita no máximo 5 cards.<br>
-        Mais do que isso não é produtividade,<br>
-        é bagunça disfarçada.</p>
+        Mais do que isso não é produtividade, é só bagunça organizada.</p>
+        <p>Esse limite existe por um motivo:<br>
+        proteger o fluxo e evitar que tudo trave ao mesmo tempo.</p>
         <p>Aqui, limite não é castigo.<br>
-        <strong>É proteção.</strong></p>
+        <strong>É estratégia.</strong></p>
       `,
       highlight: '.column[data-col="Backlog"]',
       ronySprite: '-200px 0', // Rony Sério
@@ -196,13 +198,12 @@
 
     // Passo 3.1 — Conhecendo o Time
     {
-      title: '👥 Esse é o seu time',
+      title: '👥 Esse é o seu time.',
       message: `
-        <p>Cada pessoa nasce com um talento natural.<br>
-        Você não escolhe isso.<br>
-        O jogo também não.</p>
+        <p>Cada pessoa nasce com um talento natural 🎯<br>
+        Você não escolhe isso. O jogo também não.</p>
         <p>Seu papel aqui não é mudar as pessoas,<br>
-        <strong>é colocá-las no lugar certo.</strong></p>
+        é colocar cada uma <strong>onde ela consegue trabalhar melhor.</strong></p>
       `,
       highlight: '#rolesArea',
       ronySprite: '-100px 0', // Rony Apontando
@@ -247,16 +248,12 @@
 
     // Passo 3.3 — Regra do Backlog
     {
-      title: '⛔ Aqui ainda não é trabalho',
+      title: '⛔ Aqui ainda não é trabalho.',
       message: `
-        <p>No Backlog, nada anda<br>
-        e ninguém trabalha.</p>
-        <p>Papéis só entram em cena<br>
-        quando o card sai da fila<br>
-        <strong>e começa de verdade.</strong></p>
-        <p><strong>Mova um card do Backlog<br>
-        para a coluna Refinamento.</strong><br>
-        (Arraste ou use os botões ← →)</p>
+        <p>No Backlog, nada anda e ninguém trabalha.</p>
+        <p>Papéis só entram em cena quando o card sai da fila e começa de verdade.</p>
+        <p><strong>Mova um card do Backlog para a coluna Refinamento.</strong><br>
+        (Arraste ou clique em "Próxima coluna")</p>
       `,
       highlight: '.column[data-col="Backlog"]',
       ronySprite: '-100px 0', // Rony Apontando
@@ -275,14 +272,14 @@
 
     // Passo 3.4 — Associar Papel ao Card
     {
-      title: '▶️ Agora associe um papel',
+      title: '▶️ Agora associe um papel.',
       message: `
-        <p><strong>Arraste um Analista e solte em cima<br>
-        de um card na coluna Refinamento.</strong></p>
-        <p>Essa escolha importa:<br>
-        ela define quem vai trabalhar,<br>
-        como o time vai se sentir<br>
-        <strong>e o quanto esse card vai avançar no turno.</strong></p>
+        <p>Arraste um Analista e solte em cima de um card na coluna Refinamento.</p>
+        <p><strong>Essa escolha importa.</strong></p>
+        <p>Quando uma pessoa trabalha em algo alinhado com seu talento,<br>
+        a felicidade aumenta 😊 e isso gera bônus de eficiência ⚡.</p>
+        <p>Pessoas felizes produzem melhor.<br>
+        <strong>O jogo leva isso a sério.</strong></p>
       `,
       highlight: '.roles-area, .column[data-col="Refinamento"]',
       ronySprite: '-100px 0', // Rony Apontando
