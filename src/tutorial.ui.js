@@ -121,7 +121,7 @@
     /**
      * Atualiza botões
      */
-    updateNavigationButtons: function(isFirstStep, isLastStep) {
+    updateNavigationButtons: function(isFirstStep, isLastStep, disableNext) {
       if (this.elements.prevButton) {
         this.elements.prevButton.disabled = isFirstStep;
         this.elements.prevButton.style.opacity = isFirstStep ? '0.5' : '1';
@@ -129,6 +129,39 @@
 
       if (this.elements.nextButton) {
         this.elements.nextButton.textContent = isLastStep ? 'Concluir' : 'Próximo';
+        this.elements.nextButton.disabled = disableNext || false;
+        this.elements.nextButton.style.opacity = disableNext ? '0.5' : '1';
+      }
+    },
+
+    /**
+     * Reabilita botão Próximo (usado quando ação waitFor é cumprida)
+     */
+    enableNextButton: function() {
+      console.log('[Tutorial UI] enableNextButton chamado');
+      console.log('[Tutorial UI] nextButton existe?', !!this.elements.nextButton);
+      
+      // Se não está em cache, tenta buscar novamente
+      if (!this.elements.nextButton) {
+        this.elements.nextButton = document.getElementById('tutorialNext');
+        console.log('[Tutorial UI] Buscou novamente, encontrou?', !!this.elements.nextButton);
+      }
+      
+      if (this.elements.nextButton) {
+        console.log('[Tutorial UI] Estado antes:', {
+          disabled: this.elements.nextButton.disabled,
+          opacity: this.elements.nextButton.style.opacity
+        });
+        
+        this.elements.nextButton.disabled = false;
+        this.elements.nextButton.style.opacity = '1';
+        
+        console.log('[Tutorial UI] Estado depois:', {
+          disabled: this.elements.nextButton.disabled,
+          opacity: this.elements.nextButton.style.opacity
+        });
+      } else {
+        console.error('[Tutorial UI] ERRO: Botão Próximo não encontrado!');
       }
     },
 

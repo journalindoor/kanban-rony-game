@@ -54,14 +54,23 @@
     },
 
     hookStartTurn: function() {
-      const original = window.startTurn;
-      window.startTurn = function() {
-        if (!K.TutorialState.isActionAllowed('startTurn')) {
-          return;
+      // Hook no evento do botão (não existe window.startTurn)
+      document.addEventListener('click', function(e) {
+        if (e.target && e.target.id === 'startButton') {
+          console.log('[Tutorial] startButton clicado, permitido?', K.TutorialState.isActionAllowed('startTurn'));
+          if (!K.TutorialState.isActionAllowed('startTurn')) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            return false;
+          }
+          // Permite a execução
+          console.log('[Tutorial] Executando callback startTurn');
+          setTimeout(() => {
+            K.TutorialState.executeCallback('startTurn');
+          }, 100);
         }
-        original.call(this);
-        K.TutorialState.executeCallback('startTurn');
-      };
+      }, true); // Capture phase para interceptar antes do handler do jogo
     },
 
     hookResetGame: function() {
@@ -183,7 +192,8 @@
       K.TutorialUI.updateStepCounter(state.currentStep, state.totalSteps);
       K.TutorialUI.updateNavigationButtons(
         state.currentStep === 0,
-        state.currentStep === state.totalSteps - 1
+        state.currentStep === state.totalSteps - 1,
+        !!step.waitFor // Desabilita Próximo se passo requer ação específica
       );
 
       // Update Rony sprite
@@ -206,7 +216,16 @@
 
       // WaitFor
       if (step.waitFor) {
-        state.registerCallback(step.waitFor, () => this.nextStep());
+        console.log('[Tutorial] Registrando callback para:', step.waitFor);
+        state.registerCallback(step.waitFor, () => {
+          console.log('[Tutorial] Callback executado para:', step.waitFor);
+          // Reabilita botão Próximo em vez de avançar automaticamente
+          // Pequeno delay para garantir que a ação foi processada
+          setTimeout(() => {
+            console.log('[Tutorial] Reabilitando botão Próximo');
+            K.TutorialUI.enableNextButton();
+          }, 100);
+        });
       }
     },
 
@@ -238,6 +257,7 @@
      */
     skip: function() {
       K.TutorialState.finish();
+      K.TutorialState.reset(); // Reseta para reiniciar na próxima vez
       K.TutorialUI.hide();
       window.location.href = 'index.html';
     },
@@ -247,6 +267,7 @@
      */
     finish: function() {
       K.TutorialState.finish();
+      K.TutorialState.reset(); // Reseta para reiniciar na próxima vez
       K.TutorialUI.hide();
       
       // Alerta de conclusão
@@ -260,6 +281,9 @@
 
   // Auto-start
   document.addEventListener('DOMContentLoaded', function() {
+    // SEMPRE reseta o tutorial ao carregar tutorial.html
+    K.TutorialState.reset();
+    
     if (K.TutorialState.tutorialActive) {
       K.TutorialController.init();
     }
@@ -274,6 +298,7 @@
           'Deseja continuar?'
         );
         if (confirmed) {
+          K.TutorialState.reset(); // Reseta tutorial para começar do zero na próxima vez
           window.location.href = 'index.html';
         }
       });

@@ -138,6 +138,7 @@
      * Reset
      */
     reset: function() {
+      this.tutorialActive = true; // Garante que tutorial está ativo
       this.currentStep = 0;
       this.blockAllActions();
       this.pendingCallbacks = {};

@@ -111,6 +111,82 @@
         K.TutorialUI.clearHighlight();
       },
       waitFor: null
+    },
+
+    // ========================================
+    // BLOCO 2: BACKLOG E LIMITE DE WIP
+    // Objetivo: Ensinar que limite vem antes de velocidade
+    // ========================================
+
+    // Passo 2.1 — O Backlog
+    {
+      title: '📋 Esse é o Backlog',
+      message: `
+        <p>Ele aceita no máximo 5 cards.<br>
+        Mais do que isso não é produtividade,<br>
+        é bagunça disfarçada.</p>
+        <p>Aqui, limite não é castigo.<br>
+        <strong>É proteção.</strong></p>
+      `,
+      highlight: '.column[data-col="Backlog"]',
+      ronySprite: '-200px 0', // Rony Sério
+      allowedActions: [],
+      onEnter: function() {
+        K.TutorialState.blockAllActions();
+        K.TutorialUI.highlightElement('.column[data-col="Backlog"]');
+      },
+      onExit: function() {
+        K.TutorialUI.clearHighlight();
+      },
+      waitFor: null
+    },
+
+    // Passo 2.2 — Gerar Cards
+    {
+      title: '▶️ Agora vamos preencher o Backlog',
+      message: `
+        <p>Clique em <strong>Iniciar Turno</strong><br>
+        para o jogo gerar os cards.</p>
+        <p>Repara bem:<br>
+        o sistema respeita o limite,<br>
+        mesmo quando ainda tem demanda.</p>
+      `,
+      highlight: '#startButton',
+      ronySprite: '-100px 0', // Rony Apontando
+      allowedActions: ['startTurn'],
+      onEnter: function() {
+        K.TutorialState.blockAllActions();
+        K.TutorialState.allowAction('startTurn');
+        K.TutorialUI.highlightElement('#startButton');
+      },
+      onExit: function() {
+        K.TutorialUI.clearHighlight();
+      },
+      waitFor: 'startTurn' // Avança automaticamente quando jogador iniciar turno
+    },
+
+    // Passo 2.3 — Limite Atingido
+    {
+      title: '🚫 Viu só?',
+      message: `
+        <p>Sem espaço,<br>
+        sem card novo.</p>
+        <p>Enquanto o Backlog estiver cheio,<br>
+        nada entra.</p>
+        <p><strong>Primeiro flui.<br>
+        Depois acelera.</strong></p>
+      `,
+      highlight: '.column[data-col="Backlog"]',
+      ronySprite: '-200px 0', // Rony Sério
+      allowedActions: [],
+      onEnter: function() {
+        K.TutorialState.blockAllActions();
+        K.TutorialUI.highlightElement('.column[data-col="Backlog"]');
+      },
+      onExit: function() {
+        K.TutorialUI.clearHighlight();
+      },
+      waitFor: null
     }
   ];
 
