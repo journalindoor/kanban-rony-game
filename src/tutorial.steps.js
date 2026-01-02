@@ -31,6 +31,7 @@
         <p><strong>Respira fundo… e vamos começar.</strong></p>
       `,
       highlight: null,
+      ronySprite: '0 0', // Rony Normal
       allowedActions: [],
       onEnter: function() {
         K.TutorialState.blockAllActions();
@@ -49,6 +50,7 @@
         <strong>A consequência, não.</strong></p>
       `,
       highlight: '#board',
+      ronySprite: '-100px 0', // Rony Apontando
       allowedActions: [],
       onEnter: function() {
         K.TutorialState.blockAllActions();
@@ -72,6 +74,7 @@
         faz parte do planejamento do turno.</strong></p>
       `,
       highlight: '#rolesArea',
+      ronySprite: '-100px 0', // Rony Apontando
       allowedActions: [],
       onEnter: function() {
         K.TutorialState.blockAllActions();
@@ -98,6 +101,7 @@
         <strong>e as consequências entram em cena.</strong></p>
       `,
       highlight: '#startButton',
+      ronySprite: '-85px -100px', // Rony Thumbs Up
       allowedActions: [],
       onEnter: function() {
         K.TutorialState.blockAllActions();

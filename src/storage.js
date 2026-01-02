@@ -7,7 +7,10 @@
     const path = window.location.pathname
     const chapterMatch = path.match(/chapter(\d+)\.html/)
     
-    if (chapterMatch) {
+    if (path.includes('tutorial.html')) {
+      // Tutorial has its own isolated storage
+      return 'kanbanState_tutorial'
+    } else if (chapterMatch) {
       // Chapter-specific storage (e.g., 'kanbanState_chapter1')
       return `kanbanState_chapter${chapterMatch[1]}`
     } else {

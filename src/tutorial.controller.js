@@ -186,6 +186,11 @@
         state.currentStep === state.totalSteps - 1
       );
 
+      // Update Rony sprite
+      if (step.ronySprite) {
+        K.TutorialUI.setRonySprite(step.ronySprite);
+      }
+
       // Highlight
       if (step.highlight) {
         K.TutorialUI.highlightElement(step.highlight);

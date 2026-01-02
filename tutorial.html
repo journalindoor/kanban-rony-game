@@ -276,9 +276,14 @@
 				<span id="tutorialStepCounter">0 / 0</span>
 				<button id="tutorialClose" class="tutorial-close-button" title="Pular Tutorial">×</button>
 			</div>
-			<div class="tutorial-message-body">
-				<h3 id="tutorialMessageTitle">Tutorial</h3>
-				<div id="tutorialMessageText">Mensagem do tutorial</div>
+			<div class="tutorial-message-body" style="display:flex; gap:16px; align-items:flex-start;">
+				<div class="tutorial-character" style="flex:0 0 100px; display:flex; justify-content:center; align-items:flex-start; padding-top:8px;">
+					<div style="width:100px; height:100px; background-image:url('assets/rony-modal.png'); background-size:300px 200px; background-position:0 0; background-repeat:no-repeat;"></div>
+				</div>
+				<div style="flex:1;">
+					<h3 id="tutorialMessageTitle">Tutorial</h3>
+					<div id="tutorialMessageText">Mensagem do tutorial</div>
+				</div>
 			</div>
 			<div class="tutorial-message-footer">
 				<button id="tutorialPrev" class="tutorial-btn tutorial-btn-secondary">Anterior</button>

@@ -152,6 +152,17 @@
       document.querySelectorAll('.tutorial-highlight').forEach(el => {
         el.classList.remove('tutorial-highlight');
       });
+    },
+
+    /**
+     * Atualiza sprite do Rony
+     * @param {string} position - Posição do sprite (ex: '0 0', '-100px 0')
+     */
+    setRonySprite: function(position) {
+      const ronySprite = document.querySelector('.tutorial-character > div');
+      if (ronySprite && position) {
+        ronySprite.style.backgroundPosition = position;
+      }
     }
   };
 
