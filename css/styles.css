@@ -138,8 +138,8 @@ h1{margin:0 0 12px 0;font-size:20px}
   transform:scale(1.03);
 }
 
-.role[data-role^="Analista"]{background:#2563eb;color:#fff}
-.role[data-role^="Programador"]{background:#16a34a;color:#fff}
+.role[data-role^="Analista"]{background:#2563eb;color:#f1f5f9}
+.role[data-role^="Programador"]{background:#16a34a;color:#f1f5f9}
 .role[data-role^="QA/Tester"]{background:#f59e0b;color:#111}
 .role.role-attached{opacity:0.95;cursor:grab;border:2px solid rgba(0,0,0,0.06)}
 .role.dragging-role{opacity:0.6}
@@ -351,16 +351,6 @@ h1{margin:0 0 12px 0;font-size:20px}
   min-width:0;
 }
 
-/* Archived column toggle + visibility */
-.archived-toggle-button{
-  background:#6b7280;
-  color:#fff;
-  border:none;
-  padding:8px 10px;
-  border-radius:6px;
-  cursor:pointer;
-}
-.archived-column.archived-hidden{display:none}
 /* ============================================
    OFFICE PANEL - Pixel Art Workspace
    ============================================ */

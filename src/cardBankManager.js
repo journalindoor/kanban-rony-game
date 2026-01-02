@@ -158,6 +158,9 @@
         K.markCardAsUsed(cardData.id)
       }
     })
+    
+    // Update WIP counters after rendering cards
+    if(typeof K.updateWipCounters === 'function') K.updateWipCounters()
   }
   
   // Popula o backlog (substitui a função existente)

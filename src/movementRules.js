@@ -141,8 +141,28 @@
     targetZone.appendChild(cardEl)
     console.log(`Card moved to ${nextCol}`)
     
+    // Atualizar estado do personagem anexado (se houver)
+    const roleEl = cardEl.querySelector('.role')
+    if(roleEl && typeof K.applyCharacterState === 'function'){
+      const roleName = roleEl.getAttribute('data-role')
+      K.applyCharacterState(roleName)
+    }
+    
     // Atualizar estados dos indicadores para destacar o correto
     if(typeof K.syncIndicatorStates === 'function') K.syncIndicatorStates()
+    
+    // Update WIP counters after card movement
+    if(typeof K.updateWipCounters === 'function') K.updateWipCounters()
+    
+    // Notify tutorial that a card was moved
+    if(typeof K.TutorialState !== 'undefined' && K.TutorialState.tutorialActive){
+      console.log('[MovementRules] Card moved, notifying tutorial');
+      setTimeout(() => {
+        if(typeof K.TutorialState.executeCallback === 'function'){
+          K.TutorialState.executeCallback('dragCard');
+        }
+      }, 100);
+    }
     
     // If moved to Publicado, detach any role AFTER moving
     if(nextCol === 'Publicado'){

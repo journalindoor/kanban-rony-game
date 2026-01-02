@@ -1,11 +1,11 @@
-# Kanban Rony Game — Estrutura de Capítulos
+# RonyOffice — Estrutura de Capítulos
 ## Documento de Design Narrativo e Pedagógico
 
 ---
 
 ## Propósito deste Documento
 
-Este arquivo documenta a estrutura narrativa e pedagógica dos capítulos do **Kanban Rony Game**. Serve como registro de design e referência para implementação futura.
+Este arquivo documenta a estrutura narrativa e pedagógica dos capítulos do **RonyOffice**. Serve como registro de design e referência para implementação futura.
 
 **Importante:**
 - Os capítulos descritos aqui **ainda não foram implementados**

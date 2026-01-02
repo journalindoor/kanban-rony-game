@@ -43,6 +43,20 @@
   font-weight:700;
   margin-bottom:8px;
   color:#111;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* WIP Counter */
+.wip-counter{
+  font-size:11px;
+  font-weight:600;
+  color:#6b7280;
+  background:rgba(0,0,0,0.04);
+  padding:2px 8px;
+  border-radius:999px;
+  margin-left:8px;
 }
 
 .cards{
@@ -52,8 +66,34 @@
   overflow:auto;
 }
 
-/* Archived column */
+/* Archived column collapsed state */
 .archived-column.archived-hidden{
+  min-width:40px;
+  max-width:40px;
+  padding:12px 8px;
+  overflow:hidden;
+  transition:min-width 0.3s ease, max-width 0.3s ease, padding 0.3s ease;
+}
+
+.archived-column.archived-hidden .column-header{
+  writing-mode:vertical-lr;
+  text-orientation:mixed;
+  white-space:nowrap;
+  justify-content:flex-start;
+  margin:0;
+  height:100%;
+  cursor:pointer;
+}
+
+.archived-column .column-header{
+  cursor:pointer;
+}
+
+.archived-column.archived-hidden .wip-counter{
+  display:none;
+}
+
+.archived-column.archived-hidden .cards{
   display:none;
 }
 

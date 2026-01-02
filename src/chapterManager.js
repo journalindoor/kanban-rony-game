@@ -270,9 +270,8 @@
         })
       }
 
-      // Sync character stats and sprites
-      if (typeof K.syncAllCharacterStats === 'function') K.syncAllCharacterStats()
-      if (typeof K.initCharacterSprites === 'function') K.initCharacterSprites()
+      // Sync character sprites com efeito de login sequencial
+      if (typeof K.initCharacterSpritesWithSequence === 'function') K.initCharacterSpritesWithSequence(500)
     }
   })
 

@@ -85,6 +85,16 @@ h1{
   color:#95a5a6;
 }
 
+.footer-linkedin{
+  color:#fff;
+  text-decoration:underline;
+  transition:color 0.2s ease;
+}
+
+.footer-linkedin:hover{
+  color:#3498db;
+}
+
 @media (max-width:600px){
   .footer-content{
     flex-direction:column;

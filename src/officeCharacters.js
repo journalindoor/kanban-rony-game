@@ -16,25 +16,31 @@
   }
 
   // Controle de personagens desbloqueados
-  // Estado inicial: apenas 1 de cada tipo disponível
+  // LIBERAÇÃO COMPLETA: todos os 9 personagens disponíveis desde o início
   K.unlockedCharacters = {
     'analista-1': true,
-    'analista-2': false,
-    'analista-3': false,
+    'analista-2': true,
+    'analista-3': true,
     'programador-1': true,
-    'programador-2': false,
-    'programador-3': false,
+    'programador-2': true,
+    'programador-3': true,
     'qa-1': true,
-    'qa-2': false,
-    'qa-3': false
+    'qa-2': true,
+    'qa-3': true
   }
 
   // Mapeamento role name -> character-id
   // Conecta os papeis da roles-area com os personagens do office-viewport
   K.roleToCharacterMap = {
-    'Analista': 'analista-1',
-    'Programador': 'programador-1',
-    'QA/Tester': 'qa-1'
+    'Analista 1': 'analista-1',
+    'Analista 2': 'analista-2',
+    'Analista 3': 'analista-3',
+    'Programador 1': 'programador-1',
+    'Programador 2': 'programador-2',
+    'Programador 3': 'programador-3',
+    'QA/Tester 1': 'qa-1',
+    'QA/Tester 2': 'qa-2',
+    'QA/Tester 3': 'qa-3'
   }
 
   // Mapeamento extensível: characterId -> { idle, working, ... }
@@ -157,6 +163,59 @@
     })
   }
 
+  // ==========================================
+  // EFEITO DE LOGIN SEQUENCIAL (COSMÉTICO)
+  // Personagens aparecem um por um ao iniciar o jogo
+  // ==========================================
+
+  // Ordem fixa de entrada dos personagens
+  K.characterLoginSequence = [
+    'analista-1',
+    'programador-3',
+    'qa-2',
+    'programador-1',
+    'analista-2',
+    'qa-1',
+    'programador-2',
+    'analista-3',
+    'qa-3'
+  ]
+
+  // Inicializa com efeito de login sequencial
+  K.initCharacterSpritesWithSequence = function(delayMs = 500, initialDelayMs = 2000) {
+    // Primeiro, renderiza todos como offline
+    Object.keys(K.characterStates).forEach(characterId => {
+      const spriteArea = document.querySelector(`[data-character-id="${characterId}"] .tile-sprite`)
+      if (!spriteArea) return
+
+      // Forçar offline inicial
+      spriteArea.innerHTML = ''
+      const offlineLayer = document.createElement('img')
+      offlineLayer.src = 'assets/offline.png'
+      offlineLayer.alt = 'offline'
+      offlineLayer.className = 'character-layer character-offline'
+      spriteArea.appendChild(offlineLayer)
+    })
+
+    // Aguarda 2 segundos antes de começar a sequência de login
+    setTimeout(() => {
+      // Depois, "loga" cada personagem na ordem definida
+      K.characterLoginSequence.forEach((characterId, index) => {
+        setTimeout(() => {
+          // Verificar se personagem está desbloqueado
+          const isUnlocked = K.unlockedCharacters[characterId]
+          if (!isUnlocked) {
+            // Personagem bloqueado permanece offline
+            return
+          }
+
+          // Atualizar sprite normalmente (vai para idle)
+          K.updateCharacterSprite(characterId)
+        }, index * delayMs)
+      })
+    }, initialDelayMs)
+  }
+
   // Sincroniza status do personagem baseado em role assignment
   K.syncCharacterWithRole = function(roleName, isWorking) {
     const characterId = K.roleToCharacterMap[roleName]
@@ -171,34 +230,33 @@
   }
 
   // Atualiza os stats do personagem no office-viewport baseado no roleModel
-  K.updateCharacterStats = function(roleName) {
-    const characterId = K.roleToCharacterMap[roleName]
-    if (!characterId) return
+  // Funções removidas: updateCharacterStats e syncAllCharacterStats
+  // O painel de office não exibe mais stats individuais dos personagens
+  // Os stats são exibidos apenas nos elementos .role nas áreas de trabalho
 
-    const tile = document.querySelector(`[data-character-id="${characterId}"]`)
-    if (!tile) return
-
-    const roleModel = K.roleModels && K.roleModels[roleName]
-    if (!roleModel) return
-
-    // Atualizar os 3 stats: felicidade, talento, eficiência
-    const statsContainer = tile.querySelector('.info-stats')
-    if (!statsContainer) return
-
-    const statItems = statsContainer.querySelectorAll('.stat-item')
-    if (statItems.length >= 3) {
-      statItems[0].textContent = `😊 ${roleModel.felicidade}`
-      statItems[1].textContent = `🎯 ${roleModel.talentoNatural}`
-      statItems[2].textContent = `⚡ ${roleModel.eficiencia}`
-    }
-  }
-
-  // Sincroniza todos os stats dos personagens desbloqueados
-  K.syncAllCharacterStats = function() {
+  // ==========================================
+  // SINCRONIZAÇÃO DE NOMES
+  // ==========================================
+  // [DESATIVADA] Sincroniza nomes dos personagens da status-bar para a videochamada
+  // Nomes agora hardcoded no HTML para economizar processamento
+  // Mantida comentada para uso futuro se necessário
+  
+  /*
+  K.syncCharacterNames = function() {
     Object.keys(K.roleToCharacterMap).forEach(roleName => {
-      K.updateCharacterStats(roleName)
+      const characterId = K.roleToCharacterMap[roleName]
+      const roleEl = document.querySelector(`[data-role="${roleName}"]`)
+      if (!roleEl) return
+      const roleNameEl = roleEl.querySelector('.role-name')
+      if (!roleNameEl) return
+      const tileEl = document.querySelector(`[data-character-id="${characterId}"]`)
+      if (!tileEl) return
+      const infoRoleEl = tileEl.querySelector('.info-role')
+      if (!infoRoleEl) return
+      infoRoleEl.textContent = roleNameEl.textContent
     })
   }
+  */
 
 })(window.Kanban)
 

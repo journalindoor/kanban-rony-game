@@ -1,10 +1,10 @@
-# Kanban Rony Game
+# RonyOffice
 
 Um jogo de simulação Kanban onde você gerencia cards através de um fluxo de trabalho, associa papéis (Analista, Programador, QA/Tester) aos cards e acompanha o progresso do desenvolvimento.
 
 ## 📋 Visão Geral
 
-O Kanban Rony Game simula um processo de desenvolvimento ágil onde:
+O RonyOffice simula um processo de desenvolvimento ágil onde:
 - Cards representam tarefas que fluem através de diferentes colunas
 - Papéis (roles) podem ser associados aos cards para realizar trabalho
 - Cada papel tem eficiência baseada em Talento Natural e Felicidade
@@ -100,20 +100,22 @@ kanbanRonyGame/
 │   ├── chapter-1-cards.js      # Cards do Capítulo 1 (IDs 1001-1005)
 │   └── tutorial-basic-cards.js # Cards do Tutorial (IDs 9001-9003)
 ├── docs/
-│   └── game_rules.md           # Regras oficiais detalhadas
+│   ├── game_rules.md                    # Regras oficiais detalhadas
+│   ├── chapters.md                      # Estrutura dos capítulos
+│   ├── ARCHITECTURE_EFFICIENCY_SYSTEM.md # Sistema de eficiência (técnico)
+│   └── PERSISTENCIA_FIX.md              # Sistema de persistência
 ├── index.html                  # Modo Livre
 ├── chapter1.html               # Capítulo 1
 ├── tutorial.html               # Tutorial
-├── CARD_BANK.md                # Documentação do sistema de cards
-├── PERSISTENCIA_FIX.md         # Documentação de correções
 └── README.md                   # Este arquivo
 ```
 
 ## 📖 Documentação
 
-- **[docs/game_rules.md](docs/game_rules.md)**: Regras oficiais e detalhadas do jogo
-- **[PERSISTENCIA_FIX.md](PERSISTENCIA_FIX.md)**: Histórico de correções de persistência
-- **[CARD_BANK.md](CARD_BANK.md)**: Sistema de banco de cards pré-definidos
+- **[docs/game_rules.md](docs/game_rules.md)**: Regras oficiais e completas do jogo
+- **[docs/chapters.md](docs/chapters.md)**: Estrutura e progressão dos capítulos
+- **[docs/ARCHITECTURE_EFFICIENCY_SYSTEM.md](docs/ARCHITECTURE_EFFICIENCY_SYSTEM.md)**: Arquitetura técnica do sistema de eficiência
+- **[docs/PERSISTENCIA_FIX.md](docs/PERSISTENCIA_FIX.md)**: Sistema de persistência e correções
 
 ## 🎯 Características Principais
 
@@ -159,21 +161,23 @@ O jogo agora possui **bancos de cards** organizados por contexto:
 - Navegação livre entre tutorial e modo livre
 
 ### Papéis (Roles)
-- **Analista** (Azul): Especialista em refinamento
-- **Programador** (Verde): Especialista em desenvolvimento
-- **QA/Tester** (Amarelo): Especialista em homologação
+- **Analista 1, 2, 3** (Azul): Especialistas em refinamento
+- **Programador 1, 2, 3** (Verde): Especialistas em desenvolvimento
+- **QA/Tester 1, 2, 3** (Amarelo): Especialistas em homologação
 
 Cada papel possui:
-- **Talento Natural**: 1-3 (sorteado no início do jogo)
-- **Felicidade**: 0-3 (ajustável durante o jogo)
+- **Talento Natural**: 1-3 (sorteado no início, fixo até reiniciar)
+- **Felicidade Contextual**: Varia de acordo com a coluna onde o card está (0-3)
 - **Eficiência**: Talento + Felicidade (máximo 6)
+- **Sistema Pré-calculado**: Estados de eficiência calculados uma única vez no início
 
-### Escritório Virtual
+### Escritório Virtual (Painel de Videochamada)
 
-- Grid de videochamada 3x3 com personagens pixel art
+- Grid 3x3 com 9 personagens pixel art (3 de cada cargo)
 - Estados visuais: Idle (parado) / Working (trabalhando)
-- Sincronização com papéis associados aos cards
-- Exibição de stats: Felicidade, Eficiência, Energia
+- Sincronização automática com papéis associados aos cards
+- Exibição de cargo identificado (ex: "Analista 1", "Programador 2", "QA/Tester 3")
+- Área `.info-stats` obsoleta foi removida
 
 ### Colunas do Kanban
 
@@ -311,6 +315,19 @@ Para limpar o estado salvo, clique em **Reiniciar**.
 
 ## 🔄 Atualizações Recentes
 
+### Sistema de Eficiência Pré-calculada (v2.0)
+- Estados de eficiência calculados uma única vez na inicialização
+- Método `getActiveEfficiency(columnName)` retorna eficiência contextual correta
+- 100% controlado por CSS via atributos `data-*`
+- Sem recalculação dinâmica ou acúmulos indevidos
+- Documentação completa em `ARCHITECTURE_EFFICIENCY_SYSTEM.md`
+
+### Painel de Videochamada
+- 9 personagens identificados (Analista 1-3, Programador 1-3, QA/Tester 1-3)
+- Cargos hardcoded no HTML para performance
+- Remoção da área `.info-stats` obsoleta
+- Melhor clareza visual dos papéis
+
 ### Sistema de Cards Pré-definidos
 - Banco de cards organizado por contexto (Tutorial, Capítulos)
 - IDs numéricos padronizados para melhor gestão
@@ -328,6 +345,9 @@ Para limpar o estado salvo, clique em **Reiniciar**.
 - Layout responsivo para mobile
 
 ### Correções de Bugs
+- **Sistema de Eficiência**: Estados calculados corretamente com talento + felicidade contextual
+- **Recalculação em fromJSON**: Eficiências recalculadas quando talento muda
+- **CSS Duplicado**: Removidas duplicações em role-states.css
 - IDs numéricos resolvem problema de conversão NaN
 - Animação de dinheiro funciona com pagamentos simultâneos
 - Cards do banco agora têm dificuldade reduzida corretamente

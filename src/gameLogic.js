@@ -1,22 +1,33 @@
 // gameLogic.js — core game computations separated from DOM
+// 
+// ARQUITETURA DO SISTEMA DE EFICIÊNCIA:
+// 1. Estados pré-calculados criados no constructor de Role (roleModel.js)
+// 2. CSS controla visibilidade via data-* attributes (role-states.css)
+// 3. getActiveEfficiency() retorna o estado correto baseado na coluna
+// 4. runStartTurn() usa eficiência ativa para calcular progresso
+// 5. Mudança de coluna → atributos atualizados → CSS muda → próximo turno usa nova eficiência
+// 
+// GARANTIAS:
+// - Nenhum valor é recalculado (apenas leitura de estados pré-calculados)
+// - Nenhum valor é acumulado (cada turno usa apenas eficiência atual)
+// - Trocar coluna não duplica efeito (atributos sobrescritos)
+// - Remover/reassociar papel não quebra estado (applyCharacterState sempre sincroniza)
+// - Tutorial, modo livre, capítulos usam mesma lógica (função única)
 (function(K){
   K = K || (window.Kanban = window.Kanban || {})
 
   function randInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min }
 
-  // Apply one role's random contribution to the column difficulty
-  // Pure function: takes current difficulties map and returns new map and a result object
+  // FUNÇÃO LEGADA - NÃO USADA
+  // Mantida para compatibilidade mas runStartTurn() implementa a lógica diretamente
   function applyRoleToColumn(difficulties, roleName, cardId, roleModel, cardColumnName){
     const prev = typeof difficulties[cardColumnName] === 'number' ? difficulties[cardColumnName] : 0
-    // determine maximum efficiency (must be integer)
+    // OBSOLETO: usa roleModel.eficiencia ao invés de getActiveEfficiency()
     const effMax = Math.floor(Number(roleModel.eficiencia) || 0)
     if(effMax < 1){
-      // no contribution possible
       return { difficulties: Object.assign({}, difficulties), result: { roleName, cardId, column: cardColumnName, roll:0, prev, next: prev } }
     }
-    // roll an integer between 1 and effMax (inclusive)
     const roll = randInt(1, effMax)
-    // subtract roll from previous difficulty, but never go below 0
     const next = Math.max(0, prev - roll)
     const newDiff = Object.assign({}, difficulties)
     newDiff[cardColumnName] = next
@@ -93,12 +104,20 @@
     if (!valueEl) return
 
     const atual = parseInt(valueEl.textContent, 10) || 0
-    const maxEff = Math.floor(roleModel.eficiencia)
+    
+    // PONTO ÚNICO DE CÁLCULO DE EFICIÊNCIA
+    // getActiveEfficiency() retorna estado pré-calculado correto para esta coluna
+    // NÃO modifica valores, NÃO acumula, apenas lê o estado apropriado
+    const maxEff = Math.floor(roleModel.getActiveEfficiency(colName))
+    
+    console.log('[gameLogic] - Eficiência ativa para', roleName, 'em', colName, '=', maxEff)
 
     if (maxEff < 1 || atual <= 0) return
 
     const roll = Math.floor(Math.random() * maxEff) + 1
     const next = Math.max(0, atual - roll)
+    
+    console.log('[gameLogic] - Roll:', roll, '| Antes:', atual, '→ Depois:', next)
 
     // Update indicator value in DOM
     valueEl.textContent = String(next)

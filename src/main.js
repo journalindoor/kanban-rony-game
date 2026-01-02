@@ -91,6 +91,30 @@
     if(typeof K.saveState === 'function') K.saveState()
   }
 
+  // WIP (Work In Progress) Counter System
+  K.updateWipCounters = function(){
+    // Query all WIP counter elements
+    const counters = document.querySelectorAll('.wip-counter[data-counter-col]')
+    
+    counters.forEach(counter => {
+      const columnName = counter.getAttribute('data-counter-col')
+      if(!columnName) return
+      
+      // Find the corresponding cards container
+      const cardsContainer = document.querySelector(`.cards[data-col="${columnName}"]`)
+      if(!cardsContainer) return
+      
+      // Count cards in this column
+      const cardCount = cardsContainer.querySelectorAll('.card').length
+      
+      // Backlog has limit of 5, others are unlimited (∞)
+      const limit = (columnName === 'Backlog') ? '5' : '∞'
+      
+      // Update counter display
+      counter.textContent = `${cardCount}/${limit}`
+    })
+  }
+
   // Move all cards from Publicado to Arquivados
   K.archivePublishedCards = function(){
     const publishedZone = document.querySelector('.cards[data-col="Publicado"]')
@@ -108,6 +132,10 @@
       }
       archivedZone.appendChild(card)
     })
+    
+    // Update WIP counters after archiving
+    if(typeof K.updateWipCounters === 'function') K.updateWipCounters()
+    
     return toMove.length
   }
 
@@ -131,8 +159,12 @@
         zone.appendChild(el)
       })
     })
-    // Inicializa sprites após renderizar cards
-    if(K.initCharacterSprites) K.initCharacterSprites()
+    // Inicializa sprites com efeito de login sequencial
+    // No modo livre (index.html), aguarda fechamento do modal de boas-vindas
+    const isFreeModeWithModal = document.getElementById('welcomeModal') !== null
+    if(!isFreeModeWithModal && K.initCharacterSpritesWithSequence) {
+      K.initCharacterSpritesWithSequence(500, 2000)
+    }
     // Atualizar displays
     if(K.updateMoneyDisplay) K.updateMoneyDisplay()
     // Se no capítulo 1, configurar estado do botão do capítulo 2
@@ -183,6 +215,9 @@
         if(typeof K.syncIndicatorStates === 'function') K.syncIndicatorStates()
         if(typeof K.syncAllNextColumnButtons === 'function') K.syncAllNextColumnButtons()
     }
+    
+    // Update WIP counters after state restoration
+    if(typeof K.updateWipCounters === 'function') K.updateWipCounters()
   }
 
   K.resetGame = function(){
@@ -220,6 +255,7 @@
     if(typeof K.initializeRoles === 'function') K.initializeRoles(true)
     if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
     if(typeof K.updateMoneyDisplay === 'function') K.updateMoneyDisplay()
+    if(typeof K.updateWipCounters === 'function') K.updateWipCounters()
     if(typeof K.saveState === 'function') K.saveState()
   }
 
@@ -231,6 +267,10 @@
         // increment day counter on each turn start
         K.dayCount = (K.dayCount || 0) + 1
         if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
+        
+        // Update office status message (changes every turn)
+        if(typeof K.updateOfficeStatus === 'function') K.updateOfficeStatus()
+        
         try{
           if(typeof K.runStartTurn === 'function'){
             const results = K.runStartTurn()
@@ -309,12 +349,18 @@
     else {
       // Não criar card inicial - backlog começa vazio
       if(typeof K.saveState === 'function') K.saveState()
-      // Inicializar sprites quando não há save
-      if(typeof K.initCharacterSprites === 'function') K.initCharacterSprites()
+      
+      // Inicializar sprites com efeito de login sequencial
+      // No modo livre (index.html), aguarda fechamento do modal de boas-vindas
+      const isFreeModeWithModal = document.getElementById('welcomeModal') !== null
+      if(!isFreeModeWithModal && typeof K.initCharacterSpritesWithSequence === 'function') {
+        K.initCharacterSpritesWithSequence(500, 2000)
+      }
     }
 
     if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
     if(typeof K.updateMoneyDisplay === 'function') K.updateMoneyDisplay()
+    if(typeof K.updateWipCounters === 'function') K.updateWipCounters()
 
     // wire drop zones
     if(typeof K.setupDropZones === 'function') K.setupDropZones()
@@ -326,17 +372,16 @@
         if(el) K.renderRole(K.roleModels[rName], el)
       })
     }
-    
-    // Sincronizar stats dos personagens no office-viewport
-    if(typeof K.syncAllCharacterStats === 'function') K.syncAllCharacterStats()
 
-    // Toggle archived column visibility
-    const toggleArchivedBtn = document.getElementById('toggleArchivedButton')
-    if(toggleArchivedBtn){
-      toggleArchivedBtn.addEventListener('click', ()=>{
-        const archivedCol = document.querySelector('.column[data-col="Arquivados"]')
-        if(archivedCol) archivedCol.classList.toggle('archived-hidden')
-      })
+    // Toggle archived column by clicking its header
+    const archivedCol = document.querySelector('.column[data-col="Arquivados"]')
+    if(archivedCol){
+      const archivedHeader = archivedCol.querySelector('.column-header')
+      if(archivedHeader){
+        archivedHeader.addEventListener('click', ()=>{
+          archivedCol.classList.toggle('archived-hidden')
+        })
+      }
     }
   })
 

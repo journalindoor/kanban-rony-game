@@ -50,19 +50,30 @@
     roleEl.dataset.attached = 'true'
     roleEl.classList.add('role-attached')
     
-    // Mover card para última posição da coluna usando função centralizada
-    if(typeof K.moveCardToBottomOfColumn === 'function'){
-      K.moveCardToBottomOfColumn(cardEl)
+    // Notify tutorial that a role was attached to a card
+    if(typeof K.TutorialState !== 'undefined' && K.TutorialState.tutorialActive){
+      console.log('[Roles] Role attached to card, notifying tutorial');
+      setTimeout(() => {
+        if(typeof K.TutorialState.executeCallback === 'function'){
+          K.TutorialState.executeCallback('dragRole');
+        }
+      }, 100);
     }
     
     if(typeof K.updateCardVisualState === 'function') K.updateCardVisualState(cardEl)
     // maintain runtime mapping of assignments
     K.roleAssignments = K.roleAssignments || {}
     // Converter ID para número (todos os IDs são numéricos agora)
-    K.roleAssignments[roleEl.getAttribute('data-role')] = parseInt(cardEl.getAttribute('data-id'), 10)
+    K.roleAssignments[roleName] = parseInt(cardEl.getAttribute('data-id'), 10)
+    
+    // Atualizar estado do personagem baseado na coluna
+    if(typeof K.applyCharacterState === 'function') {
+      K.applyCharacterState(roleName)
+    }
+    
     // Sincronizar personagem no office-viewport (working)
     if(typeof K.syncCharacterWithRole === 'function') {
-      K.syncCharacterWithRole(roleEl.getAttribute('data-role'), true)
+      K.syncCharacterWithRole(roleName, true)
     }
     if(typeof K.saveState === 'function') K.saveState()
     return true
@@ -80,6 +91,12 @@
     if(prevCard && typeof K.updateCardVisualState === 'function') K.updateCardVisualState(prevCard)
     K.roleAssignments = K.roleAssignments || {}
     K.roleAssignments[roleName] = null
+    
+    // Atualizar estado do personagem para estado 0 (sem card)
+    if(typeof K.applyCharacterState === 'function') {
+      K.applyCharacterState(roleName)
+    }
+    
     // Sincronizar personagem no office-viewport (idle)
     if(typeof K.syncCharacterWithRole === 'function') {
       K.syncCharacterWithRole(roleName, false)
@@ -112,10 +129,16 @@
 
   // Setup drag listeners on role squares
   function setupRoleSquares(){
-    const container = document.querySelector(rolesContainerSelector)
-    if(!container) return
-    container.querySelectorAll(roleSelector).forEach(r=>{
+    // Buscar TODOS os roles (na área de roles E nos cards)
+    const allRoles = document.querySelectorAll(roleSelector)
+    console.log('[setupRoleSquares] Configurando', allRoles.length, 'roles');
+    allRoles.forEach(r=>{
       r.setAttribute('draggable','true')
+      console.log('[setupRoleSquares] Configurando role:', r.getAttribute('data-role'), 'draggable:', r.draggable);
+      // Remover event listeners antigos para evitar duplicação
+      r.removeEventListener('dragstart', onDragStartRole)
+      r.removeEventListener('dragend', onDragEndRole)
+      // Adicionar event listeners
       r.addEventListener('dragstart', onDragStartRole)
       r.addEventListener('dragend', onDragEndRole)
       // allow click on attached role to detach back
@@ -185,5 +208,6 @@
   // Expose public API
   K.detachRole = detachRole
   K.detachRoleManually = detachRoleManually
+  K.setupRoleSquares = setupRoleSquares // Expor para re-estabelecer listeners após render
 
 })(window.Kanban)

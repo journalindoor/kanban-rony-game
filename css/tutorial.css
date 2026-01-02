@@ -1,226 +1,227 @@
-/* ============================================
-   TUTORIAL CSS
-   Visual elements exclusive to tutorial mode
-   ============================================ */
+/*
+ * tutorial.css — Estilo do Tutorial
+ * 
+ * REGRAS OBRIGATÓRIAS:
+ * ❌ NÃO escurecer a tela
+ * ❌ NÃO usar overlay opaco
+ * ❌ NÃO bloquear visualmente o jogo
+ * ✅ Jogo sempre totalmente visível
+ * ✅ Apenas highlights nos elementos
+ */
 
-/* Tutorial badge */
-.tutorial-badge{
-  display:inline-block;
-  background:#8b5cf6;
-  color:#fff;
-  padding:4px 12px;
-  border-radius:6px;
-  font-size:14px;
-  font-weight:600;
-  margin-left:8px;
-  vertical-align:middle;
-}
+/* ========================================
+   MESSAGE BOX (flutuante, não-bloqueante)
+   ======================================== */
 
-/* Tutorial overlay system */
-.tutorial-overlay{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100vw;
-  height:100vh;
-  z-index:9999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  pointer-events:none;
-}
-
-.tutorial-overlay.hidden{
-  display:none;
-}
-
-.tutorial-overlay.active{
-  pointer-events:auto;
-}
-
-/* Backdrop - blocks interaction with game */
-.tutorial-backdrop{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.7);
-  backdrop-filter:blur(2px);
-}
-
-/* Tutorial message box */
-.tutorial-message-box{
-  position:relative;
-  z-index:10000;
-  background:#fff;
-  border-radius:12px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.3);
-  max-width:500px;
-  width:90%;
-  padding:0;
-  animation:tutorialSlideIn 0.3s ease-out;
-}
-
-@keyframes tutorialSlideIn{
-  from{
-    opacity:0;
-    transform:translateY(-20px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-.tutorial-message-header{
-  background:linear-gradient(135deg, #8b5cf6, #7c3aed);
-  color:#fff;
-  padding:16px 20px;
-  border-radius:12px 12px 0 0;
-  font-weight:700;
-  font-size:14px;
-  text-transform:uppercase;
-  letter-spacing:0.5px;
-}
-
-.tutorial-message-content{
-  padding:24px 20px;
-  font-size:16px;
-  line-height:1.6;
-  color:#374151;
-}
-
-.tutorial-message-actions{
-  padding:16px 20px;
-  border-top:1px solid #e5e7eb;
-  display:flex;
-  gap:12px;
-  justify-content:flex-end;
-}
-
-.tutorial-button{
-  padding:10px 20px;
-  border:none;
-  border-radius:8px;
-  font-weight:600;
-  font-size:14px;
-  cursor:pointer;
-  transition:all 0.2s ease;
-}
-
-.tutorial-button-primary{
-  background:#8b5cf6;
-  color:#fff;
-}
-
-.tutorial-button-primary:hover{
-  background:#7c3aed;
-  transform:translateY(-1px);
-  box-shadow:0 4px 12px rgba(139,92,246,0.3);
-}
-
-.tutorial-button-secondary{
-  background:#e5e7eb;
-  color:#6b7280;
-}
-
-.tutorial-button-secondary:hover{
-  background:#d1d5db;
-}
-
-.tutorial-button:disabled{
-  opacity:0.5;
-  cursor:not-allowed;
-  transform:none !important;
-}
-
-/* Tutorial highlight system */
-.tutorial-highlight{
-  position:absolute;
-  pointer-events:none;
-  z-index:9998;
-  border:3px solid #8b5cf6;
-  border-radius:8px;
-  box-shadow:0 0 0 4px rgba(139,92,246,0.2),
-             0 0 20px rgba(139,92,246,0.4);
-  animation:tutorialPulse 2s ease-in-out infinite;
-}
-
-.tutorial-highlight.hidden{
-  display:none;
-}
-
-@keyframes tutorialPulse{
-  0%, 100%{
-    box-shadow:0 0 0 4px rgba(139,92,246,0.2),
-               0 0 20px rgba(139,92,246,0.4);
-  }
-  50%{
-    box-shadow:0 0 0 8px rgba(139,92,246,0.4),
-               0 0 30px rgba(139,92,246,0.6);
-  }
-}
-
-/* Tutorial arrow pointer */
-.tutorial-arrow{
-  position:absolute;
-  width:0;
-  height:0;
-  border-left:15px solid transparent;
-  border-right:15px solid transparent;
-  border-top:20px solid #8b5cf6;
-  animation:tutorialBounce 1s ease-in-out infinite;
-  z-index:10001;
-}
-
-@keyframes tutorialBounce{
-  0%, 100%{
-    transform:translateY(0);
-  }
-  50%{
-    transform:translateY(-10px);
-  }
-}
-
-/* Tutorial element states */
-.tutorial-disabled{
-  pointer-events:none !important;
-  opacity:0.5 !important;
-  filter:grayscale(100%) !important;
-}
-
-.tutorial-enabled{
-  pointer-events:auto !important;
-  position:relative;
-  z-index:9999;
-}
-
-/* Cutout effect - element is interactive within overlay */
-.tutorial-cutout{
-  position:relative;
-  z-index:10000;
-  pointer-events:auto;
-}
-
-/* Mobile adjustments */
-@media (max-width:800px){
-  .tutorial-message-box{
-    max-width:90%;
-    margin:0 20px;
-  }
+.tutorial-message-box {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 420px;
+  max-width: 90vw;
+  background: white;
+  border: 2px solid #2c3e50;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 9999;
   
-  .tutorial-message-content{
-    font-size:14px;
-    padding:20px 16px;
+  /* Inicialmente escondido */
+  opacity: 0;
+  transform: translateX(100%);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.tutorial-message-box.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+/* Header */
+.tutorial-message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #2c3e50;
+  color: white;
+  border-radius: 6px 6px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+#tutorialStepCounter {
+  flex: 1;
+}
+
+.tutorial-close-button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.tutorial-close-button:hover {
+  opacity: 0.7;
+}
+
+/* Body */
+.tutorial-message-body {
+  padding: 20px;
+}
+
+#tutorialMessageTitle {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  color: #2c3e50;
+}
+
+#tutorialMessageText {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #34495e;
+}
+
+#tutorialMessageText p {
+  margin: 0 0 12px 0;
+}
+
+#tutorialMessageText ul {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+#tutorialMessageText li {
+  margin: 4px 0;
+}
+
+#tutorialMessageText strong {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* Footer */
+.tutorial-message-footer {
+  display: flex;
+  gap: 8px;
+  padding: 16px;
+  border-top: 1px solid #ecf0f1;
+}
+
+.tutorial-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tutorial-btn-primary {
+  background: #3498db;
+  color: white;
+  flex: 1;
+}
+
+.tutorial-btn-primary:hover {
+  background: #2980b9;
+}
+
+.tutorial-btn-secondary {
+  background: #95a5a6;
+  color: white;
+}
+
+.tutorial-btn-secondary:hover {
+  background: #7f8c8d;
+}
+
+.tutorial-btn-secondary:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.tutorial-btn-text {
+  background: transparent;
+  color: #7f8c8d;
+  padding: 10px 12px;
+}
+
+.tutorial-btn-text:hover {
+  color: #2c3e50;
+}
+
+/* ========================================
+   HIGHLIGHT (destaque de elementos)
+   ======================================== */
+
+.tutorial-highlight {
+  outline: 5px solid #e74c3c !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 20px rgba(231, 76, 60, 0.8), 0 0 40px rgba(231, 76, 60, 0.4), inset 0 0 0 3px rgba(231, 76, 60, 0.3) !important;
+  position: relative !important;
+  z-index: 9998 !important;
+  animation: tutorial-pulse 1.5s ease-in-out infinite !important;
+}
+
+/* Garantir que o highlight funcione com elementos flex/overflow */
+.tutorial-highlight.board,
+.tutorial-highlight#board {
+  outline: 6px solid #e74c3c !important;
+  outline-offset: -2px !important;
+  border: 3px solid rgba(231, 76, 60, 0.5) !important;
+  box-shadow: 0 0 30px rgba(231, 76, 60, 0.9), 0 0 60px rgba(231, 76, 60, 0.5), inset 0 0 0 2px rgba(231, 76, 60, 0.4) !important;
+}
+
+@keyframes tutorial-pulse {
+  0%, 100% {
+    outline-color: #e74c3c;
+    outline-width: 5px;
   }
-  
-  .tutorial-message-actions{
-    flex-direction:column-reverse;
-    gap:8px;
+  50% {
+    outline-color: #c0392b;
+    outline-width: 7px;
   }
-  
-  .tutorial-button{
-    width:100%;
+}
+
+/* ========================================
+   BADGE "Tutorial" no título
+   ======================================== */
+
+.tutorial-badge {
+  display: inline-block;
+  background: #f39c12;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 12px;
+  vertical-align: middle;
+}
+
+/* ========================================
+   RESPONSIVO
+   ======================================== */
+
+@media (max-width: 768px) {
+  .tutorial-message-box {
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+    max-width: none;
   }
 }

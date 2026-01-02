@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
-		<title>Kanban Rony Game</title>
+		<title>RonyOffice</title>
 		<!-- CSS imports in cascading order -->
 		<link rel="stylesheet" href="css/base.css">
 		<link rel="stylesheet" href="css/layout.css">
@@ -12,21 +12,13 @@
 		<link rel="stylesheet" href="css/board.css">
 		<link rel="stylesheet" href="css/components.css">
 		<link rel="stylesheet" href="css/office-panel.css">
-		<link rel="stylesheet" href="css/modal.css">
+		<link rel="stylesheet" href="css/modal.css">	<link rel="stylesheet" href="css/role-states.css">		<link rel="stylesheet" href="css/role-states.css">
 	</head>
 	<body>
 
     <div class="game-layout">
       <div class="container">
-			<h1>Kanban - Rony Game <span class="mode-badge">Modo Livre</span></h1>
-            <!-- Top controls moved here -->
-            <div class="top-controls">
-				<button id="startButton" class="start-button">Iniciar Turno</button>
-                <button id="resetButton" class="reset-button">Reiniciar</button>
-				<button id="toggleArchivedButton" class="archived-toggle-button">Arquivados</button>
-				<button id="goToTutorialButton" class="tutorial-button">Tutorial</button>
-				<button id="startChapter1Button" class="chapter-start-button">Iniciar Capítulo 1</button>
-            </div>
+			<h1>RonyOffice <span class="mode-badge">Modo Livre</span></h1>
 			<!-- Status bar for day counter and future metrics -->
 			<div class="status-bar">
 				<div class="status-left">
@@ -42,9 +34,15 @@
 					</div>
 					<!-- Roles area -->
 					<div class="roles-area" id="rolesArea">
-						<div class="role" data-role="Analista" id="role-analista">Azul<br>Analista</div>
-						<div class="role" data-role="Programador" id="role-programador">Verde<br>Programador</div>
-						<div class="role" data-role="QA/Tester" id="role-qa">Amarelo<br>QA/Tester</div>
+						<div class="role" data-role="Analista 1" id="role-analista-1">Azul<br>Rony</div>
+						<div class="role" data-role="Analista 2" id="role-analista-2">Azul<br>Analista 2</div>
+						<div class="role" data-role="Analista 3" id="role-analista-3">Azul<br>Analista 3</div>
+						<div class="role" data-role="Programador 1" id="role-programador-1">Verde<br>Rony</div>
+						<div class="role" data-role="Programador 2" id="role-programador-2">Verde<br>Programador 2</div>
+						<div class="role" data-role="Programador 3" id="role-programador-3">Verde<br>Programador 3</div>
+						<div class="role" data-role="QA/Tester 1" id="role-qa-1">Amarelo<br>Rony</div>
+						<div class="role" data-role="QA/Tester 2" id="role-qa-2">Amarelo<br>QA/Tester 2</div>
+						<div class="role" data-role="QA/Tester 3" id="role-qa-3">Amarelo<br>QA/Tester 3</div>
 					</div>
 				</div>
 				<div class="status-actions">
@@ -59,91 +57,109 @@
 				<!-- Kanban Board -->
 				<div class="board" id="board">
 				<div class="column" data-col="Backlog">
-					<div class="column-header">Backlog</div>
-					<div class="cards" data-col="Backlog"></div>
+				<div class="column-header">
+					Backlog
+					<span class="wip-counter" data-counter-col="Backlog">0/5</span>
 				</div>
+				<div class="cards" data-col="Backlog"></div>
+			</div>
 
-				<div class="column" data-col="Refinamento">
-					<div class="column-header">Refinamento</div>
-					<div class="cards" data-col="Refinamento"></div>
+			<div class="column" data-col="Refinamento">
+				<div class="column-header">
+					Refinamento
+					<span class="wip-counter" data-counter-col="Refinamento">0/∞</span>
 				</div>
+				<div class="cards" data-col="Refinamento"></div>
+			</div>
 
-				<div class="column" data-col="SprintBacklog">
-					<div class="column-header">SprintBacklog</div>
-					<div class="cards" data-col="SprintBacklog"></div>
+			<div class="column" data-col="SprintBacklog">
+				<div class="column-header">
+					SprintBacklog
+					<span class="wip-counter" data-counter-col="SprintBacklog">0/∞</span>
 				</div>
+				<div class="cards" data-col="SprintBacklog"></div>
+			</div>
 
-				<div class="column" data-col="Fazendo">
-					<div class="column-header">Fazendo</div>
-					<div class="cards" data-col="Fazendo"></div>
+			<div class="column" data-col="Fazendo">
+				<div class="column-header">
+					Fazendo
+					<span class="wip-counter" data-counter-col="Fazendo">0/∞</span>
 				</div>
+				<div class="cards" data-col="Fazendo"></div>
+			</div>
 
-				<div class="column" data-col="Homologando">
-					<div class="column-header">Homologando</div>
-					<div class="cards" data-col="Homologando"></div>
+			<div class="column" data-col="Homologando">
+				<div class="column-header">
+					Homologando
+					<span class="wip-counter" data-counter-col="Homologando">0/∞</span>
 				</div>
+				<div class="cards" data-col="Homologando"></div>
+			</div>
 
-				<div class="column" data-col="Ajustes">
-					<div class="column-header">Ajustes</div>
-					<div class="cards" data-col="Ajustes"></div>
+			<div class="column" data-col="Ajustes">
+				<div class="column-header">
+					Ajustes
+					<span class="wip-counter" data-counter-col="Ajustes">0/∞</span>
 				</div>
+				<div class="cards" data-col="Ajustes"></div>
+			</div>
 
-				<div class="column" data-col="Publicado">
-					<div class="column-header">Publicado</div>
-					<div class="cards" data-col="Publicado"></div>
+			<div class="column" data-col="Publicado">
+				<div class="column-header">
+					Publicado
+					<span class="wip-counter" data-counter-col="Publicado">0/∞</span>
 				</div>
+				<div class="cards" data-col="Publicado"></div>
+			</div>
 
-				<!-- Arquivados column (hidden by default) -->
-				<div class="column archived-column archived-hidden" data-col="Arquivados">
-					<div class="column-header">Arquivados</div>
-					<div class="cards" data-col="Arquivados"></div>
+			<!-- Arquivados column (hidden by default) -->
+			<div class="column archived-column archived-hidden" data-col="Arquivados">
+				<div class="column-header">
+					Arquivados
+					<span class="wip-counter" data-counter-col="Arquivados">0/∞</span>
 				</div>
+				<div class="cards" data-col="Arquivados"></div>
+			</div>
 			</div>
 			
 			<!-- Office Panel - Pixel Art Workspace -->
 			<div class="office-panel" id="officePanel">
 				<div class="office-header">
-					<h2 class="office-title">Escritório</h2>
+					<h2 class="office-title">RonyOffice</h2>
 				</div>
-				<div class="office-viewport">
-				<!-- Grid de Videochamada 3x3 -->
+				
+				<!-- Top controls integrated into office panel -->
+				<div class="top-controls">
+					<button id="startButton" class="start-button">Iniciar Turno</button>
+					<button id="resetButton" class="reset-button">Reiniciar</button>
+				<button id="manualButton" class="manual-button" onclick="window.open('manual.html', '_blank')">📖 Manual</button>
+				<button id="goToTutorialButton" class="tutorial-button">Tutorial</button>
+				<button id="startChapter1Button" class="chapter-start-button">Capítulo 1</button>
+			</div>
+			
+			<div class="office-viewport">
 				<div class="video-grid">
 					<!-- Fileira 1: Analistas -->
 					<div class="video-row" data-role-type="Analista">
 						<div class="video-tile" data-character-id="analista-1">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">Analista 1</div>
-								<div class="info-role">Analista</div>
-								<div class="info-stats">
-									<span class="stat-item">😊 0</span>
-									<span class="stat-item">🎯 0</span>
-									<span class="stat-item">⚡ 0</span>
-								</div>
+								<div class="info-name">Rony</div>
+						<div class="info-role">Analista 1</div>
 							</div>
 						</div>
 						<div class="video-tile" data-character-id="analista-2">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">Analista 2</div>
-								<div class="info-role">Analista</div>
-								<div class="info-stats">
-									<span class="stat-item">😊 0</span>
-									<span class="stat-item">🎯 0</span>
-									<span class="stat-item">⚡ 0</span>
-								</div>
+								<div class="info-name">Rony</div>
+						<div class="info-role">Analista 2</div>
 							</div>
 						</div>
 						<div class="video-tile" data-character-id="analista-3">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">Analista 3</div>
-								<div class="info-role">Analista</div>
-								<div class="info-stats">
-									<span class="stat-item">😊 0</span>
-									<span class="stat-item">🎯 0</span>
-									<span class="stat-item">⚡ 0</span>
-								</div>
+								<div class="info-name">Rony</div>
+						<div class="info-role">Analista 3</div>
 							</div>
 						</div>
 					</div>
@@ -153,37 +169,22 @@
 						<div class="video-tile" data-character-id="programador-1">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">Programador 1</div>
-								<div class="info-role">Programador</div>
-								<div class="info-stats">
-									<span class="stat-item">😊 0</span>
-									<span class="stat-item">🎯 0</span>
-									<span class="stat-item">⚡ 0</span>
-								</div>
+								<div class="info-name">Rony</div>
+						<div class="info-role">Programador 1</div>
 							</div>
 						</div>
 						<div class="video-tile" data-character-id="programador-2">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">Programador 2</div>
-								<div class="info-role">Programador</div>
-								<div class="info-stats">
-									<span class="stat-item">😊 0</span>
-									<span class="stat-item">🎯 0</span>
-									<span class="stat-item">⚡ 0</span>
-								</div>
+								<div class="info-name">Rony</div>
+						<div class="info-role">Programador 2</div>
 							</div>
 						</div>
 						<div class="video-tile" data-character-id="programador-3">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">Programador 3</div>
-								<div class="info-role">Programador</div>
-								<div class="info-stats">
-									<span class="stat-item">😊 0</span>
-									<span class="stat-item">🎯 0</span>
-									<span class="stat-item">⚡ 0</span>
-								</div>
+								<div class="info-name">Rony</div>
+						<div class="info-role">Programador 3</div>
 							</div>
 						</div>
 					</div>
@@ -193,67 +194,56 @@
 						<div class="video-tile" data-character-id="qa-1">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">QA 1</div>
-								<div class="info-role">QA/Tester</div>
-								<div class="info-stats">
-									<span class="stat-item">😊 0</span>
-									<span class="stat-item">🎯 0</span>
-									<span class="stat-item">⚡ 0</span>
-								</div>
+								<div class="info-name">Rony</div>
+						<div class="info-role">QA/Tester 1</div>
 							</div>
 						</div>
 						<div class="video-tile" data-character-id="qa-2">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">QA 2</div>
-								<div class="info-role">QA/Tester</div>
-								<div class="info-stats">
-									<span class="stat-item">😊 0</span>
-									<span class="stat-item">🎯 0</span>
-									<span class="stat-item">⚡ 0</span>
-								</div>
+								<div class="info-name">Rony</div>
+						<div class="info-role">QA/Tester 2</div>
 							</div>
 						</div>
 						<div class="video-tile" data-character-id="qa-3">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-								<div class="info-name">QA 3</div>
-								<div class="info-role">QA/Tester</div>
-								<div class="info-stats">
-									<span class="stat-item">😊 0</span>
-									<span class="stat-item">🎯 0</span>
-									<span class="stat-item">⚡ 0</span>
-								</div>
+								<div class="info-name">Rony</div>
+						<div class="info-role">QA/Tester 3</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-				
-				<!-- Office Footer (extensible for future features) -->
-				<div class="office-footer">
-					<div class="office-status">
-						<span class="status-icon">💼</span>
-						<span class="status-text">Time em repouso</span>
-					</div>
+			
+			<!-- Office Footer (extensible for future features) -->
+			<div class="office-footer">
+				<div class="office-status">
+					<span class="status-text">Time em repouso</span>
 				</div>
 			</div>
-			</div><!-- .main-content -->
+		</div><!-- .office-panel -->
+		</div><!-- .main-content -->
 		</div><!-- .container -->
 
 		<!-- Welcome Modal -->
 		<div id="welcomeModal" class="modal-overlay" style="display:flex;">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h2>Bem-vindo ao Kanban Rony Game! 🎮</h2>
+					<h2>Bem-vindo ao RonyOffice! 🎮</h2>
 				</div>
-				<div class="modal-body">
-					<p style="font-size:16px; line-height:1.6; color:#4b5563; margin:0 0 20px 0;">
-						Este é um jogo de simulação Kanban onde você gerencia o fluxo de trabalho de uma equipe de desenvolvimento.
-					</p>
-					<p style="font-size:16px; line-height:1.6; color:#4b5563; margin:0 0 20px 0;">
-						Você gostaria de fazer o <strong>tutorial</strong> para aprender os conceitos básicos?
-					</p>
+				<div class="modal-body" style="display:flex; gap:20px; align-items:center;">
+					<div class="modal-character" style="flex:0 0 30%; display:flex; justify-content:center; align-items:center;">
+						<div style="width:120px; height:120px; background-image:url('assets/rony-modal.png'); background-size:360px 240px; background-position:0 0; background-repeat:no-repeat;"></div>
+					</div>
+					<div style="flex:1;">
+						<p style="font-size:16px; line-height:1.6; color:#4b5563; margin:0 0 20px 0;">
+							Este é um jogo de simulação Kanban onde você gerencia o fluxo de trabalho de uma equipe de desenvolvimento.
+						</p>
+						<p style="font-size:16px; line-height:1.6; color:#4b5563; margin:0 0 20px 0;">
+							Você gostaria de fazer o <strong>tutorial</strong> para aprender os conceitos básicos?
+						</p>
+					</div>
 				</div>
 				<div class="modal-actions">
 					<button id="skipTutorialBtn" class="modal-button modal-button-secondary">Pular Tutorial</button>
@@ -269,6 +259,8 @@
 					<span class="footer-version">Versão 1.0.0</span>
 					<span class="footer-separator">|</span>
 					<span class="footer-author">Criado por Rony</span>
+					<span class="footer-separator">|</span>
+					<a href="https://www.linkedin.com/in/ronaldojr/" target="_blank" class="footer-linkedin" rel="noopener noreferrer">LinkedIn</a>
 				</div>
 				<div class="footer-date">
 					<span>© 2025</span>
@@ -291,6 +283,13 @@
 				// Hide modal if already seen
 				if(hasSeenWelcome){
 					if(modal) modal.style.display = 'none';
+					
+					// Se modal já foi visto, iniciar sprites normalmente após delay
+					setTimeout(() => {
+						if(typeof window.Kanban.initCharacterSpritesWithSequence === 'function') {
+							window.Kanban.initCharacterSpritesWithSequence(500, 2000);
+						}
+					}, 100);
 				}
 				
 				// Start tutorial button
@@ -315,6 +314,13 @@
 					skipTutorialBtn.addEventListener('click', function(){
 						localStorage.setItem('kanban_welcome_seen', 'true');
 						if(modal) modal.style.display = 'none';
+						
+						// Iniciar carregamento de sprites após fechar modal
+						setTimeout(() => {
+							if(typeof window.Kanban.initCharacterSpritesWithSequence === 'function') {
+								window.Kanban.initCharacterSpritesWithSequence(500, 2000);
+							}
+						}, 100);
 					});
 				}
 				
@@ -354,6 +360,7 @@
 		<script src="src/gameLogic.js" defer></script>
 		<script src="src/backlogRules.js" defer></script>
 		<script src="src/progressionRules.js" defer></script>
+		<script src="src/officeStatusMessages.js" defer></script>
 		<script src="src/main.js" defer></script>
 	</body>
 </html>

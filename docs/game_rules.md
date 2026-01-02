@@ -1,4 +1,4 @@
-# Kanban – Rony Game
+# RonyOffice
 ## Manual de Regras do Jogo
 
 Este documento define as regras oficiais do jogo.
@@ -52,20 +52,16 @@ Regras:
 
 O jogo reordena automaticamente os cards dentro das colunas baseado em seu status:
 
-### 3.1.1 Card Recebe Papel
-- Quando um papel é associado a um card, o card é **movido para o final da coluna** (última posição)
-- Objetivo: Priorizar visualmente cards sem papel que ainda precisam de atenção
-
-### 3.1.2 Card Completa Requisito
+### 3.1.1 Card Completa Requisito
 - Quando um indicador chega a zero e o card está pronto para ser movido para a próxima coluna:
   - O card é **movido para o topo da coluna** (primeira posição)
   - Objetivo: Destacar cards prontos para avançar no fluxo
   - Aplica-se a todas as colunas com indicadores (Refinamento, Fazendo, Homologando, Ajustes)
 
-### 3.1.3 Regra Geral de Ordenação
+### 3.1.2 Regra Geral de Ordenação
 - **Topo**: Cards com trabalho concluído (indicador da coluna = 0)
-- **Meio**: Cards sem papel associado
-- **Fim**: Cards com papel em andamento
+- **Restante**: Cards na ordem em que foram adicionados/movidos para a coluna
+- **Nota**: Cards não são mais reordenados automaticamente ao associar um papel
 
 ---
 
@@ -73,14 +69,71 @@ O jogo reordena automaticamente os cards dentro das colunas baseado em seu statu
 
 - Cada papel possui:
   - **Talento Natural**: Sorteado uma única vez (1 a 3) no carregamento do jogo e não muda até reiniciar
-  - **Felicidade**: Valor variável de 0 até o máximo permitido (atualmente 0, mas pode ser implementado no futuro)
+  - **Felicidade**: Valor variável baseado na coluna onde o card está posicionado
   - **Eficiência Máxima**: 6 (limite superior independente do talento e felicidade)
-- A **eficiência atual** é calculada como:
-  - `eficiência = min(6, talentoNatural + felicidade)`
+- A **eficiência ativa** é determinada pela coluna onde o card está posicionado:
+  - `eficiência ativa = talentoNatural + felicidade contextual`
 - Ao iniciar o turno:
-  - Um valor aleatório entre `1` e `eficiência máxima` é sorteado
+  - Um valor aleatório entre `1` e `eficiência ativa` é sorteado
   - Esse valor é subtraído da dificuldade do indicador correspondente à coluna onde o card está posicionado
   - Apenas o indicador da coluna atual é afetado (não se reduz dificuldade de outras colunas)
+
+### 4.1 Sistema de Felicidade Contextual
+
+A felicidade dos papéis varia automaticamente baseado na coluna onde o card está posicionado:
+
+#### Analista
+- **Refinamento**: Felicidade 6 (😊 Feliz) → Eficiência = Talento + 6
+- **Outras colunas**: Felicidade 2 (🙂 Contente) → Eficiência = Talento + 2
+
+#### Programador
+- **Fazendo**: Felicidade 6 (😊 Feliz) → Eficiência = Talento + 6
+- **Ajustes**: Felicidade 3 (😌 Satisfeito) → Eficiência = Talento + 3
+- **Outras colunas**: Felicidade 2 (🙂 Contente) → Eficiência = Talento + 2
+
+#### QA/Tester
+- **Homologando**: Felicidade 6 (😊 Feliz) → Eficiência = Talento + 6
+- **Outras colunas**: Felicidade 2 (🙂 Contente) → Eficiência = Talento + 2
+
+### 4.2 Estados Pré-calculados
+
+- Cada papel possui **estados pré-calculados** criados no momento da inicialização:
+  - `felicidadeState0 = 0` / `eficienciaState0 = talento + 0`
+  - `felicidadeState2 = 2` / `eficienciaState2 = talento + 2`
+  - `felicidadeState3 = 3` / `eficienciaState3 = talento + 3` (só Programador)
+  - `felicidadeState6 = 6` / `eficienciaState6 = talento + 6`
+
+- Esses valores são **imutáveis** após criação (exceto se o talento for alterado via `fromJSON`)
+- A interface exibe o estado correspondente à situação atual do papel
+- **Sistema 100% CSS**: A visibilidade dos estados é controlada exclusivamente via CSS usando `data-*` attributes
+
+### 4.3 Implementação Técnica
+
+- **Controle de Visibilidade**: Atributos `data-role-type`, `data-assigned`, `data-column`
+- **Estados DOM**: Todos os estados (0, 2, 3, 6) são renderizados no HTML
+- **CSS**: Regras específicas mostram apenas o estado ativo baseado nos atributos
+- **JavaScript**: Apenas define contexto via atributos, não calcula visibilidade
+
+### 4.4 Uso no Progresso de Cards
+
+- **Durante o turno** (`runStartTurn`):
+  - O sistema identifica a coluna atual do card
+  - Chama `roleModel.getActiveEfficiency(columnName)` para obter a eficiência correta
+  - Usa essa eficiência ativa para calcular o progresso do trabalho
+
+- **Mudança de coluna**:
+  - Quando um card muda de coluna, a eficiência ativa muda automaticamente
+  - No próximo turno, a nova eficiência será usada
+  - Nenhum recálculo manual necessário
+
+- **Cálculo de Ajustes** (Homologando):
+  - Usa `getActiveEfficiency('Homologando')` para determinar a probabilidade de bugs
+  - QA feliz (eficiência 6+) → 5% de chance de bugs
+  - QA em outras colunas (eficiência 3-4) → 25-50% de chance de bugs
+
+- **Benefício estratégico**:
+  - Colocar o personagem certo na coluna certa acelera o trabalho
+  - Exemplo: Analista em Refinamento trabalha 3× mais rápido que em outras colunas (se talento = 1)
 
 ---
 
@@ -493,7 +546,18 @@ Durante o tutorial:
 
 ## 14. Sistema de Escritório (Office Panel)
 
-### 14.1 Grid de Videochamada
+### 14.1 Posicionamento e Layout
+
+- O painel de escritório (`.office-panel`) está posicionado à **esquerda** da interface
+- O board Kanban (`.board`) está posicionado à **direita**
+- Layout horizontal controlado via CSS flexbox `order`
+- Dentro do `.office-panel`:
+  1. `.office-header` - Título "RonyOffice"
+  2. `.top-controls` - Botões de controle do jogo (Iniciar Turno, Reiniciar, etc.)
+  3. `.office-viewport` - Grid de videochamada
+  4. `.office-footer` - Status do time
+
+### 14.2 Grid de Videochamada
 
 - O painel de escritório exibe um grid 3×3 com 9 áreas de videochamada
 - Organização por tipo de papel:
@@ -501,7 +565,7 @@ Durante o tutorial:
   - Linha 2: 3 Programadores (programador-1, programador-2, programador-3)
   - Linha 3: 3 QAs (qa-1, qa-2, qa-3)
 
-### 14.2 Composição Visual dos Personagens
+### 14.3 Composição Visual dos Personagens
 
 Cada área de videochamada usa um sistema de camadas (layers):
 
@@ -513,7 +577,7 @@ Cada área de videochamada usa um sistema de camadas (layers):
    - Sempre visível acima do personagem
    - Sprite: `computador1.png`
 
-### 14.3 Sistema de Status
+### 14.4 Sistema de Status
 
 - Cada personagem possui um status atual: `idle` ou `working`
 - Status inicial: `idle`
@@ -521,16 +585,34 @@ Cada área de videochamada usa um sistema de camadas (layers):
   - `idle` → `working`: Quando um papel é associado a um card
   - `working` → `idle`: Quando o papel é desassociado do card
 
-### 14.4 Mapeamento Role → Character
+### 14.5 Mapeamento Role → Character
 
 - Cada papel da `.roles-area` está mapeado para um personagem específico:
-  - "Analista" → `analista-1`
-  - "Programador" → `programador-1`
-  - "QA/Tester" → `qa-1`
+  - "Analista 1" → `analista-1`
+  - "Analista 2" → `analista-2`
+  - "Analista 3" → `analista-3`
+  - "Programador 1" → `programador-1`
+  - "Programador 2" → `programador-2`
+  - "Programador 3" → `programador-3`
+  - "QA/Tester 1" → `qa-1`
+  - "QA/Tester 2" → `qa-2`
+  - "QA/Tester 3" → `qa-3`
 - Quando um papel é arrastado para um card, o personagem correspondente muda para status `working`
 - Quando o papel é removido (manual ou automaticamente), o personagem volta para `idle`
 
-### 14.5 Sistema de Desbloqueio
+### 14.5.1 Exibição de Cargos no Painel de Videochamada
+
+- Cada tile de vídeo (`.video-tile`) exibe:
+  - Nome do personagem em `.info-name` (ex: "Rony")
+  - Cargo identificado em `.info-role` (ex: "Analista 1", "Programador 2", "QA/Tester 3")
+- Os cargos são **hardcoded** diretamente no HTML de cada tile:
+  - Correspondência direta com o `data-character-id` do tile
+  - `data-character-id="analista-1"` → `.info-role` contém "Analista 1"
+  - `data-character-id="programador-2"` → `.info-role` contém "Programador 2"
+  - `data-character-id="qa-3"` → `.info-role` contém "QA/Tester 3"
+- **Nota**: Antiga área `.info-stats` foi removida (obsoleta)
+
+### 14.6 Sistema de Desbloqueio
 
 - Estado inicial do jogo:
   - 3 personagens desbloqueados: `analista-1`, `programador-1`, `qa-1`
@@ -543,7 +625,7 @@ Cada área de videochamada usa um sistema de camadas (layers):
   - Não respondem a mudanças de status
 - Os 9 slots estão sempre visíveis no grid (layout fixo)
 
-### 14.6 Sprites e Assets
+### 14.7 Sprites e Assets
 
 - Todos os sprites são renderizados com `image-rendering: pixelated` para manter estilo pixel art
 - Assets organizados na pasta `/assets`
@@ -551,5 +633,42 @@ Cada área de videochamada usa um sistema de camadas (layers):
   - Personagens: `[tipo][numero]-[status].gif` (ex: `programador1-idle.gif`)
   - Computador: `computador1.png`
   - Offline: `offline.png`
+
+### 14.8 Coluna Arquivados
+
+- A coluna Arquivados possui comportamento especial:
+  - Por padrão, inicia **colapsada** (classe `.archived-hidden`)
+  - Quando colapsada: largura reduzida para 40px, título vertical (de baixo para cima)
+  - Quando expandida: largura normal, exibe cards
+- **Interação**: Clique no título da coluna para expandir/colapsar
+  - É a **única coluna** com este comportamento
+  - Cursor pointer indica que é clicável
+  - Transição suave de 0.3s
+- **Nota**: Botão "Arquivados" foi removido dos controles (funcionalidade integrada à coluna)
+
+### 14.9 Efeito de Login Sequencial (Cosmético)
+
+- Ao iniciar o jogo, os personagens "logam" no escritório de forma sequencial
+- **Comportamento**:
+  - Todos os slots começam exibindo `offline.png`
+  - Após delay inicial de 2 segundos, personagens começam a aparecer
+  - Cada personagem entra com intervalo de 500ms entre eles
+  - Ordem fixa e configurável (definida em `K.characterLoginSequence`)
+- **Ordem padrão de entrada**:
+  ```
+  analista-1 → programador-3 → qa-2 → programador-1 →
+  analista-2 → qa-1 → programador-2 → analista-3 → qa-3
+  ```
+- **Compatibilidade com desbloqueio**:
+  - Antes de "logar" um personagem, verifica `K.unlockedCharacters`
+  - Personagens bloqueados permanecem offline (não animam)
+  - Sistema preparado para capítulos com desbloqueio progressivo
+- **Modo Livre (index.html)**:
+  - Aguarda fechamento do modal de boas-vindas antes de iniciar
+  - Se modal já foi visto, inicia automaticamente após 2s
+  - Garante que usuário não perca o efeito visual
+- **Outros modos**: Tutorial e capítulos iniciam efeito normalmente após 2s
+- **Objetivo**: Quebrar sincronia visual dos GIFs e dar sensação de time entrando
+- **Nota**: Efeito puramente cosmético, não afeta lógica do jogo
 
 ---

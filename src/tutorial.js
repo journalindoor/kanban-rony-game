@@ -22,7 +22,7 @@
     setupSteps: function(){
       this.steps = [
         {
-          message: 'Bem-vindo ao Kanban Rony Game! Este tutorial irá guiá-lo pelos conceitos básicos do jogo.',
+          message: 'Bem-vindo ao RonyOffice! Este tutorial irá guiá-lo pelos conceitos básicos do jogo.',
           highlight: null,
           onEnter: () => {
             // Limpar board e criar estado inicial limpo

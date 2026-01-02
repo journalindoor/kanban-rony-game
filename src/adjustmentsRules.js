@@ -13,7 +13,10 @@
       })
     }
     const roleModel = (roleName && K.roleModels && K.roleModels[roleName]) ? K.roleModels[roleName] : null
-    const eff = roleModel ? Math.floor(roleModel.eficiencia || 0) : 0
+    
+    // Usar eficiência ativa em Homologando
+    const eff = roleModel ? Math.floor(roleModel.getActiveEfficiency('Homologando') || 0) : 0
+    
     return { roleName, eff, roleModel }
   }
 
