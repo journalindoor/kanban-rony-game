@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Manual do Jogador - RonyOffice</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			color: #333;
+			line-height: 1.6;
+			min-height: 100vh;
+		}
+
+		.manual-container {
+			max-width: 900px;
+			margin: 0 auto;
+			background: white;
+			min-height: 100vh;
+			box-shadow: 0 0 40px rgba(0,0,0,0.3);
+		}
+
+		.manual-header {
+			background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+			color: white;
+			padding: 40px 30px;
+			text-align: center;
+			border-bottom: 5px solid #f39c12;
+		}
+
+		.manual-header h1 {
+			font-size: 42px;
+			margin-bottom: 10px;
+			text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+		}
+
+		.manual-header p {
+			font-size: 18px;
+			opacity: 0.9;
+		}
+
+		.manual-nav {
+			background: #ecf0f1;
+			padding: 20px 30px;
+			border-bottom: 3px solid #bdc3c7;
+			position: sticky;
+			top: 0;
+			z-index: 100;
+			box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+		}
+
+		.manual-nav h2 {
+			font-size: 20px;
+			margin-bottom: 15px;
+			color: #2c3e50;
+		}
+
+		.nav-links {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 10px;
+		}
+
+		.nav-link {
+			display: block;
+			padding: 10px 15px;
+			background: white;
+			color: #2c3e50;
+			text-decoration: none;
+			border-radius: 6px;
+			border-left: 4px solid #3498db;
+			transition: all 0.3s ease;
+			font-weight: 600;
+			font-size: 14px;
+		}
+
+		.nav-link:hover {
+			background: #3498db;
+			color: white;
+			transform: translateX(5px);
+			box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+		}
+
+		.manual-content {
+			padding: 40px 30px;
+		}
+
+		.chapter {
+			margin-bottom: 60px;
+			scroll-margin-top: 80px;
+		}
+
+		.chapter h2 {
+			font-size: 32px;
+			color: #2c3e50;
+			margin-bottom: 20px;
+			padding-bottom: 10px;
+			border-bottom: 3px solid #f39c12;
+			display: flex;
+			align-items: center;
+			gap: 15px;
+		}
+
+		.chapter-icon {
+			font-size: 36px;
+		}
+
+		.chapter h3 {
+			font-size: 24px;
+			color: #34495e;
+			margin-top: 30px;
+			margin-bottom: 15px;
+			padding-left: 15px;
+			border-left: 4px solid #3498db;
+		}
+
+		.chapter p {
+			margin-bottom: 15px;
+			font-size: 16px;
+			color: #555;
+		}
+
+		.chapter ul, .chapter ol {
+			margin: 15px 0 15px 30px;
+		}
+
+		.chapter li {
+			margin-bottom: 10px;
+			color: #555;
+		}
+
+		.tip-box {
+			background: #e8f8f5;
+			border-left: 5px solid #16a085;
+			padding: 20px;
+			margin: 25px 0;
+			border-radius: 4px;
+		}
+
+		.tip-box h4 {
+			color: #16a085;
+			margin-bottom: 10px;
+			font-size: 18px;
+		}
+
+		.warning-box {
+			background: #fef5e7;
+			border-left: 5px solid #f39c12;
+			padding: 20px;
+			margin: 25px 0;
+			border-radius: 4px;
+		}
+
+		.warning-box h4 {
+			color: #f39c12;
+			margin-bottom: 10px;
+			font-size: 18px;
+		}
+
+		.info-table {
+			width: 100%;
+			border-collapse: collapse;
+			margin: 20px 0;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+		}
+
+		.info-table th {
+			background: #3498db;
+			color: white;
+			padding: 12px;
+			text-align: left;
+			font-weight: 600;
+		}
+
+		.info-table td {
+			padding: 12px;
+			border-bottom: 1px solid #ecf0f1;
+		}
+
+		.info-table tr:nth-child(even) {
+			background: #f8f9fa;
+		}
+
+		.emoji {
+			font-size: 1.2em;
+		}
+
+		.back-to-top {
+			position: fixed;
+			bottom: 30px;
+			right: 30px;
+			background: #3498db;
+			color: white;
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 24px;
+			text-decoration: none;
+			box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+			transition: all 0.3s ease;
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		.back-to-top.visible {
+			opacity: 1;
+			pointer-events: auto;
+		}
+
+		.back-to-top:hover {
+			background: #2980b9;
+			transform: translateY(-3px);
+		}
+
+		.manual-footer {
+			background: #2c3e50;
+			color: white;
+			text-align: center;
+			padding: 30px;
+			font-size: 14px;
+		}
+
+		code {
+			background: #ecf0f1;
+			padding: 2px 6px;
+			border-radius: 3px;
+			font-family: 'Courier New', monospace;
+			color: #e74c3c;
+			font-size: 14px;
+		}
+
+		strong {
+			color: #2c3e50;
+		}
+	</style>
+</head>
+<body>
+	<div class="manual-container">
+		<!-- Header -->
+		<div class="manual-header">
+			<h1>📖 Manual do Jogador</h1>
+			<p>Guia completo para dominar o RonyOffice</p>
+		</div>
+
+		<!-- Navigation -->
+		<div class="manual-nav">
+			<h2>📑 Índice Rápido</h2>
+			<div class="nav-links">
+				<a href="#objetivo" class="nav-link">🎯 Objetivo do Jogo</a>
+				<a href="#personagens" class="nav-link">👥 Personagens</a>
+				<a href="#cards" class="nav-link">📋 Cards & Tarefas</a>
+				<a href="#colunas" class="nav-link">🔄 Fluxo de Trabalho</a>
+				<a href="#turno" class="nav-link">⏰ Como Jogar um Turno</a>
+				<a href="#eficiencia" class="nav-link">⚡ Sistema de Eficiência</a>
+				<a href="#felicidade" class="nav-link">😊 Felicidade & Estratégia</a>
+				<a href="#dinheiro" class="nav-link">💰 Sistema Monetário</a>
+			</div>
+		</div>
+
+		<!-- Content -->
+		<div class="manual-content">
+			<!-- Chapter 1: Objetivo -->
+			<section id="objetivo" class="chapter">
+				<h2><span class="chapter-icon">🎯</span>Objetivo do Jogo</h2>
+				<p>Bem-vindo ao <strong>RonyOffice</strong>! Você é o Agilista em um pequeno escritório de desenvolvimento de software. Sua missão é gerenciar uma equipe de desenvolvedores para entregar projetos com sucesso e ganhar dinheiro.</p>
+				
+				<div class="tip-box">
+					<h4>💡 Dica Principal</h4>
+					<p>O segredo do sucesso está em <strong>colocar a pessoa certa no lugar certo</strong>. Cada personagem tem suas especialidades e trabalha melhor em colunas específicas!</p>
+				</div>
+
+				<h3>Como Vencer</h3>
+				<ul>
+					<li><strong>Modo Livre:</strong> Acumule dinheiro, pratique estratégias e domine as mecânicas</li>
+					<li><strong>Capítulos:</strong> Complete as metas específicas de cada capítulo
+						<ul>
+							<li>Capítulo 1: Acumule <strong>$500</strong></li>
+							<li>Capítulos 2-5: A serem desbloqueados!</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<!-- Chapter 2: Personagens -->
+			<section id="personagens" class="chapter">
+				<h2><span class="chapter-icon">👥</span>Personagens & Papéis</h2>
+				<p>Sua equipe é composta por 9 profissionais, divididos em 3 papéis:</p>
+
+				<h3>🔵 Analistas (3 personagens)</h3>
+				<p>Especialistas em entender requisitos e refinar tarefas.</p>
+				<ul>
+					<li><strong>Felizes em:</strong> Refinamento <span class="emoji">😊</span></li>
+					<li><strong>Contentes em:</strong> Outras colunas <span class="emoji">🙂</span></li>
+					<li><strong>Melhor uso:</strong> Coloque-os para trabalhar em cards que estão na coluna <strong>Refinamento</strong></li>
+				</ul>
+
+				<h3>🟢 Programadores (3 personagens)</h3>
+				<p>Os criadores de código que transformam ideias em realidade.</p>
+				<ul>
+					<li><strong>Felizes em:</strong> Fazendo <span class="emoji">😊</span></li>
+					<li><strong>Satisfeitos em:</strong> Ajustes <span class="emoji">😌</span></li>
+					<li><strong>Contentes em:</strong> Outras colunas <span class="emoji">🙂</span></li>
+					<li><strong>Melhor uso:</strong> Coloque-os em cards na coluna <strong>Fazendo</strong> ou <strong>Ajustes</strong></li>
+				</ul>
+
+				<h3>🟡 QA/Testers (3 personagens)</h3>
+				<p>Guardiões da qualidade, caçadores de bugs.</p>
+				<ul>
+					<li><strong>Felizes em:</strong> Homologando <span class="emoji">😊</span></li>
+					<li><strong>Contentes em:</strong> Outras colunas <span class="emoji">🙂</span></li>
+					<li><strong>Melhor uso:</strong> Coloque-os para trabalhar em cards na coluna <strong>Homologando</strong></li>
+				</ul>
+
+				<div class="warning-box">
+					<h4>⚠️ Atenção!</h4>
+					<p>Cada personagem tem um <strong>Talento Natural</strong> aleatório (1 a 3) sorteado quando você inicia o jogo. Este valor não muda até você reiniciar!</p>
+				</div>
+
+				<h3>Estatísticas dos Personagens</h3>
+				<p>Cada personagem exibe 3 valores importantes:</p>
+				<ul>
+					<li><strong>⚡ Eficiência:</strong> Poder de trabalho atual (Talento + Felicidade)</li>
+					<li><strong>😊 Felicidade:</strong> Varia de acordo com a coluna onde está trabalhando</li>
+					<li><strong>🎯 Talento:</strong> Valor fixo e aleatório (1 a 3) sorteado no início do jogo</li>
+				</ul>
+			</section>
+
+			<!-- Chapter 3: Cards -->
+			<section id="cards" class="chapter">
+				<h2><span class="chapter-icon">📋</span>Cards & Tarefas</h2>
+				<p>Os <strong>cards</strong> representam tarefas ou projetos que sua equipe precisa completar.</p>
+
+				<h3>Estrutura de um Card</h3>
+				<p>Cada card possui <strong>indicadores de dificuldade</strong> para cada etapa do trabalho:</p>
+				<ul>
+					<li><strong>Refinamento:</strong> Entender e especificar o que fazer</li>
+					<li><strong>Fazendo:</strong> Desenvolver a solução</li>
+					<li><strong>Homologando:</strong> Testar e validar</li>
+					<li><strong>Ajustes:</strong> Corrigir bugs encontrados (pode ser 0)</li>
+				</ul>
+
+				<div class="tip-box">
+					<h4>💡 Como Ler os Indicadores</h4>
+					<p>Quando um card está em uma coluna, o indicador correspondente fica <strong>vermelho</strong>. Quando chega a <strong>zero</strong>, fica <strong>verde</strong> - o card está pronto para avançar!</p>
+				</div>
+
+				<h3>Backlog</h3>
+				<p>O <strong>Backlog</strong> é onde novos cards aparecem. Ele mantém sempre <strong>no máximo 5 cards</strong>.</p>
+				<ul>
+					<li>Novos cards aparecem automaticamente quando há espaço</li>
+					<li>Arraste cards do Backlog para o Refinamento para começar a trabalhar neles</li>
+					<li>Cards não podem ter personagens associados enquanto estão no Backlog</li>
+				</ul>
+
+				<h3>Movimentando Cards</h3>
+				<p>Você pode mover cards de duas formas:</p>
+				<ol>
+					<li><strong>Arrastar e soltar:</strong> Clique e arraste o card para outra coluna</li>
+					<li><strong>Botão "Próxima Coluna":</strong> Clique no botão dentro do card</li>
+				</ol>
+
+				<div class="warning-box">
+					<h4>⚠️ Regra Importante</h4>
+					<p>Cards só podem avançar quando o <strong>indicador da coluna atual for zero</strong>! Você não pode pular etapas.</p>
+				</div>
+			</section>
+
+			<!-- Chapter 4: Colunas -->
+			<section id="colunas" class="chapter">
+				<h2><span class="chapter-icon">🔄</span>Fluxo de Trabalho (Colunas)</h2>
+				<p>O trabalho flui através de 7 colunas:</p>
+
+				<table class="info-table">
+					<thead>
+						<tr>
+							<th>Coluna</th>
+							<th>O que acontece aqui</th>
+							<th>Quando pode avançar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><strong>Backlog</strong></td>
+							<td>Cards aguardando para serem iniciados</td>
+							<td>Sempre (não tem indicador)</td>
+						</tr>
+						<tr>
+							<td><strong>Refinamento</strong></td>
+							<td>Analistas entendem os requisitos</td>
+							<td>Quando Refinamento = 0</td>
+						</tr>
+						<tr>
+							<td><strong>Sprint Backlog</strong></td>
+							<td>Fila de cards prontos para desenvolvimento</td>
+							<td>Sempre (coluna de transição)</td>
+						</tr>
+						<tr>
+							<td><strong>Fazendo</strong></td>
+							<td>Programadores criam a solução</td>
+							<td>Quando Fazendo = 0</td>
+						</tr>
+						<tr>
+							<td><strong>Homologando</strong></td>
+							<td>QAs testam e validam</td>
+							<td>Quando Homologando = 0</td>
+						</tr>
+						<tr>
+							<td><strong>Ajustes</strong></td>
+							<td>Programadores corrigem bugs</td>
+							<td>Quando Ajustes = 0</td>
+						</tr>
+						<tr>
+							<td><strong>Publicado</strong></td>
+							<td>Projeto concluído e entregue!</td>
+							<td>Cards são arquivados automaticamente</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<h3>Coluna Especial: Ajustes</h3>
+				<p>A coluna <strong>Ajustes</strong> é especial:</p>
+				<ul>
+					<li>O indicador de Ajustes sempre começa em <strong>zero</strong></li>
+					<li>Apenas recebe valor se bugs forem encontrados em <strong>Homologando</strong></li>
+					<li>Se não houver bugs, o card pode <strong>pular</strong> esta coluna direto para Publicado</li>
+				</ul>
+
+				<div class="tip-box">
+					<h4>💡 Evitando Retrabalho</h4>
+					<p>QAs mais eficientes encontram menos bugs! Mantenha seu QA feliz em Homologando para reduzir a chance de Ajustes.</p>
+				</div>
+
+				<h3>Coluna Especial: Arquivados</h3>
+				<p>Cards concluídos vão para <strong>Arquivados</strong>:</p>
+				<ul>
+					<li>A coluna fica <strong>colapsada</strong> (minimizada) por padrão</li>
+					<li>Clique no título "Arquivados" para expandir e ver os cards concluídos</li>
+					<li>Cards arquivados não podem mais ser movidos</li>
+				</ul>
+			</section>
+
+			<!-- Chapter 5: Como Jogar -->
+			<section id="turno" class="chapter">
+				<h2><span class="chapter-icon">⏰</span>Como Jogar um Turno</h2>
+				<p>O jogo funciona em <strong>turnos</strong>. Cada turno representa <strong>1 dia</strong> de trabalho.</p>
+
+				<h3>Passo a Passo</h3>
+				<ol>
+					<li><strong>Associe personagens aos cards:</strong>
+						<ul>
+							<li>Arraste um personagem da área de status (topo) para dentro de um card</li>
+							<li>Ou arraste de um card para outro</li>
+							<li>Cada personagem só pode trabalhar em 1 card por vez</li>
+						</ul>
+					</li>
+					<li><strong>Clique em "Iniciar Turno":</strong>
+						<ul>
+							<li>O contador de dias aumenta em 1</li>
+							<li>Cada personagem trabalha e reduz o indicador do card</li>
+							<li>Novos cards podem aparecer no Backlog</li>
+							<li>Cards em "Publicado" são arquivados automaticamente</li>
+						</ul>
+					</li>
+					<li><strong>Verifique os resultados:</strong>
+						<ul>
+							<li>Indicadores chegaram a zero? <span class="emoji">✅</span></li>
+							<li>Cards prontos? Mova-os para a próxima coluna!</li>
+							<li>Personagens liberados? Associe-os a novos cards!</li>
+						</ul>
+					</li>
+					<li><strong>Repita!</strong> Organize sua equipe e inicie o próximo turno</li>
+				</ol>
+
+				<div class="tip-box">
+					<h4>💡 Planejamento é Tudo</h4>
+					<p>Pense antes de iniciar o turno! Certifique-se de que seus personagens estão nas colunas certas para maximizar a felicidade e eficiência.</p>
+				</div>
+
+				<h3>Liberação Automática de Personagens</h3>
+				<p>Personagens são <strong>automaticamente liberados</strong> do card quando:</p>
+				<ul>
+					<li>O indicador da coluna onde estão chega a <strong>zero</strong></li>
+					<li>O card é <strong>arquivado</strong></li>
+				</ul>
+				<p>Você também pode <strong>remover manualmente</strong> um personagem clicando no <strong>×</strong> ao lado do nome dele no card.</p>
+			</section>
+
+			<!-- Chapter 6: Eficiência -->
+			<section id="eficiencia" class="chapter">
+				<h2><span class="chapter-icon">⚡</span>Sistema de Eficiência</h2>
+				<p>A <strong>Eficiência</strong> determina quanto trabalho um personagem consegue fazer por turno.</p>
+
+				<h3>Fórmula da Eficiência</h3>
+				<code>Eficiência = Talento Natural + Felicidade (máximo 6)</code>
+
+				<h3>Como Funciona o Trabalho</h3>
+				<p>A cada turno, para cada personagem trabalhando:</p>
+				<ol>
+					<li>O jogo sorteia um número aleatório entre <strong>1</strong> e sua <strong>Eficiência</strong></li>
+					<li>Esse número é subtraído do indicador da coluna onde o card está</li>
+					<li>O indicador nunca fica negativo (para em zero)</li>
+				</ol>
+
+				<div class="warning-box">
+					<h4>⚠️ Importante</h4>
+					<p>Apenas o <strong>indicador da coluna atual</strong> é reduzido! Se o card está em "Fazendo", apenas o indicador "Fazendo" diminui.</p>
+				</div>
+
+				<h3>Exemplo Prático</h3>
+				<p><strong>Situação:</strong> Um Analista com Talento 2 está trabalhando em um card no Refinamento.</p>
+				<ul>
+					<li>Felicidade em Refinamento: 6 <span class="emoji">😊</span></li>
+					<li>Eficiência total: 2 + 6 = 8, mas <strong>limitada a 6</strong></li>
+					<li>Trabalho realizado por turno: Entre 1 e 6 pontos</li>
+				</ul>
+				<p><strong>Resultado:</strong> Um card com Refinamento = 10 pode levar de 2 a 10 turnos para ser refinado.</p>
+			</section>
+
+			<!-- Chapter 7: Felicidade -->
+			<section id="felicidade" class="chapter">
+				<h2><span class="chapter-icon">😊</span>Felicidade & Estratégia</h2>
+				<p>A <strong>Felicidade</strong> é o coração da estratégia do jogo! Cada tipo de personagem tem preferências de trabalho.</p>
+
+				<h3>Tabela de Felicidade</h3>
+				<table class="info-table">
+					<thead>
+						<tr>
+							<th>Personagem</th>
+							<th>Coluna Favorita</th>
+							<th>Felicidade</th>
+							<th>Emoji</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><strong>Analista</strong></td>
+							<td>Refinamento</td>
+							<td>6</td>
+							<td>😊 Feliz</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>Outras colunas</td>
+							<td>2</td>
+							<td>🙂 Contente</td>
+						</tr>
+						<tr>
+							<td><strong>Programador</strong></td>
+							<td>Fazendo</td>
+							<td>6</td>
+							<td>😊 Feliz</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>Ajustes</td>
+							<td>3</td>
+							<td>😌 Satisfeito</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>Outras colunas</td>
+							<td>2</td>
+							<td>🙂 Contente</td>
+						</tr>
+						<tr>
+							<td><strong>QA/Tester</strong></td>
+							<td>Homologando</td>
+							<td>6</td>
+							<td>😊 Feliz</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>Outras colunas</td>
+							<td>2</td>
+							<td>🙂 Contente</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<h3>Impacto Estratégico</h3>
+				<div class="tip-box">
+					<h4>💡 Dica de Ouro</h4>
+					<p>Um Analista com Talento 1 trabalhando em <strong>Refinamento</strong> tem Eficiência <strong>7</strong> (mas limitada a 6).</p>
+					<p>O mesmo Analista em <strong>Fazendo</strong> tem Eficiência apenas <strong>3</strong>.</p>
+					<p>Isso é <strong>2× mais lento</strong>! Sempre prefira colocar especialistas onde eles são mais felizes.</p>
+				</div>
+
+				<h3>Sistema de Bugs (Ajustes)</h3>
+				<p>A felicidade do QA impacta diretamente a chance de bugs:</p>
+				<ul>
+					<li><strong>QA Feliz</strong> (Eficiência 5-6): Apenas <strong>5% de chance</strong> de encontrar bugs</li>
+					<li><strong>QA Contente</strong> (Eficiência 3-4): <strong>25% de chance</strong> de encontrar bugs</li>
+					<li><strong>QA Insatisfeito</strong> (Eficiência 1-2): <strong>50% de chance</strong> de encontrar bugs</li>
+				</ul>
+				<p>Menos bugs = menos tempo em Ajustes = mais dinheiro mais rápido!</p>
+			</section>
+
+			<!-- Chapter 8: Dinheiro -->
+			<section id="dinheiro" class="chapter">
+				<h2><span class="chapter-icon">💰</span>Sistema Monetário</h2>
+				<p>Dinheiro é como você mede seu sucesso no RonyOffice!</p>
+
+				<h3>Como Ganhar Dinheiro</h3>
+				<p>Você recebe dinheiro quando um card é <strong>arquivado</strong> (sai de "Publicado" para "Arquivados").</p>
+
+				<h3>Valor dos Cards</h3>
+				<p>O valor depende da <strong>complexidade total</strong> do card:</p>
+				<code>Complexidade = Refinamento + Fazendo + Homologando</code>
+				<p><em>(O indicador "Ajustes" NÃO conta na complexidade inicial)</em></p>
+
+				<table class="info-table">
+					<thead>
+						<tr>
+							<th>Complexidade Total</th>
+							<th>Valor do Card</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>3 a 12</td>
+							<td>$10</td>
+						</tr>
+						<tr>
+							<td>13 a 24</td>
+							<td>$25</td>
+						</tr>
+						<tr>
+							<td>25 a 36</td>
+							<td>$50</td>
+						</tr>
+						<tr>
+							<td>37 a 54</td>
+							<td>$100</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<div class="tip-box">
+					<h4>💡 Estratégia de Ganhos</h4>
+					<p>Cards mais complexos pagam mais, mas levam mais tempo! Às vezes é melhor completar vários cards simples do que focar em um difícil.</p>
+				</div>
+
+				<h3>Garantias do Sistema</h3>
+				<ul>
+					<li>Cada card paga <strong>apenas uma vez</strong></li>
+					<li>O pagamento só acontece no <strong>arquivamento automático</strong></li>
+					<li>Mover cards manualmente não gera pagamento</li>
+					<li>O dinheiro é salvo automaticamente</li>
+				</ul>
+
+				<div class="warning-box">
+					<h4>⚠️ Cuidado com o Retrabalho</h4>
+					<p>Ajustes NÃO aumentam o valor do card, mas aumentam o tempo para concluí-lo. Evite bugs para maximizar seus ganhos por dia!</p>
+				</div>
+			</section>
+
+		</div>
+
+		<!-- Footer -->
+		<div class="manual-footer">
+			<p><strong>RonyOffice</strong> - Office Simulator & Kanban Game</p>
+			<p>Agora que você conhece as regras, é hora de dominar o escritório! 🚀</p>
+		</div>
+
+		<!-- Back to Top Button -->
+		<a href="#" class="back-to-top" id="backToTop">↑</a>
+	</div>
+
+	<script>
+		// Back to top button functionality
+		const backToTop = document.getElementById('backToTop');
+		
+		window.addEventListener('scroll', () => {
+			if (window.scrollY > 300) {
+				backToTop.classList.add('visible');
+			} else {
+				backToTop.classList.remove('visible');
+			}
+		});
+
+		backToTop.addEventListener('click', (e) => {
+			e.preventDefault();
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		});
+
+		// Smooth scroll for navigation links
+		document.querySelectorAll('.nav-link').forEach(link => {
+			link.addEventListener('click', (e) => {
+				e.preventDefault();
+				const targetId = link.getAttribute('href');
+				const targetElement = document.querySelector(targetId);
+				if (targetElement) {
+					targetElement.scrollIntoView({ behavior: 'smooth' });
+				}
+			});
+		});
+	</script>
+</body>
+</html>
