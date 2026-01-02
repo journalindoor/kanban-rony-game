@@ -96,22 +96,23 @@
     },
 
     hookDragCard: function() {
+      let dragStartAllowed = false;
+      
       document.addEventListener('dragstart', function(e) {
         if (e.target.classList.contains('kanban-card')) {
-          if (!K.TutorialState.isActionAllowed('dragCard')) {
+          console.log('[Tutorial] dragCard dragstart, permitido?', K.TutorialState.isActionAllowed('dragCard'));
+          dragStartAllowed = K.TutorialState.isActionAllowed('dragCard');
+          if (!dragStartAllowed) {
             e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
             return false;
           }
         }
-      }, true);
-
-      document.addEventListener('drop', function(e) {
-        if (e.target.closest('.kanban-column')) {
-          setTimeout(() => {
-            K.TutorialState.executeCallback('dragCard');
-          }, 100);
-        }
-      }, true);
+      }, true); // Capture phase
+      
+      // Note: Callback execution is now handled by dragdrop.js and movementRules.js
+      // after the card is successfully moved
     },
 
     hookDragRole: function() {
@@ -119,31 +120,29 @@
         if (e.target.classList.contains('role-item')) {
           if (!K.TutorialState.isActionAllowed('dragRole')) {
             e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
             return false;
           }
         }
       }, true);
-
-      document.addEventListener('drop', function(e) {
-        if (e.target.closest('.kanban-card')) {
-          setTimeout(() => {
-            K.TutorialState.executeCallback('dragRole');
-          }, 100);
-        }
-      }, true);
+      
+      // Note: Callback execution is now handled by roles.js
+      // after the role is successfully attached to a card
     },
 
     hookMoveCardButton: function() {
       document.addEventListener('click', function(e) {
         if (e.target.classList.contains('move-card-button')) {
+          console.log('[Tutorial] moveCardButton clicado, permitido?', K.TutorialState.isActionAllowed('moveCardButton'));
           if (!K.TutorialState.isActionAllowed('moveCardButton')) {
             e.preventDefault();
             e.stopPropagation();
+            e.stopImmediatePropagation();
             return false;
           }
-          setTimeout(() => {
-            K.TutorialState.executeCallback('moveCardButton');
-          }, 100);
+          // Note: Callback execution for dragCard is now handled by movementRules.js
+          // after the card is successfully moved
         }
       }, true);
     },
@@ -279,8 +278,52 @@
     }
   };
 
+  // Helper function to reset game without confirmation
+  function silentResetGame() {
+    try{ localStorage.removeItem(K.STORAGE_KEY) }catch(e){}
+    
+    // Clear used cards list to allow reusing cards from bank
+    try{
+      const usedCardsKey = K.getUsedCardsKey ? K.getUsedCardsKey() : null
+      if(usedCardsKey){
+        localStorage.removeItem(usedCardsKey)
+        console.log('[Tutorial] Lista de cards usados limpa')
+      }
+    }catch(e){
+      console.warn('[Tutorial] Erro ao limpar cards usados:', e)
+    }
+    
+    // clear assignments and role models so fresh talentos are generated
+    K.roleAssignments = {}
+    K.roleModels = {}
+    K.dayCount = 0
+    K.money = 0
+    // move all role elements back to roles area
+    const rolesArea = document.querySelector('.roles-area')
+    if(rolesArea){
+      document.querySelectorAll('.role').forEach(r=>{
+        rolesArea.appendChild(r)
+        delete r.dataset.attached
+        r.classList.remove('role-attached')
+      })
+    }
+    K._idCounter = 1
+    K.clearZones()
+    // reinitialize role models with new talentos and render
+    if(typeof K.initializeRoles === 'function') K.initializeRoles(true)
+    if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
+    if(typeof K.updateMoneyDisplay === 'function') K.updateMoneyDisplay()
+    if(typeof K.updateWipCounters === 'function') K.updateWipCounters()
+    if(typeof K.saveState === 'function') K.saveState()
+    
+    console.log('[Tutorial] Game state reset complete')
+  }
+
   // Auto-start
   document.addEventListener('DOMContentLoaded', function() {
+    // SEMPRE reseta o jogo ao carregar tutorial.html
+    silentResetGame();
+    
     // SEMPRE reseta o tutorial ao carregar tutorial.html
     K.TutorialState.reset();
     

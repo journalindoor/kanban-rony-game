@@ -168,14 +168,27 @@
     /**
      * Destaca elemento do jogo
      */
-    highlightElement: function(selector) {
-      this.clearHighlight();
+    /**
+     * Destaca elemento(s) no DOM
+     * @param {string} selector - Seletor CSS (pode incluir múltiplos separados por vírgula)
+     * @param {boolean} additive - Se true, adiciona highlight sem limpar anteriores
+     */
+    highlightElement: function(selector, additive) {
+      if (!additive) {
+        this.clearHighlight();
+      }
       if (!selector) return;
 
-      const element = document.querySelector(selector);
-      if (element) {
-        element.classList.add('tutorial-highlight');
-      }
+      // Suporta múltiplos seletores separados por vírgula
+      const selectors = selector.split(',').map(s => s.trim());
+      selectors.forEach(sel => {
+        const elements = document.querySelectorAll(sel);
+        elements.forEach(element => {
+          if (element) {
+            element.classList.add('tutorial-highlight');
+          }
+        });
+      });
     },
 
     /**

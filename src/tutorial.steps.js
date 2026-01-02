@@ -187,6 +187,148 @@
         K.TutorialUI.clearHighlight();
       },
       waitFor: null
+    },
+
+    // ========================================
+    // BLOCO 3: PAPÉIS E ALOCAÇÃO
+    // Objetivo: Ensinar como associar pessoas ao trabalho
+    // ========================================
+
+    // Passo 3.1 — Conhecendo o Time
+    {
+      title: '👥 Esse é o seu time',
+      message: `
+        <p>Cada pessoa nasce com um talento natural.<br>
+        Você não escolhe isso.<br>
+        O jogo também não.</p>
+        <p>Seu papel aqui não é mudar as pessoas,<br>
+        <strong>é colocá-las no lugar certo.</strong></p>
+      `,
+      highlight: '#rolesArea',
+      ronySprite: '-100px 0', // Rony Apontando
+      allowedActions: [],
+      onEnter: function() {
+        K.TutorialState.blockAllActions();
+        K.TutorialUI.highlightElement('#rolesArea');
+      },
+      onExit: function() {
+        K.TutorialUI.clearHighlight();
+      },
+      waitFor: null
+    },
+
+    // Passo 3.2 — Talento, Felicidade e Eficiência
+    {
+      title: '🧠 Vamos falar de como o trabalho acontece de verdade',
+      message: `
+        <p><strong>🎯 Talento Natural</strong> é a base.<br>
+        É o que a pessoa faz bem, sem esforço extra.</p>
+        <p><strong>😊 Felicidade</strong> é o multiplicador.<br>
+        Quando alguém trabalha no que combina com seu talento,<br>
+        a felicidade sobe.</p>
+        <p><strong>⚡ Eficiência</strong> é o resultado final.<br>
+        Ela nasce do talento<br>
+        e cresce ou diminui com a felicidade.</p>
+        <p><strong>Talento + Felicidade<br>
+        definem o quanto uma pessoa consegue produzir em um turno.</strong></p>
+      `,
+      highlight: '#rolesArea',
+      ronySprite: '-200px 0', // Rony Sério
+      allowedActions: [],
+      onEnter: function() {
+        K.TutorialState.blockAllActions();
+        K.TutorialUI.highlightElement('#rolesArea');
+      },
+      onExit: function() {
+        K.TutorialUI.clearHighlight();
+      },
+      waitFor: null
+    },
+
+    // Passo 3.3 — Regra do Backlog
+    {
+      title: '⛔ Aqui ainda não é trabalho',
+      message: `
+        <p>No Backlog, nada anda<br>
+        e ninguém trabalha.</p>
+        <p>Papéis só entram em cena<br>
+        quando o card sai da fila<br>
+        <strong>e começa de verdade.</strong></p>
+        <p><strong>Mova um card do Backlog<br>
+        para a coluna Refinamento.</strong><br>
+        (Arraste ou use os botões ← →)</p>
+      `,
+      highlight: '.column[data-col="Backlog"]',
+      ronySprite: '-100px 0', // Rony Apontando
+      allowedActions: ['dragCard', 'moveCardButton'],
+      onEnter: function() {
+        K.TutorialState.blockAllActions();
+        K.TutorialState.allowAction('dragCard');
+        K.TutorialState.allowAction('moveCardButton');
+        K.TutorialUI.highlightElement('.column[data-col="Backlog"]');
+      },
+      onExit: function() {
+        K.TutorialUI.clearHighlight();
+      },
+      waitFor: 'dragCard' // Aguarda mover card (por drag ou botão)
+    },
+
+    // Passo 3.4 — Associar Papel ao Card
+    {
+      title: '▶️ Agora associe um papel',
+      message: `
+        <p><strong>Arraste um Analista e solte em cima<br>
+        de um card na coluna Refinamento.</strong></p>
+        <p>Essa escolha importa:<br>
+        ela define quem vai trabalhar,<br>
+        como o time vai se sentir<br>
+        <strong>e o quanto esse card vai avançar no turno.</strong></p>
+      `,
+      highlight: '.roles-area, .column[data-col="Refinamento"]',
+      ronySprite: '-100px 0', // Rony Apontando
+      allowedActions: ['dragRole', 'dragCard'],
+      onEnter: function() {
+        K.TutorialState.blockAllActions();
+        K.TutorialState.allowAction('dragRole');
+        K.TutorialState.allowAction('dragCard'); // Permite mover cards também
+        K.TutorialUI.highlightElement('.roles-area');
+        // Também destaca a coluna Refinamento após 500ms
+        setTimeout(() => {
+          K.TutorialUI.highlightElement('.column[data-col="Refinamento"]', true);
+        }, 100);
+      },
+      onExit: function() {
+        K.TutorialUI.clearHighlight();
+      },
+      waitFor: 'dragRole' // Avança quando jogador arrastar um papel
+    },
+
+    // Passo 3.5 — Iniciar Turno
+    {
+      title: '🎯 Agora inicie o turno',
+      message: `
+        <p>Clique em <strong>Iniciar Turno</strong><br>
+        para ver o trabalho acontecer.</p>
+        <p>O sistema vai processar:<br>
+        • Quem trabalha onde<br>
+        • Como cada pessoa se sente<br>
+        • Quanto progresso foi feito</p>
+        <p><strong>Observe os resultados.</strong></p>
+      `,
+      highlight: '#startButton',
+      ronySprite: '-85px -100px', // Rony Thumbs Up
+      allowedActions: ['startTurn', 'dragRole', 'dragCard'],
+      onEnter: function() {
+        K.TutorialState.blockAllActions();
+        K.TutorialState.allowAction('startTurn');
+        K.TutorialState.allowAction('dragRole');
+        K.TutorialState.allowAction('dragCard');
+        K.TutorialUI.highlightElement('#startButton');
+      },
+      onExit: function() {
+        K.TutorialUI.clearHighlight();
+      },
+      waitFor: 'startTurn' // Avança quando iniciar turno
     }
   ];
 
