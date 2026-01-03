@@ -131,13 +131,19 @@
 				
 				<!-- Top controls integrated into office panel -->
 				<div class="top-controls">
-					<button id="startButton" class="start-button">Iniciar Turno</button>
-					<button id="resetButton" class="reset-button">Reiniciar</button>
-				<button id="manualButton" class="manual-button" onclick="window.open('manual.html', '_blank')">📖 Manual</button>
-				<button id="backToFreeModeButton" class="freemode-button">Modo Livre</button>
-				<button id="goToChapter2Button" class="chapter-start-button" disabled>Capítulo 2</button>
+				<button id="startButton" class="start-button">▶️ Iniciar</button>
+				<button id="resetButton" class="reset-button">🔄 Reiniciar</button>
+				
+				<div class="dropdown-menu">
+					<button class="dropdown-toggle">☰</button>
+					<div class="dropdown-content">
+						<button class="dropdown-item" onclick="window.open('manual.html', '_blank')">📖 Manual</button>
+						<button class="dropdown-item" onclick="window.location.href='tutorial.html'">🎓 Tutorial</button>
+						<button class="dropdown-item" id="backToFreeModeButton">🎮 Modo Livre</button>
+						<button class="dropdown-item" id="goToChapter2Button" disabled>📝 Capítulo 2</button>
+					</div>
+				</div>
 			</div>
-			
 			<div class="office-viewport">
 				<!-- Grid de Videochamada 3x3 -->
 				<div class="video-grid">
@@ -301,5 +307,31 @@
 		<script src="src/officeStatusMessages.js" defer></script>
 		<script src="src/main.js" defer></script>
 		<script src="src/chapterManager.js" defer></script>
-	</body>
-</html>
+	
+	<!-- Dropdown menu functionality -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function(){
+			const dropdownToggle = document.querySelector('.dropdown-toggle');
+			const dropdownContent = document.querySelector('.dropdown-content');
+			
+			if(dropdownToggle && dropdownContent){
+				dropdownToggle.addEventListener('click', function(e){
+					e.stopPropagation();
+					dropdownContent.classList.toggle('show');
+				});
+				
+				document.addEventListener('click', function(e){
+					if(!e.target.closest('.dropdown-menu')){
+						dropdownContent.classList.remove('show');
+					}
+				});
+				
+				const dropdownItems = dropdownContent.querySelectorAll('.dropdown-item');
+				dropdownItems.forEach(item => {
+					item.addEventListener('click', function(){
+						dropdownContent.classList.remove('show');
+					});
+				});
+			}
+		});
+	</script>

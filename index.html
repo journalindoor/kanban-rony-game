@@ -131,12 +131,15 @@
 				
 				<!-- Top controls integrated into office panel -->
 				<div class="top-controls">
-					<button id="startButton" class="start-button">Iniciar Turno</button>
-					<button id="resetButton" class="reset-button">Reiniciar</button>
-				<button id="manualButton" class="manual-button" onclick="window.open('manual.html', '_blank')">📖 Manual</button>
-				<button id="goToTutorialButton" class="tutorial-button">Tutorial</button>
-				<button id="startChapter1Button" class="chapter-start-button">Capítulo 1</button>
-			</div>
+				<button id="startButton" class="start-button">▶️ Iniciar</button>			<button id="resetButton" class="reset-button">🔄 Reiniciar</button>					<div class="dropdown-menu">
+						<button class="dropdown-toggle">☰</button>
+						<div class="dropdown-content">
+							<button class="dropdown-item" onclick="window.open('manual.html', '_blank')">📖 Manual</button>
+							<button class="dropdown-item" id="goToTutorialButton">🎓 Tutorial</button>
+							<button class="dropdown-item" id="startChapter1Button">📝 Capítulo 1</button>
+						</div>
+					</div>
+				</div>
 			
 			<div class="office-viewport">
 				<div class="video-grid">
@@ -253,28 +256,28 @@
 			</div>
 		</div>
 
-		<!-- Game Footer -->
-		<footer class="game-footer">
-			<div class="footer-content">
-				<div class="footer-info">
-					<span class="footer-version">Versão 1.0.0</span>
-					<span class="footer-separator">|</span>
-					<span class="footer-author">Criado por Rony</span>
-					<span class="footer-separator">|</span>
-					<a href="https://www.linkedin.com/in/ronaldojr/" target="_blank" class="footer-linkedin" rel="noopener noreferrer">LinkedIn</a>
-				</div>
-				<div class="footer-date">
-					<span>© 2025</span>
-				</div>
+	<!-- Game Footer -->
+	<footer class="game-footer">
+		<div class="footer-content">
+			<div class="footer-info">
+				<span class="footer-version">Versão 1.0.0</span>
+				<span class="footer-separator">|</span>
+				<span class="footer-author">Criado por Rony</span>
+				<span class="footer-separator">|</span>
+				<a href="https://www.linkedin.com/in/ronaldojr/" target="_blank" class="footer-linkedin" rel="noopener noreferrer">LinkedIn</a>
 			</div>
-		</footer>
+			<div class="footer-date">
+				<span>© 2025</span>
+			</div>
+		</div>
+	</footer>
+	</div><!-- .game-layout -->
 
-		<!-- Welcome modal script -->
-		<script>
-			// Check if user has already seen the welcome modal
-			const hasSeenWelcome = localStorage.getItem('kanban_welcome_seen');
+	<!-- Welcome modal script -->
+	<script>
 			
 			window.addEventListener('DOMContentLoaded', function(){
+				const hasSeenWelcome = localStorage.getItem('kanban_welcome_seen');
 				const modal = document.getElementById('welcomeModal');
 				const startTutorialBtn = document.getElementById('startTutorialBtn');
 				const skipTutorialBtn = document.getElementById('skipTutorialBtn');
@@ -345,6 +348,33 @@
 						if(confirmed){
 							window.location.href = 'tutorial.html';
 						}
+					});
+				}
+				
+				// Dropdown menu functionality
+				const dropdownToggle = document.querySelector('.dropdown-toggle');
+				const dropdownContent = document.querySelector('.dropdown-content');
+				
+				if(dropdownToggle && dropdownContent){
+					// Toggle dropdown
+					dropdownToggle.addEventListener('click', function(e){
+						e.stopPropagation();
+						dropdownContent.classList.toggle('show');
+					});
+					
+					// Close dropdown when clicking outside
+					document.addEventListener('click', function(e){
+						if(!e.target.closest('.dropdown-menu')){
+							dropdownContent.classList.remove('show');
+						}
+					});
+					
+					// Close dropdown when clicking on any item
+					const dropdownItems = dropdownContent.querySelectorAll('.dropdown-item');
+					dropdownItems.forEach(item => {
+						item.addEventListener('click', function(){
+							dropdownContent.classList.remove('show');
+						});
 					});
 				}
 			});
