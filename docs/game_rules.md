@@ -575,7 +575,11 @@ Cada área de videochamada usa um sistema de camadas (layers):
 
 2. **Camada superior (character-computer)**: Computador
    - Sempre visível acima do personagem
-   - Sprite: `computador1.png`
+   - Distribuição determinística entre `computador1.png` e `computador2.png`
+   - Padrão pré-definido: [2, 1, 2, 1, 2, 1, 2, 1, 2]
+   - Ordem: analista-1 (comp2), analista-2 (comp1), analista-3 (comp2), etc.
+   - **Objetivo**: Aparência visual variada sem processamento adicional
+   - Sistema implementado em `officeCharacters.js` via `K.getComputerImage()`
 
 ### 14.4 Sistema de Status
 
@@ -669,6 +673,58 @@ Cada área de videochamada usa um sistema de camadas (layers):
   - Garante que usuário não perca o efeito visual
 - **Outros modos**: Tutorial e capítulos iniciam efeito normalmente após 2s
 - **Objetivo**: Quebrar sincronia visual dos GIFs e dar sensação de time entrando
+
+---
+
+## 15. Sistema de Ajuda Contextual
+
+### 15.1 Modais Informativos de Colunas
+
+- Cada coluna do board Kanban possui um **ícone de informação (ⓘ)** ao lado do título
+- **Comportamento**:
+  - Ícone discreto com efeito hover (escala 1.2x + glow azul)
+  - Ao clicar, abre modal centralizado com informações da coluna
+  - Modal pode ser fechado clicando:
+    - No botão "×" (superior direito)
+    - Fora do conteúdo do modal (backdrop)
+
+### 15.2 Conteúdo dos Modais
+
+Cada modal exibe:
+
+1. **Título da Coluna**: Nome destacado (ex: "Backlog", "Refinamento")
+2. **Sprite Decorativo**: Imagem do Rony (`rony-modal.png`) para identidade visual
+3. **Seção "O que é?"**: Explicação da função da coluna no fluxo Kanban
+4. **Seção "Como funciona?"**: Mecânica de jogo específica da coluna
+5. **Seção "Bônus de Felicidade"**: Lista de bônus por papel (Analista, Programador, QA)
+6. **Dica Estratégica**: Sugestão de melhor uso da coluna
+
+### 15.3 Implementação Técnica
+
+- **Arquivo**: `src/columnInfo.js`
+- **CSS**: `css/column-info-modal.css`
+- **Dados**: Objeto `K.columnInfoData` contém textos de todas as 8 colunas
+- **Modal Único**: Um único elemento HTML reutilizado dinamicamente
+- **Compatibilidade**: Funciona em todos os modos (Tutorial, Modo Livre, Capítulos)
+
+### 15.4 Exemplos de Informações por Coluna
+
+**Refinamento**:
+- Analistas trabalham 3× mais rápido (felicidade +6)
+- Outros papéis: felicidade padrão (+2)
+
+**Fazendo**:
+- Programadores trabalham 3× mais rápido (felicidade +6)
+- Outros papéis: felicidade padrão (+2)
+
+**Homologando**:
+- QAs trabalham 3× mais rápido (felicidade +6)
+- QAs eficientes encontram menos bugs (5% de chance vs 50%)
+
+**Ajustes**:
+- Programadores têm satisfação média (felicidade +3)
+- Dica: "Prevenção é melhor que correção"
+
 - **Nota**: Efeito puramente cosmético, não afeta lógica do jogo
 
 ---

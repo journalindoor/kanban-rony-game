@@ -95,6 +95,7 @@ kanbanRonyGame/
 │   ├── cardBankManager.js      # Gerenciamento de cards pré-definidos
 │   ├── chapterManager.js       # Sistema de capítulos e progressão
 │   ├── officeCharacters.js     # Personagens no painel de escritório
+│   ├── columnInfo.js           # Sistema de modais informativos das colunas
 │   └── main.js                 # Inicialização e UI
 ├── data/
 │   ├── chapter-1-cards.js      # Cards do Capítulo 1 (IDs 1001-1005)
@@ -177,7 +178,18 @@ Cada papel possui:
 - Estados visuais: Idle (parado) / Working (trabalhando)
 - Sincronização automática com papéis associados aos cards
 - Exibição de cargo identificado (ex: "Analista 1", "Programador 2", "QA/Tester 3")
+- **Distribuição visual de computadores**: Cada personagem tem `computador1.png` ou `computador2.png` em padrão fixo determinístico
 - Área `.info-stats` obsoleta foi removida
+
+### Sistema de Ajuda Contextual (ⓘ)
+
+- **Ícones de informação** ao lado do título de cada coluna
+- Clique no ⓘ para abrir modal explicativo com:
+  - Descrição da função da coluna
+  - Mecânicas de jogo específicas
+  - Bônus de felicidade por papel
+  - Dicas estratégicas
+- Modal único reutilizável, funciona em todos os modos
 
 ### Colunas do Kanban
 
