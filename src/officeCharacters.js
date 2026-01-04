@@ -2,6 +2,18 @@
 (function(K){
   K = K || (window.Kanban = window.Kanban || {})
 
+  // Distribuição fixa e predefinida de computadores (parece aleatória, mas é determinística)
+  // Ordem dos personagens: analista-1, analista-2, analista-3, programador-1, programador-2, programador-3, qa-1, qa-2, qa-3
+  const COMPUTER_DISTRIBUTION = [2, 1, 2, 1, 2, 1, 2, 1, 2] // Padrão: alterna com início em computador2
+
+  // Retorna a imagem do computador para um personagem específico
+  K.getComputerImage = function(characterId) {
+    const order = ['analista-1', 'analista-2', 'analista-3', 'programador-1', 'programador-2', 'programador-3', 'qa-1', 'qa-2', 'qa-3']
+    const index = order.indexOf(characterId)
+    const computerNumber = index >= 0 ? COMPUTER_DISTRIBUTION[index] : 1
+    return `assets/computador${computerNumber}.png`
+  }
+
   // Mapeamento extensível: characterId -> { status, roleType }
   K.characterStates = {
     'programador-1': { status: 'idle', roleType: 'Programador' },
@@ -115,7 +127,7 @@
       // Personagem sem sprites configurados, apenas mostrar computador
       spriteArea.innerHTML = ''
       const computerLayer = document.createElement('img')
-      computerLayer.src = 'assets/computador1.png'
+      computerLayer.src = K.getComputerImage(characterId)
       computerLayer.alt = 'computador'
       computerLayer.className = 'character-layer character-computer'
       spriteArea.appendChild(computerLayer)
@@ -137,7 +149,7 @@
 
     // Camada 2 (superior): Computador (sempre presente)
     const computerLayer = document.createElement('img')
-    computerLayer.src = 'assets/computador1.png'
+    computerLayer.src = K.getComputerImage(characterId)
     computerLayer.alt = 'computador'
     computerLayer.className = 'character-layer character-computer'
     spriteArea.appendChild(computerLayer)
