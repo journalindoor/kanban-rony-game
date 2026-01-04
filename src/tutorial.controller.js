@@ -197,7 +197,7 @@
 
       // Update Rony sprite
       if (step.ronySprite) {
-        K.TutorialUI.setRonySprite(step.ronySprite);
+        K.TutorialUI.setRonySprite(step.ronySprite, step.ronyFlip);
       }
 
       // Highlight

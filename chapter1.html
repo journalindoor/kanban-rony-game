@@ -12,7 +12,10 @@
 		<link rel="stylesheet" href="css/board.css">
 		<link rel="stylesheet" href="css/components.css">
 		<link rel="stylesheet" href="css/office-panel.css">
-		<link rel="stylesheet" href="css/modal.css">	<link rel="stylesheet" href="css/role-states.css">	</head>
+		<link rel="stylesheet" href="css/modal.css">
+		<link rel="stylesheet" href="css/column-info-modal.css">
+		<link rel="stylesheet" href="css/role-states.css">
+	</head>
 	<body>
 
     <div class="game-layout">
@@ -129,13 +132,19 @@
 				
 				<!-- Top controls integrated into office panel -->
 				<div class="top-controls">
-					<button id="startButton" class="start-button">Iniciar Turno</button>
-					<button id="resetButton" class="reset-button">Reiniciar</button>
-				<button id="manualButton" class="manual-button" onclick="window.open('manual.html', '_blank')">📖 Manual</button>
-				<button id="backToFreeModeButton" class="freemode-button">Modo Livre</button>
-				<button id="goToChapter2Button" class="chapter-start-button" disabled>Capítulo 2</button>
+				<button id="startButton" class="start-button">▶️ Iniciar</button>
+				<button id="resetButton" class="reset-button">🔄 Reiniciar</button>
+				
+				<div class="dropdown-menu">
+					<button class="dropdown-toggle">☰</button>
+					<div class="dropdown-content">
+						<button class="dropdown-item" onclick="window.open('manual.html', '_blank')">📖 Manual</button>
+						<button class="dropdown-item" onclick="window.location.href='tutorial.html'">🎓 Tutorial</button>
+						<button class="dropdown-item" id="backToFreeModeButton">🎮 Modo Livre</button>
+						<button class="dropdown-item" id="goToChapter2Button" disabled>📝 Capítulo 2</button>
+					</div>
+				</div>
 			</div>
-			
 			<div class="office-viewport">
 				<!-- Grid de Videochamada 3x3 -->
 				<div class="video-grid">
@@ -297,7 +306,62 @@
 		<script src="src/backlogRules.js" defer></script>
 		<script src="src/progressionRules.js" defer></script>
 		<script src="src/officeStatusMessages.js" defer></script>
+		<script src="src/columnInfo.js" defer></script>
 		<script src="src/main.js" defer></script>
 		<script src="src/chapterManager.js" defer></script>
-	</body>
-</html>
+	
+	<!-- Column Info Modal HTML -->
+	<div id="columnInfoModal" class="column-info-modal">
+		<div class="column-info-modal-content">
+			<div class="column-info-header">
+				<div class="column-info-sprite"></div>
+				<h2 class="column-info-title"></h2>
+				<button class="column-info-close" title="Fechar">×</button>
+			</div>
+			<div class="column-info-body">
+				<div class="column-info-section">
+					<h3>O que é?</h3>
+					<p class="column-info-description"></p>
+				</div>
+				<div class="column-info-section">
+					<h3>Como funciona?</h3>
+					<p class="column-info-mechanics"></p>
+				</div>
+				<div class="column-info-section">
+					<h3>Bônus de Felicidade</h3>
+					<ul class="column-info-happiness-list"></ul>
+				</div>
+				<div class="column-info-section">
+					<p class="column-info-tip"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Dropdown menu functionality -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function(){
+			const dropdownToggle = document.querySelector('.dropdown-toggle');
+			const dropdownContent = document.querySelector('.dropdown-content');
+			
+			if(dropdownToggle && dropdownContent){
+				dropdownToggle.addEventListener('click', function(e){
+					e.stopPropagation();
+					dropdownContent.classList.toggle('show');
+				});
+				
+				document.addEventListener('click', function(e){
+					if(!e.target.closest('.dropdown-menu')){
+						dropdownContent.classList.remove('show');
+					}
+				});
+				
+				const dropdownItems = dropdownContent.querySelectorAll('.dropdown-item');
+				dropdownItems.forEach(item => {
+					item.addEventListener('click', function(){
+						dropdownContent.classList.remove('show');
+					});
+				});
+			}
+		});
+	</script>

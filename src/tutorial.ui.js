@@ -203,11 +203,13 @@
     /**
      * Atualiza sprite do Rony
      * @param {string} position - Posição do sprite (ex: '0 0', '-100px 0')
+     * @param {boolean} flip - Se true, espelha horizontalmente
      */
-    setRonySprite: function(position) {
+    setRonySprite: function(position, flip) {
       const ronySprite = document.querySelector('.tutorial-character > div');
       if (ronySprite && position) {
         ronySprite.style.backgroundPosition = position;
+        ronySprite.style.transform = flip ? 'scaleX(-1)' : '';
       }
     }
   };

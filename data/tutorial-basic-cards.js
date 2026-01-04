@@ -1,112 +1,40 @@
 // Cards pré-definidos para o Tutorial Básico
 window.TUTORIAL_BASIC_CARDS = {
   "name": "Tutorial Básico",
-  "description": "Cards pré-definidos para o tutorial básico - 10 cards com dificuldades variadas",
+  "description": "Cards específicos do tutorial - 3 cards obrigatórios para aprendizado",
   "cards": [
-    // Cards FÁCEIS (3 cards) - Para primeiros passos
     {
       "id": 9001,
-      "title": "Configurar Login Simples",
+      "title": "📊 Relatório urgente que ninguém pediu",
       "indicators": {
-        "Refinamento": 2,
-        "Fazendo": 3,
-        "Homologando": 2,
+        "Refinamento": 14,
+        "Fazendo": 8,
+        "Homologando": 7,
         "Ajustes": 0
-      }
+      },
+      "isTutorialCard": true
     },
     {
       "id": 9002,
-      "title": "Adicionar Menu de Navegação",
+      "title": "🔥 Corrigir bug que só acontece na sexta",
       "indicators": {
-        "Refinamento": 2,
-        "Fazendo": 2,
-        "Homologando": 2,
+        "Refinamento": 10,
+        "Fazendo": 15,
+        "Homologando": 6,
         "Ajustes": 0
-      }
+      },
+      "isTutorialCard": true
     },
     {
       "id": 9003,
-      "title": "Criar Botão de Logout",
+      "title": "🤡 Ajustar alinhamento do botão em produção",
       "indicators": {
-        "Refinamento": 1,
-        "Fazendo": 2,
-        "Homologando": 1,
+        "Refinamento": 15,
+        "Fazendo": 11,
+        "Homologando": 6,
         "Ajustes": 0
-      }
-    },
-    
-    // Cards MÉDIOS (4 cards) - Para aprender alocação
-    {
-      "id": 9004,
-      "title": "Criar Página Inicial",
-      "indicators": {
-        "Refinamento": 3,
-        "Fazendo": 4,
-        "Homologando": 3,
-        "Ajustes": 0
-      }
-    },
-    {
-      "id": 9005,
-      "title": "Implementar Formulário de Cadastro",
-      "indicators": {
-        "Refinamento": 3,
-        "Fazendo": 5,
-        "Homologando": 3,
-        "Ajustes": 1
-      }
-    },
-    {
-      "id": 9006,
-      "title": "Adicionar Validação de Email",
-      "indicators": {
-        "Refinamento": 2,
-        "Fazendo": 4,
-        "Homologando": 2,
-        "Ajustes": 1
-      }
-    },
-    {
-      "id": 9007,
-      "title": "Criar Página de Perfil",
-      "indicators": {
-        "Refinamento": 3,
-        "Fazendo": 4,
-        "Homologando": 3,
-        "Ajustes": 0
-      }
-    },
-    
-    // Cards DIFÍCEIS (3 cards) - Para entender limites e consequências
-    {
-      "id": 9008,
-      "title": "Integrar API de Pagamento",
-      "indicators": {
-        "Refinamento": 5,
-        "Fazendo": 8,
-        "Homologando": 5,
-        "Ajustes": 2
-      }
-    },
-    {
-      "id": 9009,
-      "title": "Sistema de Notificações em Tempo Real",
-      "indicators": {
-        "Refinamento": 4,
-        "Fazendo": 7,
-        "Homologando": 4,
-        "Ajustes": 2
-      }
-    },
-    {
-      "id": 9010,
-      "title": "Dashboard com Gráficos Interativos",
-      "indicators": {
-        "Refinamento": 4,
-        "Fazendo": 6,
-        "Homologando": 4,
-        "Ajustes": 1
-      }
+      },
+      "isTutorialCard": true
     }
   ]
 }

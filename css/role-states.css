@@ -16,7 +16,6 @@
 
 /* Layout principal dos stats */
 .role-stats {
-  font-size: 13px;
   margin-top: 6px;
 }
 
@@ -26,12 +25,14 @@
   gap: 6px;
   align-items: center;
   margin-bottom: 3px;
+  font-size: 13px;
 }
 
 /* Linha 2: Eficiência (resultado) */
 .efficiency-line {
   display: flex;
   align-items: center;
+  font-size: 18px;
 }
 
 /* Talento sempre visível */

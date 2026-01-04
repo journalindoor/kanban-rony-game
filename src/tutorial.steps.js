@@ -25,13 +25,18 @@
     {
       title: '🎮 Bem-vindo ao RonyOffice!',
       message: `
-        <p>Se você é ansioso, ótimo.<br>
-        Aqui a ansiedade aparece rápido quando o sistema responde às suas decisões.</p>
-        <p>Nada acontece por acaso.<br>
-        Cada escolha puxa um fio.<br>
-        E o jogo sempre devolve algo em troca.</p>
-        <p>Respira fundo.<br>
-        <strong>Vamos começar com calma.</strong></p>
+<p>Bem-vindo ao <strong>RonyOffice</strong>.</p>
+
+<p>Esse jogo nasceu do meu jeito de trabalhar e aprender.<br>
+Nada aqui acontece por acaso.</p>
+
+<p>Cada escolha mexe no sistema.<br>
+No fluxo, nas pessoas (ou nos dois).</p>
+
+<p>Estou ansioso.<br>
+Mas <strong>vamos começar com calma.</strong></p>
+
+
       `,
       highlight: null,
       ronySprite: '0 0', // Rony Normal
@@ -48,14 +53,18 @@
       title: '👀 Esse é o seu board.',
       message: `
         <p>Aqui você vê todo o fluxo do trabalho:<br>
-        de onde as demandas nascem até onde elas são entregues.</p>
-        <p>Os cards se movem da esquerda para a direita, passando por etapas diferentes.<br>
-        Cada coluna representa um momento do trabalho.</p>
-        <p>Entender esse fluxo é essencial.<br>
-        <strong>Todo o jogo acontece aqui.</strong></p>
+de onde as demandas nascem até onde elas são entregues.</p>
+
+<p>Os cards atravessam as colunas da esquerda para a direita.<br>
+Cada coluna representa um momento diferente do trabalho.</p>
+
+<p>Entender esse fluxo é essencial.<br>
+<strong>Todo o jogo acontece aqui.</strong></p>
+
       `,
       highlight: '#board',
       ronySprite: '-100px 0', // Rony Apontando
+      ronyFlip: true, // Espelhar horizontalmente
       allowedActions: [],
       onEnter: function() {
         K.TutorialState.blockAllActions();
@@ -122,12 +131,18 @@
     {
       title: '📋 Esse é o Backlog.',
       message: `
-        <p>Ele aceita no máximo 5 cards.<br>
-        Mais do que isso não é produtividade, é só bagunça organizada.</p>
-        <p>Esse limite existe por um motivo:<br>
-        proteger o fluxo e evitar que tudo trave ao mesmo tempo.</p>
-        <p>Aqui, limite não é castigo.<br>
-        <strong>É estratégia.</strong></p>
+        
+  <p>Esse espaço aceita no máximo 5 cards.<br>
+  Mais do que isso não é produtividade,<br>
+  é só bagunça organizada.</p>
+
+  <p>Aqui ficam as demandas que vão puxar o fluxo.<br>
+  Nem todas vão andar ao mesmo tempo, e isso é de propósito.</p>
+
+  <p>Esse limite existe por um motivo:<br>
+  proteger o fluxo e evitar que tudo trave junto.</p>
+
+
       `,
       highlight: '.column[data-col="Backlog"]',
       ronySprite: '-200px 0', // Rony Sério
@@ -144,13 +159,20 @@
 
     // Passo 2.2 — Gerar Cards
     {
-      title: '▶️ Agora vamos preencher o Backlog',
+      title: '▶️ Vamos ver esses cards aparecerem',
       message: `
-        <p>Clique em <strong>Iniciar Turno</strong><br>
-        para o jogo gerar os cards.</p>
-        <p>Repara bem:<br>
-        o sistema respeita o limite,<br>
-        mesmo quando ainda tem demanda.</p>
+        <p>Clique em <strong>Iniciar</strong><br>
+para os cards entrarem no Backlog.</p>
+
+<p>Repara com atenção.<br>
+Leia os títulos.<br>
+Eles contam mais coisa do que parece.</p>
+
+<p>Mesmo com espaço sobrando,<br>
+o sistema não joga coisa no ar.</p>
+
+<p><strong>Nada aqui é coincidência.</strong></p>
+
       `,
       highlight: '#startButton',
       ronySprite: '-100px 0', // Rony Apontando
@@ -168,14 +190,14 @@
 
     // Passo 2.3 — Limite Atingido
     {
-      title: '🚫 Viu só?',
+      title: '✅ Pronto. São esses 3.',
       message: `
-        <p>Sem espaço,<br>
-        sem card novo.</p>
-        <p>Enquanto o Backlog estiver cheio,<br>
-        nada entra.</p>
-        <p><strong>Primeiro flui.<br>
-        Depois acelera.</strong></p>
+        <p><strong>"🔥 Corrigir bug que só acontece na sexta"</strong><br>
+        <strong>"📊 Relatório urgente que ninguém pediu"</strong><br>
+        <strong>"🤡 Ajustar alinhamento do botão em produção"</strong></p>
+        <p>Eles vão ser seus companheiros até o fim do tutorial.</p>
+        <p>Agora você vai aprender a movê-los,<br>
+        alocar pessoas e fazer o trabalho acontecer.</p>
       `,
       highlight: '.column[data-col="Backlog"]',
       ronySprite: '-200px 0', // Rony Sério
@@ -229,7 +251,7 @@
         <p><strong>⚡ Eficiência</strong> é o resultado final.<br>
         Ela nasce do talento<br>
         e cresce ou diminui com a felicidade.</p>
-        <p><strong>Talento + Felicidade<br>
+        <p><strong>Talento + Felicidade = 
         definem o quanto uma pessoa consegue produzir em um turno.</strong></p>
       `,
       highlight: '#rolesArea',
@@ -250,9 +272,17 @@
       title: '⛔ Aqui ainda não é trabalho.',
       message: `
         <p>No Backlog, nada anda e ninguém trabalha.</p>
-        <p>Papéis só entram em cena quando o card sai da fila e começa de verdade.</p>
-        <p><strong>Mova um card do Backlog para a coluna Refinamento.</strong><br>
-        (Arraste ou clique em "Próxima coluna")</p>
+
+  <p>Esses cards ainda estão na fila.<br>
+  Enquanto eles ficam aqui,<br>
+  ninguém encosta neles.</p>
+
+  <p><strong>Comece movendo o card:<br>
+  "9001 - 📊 Relatório urgente que ninguém pediu"</strong><br>
+  para a coluna Refinamento.</p>
+
+  <p>Se quiser, você pode mover mais de um.<br>
+  Mas vamos focar nesse primeiro.</p>
       `,
       highlight: '.column[data-col="Backlog"]',
       ronySprite: '-100px 0', // Rony Apontando
@@ -273,12 +303,19 @@
     {
       title: '▶️ Agora associe um papel.',
       message: `
-        <p>Arraste um Analista e solte em cima de um card na coluna Refinamento.</p>
-        <p><strong>Essa escolha importa.</strong></p>
-        <p>Quando uma pessoa trabalha em algo alinhado com seu talento,<br>
-        a felicidade aumenta 😊 e isso gera bônus de eficiência ⚡.</p>
-        <p>Pessoas felizes produzem melhor.<br>
-        <strong>O jogo leva isso a sério.</strong></p>
+
+  <p>Arraste um Analista e solte em cima do card<br>
+  <strong>"9001 - 📊 Relatório urgente que ninguém pediu"</strong><br>
+  que está na coluna Refinamento.</p>
+
+  <p><strong>Essa escolha importa.</strong></p>
+
+  <p>Quando alguém trabalha em algo alinhado com seu talento,<br>
+  a felicidade aumenta 😊<br>
+  e isso gera bônus de eficiência ⚡.</p>
+
+  <p>Pessoas felizes produzem melhor.<br>
+  <strong>O jogo leva isso a sério.</strong></p>
       `,
       highlight: '.roles-area, .column[data-col="Refinamento"]',
       ronySprite: '-100px 0', // Rony Apontando
@@ -304,12 +341,20 @@
       title: '🎯 Agora inicie o turno',
       message: `
         <p>Clique em <strong>Iniciar Turno</strong><br>
-        para ver o trabalho acontecer.</p>
-        <p>O sistema vai processar:<br>
-        • Quem trabalha onde<br>
-        • Como cada pessoa se sente<br>
-        • Quanto progresso foi feito</p>
-        <p><strong>Observe os resultados.</strong></p>
+para ver o trabalho acontecer no card<br>
+<strong>"9001 – 📊 Relatório urgente que ninguém pediu"</strong>.</p>
+
+<p>Quando o turno roda, o jogo olha para uma coisa principal:<br>
+<strong>a eficiência de quem está trabalhando.</strong></p>
+
+<p>A eficiência nasce do talento e sobe ou desce conforme a pessoa se sente.</p>
+
+<p>É essa eficiência que vira progresso.<br>
+E é o progresso que decide se o card<br>
+fica onde está ou libera a próxima coluna.</p>
+
+<p><strong>Observe os resultados.</strong></p>
+
       `,
       highlight: '#startButton',
       ronySprite: '-85px -100px', // Rony Thumbs Up
