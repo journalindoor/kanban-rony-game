@@ -1,0 +1,294 @@
+/* ====================================
+   HOME - Tela de Início do RonyOffice
+   ==================================== */
+
+/* Container principal da tela de início */
+.home-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2rem;
+}
+
+/* Header da tela inicial */
+.home-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInDown 0.8s ease;
+}
+
+.home-title {
+    font-size: 4rem;
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+.home-subtitle {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 0.5rem;
+    font-weight: 300;
+}
+
+/* Grid de opções (3 áreas lado a lado) */
+.home-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Card individual de opção */
+.option-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.8s ease;
+    animation-fill-mode: both;
+}
+
+/* Delay de animação para cada card */
+.option-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.option-card:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.option-card:nth-child(3) {
+    animation-delay: 0.5s;
+}
+
+.option-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Sprite animado do Rony */
+.option-sprite {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1.5rem;
+    position: relative;
+    background-size: 360px 240px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* Sprite Analista (Azul) */
+.option-card.tutorial .option-sprite {
+    background-image: url('../assets/rony-modal.png');
+    background-position: -120px 0; /* Rony trabalhando - estático */
+}
+
+/* Sprite Programador (Verde) */
+.option-card.modo-livre .option-sprite {
+    background-image: url('../assets/rony-modal.png');
+    background-position: -100px -120px; /* Rony trabalhando - estático */
+}
+
+/* Sprite QA (Amarelo) */
+.option-card.capitulos .option-sprite {
+    background-image: url('../assets/rony-modal.png');
+    background-position: -225px -120px; /* Rony trabalhando - estático */
+}
+
+/* Animações dos sprites */
+@keyframes spriteAnalista {
+    0% { background-position: 0 0; }
+    100% { background-position: -360px 0; }
+}
+
+@keyframes spriteProgramador {
+    0% { background-position: 0 -120px; }
+    100% { background-position: -360px -120px; }
+}
+
+@keyframes spriteQA {
+    0% { background-position: 0 -240px; }
+    100% { background-position: -360px -240px; }
+}
+
+/* Título do card */
+.option-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: #1f2937;
+}
+
+/* Cores dos títulos por tipo */
+.option-card.tutorial .option-title {
+    color: #3b82f6; /* Azul */
+}
+
+.option-card.modo-livre .option-title {
+    color: #10b981; /* Verde */
+}
+
+.option-card.capitulos .option-title {
+    color: #f59e0b; /* Amarelo */
+}
+
+/* Subtítulo engraçado */
+.option-funny {
+    font-size: 1.1rem;
+    color: #6b7280;
+    font-style: italic;
+    margin: 0 0 1rem 0;
+    min-height: 2.5rem;
+}
+
+/* Descrição */
+.option-description {
+    font-size: 1rem;
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    min-height: 4rem;
+}
+
+/* Botão de ação */
+.option-button {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.option-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.option-button:active {
+    transform: scale(0.98);
+}
+
+/* Botões com cores específicas */
+.option-card.tutorial .option-button {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
+
+.option-card.tutorial .option-button:hover {
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+}
+
+.option-card.modo-livre .option-button {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+}
+
+.option-card.modo-livre .option-button:hover {
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+}
+
+.option-card.capitulos .option-button {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+}
+
+.option-card.capitulos .option-button:hover {
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+}
+
+/* Footer da tela inicial */
+.home-footer {
+    margin-top: auto;
+    padding-top: 3rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+.home-footer a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.home-footer a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+/* Animações */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+    .home-options {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+    }
+    
+    .home-title {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .home-container {
+        padding: 1rem;
+    }
+    
+    .home-title {
+        font-size: 2.5rem;
+    }
+    
+    .home-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .option-card {
+        padding: 2rem;
+    }
+    
+    .option-title {
+        font-size: 1.8rem;
+    }
+}

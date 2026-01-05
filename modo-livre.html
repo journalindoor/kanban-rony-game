@@ -1,9 +1,10 @@
+<!-- Página criada a partir de index.html - Modo Livre -->
 <!doctype html>
 <html lang="pt-BR">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
-		<title>Capítulo 1: Sobreviva à Sprint - RonyOffice</title>
+		<title>RonyOffice</title>
 		<!-- CSS imports in cascading order -->
 		<link rel="stylesheet" href="css/base.css">
 		<link rel="stylesheet" href="css/layout.css">
@@ -20,7 +21,7 @@
 
     <div class="game-layout">
       <div class="container">
-			<h1><a href="index.html" style="color: inherit; text-decoration: none;">RonyOffice</a> <span class="chapter-badge">Capítulo 1</span></h1>
+			<h1><a href="index.html" style="color: inherit; text-decoration: none;">RonyOffice</a> <span class="mode-badge">Modo Livre</span></h1>
 			<!-- Status bar for day counter and future metrics -->
 			<div class="status-bar">
 				<div class="status-left">
@@ -132,46 +133,39 @@
 				
 				<!-- Top controls integrated into office panel -->
 				<div class="top-controls">
-				<button id="startButton" class="start-button">▶️ Iniciar</button>
-				<button id="resetButton" class="reset-button">🔄 Reiniciar</button>
-				
-				<div class="dropdown-menu">
-					<button class="dropdown-toggle">☰</button>
-					<div class="dropdown-content">
-						<button class="dropdown-item" onclick="window.open('manual.html', '_blank')">📖 Manual</button>
-						<button class="dropdown-item" onclick="window.location.href='tutorial.html'">🎓 Tutorial</button>
-						<button class="dropdown-item" id="backToFreeModeButton">🎮 Modo Livre</button>
-						<button class="dropdown-item" id="goToChapter2Button" disabled>📝 Capítulo 2</button>
+				<button id="startButton" class="start-button">▶️ Iniciar</button>			<button id="resetButton" class="reset-button">🔄 Reiniciar</button>					<div class="dropdown-menu">
+						<button class="dropdown-toggle">☰</button>
+						<div class="dropdown-content">
+							<button class="dropdown-item" onclick="window.open('manual.html', '_blank')">📖 Manual</button>
+							<button class="dropdown-item" id="goToTutorialButton">🎓 Tutorial</button>
+							<button class="dropdown-item" id="startChapter1Button">📝 Capítulo 1</button>
+						</div>
 					</div>
 				</div>
-			</div>
+			
 			<div class="office-viewport">
-				<!-- Grid de Videochamada 3x3 -->
 				<div class="video-grid">
 					<!-- Fileira 1: Analistas -->
 					<div class="video-row" data-role-type="Analista">
 						<div class="video-tile" data-character-id="analista-1">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-							<div class="info-name">Rony</div>
+								<div class="info-name">Rony</div>
 						<div class="info-role">Analista 1</div>
-
 							</div>
 						</div>
 						<div class="video-tile" data-character-id="analista-2">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-							<div class="info-name">Rony</div>
+								<div class="info-name">Rony</div>
 						<div class="info-role">Analista 2</div>
-
 							</div>
 						</div>
 						<div class="video-tile" data-character-id="analista-3">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-							<div class="info-name">Rony</div>
+								<div class="info-name">Rony</div>
 						<div class="info-role">Analista 3</div>
-
 							</div>
 						</div>
 					</div>
@@ -181,25 +175,22 @@
 						<div class="video-tile" data-character-id="programador-1">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-							<div class="info-name">Rony</div>
+								<div class="info-name">Rony</div>
 						<div class="info-role">Programador 1</div>
-
 							</div>
 						</div>
 						<div class="video-tile" data-character-id="programador-2">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-							<div class="info-name">Rony</div>
+								<div class="info-name">Rony</div>
 						<div class="info-role">Programador 2</div>
-
 							</div>
 						</div>
 						<div class="video-tile" data-character-id="programador-3">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-							<div class="info-name">Rony</div>
+								<div class="info-name">Rony</div>
 						<div class="info-role">Programador 3</div>
-
 							</div>
 						</div>
 					</div>
@@ -209,31 +200,28 @@
 						<div class="video-tile" data-character-id="qa-1">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-							<div class="info-name">Rony</div>
+								<div class="info-name">Rony</div>
 						<div class="info-role">QA/Tester 1</div>
-
 							</div>
 						</div>
 						<div class="video-tile" data-character-id="qa-2">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-							<div class="info-name">Rony</div>
+								<div class="info-name">Rony</div>
 						<div class="info-role">QA/Tester 2</div>
-
 							</div>
 						</div>
 						<div class="video-tile" data-character-id="qa-3">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
-							<div class="info-name">Rony</div>
+								<div class="info-name">Rony</div>
 						<div class="info-role">QA/Tester 3</div>
-
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-				
+			
 			<!-- Office Footer (extensible for future features) -->
 			<div class="office-footer">
 				<div class="office-status">
@@ -244,73 +232,50 @@
 		</div><!-- .main-content -->
 		</div><!-- .container -->
 
-		<!-- Chapter Transition Modal -->
-		<div id="chapterTransitionModal" class="modal-overlay" style="display:none;">
+		<!-- Welcome Modal -->
+		<div id="welcomeModal" class="modal-overlay" style="display:flex;">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h2>🎉 Parabéns!</h2>
+					<h2>Bem-vindo ao RonyOffice! 🎮</h2>
 				</div>
 				<div class="modal-body" style="display:flex; gap:20px; align-items:center;">
 					<div class="modal-character" style="flex:0 0 30%; display:flex; justify-content:center; align-items:center;">
-						<div style="width:120px; height:120px; background-image:url('assets/rony-modal.png'); background-size:360px 240px; background-position:-120px 0; background-repeat:no-repeat;"></div>
+						<div style="width:120px; height:120px; background-image:url('assets/rony-modal.png'); background-size:360px 240px; background-position:0 0; background-repeat:no-repeat;"></div>
 					</div>
 					<div style="flex:1;">
-						<p class="modal-message">Você acumulou <strong>$500</strong> e completou o Capítulo 1!</p>
-						<p class="modal-subtitle">Deseja prosseguir para o próximo capítulo?</p>
-						<div class="modal-stats">
-							<div class="stat-item">
-								<span class="stat-label">Dias passados:</span>
-								<span class="stat-value" id="modalDays">0</span>
-							</div>
-							<div class="stat-item">
-								<span class="stat-label">Dinheiro acumulado:</span>
-								<span class="stat-value" id="modalMoney">$0</span>
-							</div>
-						</div>
+						<p style="font-size:16px; line-height:1.6; color:#4b5563; margin:0 0 20px 0;">
+							Este é um jogo de simulação Kanban onde você gerencia o fluxo de trabalho de uma equipe de desenvolvimento.
+						</p>
+						<p style="font-size:16px; line-height:1.6; color:#4b5563; margin:0 0 20px 0;">
+							Você gostaria de fazer o <strong>tutorial</strong> para aprender os conceitos básicos?
+						</p>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button id="continueChapterBtn" class="modal-btn modal-btn-primary">Prosseguir para Capítulo 2</button>
-					<button id="stayChapterBtn" class="modal-btn modal-btn-secondary">Continuar no Capítulo 1</button>
+				<div class="modal-actions">
+					<button id="skipTutorialBtn" class="modal-button modal-button-secondary">Pular Tutorial</button>
+					<button id="startTutorialBtn" class="modal-button modal-button-primary">Fazer Tutorial</button>
 				</div>
 			</div>
 		</div>
 
-		<!-- Game Footer -->
-		<footer class="game-footer">
-			<div class="footer-content">
-				<div class="footer-info">
-					<span class="footer-version">Versão 1.0.0 - Capítulo 1</span>
-					<span class="footer-separator">|</span>
-					<span class="footer-author">Criado por Rony</span>
-					<span class="footer-separator">|</span>
-					<a href="https://www.linkedin.com/in/ronaldojr/" target="_blank" class="footer-linkedin" rel="noopener noreferrer">LinkedIn</a>
-				</div>
-				<div class="footer-date">
-					<span>© 2025</span>
-				</div>
+	<!-- Game Footer -->
+	<footer class="game-footer">
+		<div class="footer-content">
+			<div class="footer-info">
+				<span class="footer-version">Versão 1.0.0</span>
+				<span class="footer-separator">|</span>
+				<span class="footer-author">Criado por Rony</span>
+				<span class="footer-separator">|</span>
+				<a href="https://www.linkedin.com/in/ronaldojr/" target="_blank" class="footer-linkedin" rel="noopener noreferrer">LinkedIn</a>
 			</div>
-		</footer>
+			<div class="footer-date">
+				<span>© 2025</span>
+			</div>
+		</div>
+	</footer>
+	</div><!-- .game-layout -->
 
-		<script src="src/storage.js" defer></script>
-		<script src="data/chapter-1-cards.js"></script>
-		<script src="src/cardBankManager.js" defer></script>
-		<script src="src/officeCharacters.js" defer></script>
-		<script src="src/cards.js" defer></script>
-		<script src="src/dragdrop.js" defer></script>
-		<script src="src/movementRules.js" defer></script>
-		<script src="src/adjustmentsRules.js" defer></script>
-		<script src="src/roles.js" defer></script>
-		<script src="src/roleModel.js" defer></script>
-		<script src="src/gameLogic.js" defer></script>
-		<script src="src/backlogRules.js" defer></script>
-		<script src="src/progressionRules.js" defer></script>
-		<script src="src/officeStatusMessages.js" defer></script>
-		<script src="src/columnInfo.js" defer></script>
-		<script src="src/main.js" defer></script>
-		<script src="src/chapterManager.js" defer></script>
-	
-	<!-- Column Info Modal HTML -->
+	<!-- Column Info Modal -->
 	<div id="columnInfoModal" class="column-info-modal">
 		<div class="column-info-modal-content">
 			<div class="column-info-header">
@@ -338,30 +303,126 @@
 		</div>
 	</div>
 
-	<!-- Dropdown menu functionality -->
+	<!-- Welcome modal script -->
 	<script>
-		document.addEventListener('DOMContentLoaded', function(){
-			const dropdownToggle = document.querySelector('.dropdown-toggle');
-			const dropdownContent = document.querySelector('.dropdown-content');
 			
-			if(dropdownToggle && dropdownContent){
-				dropdownToggle.addEventListener('click', function(e){
-					e.stopPropagation();
-					dropdownContent.classList.toggle('show');
-				});
+			window.addEventListener('DOMContentLoaded', function(){
+				const hasSeenWelcome = localStorage.getItem('kanban_welcome_seen');
+				const modal = document.getElementById('welcomeModal');
+				const startTutorialBtn = document.getElementById('startTutorialBtn');
+				const skipTutorialBtn = document.getElementById('skipTutorialBtn');
+				const resetButton = document.getElementById('resetButton');
+				const goToTutorialButton = document.getElementById('goToTutorialButton');
 				
-				document.addEventListener('click', function(e){
-					if(!e.target.closest('.dropdown-menu')){
-						dropdownContent.classList.remove('show');
-					}
-				});
+				// Hide modal if already seen
+				if(hasSeenWelcome){
+					if(modal) modal.style.display = 'none';
+					
+					// Se modal já foi visto, iniciar sprites normalmente após delay
+					setTimeout(() => {
+						if(typeof window.Kanban.initCharacterSpritesWithSequence === 'function') {
+							window.Kanban.initCharacterSpritesWithSequence(500, 2000);
+						}
+					}, 100);
+				}
 				
-				const dropdownItems = dropdownContent.querySelectorAll('.dropdown-item');
-				dropdownItems.forEach(item => {
-					item.addEventListener('click', function(){
-						dropdownContent.classList.remove('show');
+				// Start tutorial button
+				if(startTutorialBtn){
+					startTutorialBtn.addEventListener('click', function(){
+						const confirmed = confirm(
+							'Iniciar Tutorial?\n\n' +
+							'Você será guiado passo a passo pelas mecânicas do jogo.\n' +
+							'Poderá retornar ao Modo Livre a qualquer momento.\n\n' +
+							'Deseja continuar?'
+						);
+						
+						if(confirmed){
+							localStorage.setItem('kanban_welcome_seen', 'true');
+							window.location.href = 'tutorial.html';
+						}
 					});
-				});
-			}
-		});
-	</script>
+				}
+				
+				// Skip tutorial button
+				if(skipTutorialBtn){
+					skipTutorialBtn.addEventListener('click', function(){
+						localStorage.setItem('kanban_welcome_seen', 'true');
+						if(modal) modal.style.display = 'none';
+						
+						// Iniciar carregamento de sprites após fechar modal
+						setTimeout(() => {
+							if(typeof window.Kanban.initCharacterSpritesWithSequence === 'function') {
+								window.Kanban.initCharacterSpritesWithSequence(500, 2000);
+							}
+						}, 100);
+					});
+				}
+				
+				// Reset button - clear welcome flag so modal appears again on refresh
+				if(resetButton){
+					resetButton.addEventListener('click', function(){
+						localStorage.removeItem('kanban_welcome_seen');
+					});
+				}
+				
+				// Go to tutorial button
+				if(goToTutorialButton){
+					goToTutorialButton.addEventListener('click', function(){
+						const confirmed = confirm(
+							'Ir para o Tutorial?\n\n' +
+							'Seu progresso no Modo Livre será salvo automaticamente.\n' +
+							'Você poderá retornar a qualquer momento.\n\n' +
+							'Deseja continuar?'
+						);
+						
+						if(confirmed){
+							window.location.href = 'tutorial.html';
+						}
+					});
+				}
+				
+				// Dropdown menu functionality
+				const dropdownToggle = document.querySelector('.dropdown-toggle');
+				const dropdownContent = document.querySelector('.dropdown-content');
+				
+				if(dropdownToggle && dropdownContent){
+					// Toggle dropdown
+					dropdownToggle.addEventListener('click', function(e){
+						e.stopPropagation();
+						dropdownContent.classList.toggle('show');
+					});
+					
+					// Close dropdown when clicking outside
+					document.addEventListener('click', function(e){
+						if(!e.target.closest('.dropdown-menu')){
+							dropdownContent.classList.remove('show');
+						}
+					});
+					
+					// Close dropdown when clicking on any item
+					const dropdownItems = dropdownContent.querySelectorAll('.dropdown-item');
+					dropdownItems.forEach(item => {
+						item.addEventListener('click', function(){
+							dropdownContent.classList.remove('show');
+						});
+					});
+				}
+			});
+		</script>
+		<script src="src/storage.js" defer></script>
+		<script src="src/cardBankManager.js" defer></script>
+		<script src="src/officeCharacters.js" defer></script>
+		<script src="src/cards.js" defer></script>
+		<script src="src/dragdrop.js" defer></script>
+		<script src="src/movementRules.js" defer></script>
+		<script src="src/adjustmentsRules.js" defer></script>
+		<script src="src/roles.js" defer></script>
+		<script src="src/roleModel.js" defer></script>
+		<script src="src/gameLogic.js" defer></script>
+		<script src="src/backlogRules.js" defer></script>
+		<script src="src/progressionRules.js" defer></script>
+		<script src="src/officeStatusMessages.js" defer></script>
+		<script src="src/columnInfo.js" defer></script>
+		<script src="src/main.js" defer></script>
+	</body>
+</html>

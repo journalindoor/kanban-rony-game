@@ -229,7 +229,7 @@
           if (typeof K.saveState === 'function') K.saveState()
           
           // Navigate to free mode
-          window.location.href = 'index.html'
+          window.location.href = 'modo-livre.html'
         }
       })
     }

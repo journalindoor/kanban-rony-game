@@ -342,7 +342,7 @@
         );
         if (confirmed) {
           K.TutorialState.reset(); // Reseta tutorial para começar do zero na próxima vez
-          window.location.href = 'index.html';
+          window.location.href = 'modo-livre.html';
         }
       });
     }
