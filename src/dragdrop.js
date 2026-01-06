@@ -19,10 +19,10 @@
           const zoneCol = zone.getAttribute('data-col')
           const fromCol = K.dragged.dataset.fromCol || null
 
-          // Check backlog size limit
-          if(zoneCol === 'Backlog'){
-            const count = zone.querySelectorAll('.card').length
-            if(count >= 5){
+          // Check WIP limit for target column
+          if(typeof K.isColumnAtLimit === 'function'){
+            if(K.isColumnAtLimit(zoneCol)){
+              console.warn(`Coluna ${zoneCol} atingiu o limite de WIP`)
               zone.classList.remove('drop-over')
               return
             }

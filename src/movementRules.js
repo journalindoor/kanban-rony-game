@@ -137,6 +137,14 @@
       return false
     }
     
+    // Check WIP limit for target column
+    if(typeof K.isColumnAtLimit === 'function'){
+      if(K.isColumnAtLimit(nextCol)){
+        console.log(`Cannot move: column ${nextCol} is at WIP limit`)
+        return false
+      }
+    }
+    
     // Move the card
     targetZone.appendChild(cardEl)
     console.log(`Card moved to ${nextCol}`)

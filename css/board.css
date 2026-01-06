@@ -57,6 +57,15 @@
   padding:2px 8px;
   border-radius:999px;
   margin-left:8px;
+  transition: all 0.3s ease;
+}
+
+/* WIP Counter at limit - visual warning */
+.wip-counter.wip-at-limit{
+  background:#fef3c7;
+  color:#d97706;
+  font-weight:700;
+  border:1px solid #fbbf24;
 }
 
 .cards{
