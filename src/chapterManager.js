@@ -109,6 +109,23 @@
     }
   }
 
+  // Show chapter welcome modal (Chapter 1 intro)
+  K.showChapterWelcomeModal = function() {
+    const modal = document.getElementById('chapterWelcomeModal')
+    if (!modal) return
+
+    // Show modal
+    modal.style.display = 'flex'
+
+    // Wire start button
+    const startBtn = document.getElementById('startChapterBtn')
+    if (startBtn) {
+      startBtn.onclick = function() {
+        modal.style.display = 'none'
+      }
+    }
+  }
+
   // Habilitar/desabilitar botão do capítulo 2
   K.enableChapter2Button = function() {
     const btn = document.getElementById('goToChapter2Button')
@@ -264,6 +281,9 @@
         // Limpar também a lista de cards usados
         localStorage.removeItem('kanbanState_chapter1_usedCards')
       } catch(e) {}
+      
+      // Show welcome modal for Chapter 1
+      K.showChapterWelcomeModal()
       
       return
     }
