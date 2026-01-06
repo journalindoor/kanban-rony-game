@@ -136,6 +136,21 @@
       return
     }
 
+    // Verificar se o próximo capítulo existe (Capítulo 2+ ainda não implementados)
+    if (K.currentChapter === 1) {
+      const message = 
+        '🎮 Capítulo 2 em desenvolvimento!\n\n' +
+        '✅ Você completou o Capítulo 1 com sucesso!\n\n' +
+        '⏳ Novos capítulos serão adicionados em breve.\n\n' +
+        '💡 Por enquanto, experimente:\n' +
+        '   • Modo Livre (sem restrições)\n' +
+        '   • Tutorial (aprenda os conceitos básicos)\n\n' +
+        'Seu progresso está salvo!'
+      
+      alert(message)
+      return
+    }
+
     // Prepare state transfer data
     const transferData = {
       fromChapter: K.currentChapter,
