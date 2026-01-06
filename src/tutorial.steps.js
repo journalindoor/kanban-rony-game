@@ -4,6 +4,22 @@
   K = K || (window.Kanban = window.Kanban || {});
 
   /**
+   * Detecta se o usuário está em mobile
+   * @returns {boolean} true se largura <= 768px
+   */
+  const isMobile = () => window.innerWidth <= 768;
+  
+  /**
+   * Retorna texto adaptado para mobile/desktop
+   * @param {string} desktopText - Texto para desktop
+   * @param {string} mobileText - Texto para mobile
+   * @returns {string} Texto apropriado
+   */
+  const adaptText = (desktopText, mobileText) => {
+    return isMobile() ? mobileText : desktopText;
+  };
+
+  /**
    * Array de passos do tutorial
    * 
    * Estrutura de cada passo:
@@ -115,10 +131,18 @@ Cada coluna representa um momento diferente do trabalho.</p>
     {
       title: '▶️ Vamos ver esses cards aparecerem',
       message: `
-        <p>Vê o botão azul <strong>▶️ Iniciar</strong> ali na esquerda, na área da videochamada?</p>
+        <p>Vê o botão azul <strong>▶️ Iniciar</strong> ${adaptText(
+          'ali na esquerda, na área da videochamada',
+          'logo acima'
+        )}?</p>
 
 <p>Ele faz o jogo andar.<br>
 <strong>1 clique = 1 dia de trabalho.</strong></p>
+
+${adaptText(
+  '',
+  '<p><em>(Dica: No mobile, existem 2 botões Iniciar — um acima e outro na área de videochamada abaixo. Ambos fazem a mesma coisa!)</em></p>'
+)}
 
 <p>Enquanto você não clicar nele,<br>
 nada acontece.<br>
@@ -136,13 +160,16 @@ o sistema não joga coisa no ar.</p>
 <p><strong>Nada aqui é coincidência.</strong></p>
 
       `,
-      highlight: '#startButton',
+      get highlight() {
+        return isMobile() ? '#mobileStartButton' : '#startButton';
+      },
       ronySprite: '-100px 0', // Rony Apontando
       allowedActions: ['startTurn'],
       onEnter: function() {
         K.TutorialState.blockAllActions();
         K.TutorialState.allowAction('startTurn');
-        K.TutorialUI.highlightElement('#startButton');
+        const buttonSelector = isMobile() ? '#mobileStartButton' : '#startButton';
+        K.TutorialUI.highlightElement(buttonSelector);
       },
       onExit: function() {
         K.TutorialUI.clearHighlight();
@@ -249,7 +276,7 @@ Você não escolhe isso. O jogo também não.</p>
     {
       title: '🎯 Agora inicie o turno',
       message: `
-        <p class="tutorial-action">Clique em Iniciar novamente para ver o trabalho acontecer no card "9001 – 📊 Relatório urgente que ninguém pediu".</p>
+        <p class="tutorial-action">Clique em <strong>▶️ Iniciar</strong> novamente para ver o trabalho acontecer no card "9001 – 📊 Relatório urgente que ninguém pediu".</p>
 
 <p>Vê o <strong>indicador vermelho</strong> no card?<br>
 Ele mostra quanto trabalho ainda falta.</p>
@@ -264,7 +291,9 @@ Quanto melhor a eficiência, mais o indicador diminui.</p>
 <p><strong>Observe os resultados.</strong></p>
 
       `,
-      highlight: '#startButton',
+      get highlight() {
+        return isMobile() ? '#mobileStartButton' : '#startButton';
+      },
       ronySprite: '-85px -100px', // Rony Thumbs Up
       position: 'left',
       allowedActions: ['startTurn', 'dragRole', 'dragCard', 'moveCardButton'],
@@ -274,7 +303,8 @@ Quanto melhor a eficiência, mais o indicador diminui.</p>
         K.TutorialState.allowAction('dragRole');
         K.TutorialState.allowAction('dragCard');
         K.TutorialState.allowAction('moveCardButton');
-        K.TutorialUI.highlightElement('#startButton');
+        const buttonSelector = isMobile() ? '#mobileStartButton' : '#startButton';
+        K.TutorialUI.highlightElement(buttonSelector);
       },
       onExit: function() {
         K.TutorialUI.clearHighlight();
@@ -364,7 +394,7 @@ Quanto melhor a eficiência, mais o indicador diminui.</p>
 
         <p>Aqui o trabalho acontece de verdade.</p>
 
-        <p class="tutorial-action">Associe um Programador ao card.<br>
+        <p class="tutorial-action">Associe um <strong>Dev (Programador)</strong> ao card.<br>
         Rode turnos até o indicador de Fazendo zerar.<br>
         Depois, mova para Homologação.</p>
 
@@ -403,7 +433,7 @@ Quanto melhor a eficiência, mais o indicador diminui.</p>
         <p>Aqui é onde bugs são descobertos.<br>
         QAs testam tudo antes de publicar.</p>
 
-        <p class="tutorial-action">Associe um QA/Tester ao card.<br>
+        <p class="tutorial-action">Associe um <strong>QA (Tester)</strong> ao card.<br>
         Depois, rode turnos até o indicador zerar.</p>
 
         <p><strong>A eficiência do QA importa muito aqui.</strong></p>
@@ -435,7 +465,7 @@ Quanto melhor a eficiência, mais o indicador diminui.</p>
 
         <p><strong>Se o card recebeu pontos em Ajustes:</strong><br>
         O QA encontrou bugs antes da publicação.<br>
-        Associe um Programador, corrija e avance para Publicado.</p>
+        Associe um <strong>Dev (Programador)</strong>, corrija e avance para Publicado.</p>
 
         <p><strong>Se não tem indicador de Ajustes:</strong><br>
         Nenhum bug foi encontrado!<br>
@@ -517,14 +547,17 @@ Quanto melhor a eficiência, mais o indicador diminui.</p>
 
         <p>Vamos ver acontecer.</p>
       `,
-      highlight: '#startButton',
+      get highlight() {
+        return isMobile() ? '#mobileStartButton' : '#startButton';
+      },
       ronySprite: '0 -120px', // Rony Sorrindo
       position: 'left',
       allowedActions: ['startTurn'],
       onEnter: function() {
         K.TutorialState.blockAllActions();
         K.TutorialState.allowAction('startTurn');
-        K.TutorialUI.highlightElement('#startButton');
+        const buttonSelector = isMobile() ? '#mobileStartButton' : '#startButton';
+        K.TutorialUI.highlightElement(buttonSelector);
       },
       onExit: function() {
         K.TutorialUI.clearHighlight();

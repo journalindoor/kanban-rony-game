@@ -1,0 +1,353 @@
+/* ============================================
+   MOBILE STYLES
+   Mobile-first responsive layout
+   ============================================ */
+
+/* Mobile layout base */
+
+/* ========================================
+   MOBILE BASE (max-width: 768px)
+   ======================================== */
+
+@media (max-width: 768px) {
+  
+  /* ========== BODY & CONTAINER ========== */
+  
+  body {
+    overflow-x: hidden;
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .container {
+    flex-direction: column;
+    padding: 12px;
+    overflow-x: hidden;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  /* ========== MAIN CONTENT REORDERING ========== */
+  /* Mobile layout: board above office-panel for better drag & drop UX */
+  /* Visual order: status-bar → board → office-panel */
+  
+  .main-content {
+    flex-direction: column;
+    overflow-x: hidden;
+    width: 100%;
+    gap: 12px;
+    min-height: 0;
+  }
+  
+  /* Reordenação visual usando order (não altera HTML) */
+  /* Desktop: office-panel (order:1) à esquerda, board (order:2) à direita */
+  /* Mobile: inverte para board (order:1) em cima, office-panel (order:2) embaixo */
+  .board {
+    order: 1 !important; /* Board primeiro: facilita drag de status-bar para cards */
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    margin-bottom: 16px;
+  }
+  
+  .office-panel {
+    order: 2 !important; /* Office panel depois: fica entre board e rodapé */
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* ========== STATUS BAR ========== */
+  /* Mobile UX: compact status bar and thumb-friendly controls */
+  
+  .status-bar {
+    flex-direction: column;
+    gap: 8px; /* Reduzido de 12px */
+    align-items: stretch;
+    padding: 8px; /* Compacto */
+    margin-bottom: 8px;
+  }
+  
+  .status-left {
+    flex-direction: column;
+    gap: 8px; /* Reduzido de 12px */
+    width: 100%;
+  }
+  
+  .status-metrics {
+    width: 100%;
+    justify-content: space-around;
+    font-size: 13px; /* Fonte menor para economizar espaço */
+    gap: 6px;
+  }
+  
+  .status-metrics .metric {
+    padding: 6px 8px; /* Compacto */
+  }
+  
+  .status-actions {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  
+  .status-actions .metric-button {
+    min-height: 40px; /* Touch-friendly */
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  /* ========== MOBILE START BUTTON ========== */
+  /* Botão Iniciar Turno exclusivo mobile (logo abaixo das métricas) */
+  
+  .mobile-start-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+    padding: 0 12px;
+  }
+  
+  .mobile-start-button {
+    width: 100%;
+    max-width: 320px;
+    min-height: 50px; /* Extra touch-friendly */
+    font-size: 16px;
+    font-weight: 700;
+    padding: 14px 20px;
+  }
+  
+  /* ========== ROLES AREA ========== */
+  
+  .roles-area {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    width: 100%;
+    justify-items: center;
+  }
+  
+  .role {
+    min-width: 60px;
+    max-width: 80px;
+    font-size: 10px;
+    padding: 4px 6px;
+  }
+  
+  /* ========== BOARD KANBAN ========== */
+  /* Mobile Kanban: horizontal scroll and touch-friendly columns */
+  
+  .board {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch; /* Rolagem suave no iOS */
+    scroll-snap-type: x proximity; /* Snap suave entre colunas */
+    gap: 12px;
+    padding-bottom: 12px;
+  }
+  
+  .column {
+    min-width: 280px; /* Largura confortável para toque */
+    max-width: 280px;
+    flex-shrink: 0; /* Não encolhe */
+    scroll-snap-align: start; /* Snap alinha no início da coluna */
+  }
+  
+  /* Cards touch-friendly */
+  .card {
+    padding: 12px; /* Área de toque maior */
+    margin-bottom: 12px; /* Espaçamento vertical confortável */
+    min-height: 60px; /* Altura mínima para facilitar toque */
+  }
+  
+  .cards {
+    gap: 8px; /* Espaçamento entre cards */
+  }
+  
+  /* ========== OFFICE PANEL ========== */
+  
+  .office-viewport {
+    height: auto;
+    min-height: 300px;
+  }
+  
+  .video-grid {
+    gap: 8px;
+  }
+  
+  .video-tile {
+    min-height: 80px;
+  }
+  
+  /* ========== TOP CONTROLS ========== */
+  /* Thumb-friendly buttons: min 44px height */
+  
+  .top-controls {
+    flex-wrap: wrap;
+    gap: 10px; /* Espaçamento confortável */
+    padding: 12px;
+  }
+  
+  .start-button,
+  .reset-button {
+    flex: 1 1 auto;
+    min-width: 120px;
+    min-height: 44px; /* Apple Human Interface Guidelines */
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .dropdown-menu {
+    position: relative;
+  }
+  
+  .dropdown-menu button {
+    min-height: 44px; /* Touch-friendly */
+    padding: 10px 14px;
+  }
+  
+  /* ========== HEADER ========== */
+  
+  h1 {
+    font-size: 18px;
+    text-align: center;
+  }
+  
+  /* ========== MODALS ========== */
+  
+  .modal-content {
+    max-width: 95%;
+    margin: 0 8px;
+  }
+  
+  .modal-body {
+    flex-direction: column !important;
+    text-align: center;
+  }
+  
+  .modal-character {
+    flex: 0 0 auto !important;
+    margin-bottom: 16px;
+  }
+  
+  /* ========== TUTORIAL ========== */
+  /* Mobile: modal fixo no bottom, nunca sai da viewport */
+  
+  .tutorial-message-box {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    max-width: 100vw;
+    transform: none;
+    border-radius: 12px 12px 0 0;
+    margin: 0;
+  }
+  
+  .tutorial-message-box.active {
+    transform: none;
+  }
+  
+  .tutorial-message-box.left-aligned {
+    left: 0;
+    transform: none;
+  }
+  
+  .tutorial-message-box.left-aligned.active {
+    transform: none;
+  }
+  
+  .tutorial-message-box.minimized {
+    bottom: 0;
+    width: 100vw;
+    max-width: 100vw;
+  }
+  
+  .tutorial-message-header {
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+  
+  .tutorial-message-body {
+    max-height: 50vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* ========== FOOTER ========== */
+  
+  .game-footer {
+    padding: 12px;
+  }
+  
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+  
+  .footer-info {
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .footer-separator {
+    display: none;
+  }
+  
+  /* ========== PREVENT HORIZONTAL OVERFLOW ========== */
+  
+  * {
+    max-width: 100vw;
+  }
+  
+  .board,
+  .column,
+  .card {
+    box-sizing: border-box;
+  }
+  
+}
+
+/* ========================================
+   EXTRA SMALL DEVICES (<480px)
+   ======================================== */
+
+@media (max-width: 480px) {
+  
+  .container {
+    padding: 8px;
+  }
+  
+  .roles-area {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  
+  .role {
+    min-width: 50px;
+    max-width: 70px;
+    font-size: 9px;
+  }
+  
+  .column {
+    min-width: 180px;
+  }
+  
+  h1 {
+    font-size: 16px;
+  }
+  
+  .metric-label {
+    font-size: 11px;
+  }
+  
+  .metric-value {
+    font-size: 16px;
+  }
+  
+}

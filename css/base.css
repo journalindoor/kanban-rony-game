@@ -151,6 +151,15 @@ h1 {
   color:#3498db;
 }
 
+/* ============================================
+   MOBILE START BUTTON - Desktop Hide
+   ============================================ */
+
+/* Ocultar botão mobile no desktop */
+.mobile-start-wrapper {
+  display: none;
+}
+
 @media (max-width:600px){
   .footer-content{
     flex-direction:column;

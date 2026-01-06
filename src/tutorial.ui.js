@@ -30,6 +30,7 @@
      */
     init: function() {
       this.cacheElements();
+      this.createMinimizeButton();
       this.attachEvents();
     },
 
@@ -45,6 +46,35 @@
       this.elements.skipButton = document.getElementById('tutorialSkip');
       this.elements.stepCounter = document.getElementById('tutorialStepCounter');
       this.elements.closeButton = document.getElementById('tutorialClose');
+    },
+
+    /**
+     * Cria botão de minimizar/expandir
+     */
+    createMinimizeButton: function() {
+      const closeBtn = this.elements.closeButton;
+      if (!closeBtn) return;
+      
+      // Criar wrapper para botões se não existir
+      let buttonWrapper = closeBtn.parentElement;
+      if (!buttonWrapper.classList.contains('tutorial-header-buttons')) {
+        buttonWrapper = document.createElement('div');
+        buttonWrapper.className = 'tutorial-header-buttons';
+        closeBtn.parentElement.appendChild(buttonWrapper);
+        buttonWrapper.appendChild(closeBtn);
+      }
+      
+      // Criar botão minimizar
+      const minimizeBtn = document.createElement('button');
+      minimizeBtn.className = 'tutorial-minimize-button';
+      minimizeBtn.innerHTML = '▼';
+      minimizeBtn.title = 'Minimizar tutorial';
+      minimizeBtn.id = 'tutorialMinimize';
+      
+      // Inserir antes do botão fechar
+      buttonWrapper.insertBefore(minimizeBtn, closeBtn);
+      
+      this.elements.minimizeButton = minimizeBtn;
     },
 
     /**
@@ -75,6 +105,41 @@
             controller.skip();
           }
         });
+      }
+      
+      // Evento de minimizar/expandir
+      if (this.elements.minimizeButton) {
+        this.elements.minimizeButton.addEventListener('click', () => {
+          this.toggleMinimize();
+        });
+      }
+      
+      // Clicar no header quando minimizado expande
+      if (this.elements.messageBox) {
+        const header = this.elements.messageBox.querySelector('.tutorial-message-header');
+        if (header) {
+          header.addEventListener('click', (e) => {
+            // Só expande se estiver minimizado e não clicar em botões
+            if (this.elements.messageBox.classList.contains('minimized') && 
+                !e.target.closest('button')) {
+              this.toggleMinimize();
+            }
+          });
+        }
+      }
+    },
+    
+    /**
+     * Alterna entre minimizado e expandido
+     */
+    toggleMinimize: function() {
+      if (!this.elements.messageBox) return;
+      
+      const isMinimized = this.elements.messageBox.classList.toggle('minimized');
+      
+      if (this.elements.minimizeButton) {
+        this.elements.minimizeButton.innerHTML = isMinimized ? '▲' : '▼';
+        this.elements.minimizeButton.title = isMinimized ? 'Expandir tutorial' : 'Minimizar tutorial';
       }
     },
 
@@ -201,6 +266,48 @@
             element.classList.add('tutorial-highlight');
           }
         });
+      });
+      
+      // Mobile: scroll automático para o primeiro elemento destacado
+      if (this.isMobile() && selectors.length > 0) {
+        this.scrollToElement(selectors[0]);
+      }
+    },
+    
+    /**
+     * Detecta se está em mobile
+     * @returns {boolean}
+     */
+    isMobile: function() {
+      return window.innerWidth <= 768;
+    },
+    
+    /**
+     * Scroll inteligente para elemento (somente mobile)
+     * @param {string} selector - Seletor CSS do elemento
+     */
+    scrollToElement: function(selector) {
+      if (!selector) return;
+      
+      const element = document.querySelector(selector);
+      if (!element) return;
+      
+      // Verifica se já está visível no topo da viewport
+      const rect = element.getBoundingClientRect();
+      const modalHeight = this.elements.messageBox ? 
+        this.elements.messageBox.offsetHeight : 200;
+      
+      // Se elemento já está visível acima do modal, não precisa scroll
+      const isAlreadyVisible = rect.top >= 0 && rect.top < (window.innerHeight - modalHeight - 50);
+      if (isAlreadyVisible) return;
+      
+      // Scroll suave até o elemento ficar 80px do topo
+      const elementTop = element.getBoundingClientRect().top + window.pageYOffset;
+      const offsetTop = elementTop - 80;
+      
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
       });
     },
 
