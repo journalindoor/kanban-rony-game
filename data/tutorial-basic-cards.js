@@ -7,9 +7,9 @@ window.TUTORIAL_BASIC_CARDS = {
       "id": 9001,
       "title": "📊 Relatório urgente que ninguém pediu",
       "indicators": {
-        "Refinamento": 14,
-        "Fazendo": 8,
-        "Homologando": 7,
+        "Refinamento": 18,
+        "Fazendo": 18,
+        "Homologando": 18,
         "Ajustes": 0
       },
       "isTutorialCard": true

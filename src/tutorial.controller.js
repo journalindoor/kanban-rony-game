@@ -51,6 +51,7 @@
       this.hookDragRole();
       this.hookMoveCardButton();
       this.hookRemoveRole();
+      this.hookCardCompletion();
     },
 
     hookStartTurn: function() {
@@ -99,7 +100,7 @@
       let dragStartAllowed = false;
       
       document.addEventListener('dragstart', function(e) {
-        if (e.target.classList.contains('kanban-card')) {
+        if (e.target.classList.contains('card')) {
           console.log('[Tutorial] dragCard dragstart, permitido?', K.TutorialState.isActionAllowed('dragCard'));
           dragStartAllowed = K.TutorialState.isActionAllowed('dragCard');
           if (!dragStartAllowed) {
@@ -111,8 +112,27 @@
         }
       }, true); // Capture phase
       
-      // Note: Callback execution is now handled by dragdrop.js and movementRules.js
-      // after the card is successfully moved
+      // Observer: detecta quando card é movido para outra coluna via DOM
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+            mutation.addedNodes.forEach(function(node) {
+              if (node.nodeType === Node.ELEMENT_NODE && node.classList && node.classList.contains('card')) {
+                // Card foi adicionado a uma nova coluna
+                console.log('[Tutorial] Card moved detected via DOM observer');
+                setTimeout(() => {
+                  K.TutorialState.executeCallback('dragCard');
+                }, 100);
+              }
+            });
+          }
+        });
+      });
+      
+      // Observa todas as áreas de cards
+      document.querySelectorAll('.cards').forEach(function(cardsContainer) {
+        observer.observe(cardsContainer, { childList: true });
+      });
     },
 
     hookDragRole: function() {
@@ -127,8 +147,30 @@
         }
       }, true);
       
-      // Note: Callback execution is now handled by roles.js
-      // after the role is successfully attached to a card
+      // Observer: detecta quando role é anexado a um card via DOM
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+            mutation.addedNodes.forEach(function(node) {
+              if (node.nodeType === Node.ELEMENT_NODE && node.classList && node.classList.contains('role')) {
+                const card = node.closest('.card');
+                if (card) {
+                  console.log('[Tutorial] Role attached to card detected via DOM observer');
+                  setTimeout(() => {
+                    K.TutorialState.executeCallback('dragRole');
+                  }, 100);
+                }
+              }
+            });
+          }
+        });
+      });
+      
+      // Observa todos os cards para detectar quando roles são adicionados
+      const boardElement = document.querySelector('.board');
+      if (boardElement) {
+        observer.observe(boardElement, { childList: true, subtree: true });
+      }
     },
 
     hookMoveCardButton: function() {
@@ -160,6 +202,10 @@
           }, 100);
         }
       }, true);
+    },
+
+    hookCardCompletion: function() {
+      // Não usado - card completion é detectado via movimento de card (dragCard event)
     },
 
     /**
@@ -194,6 +240,13 @@
         state.currentStep === state.totalSteps - 1,
         !!step.waitFor // Desabilita Próximo se passo requer ação específica
       );
+
+      // Position
+      if (step.position) {
+        K.TutorialUI.setPosition(step.position);
+      } else {
+        K.TutorialUI.setPosition('center');
+      }
 
       // Update Rony sprite
       if (step.ronySprite) {
@@ -342,7 +395,7 @@
         );
         if (confirmed) {
           K.TutorialState.reset(); // Reseta tutorial para começar do zero na próxima vez
-          window.location.href = 'index.html';
+          window.location.href = 'modo-livre.html';
         }
       });
     }

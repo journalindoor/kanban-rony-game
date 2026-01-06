@@ -3,425 +3,72 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
-		<title>RonyOffice</title>
-		<!-- CSS imports in cascading order -->
+		<title>RonyOffice - Simulador Kanban</title>
+		<meta name="description" content="Aprenda Kanban de forma divertida com RonyOffice!">
+		
+		<!-- CSS -->
 		<link rel="stylesheet" href="css/base.css">
-		<link rel="stylesheet" href="css/layout.css">
-		<link rel="stylesheet" href="css/top-controls.css">
-		<link rel="stylesheet" href="css/status-bar.css">
-		<link rel="stylesheet" href="css/board.css">
-		<link rel="stylesheet" href="css/components.css">
-		<link rel="stylesheet" href="css/office-panel.css">
-		<link rel="stylesheet" href="css/modal.css">
-		<link rel="stylesheet" href="css/column-info-modal.css">
-		<link rel="stylesheet" href="css/role-states.css">
+		<link rel="stylesheet" href="css/home.css">
 	</head>
 	<body>
+		<div class="home-container">
+			<!-- Header -->
+			<header class="home-header">
+				<h1 class="home-title">🎮 RonyOffice</h1>
+				<p class="home-subtitle">Aprenda Kanban gerenciando sua própria equipe!</p>
+			</header>
 
-    <div class="game-layout">
-      <div class="container">
-			<h1>RonyOffice <span class="mode-badge">Modo Livre</span></h1>
-			<!-- Status bar for day counter and future metrics -->
-			<div class="status-bar">
-				<div class="status-left">
-					<div class="status-metrics">
-						<div class="metric">
-							<span class="metric-label">Dias passados</span>
-							<span class="metric-value" id="dayCounter">0</span>
-						</div>
-						<div class="metric">
-							<span class="metric-label">Dinheiro</span>
-							<span class="metric-value" id="moneyCounter">$0</span>
-						</div>
-					</div>
-					<!-- Roles area -->
-					<div class="roles-area" id="rolesArea">
-						<div class="role" data-role="Analista 1" id="role-analista-1">Azul<br>Rony</div>
-						<div class="role" data-role="Analista 2" id="role-analista-2">Azul<br>Analista 2</div>
-						<div class="role" data-role="Analista 3" id="role-analista-3">Azul<br>Analista 3</div>
-						<div class="role" data-role="Programador 1" id="role-programador-1">Verde<br>Rony</div>
-						<div class="role" data-role="Programador 2" id="role-programador-2">Verde<br>Programador 2</div>
-						<div class="role" data-role="Programador 3" id="role-programador-3">Verde<br>Programador 3</div>
-						<div class="role" data-role="QA/Tester 1" id="role-qa-1">Amarelo<br>Rony</div>
-						<div class="role" data-role="QA/Tester 2" id="role-qa-2">Amarelo<br>QA/Tester 2</div>
-						<div class="role" data-role="QA/Tester 3" id="role-qa-3">Amarelo<br>QA/Tester 3</div>
-					</div>
-				</div>
-				<div class="status-actions">
-					<button class="metric-button" disabled title="Em breve">Cicle time</button>
-					<button class="metric-button" disabled title="Em breve">WIP</button>
-					<button class="metric-button" disabled title="Em breve">Throughput</button>
-				</div>
-			</div>
-			
-			<!-- Main Content Area: Board + Office Panel -->
-			<div class="main-content">
-				<!-- Kanban Board -->
-				<div class="board" id="board">
-				<div class="column" data-col="Backlog">
-				<div class="column-header">
-					Backlog
-					<span class="wip-counter" data-counter-col="Backlog">0/5</span>
-				</div>
-				<div class="cards" data-col="Backlog"></div>
-			</div>
+			<!-- Opções principais -->
+			<main class="home-options">
+				<!-- Card 1: Tutorial -->
+				<article class="option-card tutorial">
+					<div class="option-sprite" data-sprite="analista"></div>
+					<h2 class="option-title">Tutorial</h2>
+					<p class="option-funny">"Rony te ensina sem deixar você se perder!"</p>
+					<p class="option-description">
+						Aprenda os conceitos básicos do Kanban através de um tutorial interativo e divertido.
+						Perfeito para iniciantes!
+					</p>
+					<a href="tutorial.html" class="option-button">Começar</a>
+				</article>
 
-			<div class="column" data-col="Refinamento">
-				<div class="column-header">
-					Refinamento
-					<span class="wip-counter" data-counter-col="Refinamento">0/∞</span>
-				</div>
-				<div class="cards" data-col="Refinamento"></div>
-			</div>
+				<!-- Card 2: Modo Livre -->
+				<article class="option-card modo-livre">
+					<div class="option-sprite" data-sprite="programador"></div>
+					<h2 class="option-title">Modo Livre</h2>
+					<p class="option-funny">"Quebre tudo... ou não! Você quem sabe!"</p>
+					<p class="option-description">
+						Jogue livremente sem restrições. Experimente estratégias, teste o sistema e 
+						domine o fluxo de trabalho no seu ritmo.
+					</p>
+					<a href="modo-livre.html" class="option-button">Começar</a>
+				</article>
 
-			<div class="column" data-col="SprintBacklog">
-				<div class="column-header">
-					SprintBacklog
-					<span class="wip-counter" data-counter-col="SprintBacklog">0/∞</span>
-				</div>
-				<div class="cards" data-col="SprintBacklog"></div>
-			</div>
+				<!-- Card 3: Capítulos -->
+				<article class="option-card capitulos">
+					<div class="option-sprite" data-sprite="qa"></div>
+					<h2 class="option-title">Capítulos</h2>
+					<p class="option-funny">"Desafios onde bugs são features!"</p>
+					<p class="option-description">
+						Complete missões progressivas com desafios específicos. 
+						Cada capítulo traz novos cenários e objetivos para dominar.
+					</p>
+					<a href="chapter1.html" class="option-button">Começar</a>
+				</article>
+			</main>
 
-			<div class="column" data-col="Fazendo">
-				<div class="column-header">
-					Fazendo
-					<span class="wip-counter" data-counter-col="Fazendo">0/∞</span>
-				</div>
-				<div class="cards" data-col="Fazendo"></div>
-			</div>
-
-			<div class="column" data-col="Homologando">
-				<div class="column-header">
-					Homologando
-					<span class="wip-counter" data-counter-col="Homologando">0/∞</span>
-				</div>
-				<div class="cards" data-col="Homologando"></div>
-			</div>
-
-			<div class="column" data-col="Ajustes">
-				<div class="column-header">
-					Ajustes
-					<span class="wip-counter" data-counter-col="Ajustes">0/∞</span>
-				</div>
-				<div class="cards" data-col="Ajustes"></div>
-			</div>
-
-			<div class="column" data-col="Publicado">
-				<div class="column-header">
-					Publicado
-					<span class="wip-counter" data-counter-col="Publicado">0/∞</span>
-				</div>
-				<div class="cards" data-col="Publicado"></div>
-			</div>
-
-			<!-- Arquivados column (hidden by default) -->
-			<div class="column archived-column archived-hidden" data-col="Arquivados">
-				<div class="column-header">
-					Arquivados
-					<span class="wip-counter" data-counter-col="Arquivados">0/∞</span>
-				</div>
-				<div class="cards" data-col="Arquivados"></div>
-			</div>
-			</div>
-			
-			<!-- Office Panel - Pixel Art Workspace -->
-			<div class="office-panel" id="officePanel">
-				<div class="office-header">
-					<h2 class="office-title">RonyOffice</h2>
-				</div>
-				
-				<!-- Top controls integrated into office panel -->
-				<div class="top-controls">
-				<button id="startButton" class="start-button">▶️ Iniciar</button>			<button id="resetButton" class="reset-button">🔄 Reiniciar</button>					<div class="dropdown-menu">
-						<button class="dropdown-toggle">☰</button>
-						<div class="dropdown-content">
-							<button class="dropdown-item" onclick="window.open('manual.html', '_blank')">📖 Manual</button>
-							<button class="dropdown-item" id="goToTutorialButton">🎓 Tutorial</button>
-							<button class="dropdown-item" id="startChapter1Button">📝 Capítulo 1</button>
-						</div>
-					</div>
-				</div>
-			
-			<div class="office-viewport">
-				<div class="video-grid">
-					<!-- Fileira 1: Analistas -->
-					<div class="video-row" data-role-type="Analista">
-						<div class="video-tile" data-character-id="analista-1">
-							<div class="tile-sprite"></div>
-							<div class="tile-info">
-								<div class="info-name">Rony</div>
-						<div class="info-role">Analista 1</div>
-							</div>
-						</div>
-						<div class="video-tile" data-character-id="analista-2">
-							<div class="tile-sprite"></div>
-							<div class="tile-info">
-								<div class="info-name">Rony</div>
-						<div class="info-role">Analista 2</div>
-							</div>
-						</div>
-						<div class="video-tile" data-character-id="analista-3">
-							<div class="tile-sprite"></div>
-							<div class="tile-info">
-								<div class="info-name">Rony</div>
-						<div class="info-role">Analista 3</div>
-							</div>
-						</div>
-					</div>
-					
-					<!-- Fileira 2: Programadores -->
-					<div class="video-row" data-role-type="Programador">
-						<div class="video-tile" data-character-id="programador-1">
-							<div class="tile-sprite"></div>
-							<div class="tile-info">
-								<div class="info-name">Rony</div>
-						<div class="info-role">Programador 1</div>
-							</div>
-						</div>
-						<div class="video-tile" data-character-id="programador-2">
-							<div class="tile-sprite"></div>
-							<div class="tile-info">
-								<div class="info-name">Rony</div>
-						<div class="info-role">Programador 2</div>
-							</div>
-						</div>
-						<div class="video-tile" data-character-id="programador-3">
-							<div class="tile-sprite"></div>
-							<div class="tile-info">
-								<div class="info-name">Rony</div>
-						<div class="info-role">Programador 3</div>
-							</div>
-						</div>
-					</div>
-					
-					<!-- Fileira 3: QAs -->
-					<div class="video-row" data-role-type="QA/Tester">
-						<div class="video-tile" data-character-id="qa-1">
-							<div class="tile-sprite"></div>
-							<div class="tile-info">
-								<div class="info-name">Rony</div>
-						<div class="info-role">QA/Tester 1</div>
-							</div>
-						</div>
-						<div class="video-tile" data-character-id="qa-2">
-							<div class="tile-sprite"></div>
-							<div class="tile-info">
-								<div class="info-name">Rony</div>
-						<div class="info-role">QA/Tester 2</div>
-							</div>
-						</div>
-						<div class="video-tile" data-character-id="qa-3">
-							<div class="tile-sprite"></div>
-							<div class="tile-info">
-								<div class="info-name">Rony</div>
-						<div class="info-role">QA/Tester 3</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<!-- Office Footer (extensible for future features) -->
-			<div class="office-footer">
-				<div class="office-status">
-					<span class="status-text">Time em repouso</span>
-				</div>
-			</div>
-		</div><!-- .office-panel -->
-		</div><!-- .main-content -->
-		</div><!-- .container -->
-
-		<!-- Welcome Modal -->
-		<div id="welcomeModal" class="modal-overlay" style="display:flex;">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h2>Bem-vindo ao RonyOffice! 🎮</h2>
-				</div>
-				<div class="modal-body" style="display:flex; gap:20px; align-items:center;">
-					<div class="modal-character" style="flex:0 0 30%; display:flex; justify-content:center; align-items:center;">
-						<div style="width:120px; height:120px; background-image:url('assets/rony-modal.png'); background-size:360px 240px; background-position:0 0; background-repeat:no-repeat;"></div>
-					</div>
-					<div style="flex:1;">
-						<p style="font-size:16px; line-height:1.6; color:#4b5563; margin:0 0 20px 0;">
-							Este é um jogo de simulação Kanban onde você gerencia o fluxo de trabalho de uma equipe de desenvolvimento.
-						</p>
-						<p style="font-size:16px; line-height:1.6; color:#4b5563; margin:0 0 20px 0;">
-							Você gostaria de fazer o <strong>tutorial</strong> para aprender os conceitos básicos?
-						</p>
-					</div>
-				</div>
-				<div class="modal-actions">
-					<button id="skipTutorialBtn" class="modal-button modal-button-secondary">Pular Tutorial</button>
-					<button id="startTutorialBtn" class="modal-button modal-button-primary">Fazer Tutorial</button>
-				</div>
-			</div>
+			<!-- Footer -->
+			<footer class="home-footer">
+				<p>
+					<strong>Versão 1.0.0</strong> | 
+					Criado por Rony | 
+					<a href="https://www.linkedin.com/in/ronaldojr/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+				</p>
+				<p>© 2025 RonyOffice - Aprenda Kanban jogando</p>
+			</footer>
 		</div>
 
-	<!-- Game Footer -->
-	<footer class="game-footer">
-		<div class="footer-content">
-			<div class="footer-info">
-				<span class="footer-version">Versão 1.0.0</span>
-				<span class="footer-separator">|</span>
-				<span class="footer-author">Criado por Rony</span>
-				<span class="footer-separator">|</span>
-				<a href="https://www.linkedin.com/in/ronaldojr/" target="_blank" class="footer-linkedin" rel="noopener noreferrer">LinkedIn</a>
-			</div>
-			<div class="footer-date">
-				<span>© 2025</span>
-			</div>
-		</div>
-	</footer>
-	</div><!-- .game-layout -->
-
-	<!-- Column Info Modal -->
-	<div id="columnInfoModal" class="column-info-modal">
-		<div class="column-info-modal-content">
-			<div class="column-info-header">
-				<div class="column-info-sprite"></div>
-				<h2 class="column-info-title"></h2>
-				<button class="column-info-close" title="Fechar">×</button>
-			</div>
-			<div class="column-info-body">
-				<div class="column-info-section">
-					<h3>O que é?</h3>
-					<p class="column-info-description"></p>
-				</div>
-				<div class="column-info-section">
-					<h3>Como funciona?</h3>
-					<p class="column-info-mechanics"></p>
-				</div>
-				<div class="column-info-section">
-					<h3>Bônus de Felicidade</h3>
-					<ul class="column-info-happiness-list"></ul>
-				</div>
-				<div class="column-info-section">
-					<p class="column-info-tip"></p>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Welcome modal script -->
-	<script>
-			
-			window.addEventListener('DOMContentLoaded', function(){
-				const hasSeenWelcome = localStorage.getItem('kanban_welcome_seen');
-				const modal = document.getElementById('welcomeModal');
-				const startTutorialBtn = document.getElementById('startTutorialBtn');
-				const skipTutorialBtn = document.getElementById('skipTutorialBtn');
-				const resetButton = document.getElementById('resetButton');
-				const goToTutorialButton = document.getElementById('goToTutorialButton');
-				
-				// Hide modal if already seen
-				if(hasSeenWelcome){
-					if(modal) modal.style.display = 'none';
-					
-					// Se modal já foi visto, iniciar sprites normalmente após delay
-					setTimeout(() => {
-						if(typeof window.Kanban.initCharacterSpritesWithSequence === 'function') {
-							window.Kanban.initCharacterSpritesWithSequence(500, 2000);
-						}
-					}, 100);
-				}
-				
-				// Start tutorial button
-				if(startTutorialBtn){
-					startTutorialBtn.addEventListener('click', function(){
-						const confirmed = confirm(
-							'Iniciar Tutorial?\n\n' +
-							'Você será guiado passo a passo pelas mecânicas do jogo.\n' +
-							'Poderá retornar ao Modo Livre a qualquer momento.\n\n' +
-							'Deseja continuar?'
-						);
-						
-						if(confirmed){
-							localStorage.setItem('kanban_welcome_seen', 'true');
-							window.location.href = 'tutorial.html';
-						}
-					});
-				}
-				
-				// Skip tutorial button
-				if(skipTutorialBtn){
-					skipTutorialBtn.addEventListener('click', function(){
-						localStorage.setItem('kanban_welcome_seen', 'true');
-						if(modal) modal.style.display = 'none';
-						
-						// Iniciar carregamento de sprites após fechar modal
-						setTimeout(() => {
-							if(typeof window.Kanban.initCharacterSpritesWithSequence === 'function') {
-								window.Kanban.initCharacterSpritesWithSequence(500, 2000);
-							}
-						}, 100);
-					});
-				}
-				
-				// Reset button - clear welcome flag so modal appears again on refresh
-				if(resetButton){
-					resetButton.addEventListener('click', function(){
-						localStorage.removeItem('kanban_welcome_seen');
-					});
-				}
-				
-				// Go to tutorial button
-				if(goToTutorialButton){
-					goToTutorialButton.addEventListener('click', function(){
-						const confirmed = confirm(
-							'Ir para o Tutorial?\n\n' +
-							'Seu progresso no Modo Livre será salvo automaticamente.\n' +
-							'Você poderá retornar a qualquer momento.\n\n' +
-							'Deseja continuar?'
-						);
-						
-						if(confirmed){
-							window.location.href = 'tutorial.html';
-						}
-					});
-				}
-				
-				// Dropdown menu functionality
-				const dropdownToggle = document.querySelector('.dropdown-toggle');
-				const dropdownContent = document.querySelector('.dropdown-content');
-				
-				if(dropdownToggle && dropdownContent){
-					// Toggle dropdown
-					dropdownToggle.addEventListener('click', function(e){
-						e.stopPropagation();
-						dropdownContent.classList.toggle('show');
-					});
-					
-					// Close dropdown when clicking outside
-					document.addEventListener('click', function(e){
-						if(!e.target.closest('.dropdown-menu')){
-							dropdownContent.classList.remove('show');
-						}
-					});
-					
-					// Close dropdown when clicking on any item
-					const dropdownItems = dropdownContent.querySelectorAll('.dropdown-item');
-					dropdownItems.forEach(item => {
-						item.addEventListener('click', function(){
-							dropdownContent.classList.remove('show');
-						});
-					});
-				}
-			});
-		</script>
-		<script src="src/storage.js" defer></script>
-		<script src="src/cardBankManager.js" defer></script>
-		<script src="src/officeCharacters.js" defer></script>
-		<script src="src/cards.js" defer></script>
-		<script src="src/dragdrop.js" defer></script>
-		<script src="src/movementRules.js" defer></script>
-		<script src="src/adjustmentsRules.js" defer></script>
-		<script src="src/roles.js" defer></script>
-		<script src="src/roleModel.js" defer></script>
-		<script src="src/gameLogic.js" defer></script>
-		<script src="src/backlogRules.js" defer></script>
-		<script src="src/progressionRules.js" defer></script>
-		<script src="src/officeStatusMessages.js" defer></script>
-		<script src="src/columnInfo.js" defer></script>
-		<script src="src/main.js" defer></script>
+		<!-- Script para animação dos sprites -->
+		<script src="src/home.js"></script>
 	</body>
 </html>
