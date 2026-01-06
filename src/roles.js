@@ -70,7 +70,7 @@
     if(typeof K.showAssignmentCelebration === 'function' && typeof K.roleNameToCharacterId === 'function') {
       const characterId = K.roleNameToCharacterId(roleName)
       if(characterId) {
-        K.showAssignmentCelebration(characterId)
+        K.showAssignmentCelebration(characterId) // Exibe 🤟🏽
       }
     }
     if(typeof K.saveState === 'function') K.saveState()

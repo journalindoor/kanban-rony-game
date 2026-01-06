@@ -5,10 +5,10 @@
   /**
    * Exibe emoji comemorativo temporariamente no container do personagem
    * @param {string} characterId - ID do personagem (ex: 'analista-1')
-   * @param {string} emoji - Emoji a ser exibido (padrão: '🤘')
+   * @param {string} emoji - Emoji a ser exibido (padrão: '�🏽')
    * @param {number} duration - Duração da animação em ms (padrão: 800ms)
    */
-  K.showAssignmentCelebration = function(characterId, emoji = '🤘', duration = 800) {
+  K.showAssignmentCelebration = function(characterId, emoji = '🤟🏽', duration = 800) {
     // Buscar o tile do personagem na videochamada
     const tile = document.querySelector(`[data-character-id="${characterId}"]`);
     if (!tile) {
