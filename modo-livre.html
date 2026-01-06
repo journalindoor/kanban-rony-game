@@ -3,7 +3,7 @@
 <html lang="pt-BR">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
 		<title>RonyOffice</title>
 		<!-- CSS imports in cascading order -->
 		<link rel="stylesheet" href="css/base.css">
@@ -17,8 +17,6 @@
 		<link rel="stylesheet" href="css/column-info-modal.css">
 		<link rel="stylesheet" href="css/role-states.css">
 		<link rel="stylesheet" href="css/celebration.css">
-		<!-- Mobile layout base -->
-		<link rel="stylesheet" href="css/mobile.css">
 	</head>
 	<body>
 
@@ -43,12 +41,12 @@
 						<div class="role" data-role="Analista 1" id="role-analista-1">Azul<br>Rony</div>
 						<div class="role" data-role="Analista 2" id="role-analista-2">Azul<br>Analista 2</div>
 						<div class="role" data-role="Analista 3" id="role-analista-3">Azul<br>Analista 3</div>
-						<div class="role" data-role="Programador 1" id="role-programador-1">Verde<br>Dev Rony</div>
-						<div class="role" data-role="Programador 2" id="role-programador-2">Verde<br>Dev 2</div>
-						<div class="role" data-role="Programador 3" id="role-programador-3">Verde<br>Dev 3</div>
-						<div class="role" data-role="QA/Tester 1" id="role-qa-1">Amarelo<br>QA Rony</div>
-						<div class="role" data-role="QA/Tester 2" id="role-qa-2">Amarelo<br>QA 2</div>
-						<div class="role" data-role="QA/Tester 3" id="role-qa-3">Amarelo<br>QA 3</div>
+						<div class="role" data-role="Programador 1" id="role-programador-1">Verde<br>Rony</div>
+						<div class="role" data-role="Programador 2" id="role-programador-2">Verde<br>Programador 2</div>
+						<div class="role" data-role="Programador 3" id="role-programador-3">Verde<br>Programador 3</div>
+						<div class="role" data-role="QA/Tester 1" id="role-qa-1">Amarelo<br>Rony</div>
+						<div class="role" data-role="QA/Tester 2" id="role-qa-2">Amarelo<br>QA/Tester 2</div>
+						<div class="role" data-role="QA/Tester 3" id="role-qa-3">Amarelo<br>QA/Tester 3</div>
 					</div>
 				</div>
 				<div class="status-actions">
@@ -56,11 +54,11 @@
 					<button class="metric-button" disabled title="Em breve">WIP</button>
 					<button class="metric-button" disabled title="Em breve">Throughput</button>
 				</div>
-			
-			<!-- Botão Iniciar Turno Mobile (só visível no mobile) -->
-			<div class="mobile-start-wrapper">
-				<button id="mobileStartButton" class="start-button mobile-start-button">▶️ Iniciar</button>
 			</div>
+			
+			<!-- Main Content Area: Board + Office Panel -->
+			<div class="main-content">
+				<!-- Kanban Board -->
 				<div class="board" id="board">
 				<div class="column" data-col="Backlog">
 				<div class="column-header">
@@ -173,27 +171,27 @@
 						</div>
 					</div>
 					
-					<!-- Fileira 2: Devs (Programadores) -->
+					<!-- Fileira 2: Programadores -->
 					<div class="video-row" data-role-type="Programador">
 						<div class="video-tile" data-character-id="programador-1">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
 								<div class="info-name">Rony</div>
-						<div class="info-role">Dev 1</div>
+						<div class="info-role">Programador 1</div>
 							</div>
 						</div>
 						<div class="video-tile" data-character-id="programador-2">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
 								<div class="info-name">Rony</div>
-						<div class="info-role">Dev 2</div>
+						<div class="info-role">Programador 2</div>
 							</div>
 						</div>
 						<div class="video-tile" data-character-id="programador-3">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
 								<div class="info-name">Rony</div>
-						<div class="info-role">Dev 3</div>
+						<div class="info-role">Programador 3</div>
 							</div>
 						</div>
 					</div>
@@ -204,21 +202,21 @@
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
 								<div class="info-name">Rony</div>
-						<div class="info-role">QA 1</div>
+						<div class="info-role">QA/Tester 1</div>
 							</div>
 						</div>
 						<div class="video-tile" data-character-id="qa-2">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
 								<div class="info-name">Rony</div>
-						<div class="info-role">QA 2</div>
+						<div class="info-role">QA/Tester 2</div>
 							</div>
 						</div>
 						<div class="video-tile" data-character-id="qa-3">
 							<div class="tile-sprite"></div>
 							<div class="tile-info">
 								<div class="info-name">Rony</div>
-						<div class="info-role">QA 3</div>
+						<div class="info-role">QA/Tester 3</div>
 							</div>
 						</div>
 					</div>

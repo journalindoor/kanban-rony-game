@@ -67,18 +67,11 @@
   flex: 1;
 }
 
-.tutorial-header-buttons {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.tutorial-minimize-button,
 .tutorial-close-button {
   background: transparent;
   border: none;
   color: white;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 1;
   cursor: pointer;
   padding: 0;
@@ -87,13 +80,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.2s, transform 0.2s;
+  transition: opacity 0.2s;
 }
 
-.tutorial-minimize-button:hover,
 .tutorial-close-button:hover {
   opacity: 0.7;
-  transform: scale(1.1);
 }
 
 /* Body */
@@ -247,34 +238,6 @@
   box-shadow: 0 2px 4px rgba(243, 156, 18, 0.2);
   font-weight: 600;
   color: #2c3e50;
-}
-
-/* ========================================
-   ESTADO MINIMIZADO
-   ======================================== */
-
-.tutorial-message-box.minimized {
-  bottom: 20px;
-  width: auto;
-  max-width: 90vw;
-}
-
-.tutorial-message-box.minimized .tutorial-message-body {
-  display: none !important;
-}
-
-.tutorial-message-box.minimized .tutorial-message-header {
-  border-radius: 6px;
-  cursor: pointer;
-  padding: 10px 16px;
-}
-
-.tutorial-message-box.minimized .tutorial-message-header:hover {
-  background: #34495e;
-}
-
-.tutorial-message-box.minimized .tutorial-minimize-button {
-  transform: rotate(180deg);
 }
 
 /* ========================================

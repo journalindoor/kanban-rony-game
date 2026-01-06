@@ -3,17 +3,6 @@
   K = K || (window.Kanban = window.Kanban || {})
 
   /**
-   * Converte nome interno para nome de exibição (Programador → Dev, QA/Tester → QA)
-   * @param {string} name - Nome interno (ex: "Programador 1", "QA/Tester 2")
-   * @returns {string} Nome para exibição (ex: "Dev 1", "QA 2")
-   */
-  K.formatRoleDisplayName = function(name) {
-    return name
-      .replace(/^Programador\s+(\d+)$/, 'Dev $1')
-      .replace(/^QA\/Tester\s+(\d+)$/, 'QA $1');
-  }
-
-  /**
    * Determina qual estado de felicidade usar baseado em cargo x coluna
    * Sistema de ESTADOS PRÉ-CALCULADOS (não recalcula, apenas escolhe)
    * 
@@ -329,7 +318,7 @@
       
       const title = document.createElement('div')
       title.className = 'role-name'
-      title.textContent = K.formatRoleDisplayName(role.name)
+      title.textContent = role.name
       titleWrapper.appendChild(title)
       
       // Always render remove button (visibility controlled by CSS)

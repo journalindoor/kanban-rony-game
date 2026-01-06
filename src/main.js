@@ -347,32 +347,6 @@
         if(typeof K.saveState === 'function') K.saveState()
       })
     }
-    
-    // Mobile Start Button: delegates to original startButton
-    const mobileStartBtn = document.getElementById('mobileStartButton')
-    if(mobileStartBtn) {
-      mobileStartBtn.addEventListener('click', () => {
-        const originalBtn = document.getElementById('startButton')
-        if(originalBtn) {
-          originalBtn.click()
-        }
-      })
-      
-      // Sync disabled state from original button
-      const originalBtn = document.getElementById('startButton')
-      if(originalBtn) {
-        const syncState = () => {
-          mobileStartBtn.disabled = originalBtn.disabled
-        }
-        
-        // Initial sync
-        syncState()
-        
-        // Observe changes to original button
-        const observer = new MutationObserver(syncState)
-        observer.observe(originalBtn, { attributes: true, attributeFilter: ['disabled'] })
-      }
-    }
 
     const resetBtn = document.getElementById('resetButton')
     if(resetBtn) resetBtn.addEventListener('click', K.resetGame)
