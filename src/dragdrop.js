@@ -53,16 +53,6 @@
           // Update WIP counters after card movement
           if(typeof K.updateWipCounters === 'function') K.updateWipCounters()
           
-          // Notify tutorial that a card was moved
-          if(typeof K.TutorialState !== 'undefined' && K.TutorialState.tutorialActive){
-            console.log('[DragDrop] Card moved, notifying tutorial');
-            setTimeout(() => {
-              if(typeof K.TutorialState.executeCallback === 'function'){
-                K.TutorialState.executeCallback('dragCard');
-              }
-            }, 100);
-          }
-          
           // If dropped in Publicado, detach any role AFTER moving
           if(zoneCol === 'Publicado'){
             setTimeout(() => {

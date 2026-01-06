@@ -76,52 +76,6 @@ Cada coluna representa um momento diferente do trabalho.</p>
       waitFor: null
     },
 
-    // Passo 1.3 — Área de Papéis (Pessoas)
-    {
-      title: '🧠 Aqui estão as pessoas do seu time.',
-      message: `
-        <p>Este é um jogo de turnos.<br>
-        Antes de iniciar um turno, você se prepara.</p>
-        <p>Os papéis representam pessoas e eles são associados aos cards.</p>
-        <p><strong>Escolher quem vai trabalhar em cada card faz parte do planejamento do turno.</strong></p>
-      `,
-      highlight: '#rolesArea',
-      ronySprite: '-100px 0', // Rony Apontando
-      allowedActions: [],
-      onEnter: function() {
-        K.TutorialState.blockAllActions();
-        K.TutorialUI.highlightElement('#rolesArea');
-      },
-      onExit: function() {
-        K.TutorialUI.clearHighlight();
-      },
-      waitFor: null
-    },
-
-    // Passo 1.4 — Botão "Iniciar Turno"
-    {
-      title: '▶️ Este botão inicia o turno.',
-      message: `
-        <p>Cada turno representa 1 dia de trabalho.</p>
-        <p>Enquanto ele não for clicado, nada acontece.<br>
-        O jogo espera você se preparar.</p>
-        <p>Mover cards, associar papéis e pensar nas decisões vem antes de iniciar o turno.</p>
-        <p>Quando você clica em Iniciar Turno, o dia passa, o trabalho acontece<br>
-        <strong>e as consequências aparecem.</strong></p>
-      `,
-      highlight: '#startButton',
-      ronySprite: '-85px -100px', // Rony Thumbs Up
-      allowedActions: [],
-      onEnter: function() {
-        K.TutorialState.blockAllActions();
-        K.TutorialUI.highlightElement('#startButton');
-      },
-      onExit: function() {
-        K.TutorialUI.clearHighlight();
-      },
-      waitFor: null
-    },
-
     // ========================================
     // BLOCO 2: BACKLOG E LIMITE DE WIP
     // Objetivo: Ensinar que limite vem antes de velocidade
@@ -161,8 +115,16 @@ Cada coluna representa um momento diferente do trabalho.</p>
     {
       title: '▶️ Vamos ver esses cards aparecerem',
       message: `
-        <p>Clique em <strong>Iniciar</strong><br>
-para os cards entrarem no Backlog.</p>
+        <p>Vê o botão azul <strong>▶️ Iniciar</strong> ali na esquerda, na área da videochamada?</p>
+
+<p>Ele faz o jogo andar.<br>
+<strong>1 clique = 1 dia de trabalho.</strong></p>
+
+<p>Enquanto você não clicar nele,<br>
+nada acontece.<br>
+O jogo espera você se preparar.</p>
+
+<p class="tutorial-action">Clique agora em <strong>▶️ Iniciar</strong> para os cards entrarem no Backlog.</p>
 
 <p>Repara com atenção.<br>
 Leia os títulos.<br>
@@ -192,8 +154,8 @@ o sistema não joga coisa no ar.</p>
     {
       title: '✅ Pronto. São esses 3.',
       message: `
-        <p><strong>"🔥 Corrigir bug que só acontece na sexta"</strong><br>
-        <strong>"📊 Relatório urgente que ninguém pediu"</strong><br>
+        <p><strong>"📊 Relatório urgente que ninguém pediu"</strong><br>
+        <strong>"🔥 Corrigir bug que só acontece na sexta"</strong><br>        
         <strong>"🤡 Ajustar alinhamento do botão em produção"</strong></p>
         <p>Eles vão ser seus companheiros até o fim do tutorial.</p>
         <p>Agora você vai aprender a movê-los,<br>
@@ -217,56 +179,6 @@ o sistema não joga coisa no ar.</p>
     // Objetivo: Ensinar como associar pessoas ao trabalho
     // ========================================
 
-    // Passo 3.1 — Conhecendo o Time
-    {
-      title: '👥 Esse é o seu time.',
-      message: `
-        <p>Cada pessoa nasce com um talento natural 🎯<br>
-        Você não escolhe isso. O jogo também não.</p>
-        <p>Seu papel aqui não é mudar as pessoas,<br>
-        é colocar cada uma <strong>onde ela consegue trabalhar melhor.</strong></p>
-      `,
-      highlight: '#rolesArea',
-      ronySprite: '-100px 0', // Rony Apontando
-      allowedActions: [],
-      onEnter: function() {
-        K.TutorialState.blockAllActions();
-        K.TutorialUI.highlightElement('#rolesArea');
-      },
-      onExit: function() {
-        K.TutorialUI.clearHighlight();
-      },
-      waitFor: null
-    },
-
-    // Passo 3.2 — Talento, Felicidade e Eficiência
-    {
-      title: '🧠 Vamos falar de como o trabalho acontece de verdade',
-      message: `
-        <p><strong>🎯 Talento Natural</strong> é a base.<br>
-        É o que a pessoa faz bem, sem esforço extra.</p>
-        <p><strong>😊 Felicidade</strong> é o multiplicador.<br>
-        Quando alguém trabalha no que combina com seu talento,<br>
-        a felicidade sobe.</p>
-        <p><strong>⚡ Eficiência</strong> é o resultado final.<br>
-        Ela nasce do talento<br>
-        e cresce ou diminui com a felicidade.</p>
-        <p><strong>Talento + Felicidade = 
-        definem o quanto uma pessoa consegue produzir em um turno.</strong></p>
-      `,
-      highlight: '#rolesArea',
-      ronySprite: '-200px 0', // Rony Sério
-      allowedActions: [],
-      onEnter: function() {
-        K.TutorialState.blockAllActions();
-        K.TutorialUI.highlightElement('#rolesArea');
-      },
-      onExit: function() {
-        K.TutorialUI.clearHighlight();
-      },
-      waitFor: null
-    },
-
     // Passo 3.3 — Regra do Backlog
     {
       title: '⛔ Aqui ainda não é trabalho.',
@@ -277,8 +189,8 @@ o sistema não joga coisa no ar.</p>
   Enquanto eles ficam aqui,<br>
   ninguém encosta neles.</p>
 
-  <p><strong>Comece movendo o card:<br>
-  "9001 - 📊 Relatório urgente que ninguém pediu"</strong><br>
+  <p class="tutorial-action">Comece movendo o card:<br>
+  "9001 - 📊 Relatório urgente que ninguém pediu"<br>
   para a coluna Refinamento.</p>
 
   <p>Se quiser, você pode mover mais de um.<br>
@@ -304,31 +216,28 @@ o sistema não joga coisa no ar.</p>
       title: '▶️ Agora associe um papel.',
       message: `
 
-  <p>Arraste um Analista e solte em cima do card<br>
-  <strong>"9001 - 📊 Relatório urgente que ninguém pediu"</strong><br>
-  que está na coluna Refinamento.</p>
+  <p><strong>👥 Esse é o seu time.</strong><br>
+Cada pessoa tem um talento natural 🎯<br>
+Você não escolhe isso. O jogo também não.</p>
 
-  <p><strong>Essa escolha importa.</strong></p>
+  <p>Quando alguém trabalha alinhado com seu talento, a felicidade aumenta 😊 e isso gera bônus de eficiência ⚡.</p>
 
-  <p>Quando alguém trabalha em algo alinhado com seu talento,<br>
-  a felicidade aumenta 😊<br>
-  e isso gera bônus de eficiência ⚡.</p>
+  <p><strong>Seu papel: Pensar na melhor forma de colocar cada pessoa onde ela consegue trabalhar melhor.</strong></p>
+
+  <p class="tutorial-action">Arraste um Analista e solte em cima do card "9001 - 📊 Relatório urgente que ninguém pediu" que está na coluna Refinamento.</p>
 
   <p>Pessoas felizes produzem melhor.<br>
   <strong>O jogo leva isso a sério.</strong></p>
       `,
-      highlight: '.roles-area, .column[data-col="Refinamento"]',
+      highlight: '.roles-area',
       ronySprite: '-100px 0', // Rony Apontando
+      position: 'left',
       allowedActions: ['dragRole', 'dragCard'],
       onEnter: function() {
         K.TutorialState.blockAllActions();
         K.TutorialState.allowAction('dragRole');
         K.TutorialState.allowAction('dragCard'); // Permite mover cards também
         K.TutorialUI.highlightElement('.roles-area');
-        // Também destaca a coluna Refinamento após 500ms
-        setTimeout(() => {
-          K.TutorialUI.highlightElement('.column[data-col="Refinamento"]', true);
-        }, 100);
       },
       onExit: function() {
         K.TutorialUI.clearHighlight();
@@ -340,36 +249,319 @@ o sistema não joga coisa no ar.</p>
     {
       title: '🎯 Agora inicie o turno',
       message: `
-        <p>Clique em <strong>Iniciar Turno</strong><br>
-para ver o trabalho acontecer no card<br>
-<strong>"9001 – 📊 Relatório urgente que ninguém pediu"</strong>.</p>
+        <p class="tutorial-action">Clique em Iniciar novamente para ver o trabalho acontecer no card "9001 – 📊 Relatório urgente que ninguém pediu".</p>
 
-<p>Quando o turno roda, o jogo olha para uma coisa principal:<br>
-<strong>a eficiência de quem está trabalhando.</strong></p>
+<p>Vê o <strong>indicador vermelho</strong> no card?<br>
+Ele mostra quanto trabalho ainda falta.</p>
 
-<p>A eficiência nasce do talento e sobe ou desce conforme a pessoa se sente.</p>
+<p>Quando o turno roda,<br>
+<strong>esse indicador vai diminuir.</strong></p>
 
-<p>É essa eficiência que vira progresso.<br>
-E é o progresso que decide se o card<br>
-fica onde está ou libera a próxima coluna.</p>
+<p>A eficiência da pessoa trabalhando<br>
+transforma em progresso real.<br>
+Quanto melhor a eficiência, mais o indicador diminui.</p>
 
 <p><strong>Observe os resultados.</strong></p>
 
       `,
       highlight: '#startButton',
       ronySprite: '-85px -100px', // Rony Thumbs Up
-      allowedActions: ['startTurn', 'dragRole', 'dragCard'],
+      position: 'left',
+      allowedActions: ['startTurn', 'dragRole', 'dragCard', 'moveCardButton'],
       onEnter: function() {
         K.TutorialState.blockAllActions();
         K.TutorialState.allowAction('startTurn');
         K.TutorialState.allowAction('dragRole');
         K.TutorialState.allowAction('dragCard');
+        K.TutorialState.allowAction('moveCardButton');
         K.TutorialUI.highlightElement('#startButton');
       },
       onExit: function() {
         K.TutorialUI.clearHighlight();
       },
       waitFor: 'startTurn' // Avança quando iniciar turno
+    },
+
+    // ========================================
+    // BLOCO 4: TURNOS E INDICADORES
+    // Objetivo: Ensinar progresso, não milagre
+    // ========================================
+
+    // Passo 4.1 — Indicadores e Progresso
+    {
+      title: '🔴 Sobre os indicadores',
+      message: `
+        <p><strong>Regra importante:</strong><br>
+        Só pode mover o card quando o indicador chegar a zero.</p>
+
+        <p>Trabalho incompleto não avança.<br>
+        Essa é a base do fluxo Kanban.</p>
+
+        <p class="tutorial-action">Continue rodando turnos até o indicador do card 9001 chegar a zero. Quando zerar, avance-o para Sprint Backlog.</p>
+      `,
+      highlight: '.card[data-card-id="9001"]',
+      ronySprite: '-100px 0', // Rony Apontando
+      position: 'left',
+      allowedActions: ['startTurn', 'dragRole', 'dragCard', 'moveCardButton'],
+      onEnter: function() {
+        K.TutorialState.blockAllActions();
+        K.TutorialState.allowAction('startTurn');
+        K.TutorialState.allowAction('dragRole');
+        K.TutorialState.allowAction('dragCard');
+        K.TutorialState.allowAction('moveCardButton');
+        K.TutorialUI.highlightElement('.card[data-card-id="9001"]');
+      },
+      onExit: function() {
+        K.TutorialUI.clearHighlight();
+      },
+      waitFor: 'dragCard' // Avança quando jogador mover o card
+    },
+
+    // ========================================
+    // BLOCO 5: FLUXO ENTRE COLUNAS
+    // Objetivo: Ensinar que fluxo é regra, não opinião
+    // ========================================
+
+    // Passo 5.1 — Mover para Sprint Backlog e depois Fazendo
+    {
+      title: '➡️ Avançando no fluxo',
+      message: `
+        <p>O indicador chegou a zero.<br>
+        O trabalho do Refinamento está pronto.</p>
+
+        <p>Moveu o card <strong>9001</strong> para <strong>Sprint Backlog</strong>?</p>
+
+        <p><strong>Sprint Backlog é outra fila.</strong><br>
+        Serve para organizar o que vai ser feito.<br>
+        Não precisa de papel aqui.</p>
+
+        <p class="tutorial-action">Mova direto para Fazendo depois.<br>
+        Lá sim, você vai precisar associar um papel.</p>
+
+        <p><strong>O fluxo não tem atalhos.</strong></p>
+      `,
+      highlight: '.card[data-card-id="9001"]',
+      ronySprite: '-100px 0', // Rony Apontando
+      position: 'left',
+      allowedActions: ['dragCard', 'moveCardButton'],
+      onEnter: function() {
+        K.TutorialState.blockAllActions();
+        K.TutorialState.allowAction('dragCard');
+        K.TutorialState.allowAction('moveCardButton');
+        K.TutorialUI.highlightElement('.card[data-card-id="9001"]');
+      },
+      onExit: function() {
+        K.TutorialUI.clearHighlight();
+      },
+      waitFor: 'dragCard' // Avança quando card 9001 for movido
+    },
+
+    // Passo 5.2 — Fazendo → Homologação
+    {
+      title: '💻 Hora de desenvolver',
+      message: `
+        <p>Agora o card <strong>9001</strong> está em <strong>Fazendo</strong>.</p>
+
+        <p>Aqui o trabalho acontece de verdade.</p>
+
+        <p class="tutorial-action">Associe um Programador ao card.<br>
+        Rode turnos até o indicador de Fazendo zerar.<br>
+        Depois, mova para Homologação.</p>
+
+        <p><strong>Cada coluna tem seu trabalho.<br>
+        Nada é pulado.</strong></p>
+      `,
+      highlight: '.card[data-card-id="9001"]',
+      ronySprite: '-100px -120px', // Rony Dando Joinha
+      position: 'left',
+      allowedActions: ['dragRole', 'startTurn', 'dragCard', 'moveCardButton'],
+      onEnter: function() {
+        K.TutorialState.blockAllActions();
+        K.TutorialState.allowAction('dragRole');
+        K.TutorialState.allowAction('startTurn');
+        K.TutorialState.allowAction('dragCard');
+        K.TutorialState.allowAction('moveCardButton');
+        K.TutorialUI.highlightElement('.card[data-card-id="9001"]');
+      },
+      onExit: function() {
+        K.TutorialUI.clearHighlight();
+      },
+      waitFor: 'dragCard' // Avança quando card 9001 for movido
+    },
+
+    // ========================================
+    // BLOCO 6: HOMOLOGAÇÃO E AJUSTES
+    // Objetivo: Ensinar que qualidade importa e bugs acontecem
+    // ========================================
+
+    // Passo 6.1 — Homologação
+    {
+      title: '🧪 Hora de testar',
+      message: `
+        <p>O card <strong>9001</strong> está em <strong>Homologação</strong>.</p>
+
+        <p>Aqui é onde bugs são descobertos.<br>
+        QAs testam tudo antes de publicar.</p>
+
+        <p class="tutorial-action">Associe um QA/Tester ao card.<br>
+        Depois, rode turnos até o indicador zerar.</p>
+
+        <p><strong>A eficiência do QA importa muito aqui.</strong></p>
+      `,
+      highlight: '.card[data-card-id="9001"]',
+      ronySprite: '0 0', // Rony Normal
+      position: 'left',
+      allowedActions: ['dragRole', 'startTurn', 'dragCard', 'moveCardButton'],
+      onEnter: function() {
+        K.TutorialState.blockAllActions();
+        K.TutorialState.allowAction('dragRole');
+        K.TutorialState.allowAction('startTurn');
+        K.TutorialState.allowAction('dragCard');
+        K.TutorialState.allowAction('moveCardButton');
+        K.TutorialUI.highlightElement('.card[data-card-id="9001"]');
+      },
+      onExit: function() {
+        K.TutorialUI.clearHighlight();
+      },
+      waitFor: 'dragCard' // Avança quando card for movido ou quando indicador zerar
+    },
+
+    // Passo 6.2 — Resultado da Homologação
+    {
+      title: '👀 O que aconteceu?',
+      message: `
+        <p>A Homologação terminou.<br>
+        O jogo calculou se bugs foram encontrados.</p>
+
+        <p><strong>Se o card recebeu pontos em Ajustes:</strong><br>
+        O QA encontrou bugs antes da publicação.<br>
+        Associe um Programador, corrija e avance para Publicado.</p>
+
+        <p><strong>Se não tem indicador de Ajustes:</strong><br>
+        Nenhum bug foi encontrado!<br>
+        Pode mover direto para Publicado.</p>
+
+        <p>QA eficiente evita Retrabalho.<br>
+        <strong>Qualidade custa menos que pressa.</strong></p>
+      `,
+      highlight: '.card[data-card-id="9001"]',
+      ronySprite: '-100px 0', // Rony Apontando
+      position: 'left',
+      allowedActions: ['dragRole', 'startTurn', 'dragCard', 'moveCardButton'],
+      onEnter: function() {
+        K.TutorialState.blockAllActions();
+        K.TutorialState.allowAction('dragRole');
+        K.TutorialState.allowAction('startTurn');
+        K.TutorialState.allowAction('dragCard');
+        K.TutorialState.allowAction('moveCardButton');
+        K.TutorialUI.highlightElement('.card[data-card-id="9001"]');
+      },
+      onExit: function() {
+        K.TutorialUI.clearHighlight();
+      },
+      waitFor: 'dragCard' // Avança quando mover o card
+    },
+
+    // ========================================
+    // BLOCO 7: PUBLICAÇÃO E ENTREGA
+    // Objetivo: Ensinar que entrega gera valor
+    // ========================================
+
+    // Passo 7.1 — Mover para Publicado
+    {
+      title: '🚀 Quase lá!',
+      message: `
+        <p>O card <strong>9001</strong> está pronto para ser publicado.</p>
+
+        <p class="tutorial-action">Mova o card para a coluna <strong>Publicado</strong>.</p>
+
+        <p>Mas atenção:<br>
+        <strong>Estar em Publicado não significa que já foi entregue.</strong></p>
+
+        <p>É só quando você rodar o próximo turno<br>
+        que o card será de fato publicado e arquivado.</p>
+
+        <p>É aí que a renda entra.</p>
+      `,
+      highlight: '.card[data-card-id="9001"]',
+      ronySprite: '-100px 0', // Rony Apontando
+      position: 'left',
+      allowedActions: ['dragCard', 'moveCardButton'],
+      onEnter: function() {
+        K.TutorialState.blockAllActions();
+        K.TutorialState.allowAction('dragCard');
+        K.TutorialState.allowAction('moveCardButton');
+        K.TutorialUI.highlightElement('.card[data-card-id="9001"]');
+      },
+      onExit: function() {
+        K.TutorialUI.clearHighlight();
+      },
+      waitFor: 'dragCard' // Avança quando mover para Publicado
+    },
+
+    // Passo 7.2 — Publicar e Gerar Renda
+    {
+      title: '💰 Hora de entregar',
+      message: `
+        <p>O card está em <strong>Publicado</strong>.</p>
+
+        <p class="tutorial-action">Clique em <strong>▶️ Iniciar</strong> para publicar o card.</p>
+
+        <p>Quando você rodar o turno:<br>
+        • O card será <strong>arquivado</strong><br>
+        • Você receberá a <strong>renda</strong> dele<br>
+        • O indicador de dinheiro 💰 vai aumentar</p>
+
+        <p><strong>Entregar é o que paga as contas.</strong><br>
+        Trabalho que não sai não gera valor.</p>
+
+        <p>Vamos ver acontecer.</p>
+      `,
+      highlight: '#startButton',
+      ronySprite: '0 -120px', // Rony Sorrindo
+      position: 'left',
+      allowedActions: ['startTurn'],
+      onEnter: function() {
+        K.TutorialState.blockAllActions();
+        K.TutorialState.allowAction('startTurn');
+        K.TutorialUI.highlightElement('#startButton');
+      },
+      onExit: function() {
+        K.TutorialUI.clearHighlight();
+      },
+      waitFor: 'startTurn' // Avança quando rodar o turno
+    },
+
+    // Passo 7.3 — Tutorial Concluído
+    {
+      title: '✅ Parabéns!',
+      message: `
+        <p>Você completou o tutorial! 🎉</p>
+
+        <p>Agora você sabe:<br>
+        • Como o fluxo Kanban funciona<br>
+        • Como alocar pessoas nos cards<br>
+        • Como indicadores guiam o progresso<br>
+        • Como qualidade evita retrabalho<br>
+        • Como entrega gera renda</p>
+
+        <p><strong>O jogo começa agora.</strong></p>
+
+        <p>Cada decisão tem consequência.<br>
+        Cada pessoa importa.<br>
+        Cada entrega conta.</p>
+
+        <p>Boa sorte! 🚀</p>
+      `,
+      highlight: null,
+      ronySprite: '0 -120px', // Rony Sorrindo
+      position: 'left',
+      allowedActions: [],
+      onEnter: function() {
+        K.TutorialState.blockAllActions();
+      },
+      onExit: null,
+      waitFor: null
     }
   ];
 

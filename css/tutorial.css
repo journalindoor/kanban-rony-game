@@ -15,9 +15,10 @@
 
 .tutorial-message-box {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 420px;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  width: 600px;
   max-width: 90vw;
   background: white;
   border: 2px solid #2c3e50;
@@ -27,14 +28,25 @@
   
   /* Inicialmente escondido */
   opacity: 0;
-  transform: translateX(100%);
   pointer-events: none;
   transition: all 0.3s ease;
 }
 
 .tutorial-message-box.active {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+/* Variante: posicionado à esquerda */
+.tutorial-message-box.left-aligned {
+  left: 20px;
+  transform: translateX(-100%) translateY(20px);
+}
+
+.tutorial-message-box.left-aligned.active {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
   pointer-events: auto;
 }
 
@@ -210,6 +222,22 @@
   font-weight: 600;
   margin-left: 8px;
   vertical-align: middle;
+}
+
+/* ========================================
+   DESTAQUE DE AÇÕES
+   ======================================== */
+
+.tutorial-action {
+  display: inline-block;
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+  border: 2px solid #f39c12;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 4px 0;
+  box-shadow: 0 2px 4px rgba(243, 156, 18, 0.2);
+  font-weight: 600;
+  color: #2c3e50;
 }
 
 /* ========================================

@@ -50,16 +50,6 @@
     roleEl.dataset.attached = 'true'
     roleEl.classList.add('role-attached')
     
-    // Notify tutorial that a role was attached to a card
-    if(typeof K.TutorialState !== 'undefined' && K.TutorialState.tutorialActive){
-      console.log('[Roles] Role attached to card, notifying tutorial');
-      setTimeout(() => {
-        if(typeof K.TutorialState.executeCallback === 'function'){
-          K.TutorialState.executeCallback('dragRole');
-        }
-      }, 100);
-    }
-    
     if(typeof K.updateCardVisualState === 'function') K.updateCardVisualState(cardEl)
     // maintain runtime mapping of assignments
     K.roleAssignments = K.roleAssignments || {}

@@ -98,6 +98,19 @@
     },
 
     /**
+     * Define posicionamento do modal
+     */
+    setPosition: function(position) {
+      if (this.elements.messageBox) {
+        if (position === 'left') {
+          this.elements.messageBox.classList.add('left-aligned');
+        } else {
+          this.elements.messageBox.classList.remove('left-aligned');
+        }
+      }
+    },
+
+    /**
      * Define mensagem
      */
     setMessage: function(title, text) {
