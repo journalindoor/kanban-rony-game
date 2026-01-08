@@ -46,6 +46,28 @@
 			opacity: 0.9;
 		}
 
+		.back-button {
+			display: inline-block;
+			margin-top: 20px;
+			padding: 12px 30px;
+			background: #f39c12;
+			color: white;
+			text-decoration: none;
+			border-radius: 8px;
+			font-weight: bold;
+			font-size: 16px;
+			transition: all 0.3s ease;
+			border: none;
+			cursor: pointer;
+			box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+		}
+
+		.back-button:hover {
+			background: #e67e22;
+			transform: translateY(-2px);
+			box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+		}
+
 		.manual-nav {
 			background: #ecf0f1;
 			padding: 20px 30px;
@@ -250,6 +272,7 @@
 		<div class="manual-header">
 			<h1>📖 Manual do Jogador</h1>
 			<p>Guia completo para dominar o RonyOffice - Versão 1.0</p>
+			<button class="back-button" onclick="history.back()">⬅️ Voltar ao Jogo</button>
 		</div>
 
 		<!-- Navigation -->
