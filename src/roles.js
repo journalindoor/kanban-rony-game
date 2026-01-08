@@ -65,6 +65,14 @@
     if(typeof K.syncCharacterWithRole === 'function') {
       K.syncCharacterWithRole(roleName, true)
     }
+    
+    // 🎉 Efeito visual comemorativo (não afeta gameplay)
+    if(typeof K.showAssignmentCelebration === 'function' && typeof K.roleNameToCharacterId === 'function') {
+      const characterId = K.roleNameToCharacterId(roleName)
+      if(characterId) {
+        K.showAssignmentCelebration(characterId) // Exibe 🤟🏽
+      }
+    }
     if(typeof K.saveState === 'function') K.saveState()
     return true
   }

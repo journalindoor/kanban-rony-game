@@ -10,3 +10,21 @@ Thumbs.db
 
 # Pasta de imagens
 imagens/
+
+# CSS legado (não utilizado)
+css/styles.css
+
+# Arquivos de backup (versões antigas não utilizadas)
+*.backup
+*.backup2
+index.html.backup
+index.html.backup2
+
+# Sistema de tutorial obsoleto (substituído por arquitetura modular)
+src/tutorial.js
+
+# Capítulos não implementados ainda
+chapter2.html
+chapter3.html
+chapter4.html
+chapter5.html

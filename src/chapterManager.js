@@ -109,6 +109,23 @@
     }
   }
 
+  // Show chapter welcome modal (Chapter 1 intro)
+  K.showChapterWelcomeModal = function() {
+    const modal = document.getElementById('chapterWelcomeModal')
+    if (!modal) return
+
+    // Show modal
+    modal.style.display = 'flex'
+
+    // Wire start button
+    const startBtn = document.getElementById('startChapterBtn')
+    if (startBtn) {
+      startBtn.onclick = function() {
+        modal.style.display = 'none'
+      }
+    }
+  }
+
   // Habilitar/desabilitar botão do capítulo 2
   K.enableChapter2Button = function() {
     const btn = document.getElementById('goToChapter2Button')
@@ -133,6 +150,21 @@
     const config = K.CHAPTER_CONFIG[K.currentChapter]
     if (!config || !config.nextChapter) {
       alert('Próximo capítulo ainda não disponível!')
+      return
+    }
+
+    // Verificar se o próximo capítulo existe (Capítulo 2+ ainda não implementados)
+    if (K.currentChapter === 1) {
+      const message = 
+        '🎮 Capítulo 2 em desenvolvimento!\n\n' +
+        '✅ Você completou o Capítulo 1 com sucesso!\n\n' +
+        '⏳ Novos capítulos serão adicionados em breve.\n\n' +
+        '💡 Por enquanto, experimente:\n' +
+        '   • Modo Livre (sem restrições)\n' +
+        '   • Tutorial (aprenda os conceitos básicos)\n\n' +
+        'Seu progresso está salvo!'
+      
+      alert(message)
       return
     }
 
@@ -249,6 +281,9 @@
         // Limpar também a lista de cards usados
         localStorage.removeItem('kanbanState_chapter1_usedCards')
       } catch(e) {}
+      
+      // Show welcome modal for Chapter 1
+      K.showChapterWelcomeModal()
       
       return
     }

@@ -113,26 +113,39 @@
       }, true); // Capture phase
       
       // Observer: detecta quando card é movido para outra coluna via DOM
+      // Funciona tanto para drag&drop quanto para botão "Próxima Coluna"
       const observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
           if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
             mutation.addedNodes.forEach(function(node) {
               if (node.nodeType === Node.ELEMENT_NODE && node.classList && node.classList.contains('card')) {
                 // Card foi adicionado a uma nova coluna
-                console.log('[Tutorial] Card moved detected via DOM observer');
+                const cardId = node.getAttribute('data-id');
+                const newColumn = node.closest('.column')?.getAttribute('data-col');
+                console.log('[Tutorial] Card moved detected via DOM observer - Card:', cardId, '| Column:', newColumn);
+                
+                // Pequeno delay para garantir que DOM está estável
                 setTimeout(() => {
-                  K.TutorialState.executeCallback('dragCard');
-                }, 100);
+                  K.TutorialState.executeCallback('dragCard', { cardId, column: newColumn });
+                }, 150);
               }
             });
           }
         });
       });
       
-      // Observa todas as áreas de cards
+      // Observa todas as áreas de cards existentes
       document.querySelectorAll('.cards').forEach(function(cardsContainer) {
         observer.observe(cardsContainer, { childList: true });
+        console.log('[Tutorial] Observer instalado em coluna:', cardsContainer.getAttribute('data-col'));
       });
+      
+      // Observer adicional: monitora o board inteiro caso novas colunas sejam criadas dinamicamente
+      const boardElement = document.querySelector('.board');
+      if (boardElement) {
+        observer.observe(boardElement, { childList: true, subtree: true });
+        console.log('[Tutorial] Observer instalado no board (subtree)');
+      }
     },
 
     hookDragRole: function() {

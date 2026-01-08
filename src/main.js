@@ -92,6 +92,31 @@
   }
 
   // WIP (Work In Progress) Counter System
+  K.WIP_LIMITS = {
+    'Backlog': 5,
+    'Refinamento': 3,
+    'SprintBacklog': 3,
+    'Fazendo': 3,
+    'Homologando': 3,
+    'Ajustes': 3,
+    'Publicado': Infinity,
+    'Arquivados': Infinity
+  }
+  
+  K.getWipLimit = function(columnName) {
+    return K.WIP_LIMITS[columnName] || Infinity
+  }
+  
+  K.isColumnAtLimit = function(columnName) {
+    const cardsContainer = document.querySelector(`.cards[data-col="${columnName}"]`)
+    if (!cardsContainer) return false
+    
+    const cardCount = cardsContainer.querySelectorAll('.card').length
+    const limit = K.getWipLimit(columnName)
+    
+    return cardCount >= limit
+  }
+  
   K.updateWipCounters = function(){
     // Query all WIP counter elements
     const counters = document.querySelectorAll('.wip-counter[data-counter-col]')
@@ -107,11 +132,19 @@
       // Count cards in this column
       const cardCount = cardsContainer.querySelectorAll('.card').length
       
-      // Backlog has limit of 5, others are unlimited (∞)
-      const limit = (columnName === 'Backlog') ? '5' : '∞'
+      // Get limit from WIP_LIMITS
+      const limit = K.getWipLimit(columnName)
+      const limitDisplay = limit === Infinity ? '∞' : String(limit)
       
       // Update counter display
-      counter.textContent = `${cardCount}/${limit}`
+      counter.textContent = `${cardCount}/${limitDisplay}`
+      
+      // Add visual warning if at/over limit
+      if (cardCount >= limit && limit !== Infinity) {
+        counter.classList.add('wip-at-limit')
+      } else {
+        counter.classList.remove('wip-at-limit')
+      }
     })
   }
 
