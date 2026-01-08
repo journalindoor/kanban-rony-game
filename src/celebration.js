@@ -3,40 +3,59 @@
   K = K || (window.Kanban = window.Kanban || {});
 
   /**
-   * Exibe emoji comemorativo temporariamente no container do personagem
+   * Exibe balão de emoção/status do personagem (estilo RPG)
+   * Sistema reutilizável para diferentes estados emocionais
    * @param {string} characterId - ID do personagem (ex: 'analista-1')
-   * @param {string} emoji - Emoji a ser exibido (padrão: '�🏽')
-   * @param {number} duration - Duração da animação em ms (padrão: 800ms)
+   * @param {string} emoji - Emoji a ser exibido (ex: '🤘🏽', '😷', '🤯', '😡', '😴', '💥')
+   * @param {number} duration - Duração da exibição em ms (padrão: 1800ms)
    */
-  K.showAssignmentCelebration = function(characterId, emoji = '🤟🏽', duration = 800) {
+  K.showEmotionBubble = function(characterId, emoji, duration = 1800) {
     // Buscar o tile do personagem na videochamada
     const tile = document.querySelector(`[data-character-id="${characterId}"]`);
     if (!tile) {
-      console.warn('[Celebration] Tile não encontrado para:', characterId);
+      console.warn('[EmotionBubble] Tile não encontrado para:', characterId);
       return;
     }
 
-    // Prevenir empilhamento: remover celebrações anteriores deste personagem
-    const existingCelebration = tile.querySelector('.celebration-emoji');
-    if (existingCelebration) {
-      existingCelebration.remove();
+    // Prevenir empilhamento: remover balões anteriores deste personagem
+    const existingBubble = tile.querySelector('.emotion-bubble');
+    if (existingBubble) {
+      existingBubble.remove();
     }
 
-    // Criar elemento do emoji
-    const emojiElement = document.createElement('div');
-    emojiElement.className = 'celebration-emoji';
-    emojiElement.textContent = emoji;
-    emojiElement.setAttribute('aria-hidden', 'true'); // Acessibilidade
+    // Criar estrutura do balão de emoção
+    const bubbleContainer = document.createElement('div');
+    bubbleContainer.className = 'emotion-bubble';
+    bubbleContainer.setAttribute('aria-hidden', 'true'); // Acessibilidade
+    bubbleContainer.setAttribute('role', 'presentation');
+
+    const bubbleContent = document.createElement('div');
+    bubbleContent.className = 'emotion-bubble-content';
+    bubbleContent.textContent = emoji;
+
+    bubbleContainer.appendChild(bubbleContent);
 
     // Adicionar ao tile
-    tile.appendChild(emojiElement);
+    tile.appendChild(bubbleContainer);
 
-    // Remover automaticamente após a animação
+    // Remover automaticamente após a duração
     setTimeout(() => {
-      if (emojiElement.parentNode === tile) {
-        emojiElement.remove();
+      if (bubbleContainer.parentNode === tile) {
+        bubbleContainer.classList.add('emotion-bubble-exit');
+        // Aguardar animação de saída antes de remover
+        setTimeout(() => {
+          bubbleContainer.remove();
+        }, 300);
       }
     }, duration);
+  };
+
+  /**
+   * Alias para compatibilidade com código existente
+   * @deprecated Use showEmotionBubble() para maior clareza semântica
+   */
+  K.showAssignmentCelebration = function(characterId, emoji = '🤘🏽', duration = 1800) {
+    K.showEmotionBubble(characterId, emoji, duration);
   };
 
   /**

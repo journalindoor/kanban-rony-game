@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demonstração - Sistema de Balões de Emoção</title>
+  <link rel="stylesheet" href="css/celebration.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+      font-size: 32px;
+    }
+
+    .subtitle {
+      color: #7f8c8d;
+      margin-bottom: 40px;
+      font-size: 16px;
+    }
+
+    .characters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .video-tile {
+      position: relative;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 12px;
+      padding: 80px 20px 20px;
+      text-align: center;
+      color: white;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .character-avatar {
+      font-size: 64px;
+      margin-bottom: 10px;
+    }
+
+    .character-name {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .character-role {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .controls-section {
+      background: #f8f9fa;
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+    }
+
+    .controls-section h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .emotion-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 10px;
+    }
+
+    .emotion-btn {
+      background: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .emotion-btn:hover {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    }
+
+    .emotion-btn .emoji {
+      font-size: 20px;
+    }
+
+    .info-section {
+      background: #e8f4f8;
+      border-left: 4px solid #3498db;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    .info-section h3 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .info-section p {
+      color: #546e7a;
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .code-section {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      overflow-x: auto;
+    }
+
+    .code-section .comment {
+      color: #95a5a6;
+    }
+
+    .code-section .function {
+      color: #3498db;
+    }
+
+    .code-section .string {
+      color: #2ecc71;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-container">
+    <h1>🎮 Sistema de Balões de Emoção</h1>
+    <p class="subtitle">Demonstração interativa do sistema de emotion bubbles estilo RPG</p>
+
+    <!-- Personagens de Demonstração -->
+    <div class="characters-grid">
+      <div class="video-tile" data-character-id="analista-1">
+        <div class="character-avatar">👨‍💼</div>
+        <div class="character-name">João Silva</div>
+        <div class="character-role">Analista 1</div>
+      </div>
+
+      <div class="video-tile" data-character-id="programador-2">
+        <div class="character-avatar">👨‍💻</div>
+        <div class="character-name">Maria Santos</div>
+        <div class="character-role">Programador 2</div>
+      </div>
+
+      <div class="video-tile" data-character-id="qa-1">
+        <div class="character-avatar">👩‍🔬</div>
+        <div class="character-name">Pedro Oliveira</div>
+        <div class="character-role">QA/Tester 1</div>
+      </div>
+    </div>
+
+    <!-- Controles de Emoções -->
+    <div class="controls-section">
+      <h2>🎭 Testar Emoções</h2>
+      <p style="margin-bottom: 20px; color: #7f8c8d;">Clique em uma emoção para aplicá-la aleatoriamente a um personagem</p>
+      
+      <div class="emotion-buttons">
+        <button class="emotion-btn" onclick="testEmotion('🤘🏽')">
+          <span class="emoji">🤘🏽</span> Feliz (atual)
+        </button>
+        <button class="emotion-btn" onclick="testEmotion('😷')">
+          <span class="emoji">😷</span> Doente
+        </button>
+        <button class="emotion-btn" onclick="testEmotion('🤯')">
+          <span class="emoji">🤯</span> Burnout
+        </button>
+        <button class="emotion-btn" onclick="testEmotion('😡')">
+          <span class="emoji">😡</span> Irritado
+        </button>
+        <button class="emotion-btn" onclick="testEmotion('😴')">
+          <span class="emoji">😴</span> Ausente
+        </button>
+        <button class="emotion-btn" onclick="testEmotion('💥')">
+          <span class="emoji">💥</span> Demissão
+        </button>
+        <button class="emotion-btn" onclick="testEmotion('😵')">
+          <span class="emoji">😵</span> Confuso
+        </button>
+        <button class="emotion-btn" onclick="testEmotion('😪')">
+          <span class="emoji">😪</span> Cansado
+        </button>
+        <button class="emotion-btn" onclick="testEmotion('🤩')">
+          <span class="emoji">🤩</span> Animado
+        </button>
+        <button class="emotion-btn" onclick="testEmotion('😰')">
+          <span class="emoji">😰</span> Preocupado
+        </button>
+        <button class="emotion-btn" onclick="testEmotion('🥳')">
+          <span class="emoji">🥳</span> Comemorando
+        </button>
+        <button class="emotion-btn" onclick="testEmotion('🤔')">
+          <span class="emoji">🤔</span> Pensativo
+        </button>
+      </div>
+    </div>
+
+    <!-- Informações -->
+    <div class="info-section">
+      <h3>💡 Como Funciona</h3>
+      <p>• O balão aparece no canto superior direito do personagem</p>
+      <p>• Animação de entrada com efeito "pop" estilo RPG</p>
+      <p>• Permanece visível por 1.8 segundos (configurável)</p>
+      <p>• Animação de saída suave com fade-out</p>
+      <p>• Sistema totalmente reutilizável para qualquer emoji</p>
+    </div>
+
+    <!-- Exemplo de Código -->
+    <div class="code-section">
+      <div class="comment">// Exemplo de uso da API</div>
+      <div>
+        <span class="function">Kanban.showEmotionBubble</span>(
+        <span class="string">'analista-1'</span>, 
+        <span class="string">'🤘🏽'</span>, 
+        1800
+        );
+      </div>
+      <br>
+      <div class="comment">// Casos de uso futuros</div>
+      <div><span class="function">onCharacterGetsSick</span>(characterId) => <span class="function">showEmotionBubble</span>(characterId, <span class="string">'😷'</span>);</div>
+      <div><span class="function">onCharacterBurnout</span>(characterId) => <span class="function">showEmotionBubble</span>(characterId, <span class="string">'🤯'</span>);</div>
+      <div><span class="function">onCharacterQuits</span>(characterId) => <span class="function">showEmotionBubble</span>(characterId, <span class="string">'💥'</span>);</div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="src/celebration.js"></script>
+  <script>
+    // Inicializar namespace Kanban
+    window.Kanban = window.Kanban || {};
+
+    // Lista de IDs de personagens disponíveis
+    const characterIds = ['analista-1', 'programador-2', 'qa-1'];
+
+    // Função para testar emoção aleatória
+    function testEmotion(emoji) {
+      // Selecionar personagem aleatório
+      const randomId = characterIds[Math.floor(Math.random() * characterIds.length)];
+      
+      // Exibir balão de emoção
+      if (typeof Kanban.showEmotionBubble === 'function') {
+        Kanban.showEmotionBubble(randomId, emoji, 2000);
+      } else {
+        console.error('Sistema de emotion bubbles não carregado');
+      }
+    }
+
+    // Demonstração automática ao carregar
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        testEmotion('🤘🏽');
+      }, 500);
+    });
+  </script>
+</body>
+</html>

@@ -1,9 +1,90 @@
 /* ============================================
-   CELEBRATION EFFECTS
-   Visual effects for game events
+   EMOTION BUBBLE SYSTEM
+   RPG-style emotion/status bubbles for characters
    ============================================ */
 
-/* Container para emoji de comemoração */
+/* Container do balão de emoção */
+.emotion-bubble {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  pointer-events: none;
+  z-index: 100;
+  animation: emotionBubbleEnter 0.4s cubic-bezier(0.68, -0.35, 0.265, 1.35);
+}
+
+/* Conteúdo do balão (fundo branco + emoji) */
+.emotion-bubble-content {
+  background: #ffffff;
+  border: 2px solid #d0d0d0;
+  border-radius: 12px;
+  padding: 6px 10px;
+  font-size: 24px;
+  line-height: 1;
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: inline-block;
+}
+
+/* Ponta do balão (estilo speech bubble) */
+.emotion-bubble-content::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  right: 12px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid #ffffff;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* Animação de entrada: pop + fade-in */
+@keyframes emotionBubbleEnter {
+  0% {
+    transform: scale(0) translateY(10px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15) translateY(-2px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Animação de saída: fade-out + scale-down */
+.emotion-bubble-exit {
+  animation: emotionBubbleExit 0.3s ease-out forwards;
+}
+
+@keyframes emotionBubbleExit {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.7) translateY(-5px);
+    opacity: 0;
+  }
+}
+
+/* Garante que o tile-container aceita position: absolute filhos */
+.video-tile {
+  position: relative;
+}
+
+/* ============================================
+   LEGACY SUPPORT (DEPRECATED)
+   Mantido para retrocompatibilidade
+   ============================================ */
+
+/* Container para emoji de comemoração (ANTIGO - será removido) */
 .celebration-emoji {
   position: absolute;
   top: 8px;
@@ -14,7 +95,7 @@
   animation: celebrationBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-/* Animação: bounce + fade out */
+/* Animação: bounce + fade out (ANTIGA - será removida) */
 @keyframes celebrationBounce {
   0% {
     transform: scale(0) rotate(-45deg);
@@ -36,9 +117,4 @@
     transform: scale(0) rotate(15deg);
     opacity: 0;
   }
-}
-
-/* Garante que o tile-container aceita position: absolute filhos */
-.video-tile {
-  position: relative;
 }
