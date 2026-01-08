@@ -20,18 +20,14 @@
     return { roleName, eff, roleModel }
   }
 
-  // Decide whether to generate ajustes based on efficiency
-  function shouldGenerateAdjustments(eff){
-    if(eff <= 0) return false // explicit: efficiency 0 does not generate adjustments
-    if(eff <= 2) return Math.random() < 0.5
-    if(eff <= 4) return Math.random() < 0.25
-    return Math.random() < 0.05
+  // Decide whether to generate ajustes - 50% fixed chance
+  function shouldGenerateAdjustments(){
+    return Math.random() < 0.5
   }
 
-  function randomAdjustmentValue(eff){
-    if(eff <= 0) return 0
-    const maxVal = Math.max(1, 2 * eff)
-    return Math.floor(Math.random() * maxVal) + 1
+  function randomAdjustmentValue(){
+    // Random value between 1 and 10
+    return Math.floor(Math.random() * 10) + 1
   }
 
   // Calculate and apply Ajustes when card is in Homologando during a turn
@@ -50,14 +46,14 @@
     const valueEl = ajustesIndicator.querySelector('.ind-value')
     if(!valueEl) return
 
-    const { eff, roleName } = getAssignedRoleInfo(cardEl)
+    const { roleName } = getAssignedRoleInfo(cardEl)
 
     // Only compute adjustments if there is a role assigned
     if(!roleName) return
 
     let newValue = 0
-    if(shouldGenerateAdjustments(eff)){
-      newValue = randomAdjustmentValue(eff)
+    if(shouldGenerateAdjustments()){
+      newValue = randomAdjustmentValue()
     }
 
     // Apply the new value
