@@ -28,18 +28,74 @@
   }
 
   // Controle de personagens desbloqueados
-  // LIBERAÇÃO COMPLETA: todos os 9 personagens disponíveis desde o início
-  K.unlockedCharacters = {
-    'analista-1': true,
-    'analista-2': true,
-    'analista-3': true,
-    'programador-1': true,
-    'programador-2': true,
-    'programador-3': true,
-    'qa-1': true,
-    'qa-2': true,
-    'qa-3': true
+  // Inicialização baseada no contexto da página
+  K.initializeUnlockedCharacters = function() {
+    const path = window.location.pathname
+    
+    // Modo Livre: todos desbloqueados
+    if (path.includes('index.html') || path.includes('modo-livre.html')) {
+      K.unlockedCharacters = {
+        'analista-1': true,
+        'analista-2': true,
+        'analista-3': true,
+        'programador-1': true,
+        'programador-2': true,
+        'programador-3': true,
+        'qa-1': true,
+        'qa-2': true,
+        'qa-3': true
+      }
+      console.log('[officeCharacters] Modo Livre - Todos os personagens desbloqueados')
+    }
+    // Tutorial: apenas nível 1 (bloqueado)
+    else if (path.includes('tutorial.html')) {
+      K.unlockedCharacters = {
+        'analista-1': true,
+        'analista-2': false,
+        'analista-3': false,
+        'programador-1': true,
+        'programador-2': false,
+        'programador-3': false,
+        'qa-1': true,
+        'qa-2': false,
+        'qa-3': false
+      }
+      console.log('[officeCharacters] Tutorial - Apenas personagens nível 1')
+    }
+    // Capítulos: apenas nível 1 (sistema de desbloqueio progressivo)
+    else if (path.includes('chapter')) {
+      K.unlockedCharacters = {
+        'analista-1': true,
+        'analista-2': false,
+        'analista-3': false,
+        'programador-1': true,
+        'programador-2': false,
+        'programador-3': false,
+        'qa-1': true,
+        'qa-2': false,
+        'qa-3': false
+      }
+      console.log('[officeCharacters] Capítulo - Personagens nível 1 (desbloqueio progressivo ativo)')
+    }
+    // Fallback: todos desbloqueados
+    else {
+      K.unlockedCharacters = {
+        'analista-1': true,
+        'analista-2': true,
+        'analista-3': true,
+        'programador-1': true,
+        'programador-2': true,
+        'programador-3': true,
+        'qa-1': true,
+        'qa-2': true,
+        'qa-3': true
+      }
+      console.log('[officeCharacters] Fallback - Todos os personagens desbloqueados')
+    }
   }
+
+  // Inicializar na primeira carga
+  K.initializeUnlockedCharacters()
 
   // Mapeamento role name -> character-id
   // Conecta os papeis da roles-area com os personagens do office-viewport

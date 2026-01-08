@@ -251,25 +251,30 @@
 				<div class="modal-header">
 					<h2>🎯 Capítulo 1: Sobreviva à Sprint</h2>
 				</div>
-				<div class="modal-body" style="display:flex; gap:20px; align-items:center;">
-					<div class="modal-character" style="flex:0 0 30%; display:flex; justify-content:center; align-items:center;">
-						<div style="width:120px; height:120px; background-image:url('assets/rony-modal.png'); background-size:360px 240px; background-position:0 0; background-repeat:no-repeat;"></div>
+				<div class="modal-body" style="display:flex; flex-direction:column; gap:20px;">
+					<!-- Área superior: Sprite + Mensagens -->
+					<div style="display:flex; gap:20px; align-items:center;">
+						<div class="modal-character" style="flex:0 0 120px; display:flex; justify-content:center; align-items:center;">
+							<div style="width:120px; height:120px; background-image:url('assets/rony-modal.png'); background-size:360px 240px; background-position:-100px -120px; background-repeat:no-repeat;"></div>
+						</div>
+						<div style="flex:1;">
+							<p class="modal-message">Bem-vindo ao primeiro desafio!</p>
+							<p class="modal-subtitle">Este capítulo é sobre aprender o básico do fluxo — sem atalhos.</p>
+						</div>
 					</div>
-					<div style="flex:1;">
-						<p class="modal-message">Bem-vindo ao primeiro desafio!</p>
-						<p class="modal-subtitle">Seu objetivo é simples, mas não fácil:</p>
-						<div class="modal-stats">
-							<div class="stat-item">
-								<span class="stat-label">🎯 Meta:</span>
-								<span class="stat-value" style="color:#10b981; font-weight:700; font-size:20px;">$500</span>
-							</div>
-							<div class="stat-item" style="border:none; padding-top:0;">
-								<p style="margin:0; font-size:14px; color:#6b7280; text-align:left;">
-									Acumule <strong>$500</strong> entregando cards.<br>
-									Gerencie seu fluxo Kanban com sabedoria.<br>
-									Cada decisão importa.
-								</p>
-							</div>
+					<!-- Área inferior: Stats -->
+					<div class="modal-stats">
+						<div class="stat-item">
+							<span class="stat-label">🎯 Meta:</span>
+							<span class="stat-value" style="color:#10b981; font-weight:700; font-size:20px;">$1000</span>
+						</div>
+						<div class="stat-item" style="border:none; padding-top:0;">
+							<p style="margin:0; font-size:14px; color:#6b7280; text-align:left; line-height:1.6;">
+								Acumule <strong>$1000</strong> entregando cards e mantendo o fluxo saudável.<br><br>
+								<strong>Personagens disponíveis:</strong> Neste início, apenas os primeiros personagens de cada função.<br><br>
+								O time começa pequeno e evolui com o passar dos dias.<br><br>
+								Aprenda a colaborar, priorizar e decidir bem.
+							</p>
 						</div>
 					</div>
 				</div>
@@ -285,28 +290,140 @@
 				<div class="modal-header">
 					<h2>🎉 Parabéns!</h2>
 				</div>
-				<div class="modal-body" style="display:flex; gap:20px; align-items:center;">
-					<div class="modal-character" style="flex:0 0 30%; display:flex; justify-content:center; align-items:center;">
+			<div class="modal-body" style="display:flex; flex-direction:column; gap:20px;">
+				<!-- Área superior: Sprite + Mensagens -->
+				<div style="display:flex; gap:20px; align-items:center;">
+					<div class="modal-character" style="flex:0 0 120px; display:flex; justify-content:center; align-items:center;">
 						<div style="width:120px; height:120px; background-image:url('assets/rony-modal.png'); background-size:360px 240px; background-position:-120px 0; background-repeat:no-repeat;"></div>
 					</div>
 					<div style="flex:1;">
-						<p class="modal-message">Você acumulou <strong>$500</strong> e completou o Capítulo 1!</p>
+						<p class="modal-message">Você acumulou <strong>$1000</strong> e completou o Capítulo 1!</p>
 						<p class="modal-subtitle">Deseja prosseguir para o próximo capítulo?</p>
-						<div class="modal-stats">
-							<div class="stat-item">
-								<span class="stat-label">Dias passados:</span>
-								<span class="stat-value" id="modalDays">0</span>
-							</div>
-							<div class="stat-item">
-								<span class="stat-label">Dinheiro acumulado:</span>
-								<span class="stat-value" id="modalMoney">$0</span>
-							</div>
+					</div>
+				</div>
+				<!-- Área inferior: Stats -->
+				<div class="modal-stats">
+					<div class="stat-item">
+						<span class="stat-label">Dias passados:</span>
+						<span class="stat-value" id="modalDays">0</span>
+					</div>
+					<div class="stat-item">
+						<span class="stat-label">Dinheiro acumulado:</span>
+						<span class="stat-value" id="modalMoney">$0</span>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button id="continueChapterBtn" class="modal-btn modal-btn-primary">Prosseguir para Capítulo 2</button>
 					<button id="stayChapterBtn" class="modal-btn modal-btn-secondary">Continuar no Capítulo 1</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Unlock Modal 1: Analista Nível 2 (R$200) -->
+		<div id="unlockModal1" class="modal-overlay" style="display:none;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2>🧾 Contratação Estratégica Aprovada</h2>
+				</div>
+				<div class="modal-body" style="display:flex; flex-direction:column; gap:20px;">
+					<!-- Área superior: Sprite + Mensagens -->
+					<div style="display:flex; gap:20px; align-items:center;">
+						<div class="modal-character" style="flex:0 0 120px; display:flex; justify-content:center; align-items:center;">
+							<div style="width:120px; height:120px; background-image:url('assets/rony-modal.png'); background-size:360px 240px; background-position:0 -120px; background-repeat:no-repeat;"></div>
+						</div>
+						<div style="flex:1;">
+							<p class="modal-message">Precisamos de alguém pra explicar o plano</p>
+							<p class="modal-subtitle">Improviso funciona… até virar sucesso.</p>
+						</div>
+					</div>
+					<!-- Área inferior: Conteúdo narrativo -->
+					<div class="modal-stats" style="border:none; padding:15px 0;">
+						<div style="text-align:left; line-height:1.7;">
+							<p>Com <strong>R$150</strong> em caixa, o RH contratou alguém.</p>
+							<p>Encontramos mais um: <strong>Rony, Analista Pleno</strong>.</p>
+							<p>Habilidade especial: explicar o óbvio com confiança.</p>
+							<p style="margin-top:20px; font-style:italic; color:#6b7280;">
+								Agora alguém pode dizer oficialmente:<br>
+								<em>"Isso não é prioridade… ainda."</em>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="modal-btn modal-btn-primary unlock-close-btn">Continuar</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Unlock Modal 2: Programador Nível 2 (R$400) -->
+		<div id="unlockModal2" class="modal-overlay" style="display:none;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2>💻 Novo Commit no Time</h2>
+				</div>
+				<div class="modal-body" style="display:flex; flex-direction:column; gap:20px;">
+					<!-- Área superior: Sprite + Mensagens -->
+					<div style="display:flex; gap:20px; align-items:center;">
+						<div class="modal-character" style="flex:0 0 120px; display:flex; justify-content:center; align-items:center;">
+							<div style="width:120px; height:120px; background-image:url('assets/rony-modal.png'); background-size:360px 240px; background-position:0 -120px; background-repeat:no-repeat;"></div>
+						</div>
+						<div style="flex:1;">
+							<p class="modal-message">Agora alguém precisa fazer funcionar</p>
+							<p class="modal-subtitle">Ideia boa só vira código depois do café.</p>
+						</div>
+					</div>
+					<!-- Área inferior: Conteúdo narrativo -->
+					<div class="modal-stats" style="border:none; padding:15px 0;">
+						<div style="text-align:left; line-height:1.7;">
+							<p>Com <strong>R$350</strong> em caixa, alguém perguntou: "já dá pra subir isso?"</p>
+							<p>Contratamos ele: <strong>Rony, o Programador</strong>.</p>
+							<p>Habilidade especial: transformar ideia em bug… e depois em solução.</p>
+							<p style="margin-top:20px; font-style:italic; color:#6b7280;">
+								Agora alguém pode dizer oficialmente:<br>
+								<em>"Na minha máquina funciona."</em>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="modal-btn modal-btn-primary unlock-close-btn">Continuar</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Unlock Modal 3: QA Nível 2 (R$600) -->
+		<div id="unlockModal3" class="modal-overlay" style="display:none;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2>🧪 Qualidade Entrou em Cena</h2>
+				</div>
+				<div class="modal-body" style="display:flex; flex-direction:column; gap:20px;">
+					<!-- Área superior: Sprite + Mensagens -->
+					<div style="display:flex; gap:20px; align-items:center;">
+						<div class="modal-character" style="flex:0 0 120px; display:flex; justify-content:center; align-items:center;">
+							<div style="width:120px; height:120px; background-image:url('assets/rony-modal.png'); background-size:360px 240px; background-position:0 -120px; background-repeat:no-repeat;"></div>
+						</div>
+						<div style="flex:1;">
+							<p class="modal-message">Alguém desconfiou que estava fácil demais</p>
+							<p class="modal-subtitle">Funcionar não é o mesmo que funcionar direito.</p>
+						</div>
+					</div>
+					<!-- Área inferior: Conteúdo narrativo -->
+					<div class="modal-stats" style="border:none; padding:15px 0;">
+						<div style="text-align:left; line-height:1.7;">
+							<p>Com <strong>R$600</strong> em caixa, surgiu a dúvida proibida: "isso tá certo?"</p>
+							<p>Encontramos mais um: <strong>Rony, QA</strong>.</p>
+							<p>Habilidade especial: clicar exatamente onde não devia.</p>
+							<p style="margin-top:20px; font-style:italic; color:#6b7280;">
+								Agora alguém pode dizer oficialmente:<br>
+								<em>"Achei um detalhe pequeno aqui…"</em>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="modal-btn modal-btn-primary unlock-close-btn">Continuar</button>
 				</div>
 			</div>
 		</div>
@@ -343,6 +460,7 @@
 		<script src="src/progressionRules.js" defer></script>
 		<script src="src/officeStatusMessages.js" defer></script>
 		<script src="src/columnInfo.js" defer></script>
+		<script src="src/unlockSystem.js" defer></script>
 		<script src="src/main.js" defer></script>
 		<script src="src/chapterManager.js" defer></script>
 	

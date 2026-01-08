@@ -131,7 +131,22 @@
     const allRoles = document.querySelectorAll(roleSelector)
     console.log('[setupRoleSquares] Configurando', allRoles.length, 'roles');
     allRoles.forEach(r=>{
+      // Verificar se o role está bloqueado
+      const roleName = r.getAttribute('data-role')
+      const characterId = K.roleToCharacterMap ? K.roleToCharacterMap[roleName] : null
+      const isUnlocked = characterId ? (K.unlockedCharacters && K.unlockedCharacters[characterId]) : true
+      
+      if (!isUnlocked) {
+        // Role bloqueado: não pode ser arrastado
+        r.setAttribute('draggable', 'false')
+        r.classList.add('role-locked')
+        console.log('[setupRoleSquares] Role bloqueado:', roleName);
+        return // Pula a configuração de event listeners
+      }
+      
+      // Role desbloqueado: configurar normalmente
       r.setAttribute('draggable','true')
+      r.classList.remove('role-locked')
       console.log('[setupRoleSquares] Configurando role:', r.getAttribute('data-role'), 'draggable:', r.draggable);
       // Remover event listeners antigos para evitar duplicação
       r.removeEventListener('dragstart', onDragStartRole)

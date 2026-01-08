@@ -79,6 +79,9 @@
           
           // Verificar objetivo do capítulo
           if(typeof K.checkChapterGoal === 'function') K.checkChapterGoal()
+          
+          // Verificar marcos de desbloqueio (Capítulo 1)
+          if(typeof K.checkUnlockMilestones === 'function') K.checkUnlockMilestones()
         }
       }
     }
@@ -268,6 +271,18 @@
       console.warn('[resetGame] Erro ao limpar cards usados:', e)
     }
     
+    // Reset unlock system (for chapters)
+    if (K.unlocksTriggered) {
+      K.unlocksTriggered = []
+      console.log('[resetGame] Marcos de desbloqueio resetados')
+    }
+    
+    // Reset unlocked characters to initial state (only level 1)
+    if (K.unlockedCharacters && typeof K.initializeUnlockedCharacters === 'function') {
+      K.initializeUnlockedCharacters()
+      console.log('[resetGame] Personagens desbloqueados resetados para estado inicial')
+    }
+    
     // clear assignments and role models so fresh talentos are generated
     K.roleAssignments = {}
     K.roleModels = {}
@@ -286,6 +301,12 @@
     K.clearZones()
     // reinitialize role models with new talentos and render
     if(typeof K.initializeRoles === 'function') K.initializeRoles(true)
+    
+    // Re-render office characters with updated unlock state
+    if(typeof K.initCharacterSpritesWithSequence === 'function') {
+      K.initCharacterSpritesWithSequence(0, 0) // Update immediately
+    }
+    
     if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
     if(typeof K.updateMoneyDisplay === 'function') K.updateMoneyDisplay()
     if(typeof K.updateWipCounters === 'function') K.updateWipCounters()
