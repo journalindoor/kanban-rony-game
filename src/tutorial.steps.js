@@ -231,7 +231,7 @@ Você não escolhe isso. O jogo também não.</p>
       `,
       highlight: '.roles-area',
       ronySprite: '-100px 0', // Rony Apontando
-      position: 'left',
+      // position: 'left',
       allowedActions: ['dragRole', 'dragCard'],
       onEnter: function() {
         K.TutorialState.blockAllActions();
@@ -266,7 +266,7 @@ Quanto melhor a eficiência, mais o indicador diminui.</p>
       `,
       highlight: '#startButton',
       ronySprite: '-85px -100px', // Rony Thumbs Up
-      position: 'left',
+      // position: 'left',
       allowedActions: ['startTurn', 'dragRole', 'dragCard', 'moveCardButton'],
       onEnter: function() {
         K.TutorialState.blockAllActions();
@@ -301,7 +301,7 @@ Quanto melhor a eficiência, mais o indicador diminui.</p>
       `,
       highlight: '.card[data-card-id="9001"]',
       ronySprite: '-100px 0', // Rony Apontando
-      position: 'left',
+      // position: 'left',
       allowedActions: ['startTurn', 'dragRole', 'dragCard', 'moveCardButton'],
       onEnter: function() {
         K.TutorialState.blockAllActions();

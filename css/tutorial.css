@@ -1,3 +1,37 @@
+/* =============================
+   MINIMIZAR/MAXIMIZAR MODAL
+   ============================= */
+.tutorial-minimize-button, .tutorial-maximize-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: 4px;
+  transition: opacity 0.2s;
+}
+.tutorial-minimize-button:hover, .tutorial-maximize-button:hover {
+  opacity: 0.7;
+}
+
+.tutorial-message-box.tutorial-minimized {
+  height: 56px !important; /* Altura só do header */
+  min-height: 0 !important;
+  max-height: 56px !important;
+  overflow: hidden;
+  width: 600px;
+  max-width: 90vw;
+  padding-bottom: 0;
+}
+.tutorial-message-box.tutorial-minimized .tutorial-message-body,
+.tutorial-message-box.tutorial-minimized .tutorial-message-footer {
+  display: none !important;
+}
 /*
  * tutorial.css — Estilo do Tutorial
  * 

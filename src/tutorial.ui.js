@@ -22,7 +22,9 @@
       prevButton: null,
       skipButton: null,
       stepCounter: null,
-      closeButton: null
+      closeButton: null,
+      minimizeButton: null,
+      maximizeButton: null
     },
 
     /**
@@ -45,6 +47,8 @@
       this.elements.skipButton = document.getElementById('tutorialSkip');
       this.elements.stepCounter = document.getElementById('tutorialStepCounter');
       this.elements.closeButton = document.getElementById('tutorialClose');
+      this.elements.minimizeButton = document.getElementById('tutorialMinimize');
+      this.elements.maximizeButton = document.getElementById('tutorialMaximize');
     },
 
     /**
@@ -76,6 +80,18 @@
           }
         });
       }
+
+      // Minimizar/Maximizar
+      if (this.elements.minimizeButton) {
+        this.elements.minimizeButton.addEventListener('click', () => {
+          this.setMinimized(true);
+        });
+      }
+      if (this.elements.maximizeButton) {
+        this.elements.maximizeButton.addEventListener('click', () => {
+          this.setMinimized(false);
+        });
+      }
     },
 
     /**
@@ -84,6 +100,10 @@
     show: function() {
       if (this.elements.messageBox) {
         this.elements.messageBox.classList.add('active');
+        // Sempre maximiza ao mostrar
+        if (this.elements.messageBox.classList.contains('tutorial-minimized')) {
+          this.setMinimized(false);
+        }
       }
     },
 
@@ -165,10 +185,20 @@
           disabled: this.elements.nextButton.disabled,
           opacity: this.elements.nextButton.style.opacity
         });
-        
         this.elements.nextButton.disabled = false;
         this.elements.nextButton.style.opacity = '1';
-        
+        // Sempre maximiza o modal ao reativar o botão Próximo
+        if (this.elements.messageBox && this.elements.messageBox.classList.contains('tutorial-minimized')) {
+          this.setMinimized(false);
+        }
+        // Se o modal estiver fechado (não tem 'active'), reabre
+        if (this.elements.messageBox && !this.elements.messageBox.classList.contains('active')) {
+          this.show();
+          // Se estava minimizado, maximiza
+          if (this.elements.messageBox.classList.contains('tutorial-minimized')) {
+            this.setMinimized(false);
+          }
+        }
         console.log('[Tutorial UI] Estado depois:', {
           disabled: this.elements.nextButton.disabled,
           opacity: this.elements.nextButton.style.opacity
@@ -224,7 +254,23 @@
         ronySprite.style.backgroundPosition = position;
         ronySprite.style.transform = flip ? 'scaleX(-1)' : '';
       }
-    }
+    },
+
+    /**
+     * Define estado minimizado/maximizado do modal
+     */
+    setMinimized: function(minimized) {
+      if (!this.elements.messageBox) return;
+      if (minimized) {
+        this.elements.messageBox.classList.add('tutorial-minimized');
+        if (this.elements.minimizeButton) this.elements.minimizeButton.style.display = 'none';
+        if (this.elements.maximizeButton) this.elements.maximizeButton.style.display = 'inline-block';
+      } else {
+        this.elements.messageBox.classList.remove('tutorial-minimized');
+        if (this.elements.minimizeButton) this.elements.minimizeButton.style.display = 'inline-block';
+        if (this.elements.maximizeButton) this.elements.maximizeButton.style.display = 'none';
+      }
+    },
   };
 
 })(window.Kanban);

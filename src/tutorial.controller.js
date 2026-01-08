@@ -279,6 +279,14 @@
       // Mostra
       K.TutorialUI.show();
 
+      // Sempre reabre e maximiza o modal ao mostrar um novo passo
+      if (K.TutorialUI.elements.messageBox) {
+        K.TutorialUI.elements.messageBox.classList.add('active');
+        if (K.TutorialUI.elements.messageBox.classList.contains('tutorial-minimized')) {
+          K.TutorialUI.setMinimized(false);
+        }
+      }
+
       // WaitFor
       if (step.waitFor) {
         console.log('[Tutorial] Registrando callback para:', step.waitFor);
