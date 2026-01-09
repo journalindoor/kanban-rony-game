@@ -1,3 +1,172 @@
+  // Garante que o botão de throughput esteja ativado
+  document.addEventListener('DOMContentLoaded', function(){
+    var btn = document.getElementById('throughputMetricsBtn');
+    if(btn){
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+      btn.classList.remove('metric-button:disabled');
+    }
+  });
+(function(){
+  // --- Throughput Modal (Bloco 3) ---
+  function getThroughputKey() {
+    const path = window.location.pathname;
+    if (path.includes('tutorial.html')) return 'throughput_tutorial';
+    const chapterMatch = path.match(/chapter(\d+)\.html/);
+    if (chapterMatch) return `throughput_chapter${chapterMatch[1]}`;
+    return 'throughput_freemode';
+  }
+
+  function getThroughputData() {
+    let data = [];
+    try {
+      const raw = localStorage.getItem(getThroughputKey());
+      if (raw) data = JSON.parse(raw);
+    } catch (e) { data = []; }
+    return Array.isArray(data) ? data : [];
+  }
+
+  function getCurrentDay() {
+    return (window.Kanban && window.Kanban.dayCount) ? window.Kanban.dayCount : 0;
+  }
+
+  // Cria o modal se não existir
+  function ensureThroughputModal() {
+    if (document.getElementById('throughputModalRonyOffice')) return;
+    const modal = document.createElement('div');
+    modal.id = 'throughputModalRonyOffice';
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100vw';
+    modal.style.height = '100vh';
+    modal.style.background = 'rgba(0,0,0,0.5)';
+    modal.style.display = 'none';
+    modal.style.justifyContent = 'center';
+    modal.style.alignItems = 'center';
+    modal.style.zIndex = '9999';
+    modal.innerHTML = `
+      <div style="background:#fff;padding:32px 24px 24px 24px;border-radius:12px;min-width:320px;max-width:90vw;box-shadow:0 4px 32px #0002;text-align:center;position:relative;">
+        <h2 style="margin-top:0;margin-bottom:16px;font-size:1.5em;">Throughput do RonyOffice</h2>
+        <div id="throughputModalRonyOfficeInfo" style="font-size:1.1em;margin-bottom:24px;"></div>
+        <button id="throughputModalRonyOfficeClose" style="padding:8px 24px;font-size:1em;border-radius:6px;border:none;background:#1976d2;color:#fff;cursor:pointer;">Fechar</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    // Fecha ao clicar no botão
+    modal.querySelector('#throughputModalRonyOfficeClose').onclick = function(){
+      modal.style.display = 'none';
+    };
+    // Bloqueia interação com o board enquanto aberto
+    modal.addEventListener('click', function(e){
+      if(e.target === modal) modal.style.display = 'none';
+    });
+  }
+
+  // Liga o botão existente ao modal
+  document.addEventListener('DOMContentLoaded', function(){
+    ensureThroughputModal();
+    var btn = document.getElementById('throughputMetricsBtn');
+    if(btn){
+      btn.addEventListener('click', function(){
+        // Identifica o modo de jogo e lê o histórico correto
+        let key = '';
+        const path = window.location.pathname;
+        if (path.includes('tutorial.html')) key = 'throughput_tutorial';
+        else {
+          const chapterMatch = path.match(/chapter(\d+)\.html/);
+          if (chapterMatch) key = `throughput_chapter${chapterMatch[1]}`;
+          else key = 'throughput_freemode';
+        }
+        let data = [];
+        try {
+          const raw = localStorage.getItem(key);
+          if (raw) data = JSON.parse(raw);
+        } catch (e) { data = []; }
+        if (!Array.isArray(data)) data = [];
+        const total = data.length;
+        const dia = (window.Kanban && window.Kanban.dayCount) ? window.Kanban.dayCount : 0;
+        ensureThroughputModal();
+        var modal = document.getElementById('throughputModalRonyOffice');
+        var info = document.getElementById('throughputModalRonyOfficeInfo');
+        info.innerHTML = `<strong>Entregas:</strong> ${total}<br><strong>Dia:</strong> ${dia}`;
+        modal.style.display = 'flex';
+      });
+    }
+  });
+})();
+(function(){
+  // Função utilitária para chave de throughput por modo
+  function getThroughputKey() {
+    const path = window.location.pathname;
+    if (path.includes('tutorial.html')) return 'throughput_tutorial';
+    const chapterMatch = path.match(/chapter(\d+)\.html/);
+    if (chapterMatch) return `throughput_chapter${chapterMatch[1]}`;
+    return 'throughput_freemode';
+  }
+
+  // Função segura para registrar entrega
+  window.registerThroughputDelivery = function(cardId, deliveredAtDay) {
+    // Validação básica
+    if (!cardId || typeof deliveredAtDay !== 'number' || deliveredAtDay < 0) return;
+    const key = getThroughputKey();
+    let data = [];
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw) data = JSON.parse(raw);
+    } catch (e) { data = []; }
+    // Não duplicar: só registra se não houver {cardId, deliveredAtDay} igual
+    if (data.some(e => String(e.cardId) === String(cardId) && e.deliveredAtDay === deliveredAtDay)) return;
+    data.push({ cardId, deliveredAtDay });
+    try {
+      localStorage.setItem(key, JSON.stringify(data));
+    } catch (e) { /* ignore */ }
+  }
+})();
+(function(){
+  // Sistema de registro de throughput (Bloco 1)
+  function getThroughputKey() {
+    const path = window.location.pathname;
+    if (path.includes('tutorial.html')) return 'throughput_tutorial';
+    const chapterMatch = path.match(/chapter(\d+)\.html/);
+    if (chapterMatch) return `throughput_chapter${chapterMatch[1]}`;
+    return 'throughput_freemode';
+  }
+
+  function registerThroughput(cardId, dia) {
+    const key = getThroughputKey();
+    let data = [];
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw) data = JSON.parse(raw);
+    } catch (e) { data = []; }
+    data.push({ cardId, dia });
+    try {
+      localStorage.setItem(key, JSON.stringify(data));
+    } catch (e) { /* ignore */ }
+  }
+
+  // Hook global para registrar throughput ao arquivar
+  const origAppendChild = Element.prototype.appendChild;
+  Element.prototype.appendChild = function(child) {
+    try {
+      if (
+        child &&
+        child.classList &&
+        child.classList.contains('card') &&
+        this.matches &&
+        this.matches('.cards[data-col="Arquivados"]') &&
+        child.getAttribute('data-id')
+      ) {
+        // Pega o dia atual do jogo (Kanban.dayCount ou 0)
+        var dia = (window.Kanban && window.Kanban.dayCount) ? window.Kanban.dayCount : 0;
+        registerThroughput(child.getAttribute('data-id'), dia);
+      }
+    } catch (e) { /* ignore */ }
+    return origAppendChild.apply(this, arguments);
+  };
+})();
 // main.js — initialization, rendering and UI wiring
 (function(K){
   K = K || (window.Kanban = window.Kanban || {})
@@ -370,7 +539,21 @@
     }
 
     const resetBtn = document.getElementById('resetButton')
-    if(resetBtn) resetBtn.addEventListener('click', K.resetGame)
+    if(resetBtn) resetBtn.addEventListener('click', function(){
+      // Limpa apenas o histórico de throughput do modo atual
+      try {
+        const path = window.location.pathname;
+        let key = '';
+        if (path.includes('tutorial.html')) key = 'throughput_tutorial';
+        else {
+          const chapterMatch = path.match(/chapter(\d+)\.html/);
+          if (chapterMatch) key = `throughput_chapter${chapterMatch[1]}`;
+          else key = 'throughput_freemode';
+        }
+        localStorage.removeItem(key);
+      } catch(e){}
+      K.resetGame();
+    })
 
     // Chapter 1 start button (only in index.html)
     const startChapter1Btn = document.getElementById('startChapter1Button')

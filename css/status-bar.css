@@ -56,18 +56,23 @@
   flex-wrap:wrap;
 }
 
+
 .metric-button{
   border:1px dashed rgba(0,0,0,0.15);
   background:#fff;
-  color:#6b7280;
+  color:#1976d2;
   padding:8px 10px;
   border-radius:8px;
-  cursor:not-allowed;
+  cursor:pointer;
   font-weight:600;
+  transition:background 0.2s, color 0.2s;
 }
 
+
 .metric-button:disabled{
-  opacity:0.8;
+  opacity:0.5;
+  cursor:not-allowed;
+  color:#6b7280;
 }
 
 /* Roles area inside status bar */
