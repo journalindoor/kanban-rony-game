@@ -1,102 +1,97 @@
-/* ============================================
-   STATUS BAR
-   Day counter, metrics, and roles area
-   ============================================ */
-
-.status-bar{
-  background:#f7f7fa;
-  border:1px solid rgba(0,0,0,0.05);
-  border-radius:10px;
-  padding:10px 12px;
-  margin:0 0 12px 0;
-  display:flex;
-  gap:16px;
-  flex-wrap:wrap;
-  align-items:center;
-  justify-content:space-between;
-  box-shadow:0 1px 2px rgba(0,0,0,0.03);
-}
-
-.status-left{
-  display:flex;
-  gap:16px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-
-.status-metrics{
-  display:flex;
-  gap:12px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-
-.metric{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-  min-width:140px;
-}
-
-.metric-label{
-  font-size:12px;
-  color:#4b5563;
-  font-weight:600;
-}
-
-.metric-value{
-  font-size:20px;
-  font-weight:800;
-  color:#111;
-}
-
-.status-actions{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-
-.metric-button{
-  border:1px dashed rgba(0,0,0,0.15);
-  background:#fff;
-  color:#1976d2;
-  padding:8px 10px;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:600;
-  transition:background 0.2s, color 0.2s;
-}
-
-
-.metric-button:disabled{
-  opacity:0.5;
-  cursor:not-allowed;
-  color:#6b7280;
-}
-
-/* Roles area inside status bar */
-.roles-area{
-  display:flex;
-  gap:12px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-
-/* Responsive adjustments */
-@media (max-width:800px){
-  .status-bar{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-  
-  .status-left{
-    flex-direction:column;
-    width:100%;
-  }
-  
-  .roles-area{
-    width:100%;
-    justify-content:center;
-  }
-}
+/* ============================================
+   STATUS BAR
+   Day counter, metrics, and roles area
+   ============================================ */
+
+.status-bar{
+  background:#f7f7fa;
+  border:1px solid rgba(0,0,0,0.05);
+  border-radius:10px;
+  padding:10px 12px;
+  margin:0 0 12px 0;
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  box-shadow:0 1px 2px rgba(0,0,0,0.03);
+}
+
+.status-left{
+  display:flex;
+  gap:16px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.status-metrics{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.metric{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  min-width:140px;
+}
+
+.metric-label{
+  font-size:12px;
+  color:#4b5563;
+  font-weight:600;
+}
+
+.metric-value{
+  font-size:20px;
+  font-weight:800;
+  color:#111;
+}
+
+.status-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.metric-button{
+  border:1px dashed rgba(0,0,0,0.15);
+  background:#fff;
+  color:#6b7280;
+  padding:8px 10px;
+  border-radius:8px;
+  cursor:not-allowed;
+  font-weight:600;
+}
+
+.metric-button:disabled{
+  opacity:0.8;
+}
+
+/* Roles area inside status bar */
+.roles-area{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+/* Responsive adjustments */
+@media (max-width:800px){
+  .status-bar{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  
+  .status-left{
+    flex-direction:column;
+    width:100%;
+  }
+  
+  .roles-area{
+    width:100%;
+    justify-content:center;
+  }
+}
