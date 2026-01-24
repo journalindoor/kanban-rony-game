@@ -242,6 +242,115 @@
 		strong {
 			color: #2c3e50;
 		}
+
+		/* Manual Card Example Styles */
+		.manual-card {
+			background: white;
+			border: 2px solid #ddd;
+			border-radius: 8px;
+			width: 280px;
+			margin: 20px auto;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+			pointer-events: none;
+		}
+
+		.manual-card .card-header {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			margin-bottom: 8px;
+			padding: 8px;
+			background: #f8f9fa;
+			border-radius: 6px 6px 0 0;
+		}
+
+		.manual-card .card-title-row {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 8px;
+			border-bottom: 1px solid #eee;
+			margin-bottom: 8px;
+		}
+
+		.manual-card .card-title {
+			font-weight: 700;
+			font-size: 14px;
+			color: #111;
+			flex: 1;
+		}
+
+		.manual-card .card-id {
+			font-weight: 700;
+			font-size: 14px;
+			color: #111;
+		}
+
+		.manual-card .card-separator {
+			font-weight: 700;
+			font-size: 14px;
+			color: #111;
+		}
+
+		.manual-card .card-birthday {
+			background: rgba(255,152,0,0.08);
+			color: #ff9800;
+			padding: 2px 8px;
+			border-radius: 999px;
+			font-size: 12px;
+		}
+
+		.manual-card .card-leadtime {
+			background: rgba(76,175,80,0.08);
+			color: #4caf50;
+			padding: 2px 8px;
+			border-radius: 999px;
+			font-size: 12px;
+		}
+
+		.manual-card .card-cycletime {
+			background: rgba(156,39,176,0.08);
+			color: #9c27b0;
+			padding: 2px 8px;
+			border-radius: 999px;
+			font-size: 12px;
+		}
+
+		.manual-card .card-value {
+			display: flex;
+			justify-content: flex-end;
+			flex: 1;
+		}
+
+		.manual-card .value-amount {
+			background: rgba(76,175,80,0.15);
+			color: #2e7d32;
+			padding: 2px 8px;
+			border-radius: 4px;
+			font-weight: 700;
+			font-size: 13px;
+		}
+
+		.card-explanation {
+			background: #f8f9fa;
+			padding: 20px;
+			border-radius: 8px;
+			margin: 20px 0;
+		}
+
+		.card-explanation ul {
+			list-style: none;
+			margin: 0;
+		}
+
+		.card-explanation li {
+			margin-bottom: 15px;
+			padding-left: 10px;
+		}
+
+		.card-explanation li strong {
+			color: #2980b9;
+		}
 	</style>
 </head>
 <body>
@@ -365,6 +474,47 @@
 				<div class="tip-box">
 					<h4>💡 Como Ler os Indicadores</h4>
 					<p>Quando um card está em uma coluna, o indicador correspondente fica <strong>vermelho</strong> (ativo). Quando chega a <strong>zero</strong>, fica <strong>verde</strong> e o card automaticamente sobe para o topo da coluna - está pronto para avançar!</p>
+				</div>
+
+				<h3>Entendendo os Elementos do Card</h3>
+				<p>O card representa uma unidade de trabalho no RonyOffice. Ele possui informações visuais que ajudam a entender seu estado e seu tempo de vida no fluxo.</p>
+
+				<div class="manual-card">
+					<div class="card-header">
+						<span class="card-birthday" title="Dia em que este card foi criado.">🎂 3</span>
+						<span class="card-leadtime" title="Quantos dias este card levou desde que foi criado até ser publicado.">🏁 8</span>
+						<span class="card-cycletime" title="Tempo que este card passou sendo trabalhado.">🔄 5</span>
+						<div class="card-value">
+							<span class="value-amount">$50</span>
+						</div>
+					</div>
+					<div class="card-title-row">
+						<span class="card-id">#12</span>
+						<span class="card-separator"> - </span>
+						<span class="card-title">Implementar Login</span>
+					</div>
+				</div>
+
+				<div class="card-explanation">
+					<ul>
+						<li><strong>• ID do Card (#12)</strong><br>
+						Identifica unicamente o card no sistema.</li>
+
+						<li><strong>• 🎂 Aniversário</strong><br>
+						Dia em que o card foi criado. Nunca muda.</li>
+
+						<li><strong>• 🏁 Lead Time</strong><br>
+						Quantos dias o card levou desde que foi iniciado até ser publicado.</li>
+
+						<li><strong>• 🔄 Cycle Time</strong><br>
+						Quantos dias o card passou entre as colunas de produção (Sprint Backlog → Fazendo → Homologando → Ajustes).</li>
+
+						<li><strong>• Título</strong><br>
+						Descrição do trabalho representado pelo card.</li>
+
+						<li><strong>• Valor ($50)</strong><br>
+						Quanto dinheiro esse card gera quando publicado. O valor depende da complexidade total do card.</li>
+					</ul>
 				</div>
 
 				<h3>Backlog</h3>

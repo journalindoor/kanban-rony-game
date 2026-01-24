@@ -77,7 +77,7 @@
     return false
   }
 
-  K.createCard = function(title = 'Titulo do Card', id = null, indicatorsObj = null, paid = false){
+  K.createCard = function(title = 'Titulo do Card', id = null, indicatorsObj = null, paid = false, birthday = null, leadTime = null, cycleTime = null){
     if(id === null){
       if(typeof K.nextId === 'function') id = K.nextId()
       else {
@@ -92,27 +92,78 @@
     // Restaurar estado de pagamento
     if(paid) el.dataset.paid = 'true'
 
-    // Header with ID then Title
+    // Inicializar birthday (dia de nascimento do card)
+    if(birthday === null) {
+      birthday = typeof K.dayCount === 'number' ? K.dayCount : 0;
+    }
+    el.dataset.birthday = birthday;
+
+    // Inicializar leadTime (tempo total até entrega)
+    if(leadTime === null) {
+      leadTime = 0;
+    }
+    el.dataset.leadTime = leadTime;
+
+    // Inicializar cycleTime (tempo em produção)
+    if(cycleTime === null) {
+      cycleTime = 0;
+    }
+    el.dataset.cycleTime = cycleTime;
+
+    // Header with ID, birthday, then Title
     const header = document.createElement('div')
     header.className = 'card-header'
 
-    const titleEl = document.createElement('div')
-    titleEl.className = 'card-title'
-    titleEl.textContent = title
-
     const idEl = document.createElement('div')
     idEl.className = 'card-id'
-    idEl.textContent = id
+    idEl.textContent = `#${id}`;
+    idEl.title = 'Identificador único do card.';
 
-    header.appendChild(idEl)
-    header.appendChild(titleEl)
-    el.appendChild(header)
+    // Birthday indicator
+    const birthdayEl = document.createElement('span')
+    birthdayEl.className = 'card-birthday'
+    birthdayEl.textContent = `🎂 ${birthday}`;
+    birthdayEl.title = 'Dia em que este card foi criado.';
 
-    // Área de valor do card
+    // LeadTime indicator
+    const leadTimeEl = document.createElement('span')
+    leadTimeEl.className = 'card-leadtime'
+    leadTimeEl.textContent = `🏁 ${leadTime}`;
+    leadTimeEl.title = 'Quantos dias este card levou desde que foi criado até ser publicado.';
+
+    // CycleTime indicator
+    const cycleTimeEl = document.createElement('span')
+    cycleTimeEl.className = 'card-cycletime'
+    cycleTimeEl.textContent = `🔄 ${cycleTime}`;
+    cycleTimeEl.title = 'Tempo que este card passou sendo trabalhado.';
+
+    // Área de valor do card (movido para dentro do header)
     const cardValue = document.createElement('div')
     cardValue.className = 'card-value'
     cardValue.innerHTML = '<span class="value-amount">$0</span>'
-    el.appendChild(cardValue)
+
+    header.appendChild(birthdayEl)
+    header.appendChild(leadTimeEl)
+    header.appendChild(cycleTimeEl)
+    header.appendChild(cardValue)
+    el.appendChild(header)
+
+    // Título do card com ID ao lado (em uma linha separada)
+    const titleRow = document.createElement('div')
+    titleRow.className = 'card-title-row'
+    
+    const separator = document.createElement('span')
+    separator.className = 'card-separator'
+    separator.textContent = ' - '
+    
+    const titleEl = document.createElement('div')
+    titleEl.className = 'card-title'
+    titleEl.textContent = title
+    
+    titleRow.appendChild(idEl)
+    titleRow.appendChild(separator)
+    titleRow.appendChild(titleEl)
+    el.appendChild(titleRow)
 
     // Difficulty indicators per column (SprintBacklog is queue only, no indicator)
     const indicatorNames = ['Refinamento','Fazendo','Homologando','Ajustes']

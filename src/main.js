@@ -191,7 +191,15 @@
       if(!zone) return
       const arr = (state.columns && state.columns[name]) ? state.columns[name] : []
       arr.forEach(c=>{
-        const el = K.createCard(c.title || 'Titulo do Card', c.id, c.indicators || null, c.paid || false)
+        const el = K.createCard(
+          c.title || 'Titulo do Card',
+          c.id,
+          c.indicators || null,
+          c.paid || false,
+          typeof c.birthday === 'number' ? c.birthday : null,
+          typeof c.leadTime === 'number' ? c.leadTime : null,
+          typeof c.cycleTime === 'number' ? c.cycleTime : null
+        )
         zone.appendChild(el)
       })
     })
@@ -321,6 +329,30 @@
         // increment day counter on each turn start
         K.dayCount = (K.dayCount || 0) + 1
         if(typeof K.updateDayCounterDisplay === 'function') K.updateDayCounterDisplay()
+        
+        // Incrementa leadTime de todos os cards (exceto Publicado e Arquivados)
+        K.columnNames.forEach(colName => {
+          if(colName === 'Publicado' || colName === 'Arquivados') return;
+          const zone = document.querySelector('.cards[data-col="'+colName+'"]');
+          if(!zone) return;
+          zone.querySelectorAll('.card').forEach(cardEl => {
+            let lead = Number(cardEl.dataset.leadTime || 0);
+            cardEl.dataset.leadTime = lead + 1;
+            // Atualizar visual
+            const leadTimeEl = cardEl.querySelector('.card-leadtime');
+            if(leadTimeEl) leadTimeEl.textContent = `🏁 ${lead + 1}`;
+            
+            // Incrementa cycleTime apenas se estiver em colunas de produção
+            const prodCols = ['SprintBacklog', 'Fazendo', 'Homologando', 'Ajustes'];
+            if(prodCols.includes(colName)) {
+              let cycle = Number(cardEl.dataset.cycleTime || 0);
+              cardEl.dataset.cycleTime = cycle + 1;
+              // Atualizar visual
+              const cycleTimeEl = cardEl.querySelector('.card-cycletime');
+              if(cycleTimeEl) cycleTimeEl.textContent = `🔄 ${cycle + 1}`;
+            }
+          });
+        });
         
         // Update office status message (changes every turn)
         if(typeof K.updateOfficeStatus === 'function') K.updateOfficeStatus()

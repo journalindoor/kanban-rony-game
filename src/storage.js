@@ -42,6 +42,9 @@
           const id = parseInt(cardEl.getAttribute('data-id'),10) || null
           const title = (cardEl.querySelector('.card-title') || {}).textContent || 'Titulo do Card'
           const paid = cardEl.dataset.paid === 'true'
+          const birthday = Number(cardEl.dataset.birthday || 0)
+          const leadTime = Number(cardEl.dataset.leadTime || 0)
+          const cycleTime = Number(cardEl.dataset.cycleTime || 0)
           const indicators = {}
           cardEl.querySelectorAll('.indicator').forEach(ind=>{
             const label = (ind.querySelector('.ind-label') || {}).textContent || ''
@@ -49,7 +52,7 @@
             const value = Number.isFinite(raw) ? raw : 1
             if(label) indicators[label] = value
           })
-          state.columns[name].push({ id, title, indicators, paid })
+          state.columns[name].push({ id, title, indicators, paid, birthday, leadTime, cycleTime })
         })
       }
     })
