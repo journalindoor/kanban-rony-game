@@ -52,14 +52,16 @@ Mas <strong>vamos começar com calma.</strong></p>
     {
       title: '👀 Esse é o seu board.',
       message: `
+        <p>Está pronto para começar?</p>
+
         <p>Aqui você vê todo o fluxo do trabalho:<br>
-de onde as demandas nascem até onde elas são entregues.</p>
+        de onde as demandas nascem até onde elas são entregues.</p>
 
-<p>Os cards atravessam as colunas da esquerda para a direita.<br>
-Cada coluna representa um momento diferente do trabalho.</p>
+        <p>Os cards atravessam as colunas da esquerda para a direita.<br>
+        Cada coluna representa um momento diferente do trabalho.</p>
 
-<p>Entender esse fluxo é essencial.<br>
-<strong>Todo o jogo acontece aqui.</strong></p>
+        <p>Entender esse fluxo é essencial.<br>
+        <strong>Todo o jogo acontece aqui.</strong></p>
 
       `,
       highlight: '#board',
@@ -85,17 +87,17 @@ Cada coluna representa um momento diferente do trabalho.</p>
     {
       title: '📋 Esse é o Backlog.',
       message: `
-        
-  <p>Esse espaço aceita no máximo 5 cards.<br>
-  Mais do que isso não é produtividade,<br>
-  é só bagunça organizada.</p>
+        <p>Conseguiu visualizar o board?</p>
 
-  <p>Aqui ficam as demandas que vão puxar o fluxo.<br>
-  Nem todas vão andar ao mesmo tempo, e isso é de propósito.</p>
+        <p>Esse espaço aceita no máximo 5 cards.<br>
+        Mais do que isso não é produtividade,<br>
+        é só bagunça organizada.</p>
 
-  <p>Esse limite existe por um motivo:<br>
-  proteger o fluxo e evitar que tudo trave junto.</p>
+        <p>Aqui ficam as demandas que vão puxar o fluxo.<br>
+        Nem todas vão andar ao mesmo tempo, e isso é de propósito.</p>
 
+        <p>Esse limite existe por um motivo:<br>
+        proteger o fluxo e evitar que tudo trave junto.</p>
 
       `,
       highlight: '.column[data-col="Backlog"]',
@@ -115,25 +117,27 @@ Cada coluna representa um momento diferente do trabalho.</p>
     {
       title: '▶️ Vamos ver esses cards aparecerem',
       message: `
-        <p>Vê o botão azul <strong>▶️ Iniciar</strong> ali na esquerda, na área da videochamada?</p>
+        <p>Entendeu o que é o Backlog?</p>
 
-<p>Ele faz o jogo andar.<br>
-<strong>1 clique = 1 dia de trabalho.</strong></p>
+        <p>Vê o botão azul <span class="tutorial-decorative-button">▶️ Iniciar</span> ali na esquerda, na área da videochamada?</p>
 
-<p>Enquanto você não clicar nele,<br>
-nada acontece.<br>
-O jogo espera você se preparar.</p>
+        <p>Ele faz o jogo andar.<br>
+        <strong>1 clique = 1 dia de trabalho.</strong></p>
 
-<p class="tutorial-action">Clique agora em <strong>▶️ Iniciar</strong> para os cards entrarem no Backlog.</p>
+        <p>Enquanto você não clicar nele,<br>
+        nada acontece.<br>
+        O jogo espera você se preparar.</p>
 
-<p>Repara com atenção.<br>
-Leia os títulos.<br>
-Eles contam mais coisa do que parece.</p>
+        <p class="tutorial-action">Clique agora em <span class="tutorial-decorative-button">▶️ Iniciar</span> para os cards entrarem no Backlog.</p>
 
-<p>Mesmo com espaço sobrando,<br>
-o sistema não joga coisa no ar.</p>
+        <p>Repara com atenção.<br>
+        Leia os títulos.<br>
+        Eles contam mais coisa do que parece.</p>
 
-<p><strong>Nada aqui é coincidência.</strong></p>
+        <p>Mesmo com espaço sobrando,<br>
+        o sistema não joga coisa no ar.</p>
+
+        <p><strong>Nada aqui é coincidência.</strong></p>
 
       `,
       highlight: '#startButton',
@@ -154,12 +158,22 @@ o sistema não joga coisa no ar.</p>
     {
       title: '✅ Pronto. São esses 3.',
       message: `
-        <p><strong>"📊 Relatório urgente que ninguém pediu"</strong><br>
-        <strong>"🔥 Corrigir bug que só acontece na sexta"</strong><br>        
-        <strong>"🤡 Ajustar alinhamento do botão em produção"</strong></p>
-        <p>Eles vão ser seus companheiros até o fim do tutorial.</p>
-        <p>Agora você vai aprender a movê-los,<br>
-        alocar pessoas e fazer o trabalho acontecer.</p>
+        <p>Os cards já apareceram no Backlog?</p>
+
+        <p>Agora você tem 3 cards fixos no tutorial:</p>
+        
+        <p>• 9001 — 📊 Relatório urgente que ninguém pediu<br>
+        • 9002 — 🔥 Corrigir bug que só acontece na sexta<br>
+        • 9003 — 🤡 Ajustar alinhamento do botão em produção</p>
+        
+        <p>Durante o tutorial, vamos usar esses três cards para aprender o fluxo.</p>
+        
+        <p>Cada um vai passar pelas colunas em momentos diferentes,<br>
+        para você entender que:</p>
+        
+        <p>✔ Nem tudo começa junto<br>
+        ✔ Nem tudo termina junto<br>
+        ✔ O fluxo é mais importante que o card isolado</p>
       `,
       highlight: '.column[data-col="Backlog"]',
       ronySprite: '-200px 0', // Rony Sério
@@ -183,18 +197,18 @@ o sistema não joga coisa no ar.</p>
     {
       title: '⛔ Aqui ainda não é trabalho.',
       message: `
-        <p>No Backlog, nada anda e ninguém trabalha.</p>
+        <p>Você já viu os três cards no Backlog?</p>
 
-  <p>Esses cards ainda estão na fila.<br>
-  Enquanto eles ficam aqui,<br>
-  ninguém encosta neles.</p>
+        <p>No Backlog, ninguém trabalha ainda.</p>
 
-  <p class="tutorial-action">Comece movendo o card:<br>
-  "9001 - 📊 Relatório urgente que ninguém pediu"<br>
-  para a coluna Refinamento.</p>
+        <p>Os cards 9001, 9002 e 9003 estão apenas esperando prioridade.</p>
 
-  <p>Se quiser, você pode mover mais de um.<br>
-  Mas vamos focar nesse primeiro.</p>
+        <p>Vamos começar pelo primeiro da fila:</p>
+
+        <p class="tutorial-action">👉 Mova o card 9001 — 📊 Relatório urgente que ninguém pediu<br>
+        para a coluna Refinamento.</p>
+
+        <p>Depois você vai repetir o processo com os outros.</p>
       `,
       highlight: '.column[data-col="Backlog"]',
       ronySprite: '-100px 0', // Rony Apontando
@@ -215,19 +229,20 @@ o sistema não joga coisa no ar.</p>
     {
       title: '▶️ Agora associe um papel.',
       message: `
+        <p>Você conseguiu mover o card 9001 para o Refinamento?</p>
 
-  <p><strong>👥 Esse é o seu time.</strong><br>
-Cada pessoa tem um talento natural 🎯<br>
-Você não escolhe isso. O jogo também não.</p>
+        <p><strong>👥 Esse é o seu time.</strong><br>
+        Cada pessoa tem um talento natural 🎯<br>
+        Você não escolhe isso. O jogo também não.</p>
 
-  <p>Quando alguém trabalha alinhado com seu talento, a felicidade aumenta 😊 e isso gera bônus de eficiência ⚡.</p>
+        <p>Quando alguém trabalha alinhado com seu talento, a felicidade aumenta 😊 e isso gera bônus de eficiência ⚡.</p>
 
-  <p><strong>Seu papel: Pensar na melhor forma de colocar cada pessoa onde ela consegue trabalhar melhor.</strong></p>
+        <p><strong>Seu papel: Pensar na melhor forma de colocar cada pessoa onde ela consegue trabalhar melhor.</strong></p>
 
-  <p class="tutorial-action">Arraste um Analista e solte em cima do card "9001 - 📊 Relatório urgente que ninguém pediu" que está na coluna Refinamento.</p>
+        <p class="tutorial-action">Arraste um Analista e solte em cima do card "9001 - 📊 Relatório urgente que ninguém pediu" que está na coluna Refinamento.</p>
 
-  <p>Pessoas felizes produzem melhor.<br>
-  <strong>O jogo leva isso a sério.</strong></p>
+        <p>Pessoas felizes produzem melhor.<br>
+        <strong>O jogo leva isso a sério.</strong></p>
       `,
       highlight: '.roles-area',
       ronySprite: '-100px 0', // Rony Apontando
@@ -249,19 +264,21 @@ Você não escolhe isso. O jogo também não.</p>
     {
       title: '🎯 Agora inicie o turno',
       message: `
-        <p class="tutorial-action">Clique em Iniciar novamente para ver o trabalho acontecer no card "9001 – 📊 Relatório urgente que ninguém pediu".</p>
+        <p>Você já associou um Analista ao card 9001?</p>
 
-<p>Vê o <strong>indicador vermelho</strong> no card?<br>
-Ele mostra quanto trabalho ainda falta.</p>
+        <p class="tutorial-action">Clique em <span class="tutorial-decorative-button">▶️ Iniciar</span> novamente para ver o trabalho acontecer no card "9001 – 📊 Relatório urgente que ninguém pediu".</p>
 
-<p>Quando o turno roda,<br>
-<strong>esse indicador vai diminuir.</strong></p>
+        <p>Vê o <strong>indicador vermelho</strong> no card?<br>
+        Ele mostra quanto trabalho ainda falta.</p>
 
-<p>A eficiência da pessoa trabalhando<br>
-transforma em progresso real.<br>
-Quanto melhor a eficiência, mais o indicador diminui.</p>
+        <p>Quando o turno roda,<br>
+        <strong>esse indicador vai diminuir.</strong></p>
 
-<p><strong>Observe os resultados.</strong></p>
+        <p>A eficiência da pessoa trabalhando<br>
+        transforma em progresso real.<br>
+        Quanto melhor a eficiência, mais o indicador diminui.</p>
+
+        <p><strong>Observe os resultados.</strong></p>
 
       `,
       highlight: '#startButton',
@@ -291,13 +308,19 @@ Quanto melhor a eficiência, mais o indicador diminui.</p>
     {
       title: '🔴 Sobre os indicadores',
       message: `
-        <p><strong>Regra importante:</strong><br>
-        Só pode mover o card quando o indicador chegar a zero.</p>
+        <p>Você rodou o turno e viu o indicador diminuir?</p>
 
-        <p>Trabalho incompleto não avança.<br>
-        Essa é a base do fluxo Kanban.</p>
+        <p>Agora vamos trabalhar apenas no card 9001.</p>
 
-        <p class="tutorial-action">Continue rodando turnos até o indicador do card 9001 chegar a zero. Quando zerar, avance-o para Sprint Backlog.</p>
+        <p>Repare que os outros cards (9002 e 9003)<br>
+        continuam parados no Backlog.</p>
+
+        <p>Isso é proposital:</p>
+
+        <p>✔ Um card avança<br>
+        ✔ Os outros esperam</p>
+
+        <p>Assim você enxerga o fluxo acontecendo.</p>
       `,
       highlight: '.card[data-card-id="9001"]',
       ronySprite: '-100px 0', // Rony Apontando
@@ -326,19 +349,18 @@ Quanto melhor a eficiência, mais o indicador diminui.</p>
     {
       title: '➡️ Avançando no fluxo',
       message: `
-        <p>O indicador chegou a zero.<br>
-        O trabalho do Refinamento está pronto.</p>
+        <p>O indicador do card 9001 já zerou?</p>
 
-        <p>Moveu o card <strong>9001</strong> para <strong>Sprint Backlog</strong>?</p>
+        <p>Se sim, você pode movê-lo para Sprint Backlog e depois para Fazendo.</p>
 
-        <p><strong>Sprint Backlog é outra fila.</strong><br>
-        Serve para organizar o que vai ser feito.<br>
-        Não precisa de papel aqui.</p>
+        <p>Os cards 9002 e 9003 continuam aguardando no Backlog.</p>
 
-        <p class="tutorial-action">Mova direto para Fazendo depois.<br>
-        Lá sim, você vai precisar associar um papel.</p>
+        <p>Isso mostra uma regra importante:</p>
 
-        <p><strong>O fluxo não tem atalhos.</strong></p>
+        <p>👉 O sistema não move tudo junto<br>
+        👉 O fluxo é construído card por card</p>
+
+        <p>Continue seguindo com o 9001 por enquanto.</p>
       `,
       highlight: '.card[data-card-id="9001"]',
       ronySprite: '-100px 0', // Rony Apontando
@@ -360,7 +382,7 @@ Quanto melhor a eficiência, mais o indicador diminui.</p>
     {
       title: '💻 Hora de desenvolver',
       message: `
-        <p>Agora o card <strong>9001</strong> está em <strong>Fazendo</strong>.</p>
+        <p>O card 9001 chegou na coluna Fazendo?</p>
 
         <p>Aqui o trabalho acontece de verdade.</p>
 
@@ -398,7 +420,7 @@ Quanto melhor a eficiência, mais o indicador diminui.</p>
     {
       title: '🧪 Hora de testar',
       message: `
-        <p>O card <strong>9001</strong> está em <strong>Homologação</strong>.</p>
+        <p>O card 9001 foi movido para Homologação?</p>
 
         <p>Aqui é onde bugs são descobertos.<br>
         QAs testam tudo antes de publicar.</p>
@@ -430,19 +452,21 @@ Quanto melhor a eficiência, mais o indicador diminui.</p>
     {
       title: '👀 O que aconteceu?',
       message: `
-        <p>A Homologação terminou.<br>
-        O jogo calculou se bugs foram encontrados.</p>
+        <p>A Homologação do card 9001 terminou?</p>
 
-        <p><strong>Se o card recebeu pontos em Ajustes:</strong><br>
-        O QA encontrou bugs antes da publicação.<br>
-        Associe um Programador, corrija e avance para Publicado.</p>
+        <p>Se o card recebeu pontos em Ajustes, corrija antes de publicar.<br>
+        Se não, pode mover direto para Publicado.</p>
 
-        <p><strong>Se não tem indicador de Ajustes:</strong><br>
-        Nenhum bug foi encontrado!<br>
-        Pode mover direto para Publicado.</p>
+        <p>Agora você já viu um ciclo completo:</p>
 
-        <p>QA eficiente evita Retrabalho.<br>
-        <strong>Qualidade custa menos que pressa.</strong></p>
+        <p>Backlog → Refinamento → Fazendo → Homologação → Ajustes/Publicado</p>
+
+        <p>Em breve, você fará o mesmo com:</p>
+
+        <p>• 9002<br>
+        • 9003</p>
+
+        <p>Mas cada um terá seu próprio ritmo.</p>
       `,
       highlight: '.card[data-card-id="9001"]',
       ronySprite: '-100px 0', // Rony Apontando
@@ -471,7 +495,7 @@ Quanto melhor a eficiência, mais o indicador diminui.</p>
     {
       title: '🚀 Quase lá!',
       message: `
-        <p>O card <strong>9001</strong> está pronto para ser publicado.</p>
+        <p>O card 9001 já está pronto (sem indicadores vermelhos)?</p>
 
         <p class="tutorial-action">Mova o card para a coluna <strong>Publicado</strong>.</p>
 
@@ -503,9 +527,9 @@ Quanto melhor a eficiência, mais o indicador diminui.</p>
     {
       title: '💰 Hora de entregar',
       message: `
-        <p>O card está em <strong>Publicado</strong>.</p>
+        <p>O card 9001 já está na coluna Publicado?</p>
 
-        <p class="tutorial-action">Clique em <strong>▶️ Iniciar</strong> para publicar o card.</p>
+        <p class="tutorial-action">Clique em <span class="tutorial-decorative-button">▶️ Iniciar</span> para publicar o card.</p>
 
         <p>Quando você rodar o turno:<br>
         • O card será <strong>arquivado</strong><br>
@@ -536,22 +560,25 @@ Quanto melhor a eficiência, mais o indicador diminui.</p>
     {
       title: '✅ Parabéns!',
       message: `
-        <p>Você completou o tutorial! 🎉</p>
+        <p>O card 9001 foi publicado e você recebeu a renda?</p>
 
-        <p>Agora você sabe:<br>
-        • Como o fluxo Kanban funciona<br>
-        • Como alocar pessoas nos cards<br>
-        • Como indicadores guiam o progresso<br>
-        • Como qualidade evita retrabalho<br>
-        • Como entrega gera renda</p>
+        <p>Você concluiu o tutorial usando três cards reais:</p>
 
-        <p><strong>O jogo começa agora.</strong></p>
+        <p>• 9001<br>
+        • 9002<br>
+        • 9003</p>
 
-        <p>Cada decisão tem consequência.<br>
-        Cada pessoa importa.<br>
-        Cada entrega conta.</p>
+        <p>Eles continuam no jogo.</p>
 
-        <p>Boa sorte! 🚀</p>
+        <p>Agora você pode:</p>
+
+        <p>✔ Decidir a ordem<br>
+        ✔ Alocar pessoas<br>
+        ✔ Controlar o fluxo<br>
+        ✔ Entregar no seu ritmo</p>
+
+        <p>O tutorial acaba,<br>
+        mas o sistema continua funcionando.</p>
       `,
       highlight: null,
       ronySprite: '0 -120px', // Rony Sorrindo

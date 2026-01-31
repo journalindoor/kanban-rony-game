@@ -97,11 +97,11 @@
   // WIP (Work In Progress) Counter System
   K.WIP_LIMITS = {
     'Backlog': 5,
-    'Refinamento': 3,
-    'SprintBacklog': 3,
-    'Fazendo': 3,
-    'Homologando': 3,
-    'Ajustes': 3,
+    'Refinamento': 5,
+    'SprintBacklog': 5,
+    'Fazendo': 5,
+    'Homologando': 5,
+    'Ajustes': Infinity,
     'Publicado': Infinity,
     'Arquivados': Infinity
   }

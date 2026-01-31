@@ -35,10 +35,11 @@
 
     /**
      * Verifica se ação está permitida (filtro centralizado)
+     * ATUALIZADO: Tutorial não-bloqueante - sempre permite ações
      */
     isActionAllowed: function(action) {
-      if (!this.tutorialActive) return true; // Tutorial inativo = tudo permitido
-      return this.allowedActions[action] === true;
+      // Tutorial agora é apenas informativo, nunca bloqueia
+      return true;
     },
 
     /**

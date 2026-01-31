@@ -58,28 +58,19 @@
       // Hook no evento do botão (não existe window.startTurn)
       document.addEventListener('click', function(e) {
         if (e.target && e.target.id === 'startButton') {
-          console.log('[Tutorial] startButton clicado, permitido?', K.TutorialState.isActionAllowed('startTurn'));
-          if (!K.TutorialState.isActionAllowed('startTurn')) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-            return false;
-          }
-          // Permite a execução
-          console.log('[Tutorial] Executando callback startTurn');
+          console.log('[Tutorial] startButton clicado');
+          // Tutorial não-bloqueante: sempre permite a ação
           setTimeout(() => {
             K.TutorialState.executeCallback('startTurn');
           }, 100);
         }
-      }, true); // Capture phase para interceptar antes do handler do jogo
+      }, true); // Capture phase
     },
 
     hookResetGame: function() {
       const original = window.resetGame;
       window.resetGame = function() {
-        if (!K.TutorialState.isActionAllowed('resetGame')) {
-          return;
-        }
+        // Tutorial não-bloqueante: sempre permite
         original.call(this);
         K.TutorialState.executeCallback('resetGame');
       };
@@ -88,27 +79,18 @@
     hookToggleArchived: function() {
       const original = window.toggleArchived;
       window.toggleArchived = function() {
-        if (!K.TutorialState.isActionAllowed('toggleArchived')) {
-          return;
-        }
+        // Tutorial não-bloqueante: sempre permite
         original.call(this);
         K.TutorialState.executeCallback('toggleArchived');
       };
     },
 
     hookDragCard: function() {
-      let dragStartAllowed = false;
-      
+      // Tutorial não-bloqueante: não bloqueia dragstart
       document.addEventListener('dragstart', function(e) {
         if (e.target.classList.contains('card')) {
-          console.log('[Tutorial] dragCard dragstart, permitido?', K.TutorialState.isActionAllowed('dragCard'));
-          dragStartAllowed = K.TutorialState.isActionAllowed('dragCard');
-          if (!dragStartAllowed) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-            return false;
-          }
+          console.log('[Tutorial] dragCard dragstart');
+          // Sempre permite
         }
       }, true); // Capture phase
       
@@ -149,14 +131,11 @@
     },
 
     hookDragRole: function() {
+      // Tutorial não-bloqueante: não bloqueia dragstart
       document.addEventListener('dragstart', function(e) {
         if (e.target.classList.contains('role-item')) {
-          if (!K.TutorialState.isActionAllowed('dragRole')) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-            return false;
-          }
+          console.log('[Tutorial] dragRole dragstart');
+          // Sempre permite
         }
       }, true);
       
@@ -187,15 +166,11 @@
     },
 
     hookMoveCardButton: function() {
+      // Tutorial não-bloqueante: não intercepta cliques
       document.addEventListener('click', function(e) {
         if (e.target.classList.contains('move-card-button')) {
-          console.log('[Tutorial] moveCardButton clicado, permitido?', K.TutorialState.isActionAllowed('moveCardButton'));
-          if (!K.TutorialState.isActionAllowed('moveCardButton')) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-            return false;
-          }
+          console.log('[Tutorial] moveCardButton clicado');
+          // Sempre permite
           // Note: Callback execution for dragCard is now handled by movementRules.js
           // after the card is successfully moved
         }
@@ -203,13 +178,11 @@
     },
 
     hookRemoveRole: function() {
+      // Tutorial não-bloqueante: não intercepta cliques
       document.addEventListener('click', function(e) {
         if (e.target.classList.contains('remove-role-button')) {
-          if (!K.TutorialState.isActionAllowed('removeRole')) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-          }
+          console.log('[Tutorial] removeRole clicado');
+          // Sempre permite
           setTimeout(() => {
             K.TutorialState.executeCallback('removeRole');
           }, 100);
@@ -239,8 +212,8 @@
         if (prevStep.onExit) prevStep.onExit();
       }
 
-      // Configura permissões
-      state.blockAllActions();
+      // Tutorial não-bloqueante: NÃO bloqueia ações
+      // As permissões são ignoradas, mas mantidas para compatibilidade
       if (step.allowedActions) {
         state.allowActions(step.allowedActions);
       }
@@ -248,10 +221,11 @@
       // UI
       K.TutorialUI.setMessage(step.title, step.message);
       K.TutorialUI.updateStepCounter(state.currentStep, state.totalSteps);
+      // Botão Próximo sempre habilitado no tutorial não-bloqueante
       K.TutorialUI.updateNavigationButtons(
         state.currentStep === 0,
         state.currentStep === state.totalSteps - 1,
-        !!step.waitFor // Desabilita Próximo se passo requer ação específica
+        false // Nunca desabilita botão Próximo
       );
 
       // Position
@@ -279,17 +253,12 @@
       // Mostra
       K.TutorialUI.show();
 
-      // WaitFor
+      // WaitFor: Apenas registra callback mas NÃO bloqueia
       if (step.waitFor) {
-        console.log('[Tutorial] Registrando callback para:', step.waitFor);
+        console.log('[Tutorial] Registrando callback para:', step.waitFor, '(não-bloqueante)');
         state.registerCallback(step.waitFor, () => {
           console.log('[Tutorial] Callback executado para:', step.waitFor);
-          // Reabilita botão Próximo em vez de avançar automaticamente
-          // Pequeno delay para garantir que a ação foi processada
-          setTimeout(() => {
-            console.log('[Tutorial] Reabilitando botão Próximo');
-            K.TutorialUI.enableNextButton();
-          }, 100);
+          // Não faz nada - botão já está habilitado
         });
       }
     },
