@@ -1,0 +1,159 @@
+/* ============================================
+   🕷️ RonyOffice PUNK
+   Página de placeholder - Em desenvolvimento
+   ============================================ */
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Courier New', monospace;
+	background: #000;
+	color: #fff;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+}
+
+#punk-container {
+	width: 100%;
+	max-width: 500px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.punk-header {
+	text-align: center;
+	padding: 20px;
+}
+
+.punk-title {
+	font-size: 2rem;
+	color: #fff;
+	margin-bottom: 10px;
+}
+
+.punk-back-link {
+	display: inline-block;
+	padding: 8px 16px;
+	color: #00ff00;
+	text-decoration: none;
+	border: 1px solid #00ff00;
+	margin-top: 20px;
+}
+
+.punk-back-link:hover {
+	background: rgba(0, 255, 0, 0.1);
+}
+
+/* Game Area */
+.game-area {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+}
+
+/* HUD (fora da arena) */
+.hud {
+	display: flex;
+	justify-content: center;
+	gap: 40px;
+	padding: 15px 20px;
+	background: rgba(0, 255, 0, 0.1);
+	border: 2px solid #00ff00;
+	margin-bottom: 10px;
+}
+
+.hud-item {
+	display: flex;
+	align-items: baseline;
+	gap: 8px;
+	font-family: 'Courier New', monospace;
+}
+
+.hud-label {
+	color: #00ff00;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.hud-value {
+	color: #fff;
+	font-size: 24px;
+	font-weight: bold;
+	letter-spacing: 2px;
+}
+
+.hud-unit {
+	color: #00ff00;
+	font-size: 16px;
+}
+
+#gameCanvas {
+	border: 2px solid #00ff00;
+	background: #000;
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+.start-button {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 20px 40px;
+	font-size: 1.5rem;
+	font-family: 'Courier New', monospace;
+	font-weight: bold;
+	color: #fff;
+	background: #0088ff;
+	border: 3px solid #00aaff;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.start-button:hover {
+	background: #00aaff;
+	transform: translate(-50%, -50%) scale(1.1);
+	box-shadow: 0 0 20px rgba(0, 136, 255, 0.5);
+}
+
+.start-button:active {
+	transform: translate(-50%, -50%) scale(0.95);
+}
+
+.restart-button {
+	position: absolute;
+	top: 60%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 15px 35px;
+	font-size: 1.2rem;
+	font-family: 'Courier New', monospace;
+	font-weight: bold;
+	color: #fff;
+	background: #00cc00;
+	border: 3px solid #00ff00;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.restart-button:hover {
+	background: #00ff00;
+	transform: translate(-50%, -50%) scale(1.1);
+	box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+}
+
+.restart-button:active {
+	transform: translate(-50%, -50%) scale(0.95);
+}
+

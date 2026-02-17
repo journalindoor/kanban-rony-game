@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>🕷️ RonyOffice PUNK - Runner</title>
+	
+	<link rel="stylesheet" href="punk/punk-style.css">
+</head>
+<body>
+	<div id="punk-container">
+		<div class="punk-header">
+			<h1 class="punk-title">🏃 RUNNER</h1>
+			<a href="index.html" class="punk-back-link">← Voltar</a>
+		</div>
+
+		<!-- HUD fora da arena -->
+		<div class="hud">
+			<div class="hud-item">
+				<span class="hud-label">Distância:</span>
+				<span id="distanceDisplay" class="hud-value">00000</span>
+				<span class="hud-unit">m</span>
+			</div>
+			<div class="hud-item">
+				<span class="hud-label">Recorde:</span>
+				<span id="recordDisplay" class="hud-value">00000</span>
+				<span class="hud-unit">m</span>
+			</div>
+		</div>
+
+		<div class="game-area">
+			<canvas id="gameCanvas" width="800" height="400"></canvas>
+			<button id="startButton" class="start-button">Começar</button>
+			<button id="restartButton" class="restart-button" style="display: none;">Reiniciar</button>
+		</div>
+	</div>
+
+	<script src="punk/punk-game.js"></script>
+</body>
+</html>
