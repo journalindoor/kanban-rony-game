@@ -10,9 +10,8 @@ Thumbs.db
 
 # Pasta de imagens
 imagens/
-
-# CSS legado (não utilizado)
-css/styles.css
+punk/assets/corre-rony.piskel
+punk/assets/corre-rony-spritesheet-old.png
 
 # Arquivos de backup (versões antigas não utilizadas)
 *.backup
