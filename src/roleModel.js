@@ -262,14 +262,27 @@
     function renderRole(role, el){
       if(!el) return
       
+      // Verificar se o personagem está desbloqueado
+      const characterId = K.roleToCharacterMap ? K.roleToCharacterMap[role.name] : null
+      const isUnlocked = characterId ? (K.unlockedCharacters && K.unlockedCharacters[characterId]) : true
+      
       // Salvar atributo draggable antes de limpar
       const wasDraggable = el.getAttribute('draggable');
       
       el.innerHTML = ''
       
-      // Restaurar draggable
-      if (wasDraggable) {
-        el.setAttribute('draggable', 'true');
+      // Aplicar classe de bloqueio se necessário
+      if (!isUnlocked) {
+        el.classList.add('role-locked')
+        el.setAttribute('draggable', 'false')
+        el.title = 'Personagem bloqueado'
+      } else {
+        el.classList.remove('role-locked')
+        // Restaurar draggable
+        if (wasDraggable) {
+          el.setAttribute('draggable', 'true');
+        }
+        el.title = ''
       }
       
       // Inicializar atributos data-* para controle CSS

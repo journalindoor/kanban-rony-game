@@ -242,6 +242,115 @@
 		strong {
 			color: #2c3e50;
 		}
+
+		/* Manual Card Example Styles */
+		.manual-card {
+			background: white;
+			border: 2px solid #ddd;
+			border-radius: 8px;
+			width: 280px;
+			margin: 20px auto;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+			pointer-events: none;
+		}
+
+		.manual-card .card-header {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			margin-bottom: 8px;
+			padding: 8px;
+			background: #f8f9fa;
+			border-radius: 6px 6px 0 0;
+		}
+
+		.manual-card .card-title-row {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 8px;
+			border-bottom: 1px solid #eee;
+			margin-bottom: 8px;
+		}
+
+		.manual-card .card-title {
+			font-weight: 700;
+			font-size: 14px;
+			color: #111;
+			flex: 1;
+		}
+
+		.manual-card .card-id {
+			font-weight: 700;
+			font-size: 14px;
+			color: #111;
+		}
+
+		.manual-card .card-separator {
+			font-weight: 700;
+			font-size: 14px;
+			color: #111;
+		}
+
+		.manual-card .card-birthday {
+			background: rgba(255,152,0,0.08);
+			color: #ff9800;
+			padding: 2px 8px;
+			border-radius: 999px;
+			font-size: 12px;
+		}
+
+		.manual-card .card-leadtime {
+			background: rgba(76,175,80,0.08);
+			color: #4caf50;
+			padding: 2px 8px;
+			border-radius: 999px;
+			font-size: 12px;
+		}
+
+		.manual-card .card-cycletime {
+			background: rgba(156,39,176,0.08);
+			color: #9c27b0;
+			padding: 2px 8px;
+			border-radius: 999px;
+			font-size: 12px;
+		}
+
+		.manual-card .card-value {
+			display: flex;
+			justify-content: flex-end;
+			flex: 1;
+		}
+
+		.manual-card .value-amount {
+			background: rgba(76,175,80,0.15);
+			color: #2e7d32;
+			padding: 2px 8px;
+			border-radius: 4px;
+			font-weight: 700;
+			font-size: 13px;
+		}
+
+		.card-explanation {
+			background: #f8f9fa;
+			padding: 20px;
+			border-radius: 8px;
+			margin: 20px 0;
+		}
+
+		.card-explanation ul {
+			list-style: none;
+			margin: 0;
+		}
+
+		.card-explanation li {
+			margin-bottom: 15px;
+			padding-left: 10px;
+		}
+
+		.card-explanation li strong {
+			color: #2980b9;
+		}
 	</style>
 </head>
 <body>
@@ -249,7 +358,7 @@
 		<!-- Header -->
 		<div class="manual-header">
 			<h1>📖 Manual do Jogador</h1>
-			<p>Guia completo para dominar o RonyOffice</p>
+			<p>Guia completo para dominar o RonyOffice - Versão 1.0</p>
 		</div>
 
 		<!-- Navigation -->
@@ -264,6 +373,10 @@
 				<a href="#eficiencia" class="nav-link">⚡ Sistema de Eficiência</a>
 				<a href="#felicidade" class="nav-link">😊 Felicidade & Estratégia</a>
 				<a href="#dinheiro" class="nav-link">💰 Sistema Monetário</a>
+				<a href="#desbloqueio" class="nav-link">🔓 Sistema de Desbloqueio</a>
+				<a href="#escritorio" class="nav-link">🏢 Painel de Escritório</a>
+				<a href="#ajuda" class="nav-link">❓ Sistema de Ajuda</a>
+				<a href="#controles" class="nav-link">🎮 Controles & Persistência</a>
 			</div>
 		</div>
 
@@ -279,16 +392,25 @@
 					<p>O segredo do sucesso está em <strong>colocar a pessoa certa no lugar certo</strong>. Cada personagem tem suas especialidades e trabalha melhor em colunas específicas!</p>
 				</div>
 
-				<h3>Como Vencer</h3>
+				<h3>Modos de Jogo</h3>
 				<ul>
-					<li><strong>Modo Livre:</strong> Acumule dinheiro, pratique estratégias e domine as mecânicas</li>
-					<li><strong>Capítulos:</strong> Complete as metas específicas de cada capítulo
+					<li><strong>Tutorial:</strong> Aprenda os conceitos básicos através de um guia passo-a-passo interativo</li>
+					<li><strong>Modo Livre:</strong> Pratique sem restrições, experimente estratégias e domine as mecânicas</li>
+					<li><strong>Capítulos:</strong> Complete desafios progressivos com metas específicas
 						<ul>
-							<li>Capítulo 1: Acumule <strong>$500</strong></li>
-							<li>Capítulos 2-5: A serem desbloqueados!</li>
+							<li><strong>Capítulo 1 - "Sobreviva à Sprint":</strong> Acumule <strong>$500</strong></li>
+							<li>Capítulos 2-5: A serem desbloqueados conforme você progride!</li>
 						</ul>
 					</li>
 				</ul>
+
+				<h3>Sistema de Cards</h3>
+				<p>Os cards que aparecem no seu backlog vêm de duas fontes:</p>
+				<ul>
+					<li><strong>Cards Pré-definidos:</strong> No tutorial e capítulos, os primeiros cards são especialmente criados para o desafio (até 3 por turno)</li>
+					<li><strong>Cards Aleatórios:</strong> Gerados automaticamente com dificuldades variadas para completar o backlog</li>
+				</ul>
+				<p>Cada card pré-definido só aparece <strong>uma vez</strong> durante todo o capítulo!</p>
 			</section>
 
 			<!-- Chapter 2: Personagens -->
@@ -329,8 +451,8 @@
 				<h3>Estatísticas dos Personagens</h3>
 				<p>Cada personagem exibe 3 valores importantes:</p>
 				<ul>
-					<li><strong>⚡ Eficiência:</strong> Poder de trabalho atual (Talento + Felicidade)</li>
-					<li><strong>😊 Felicidade:</strong> Varia de acordo com a coluna onde está trabalhando</li>
+					<li><strong>⚡ Eficiência:</strong> Poder de trabalho atual (Talento + Felicidade, máximo 6)</li>
+					<li><strong>😊 Felicidade:</strong> Muda automaticamente conforme a coluna onde está trabalhando</li>
 					<li><strong>🎯 Talento:</strong> Valor fixo e aleatório (1 a 3) sorteado no início do jogo</li>
 				</ul>
 			</section>
@@ -346,21 +468,68 @@
 					<li><strong>Refinamento:</strong> Entender e especificar o que fazer</li>
 					<li><strong>Fazendo:</strong> Desenvolver a solução</li>
 					<li><strong>Homologando:</strong> Testar e validar</li>
-					<li><strong>Ajustes:</strong> Corrigir bugs encontrados (pode ser 0)</li>
+					<li><strong>Ajustes:</strong> Corrigir bugs encontrados (sempre começa em 0)</li>
 				</ul>
 
 				<div class="tip-box">
 					<h4>💡 Como Ler os Indicadores</h4>
-					<p>Quando um card está em uma coluna, o indicador correspondente fica <strong>vermelho</strong>. Quando chega a <strong>zero</strong>, fica <strong>verde</strong> - o card está pronto para avançar!</p>
+					<p>Quando um card está em uma coluna, o indicador correspondente fica <strong>vermelho</strong> (ativo). Quando chega a <strong>zero</strong>, fica <strong>verde</strong> e o card automaticamente sobe para o topo da coluna - está pronto para avançar!</p>
+				</div>
+
+				<h3>Entendendo os Elementos do Card</h3>
+				<p>O card representa uma unidade de trabalho no RonyOffice. Ele possui informações visuais que ajudam a entender seu estado e seu tempo de vida no fluxo.</p>
+
+				<div class="manual-card">
+					<div class="card-header">
+						<span class="card-birthday" title="Dia em que este card foi criado.">🎂 3</span>
+						<span class="card-leadtime" title="Quantos dias este card levou desde que foi criado até ser publicado.">🏁 8</span>
+						<span class="card-cycletime" title="Tempo que este card passou sendo trabalhado.">🔄 5</span>
+						<div class="card-value">
+							<span class="value-amount">$50</span>
+						</div>
+					</div>
+					<div class="card-title-row">
+						<span class="card-id">#12</span>
+						<span class="card-separator"> - </span>
+						<span class="card-title">Implementar Login</span>
+					</div>
+				</div>
+
+				<div class="card-explanation">
+					<ul>
+						<li><strong>• ID do Card (#12)</strong><br>
+						Identifica unicamente o card no sistema.</li>
+
+						<li><strong>• 🎂 Aniversário</strong><br>
+						Dia em que o card foi criado. Nunca muda.</li>
+
+						<li><strong>• 🏁 Lead Time</strong><br>
+						Quantos dias o card levou desde que foi iniciado até ser publicado.</li>
+
+						<li><strong>• 🔄 Cycle Time</strong><br>
+						Quantos dias o card passou entre as colunas de produção (Sprint Backlog → Fazendo → Homologando → Ajustes).</li>
+
+						<li><strong>• Título</strong><br>
+						Descrição do trabalho representado pelo card.</li>
+
+						<li><strong>• Valor ($50)</strong><br>
+						Quanto dinheiro esse card gera quando publicado. O valor depende da complexidade total do card.</li>
+					</ul>
 				</div>
 
 				<h3>Backlog</h3>
 				<p>O <strong>Backlog</strong> é onde novos cards aparecem. Ele mantém sempre <strong>no máximo 5 cards</strong>.</p>
 				<ul>
-					<li>Novos cards aparecem automaticamente quando há espaço</li>
+					<li>Novos cards aparecem automaticamente quando há espaço (ao clicar em "Iniciar Turno")</li>
+					<li>Se já houver 5 cards, nenhum novo card é criado</li>
 					<li>Arraste cards do Backlog para o Refinamento para começar a trabalhar neles</li>
-					<li>Cards não podem ter personagens associados enquanto estão no Backlog</li>
+					<li>Cards no Backlog <strong>não podem ter personagens associados</strong></li>
 				</ul>
+				
+				<div class="tip-box">
+					<h4>💡 Geração de Cards</h4>
+					<p>No Tutorial e Capítulos, o jogo prioriza cards pré-definidos (até 3 por turno). O restante é preenchido com cards aleatórios até completar 5 no backlog.</p>
+				</div>
 
 				<h3>Movimentando Cards</h3>
 				<p>Você pode mover cards de duas formas:</p>
@@ -431,21 +600,25 @@
 				<p>A coluna <strong>Ajustes</strong> é especial:</p>
 				<ul>
 					<li>O indicador de Ajustes sempre começa em <strong>zero</strong></li>
-					<li>Apenas recebe valor se bugs forem encontrados em <strong>Homologando</strong></li>
+					<li>Quando um card termina a Homologação, há <strong>50% de chance</strong> de bugs serem encontrados</li>
+					<li>Se houver bugs, o indicador recebe um valor aleatório que precisa ser corrigido</li>
 					<li>Se não houver bugs, o card pode <strong>pular</strong> esta coluna direto para Publicado</li>
 				</ul>
 
 				<div class="tip-box">
-					<h4>💡 Evitando Retrabalho</h4>
-					<p>QAs mais eficientes encontram menos bugs! Mantenha seu QA feliz em Homologando para reduzir a chance de Ajustes.</p>
+					<h4>💡 Sorte no Jogo</h4>
+					<p>É como jogar uma moeda! Metade dos cards precisarão de ajustes, metade não. Torça para ter sorte e pular essa etapa!</p>
 				</div>
 
 				<h3>Coluna Especial: Arquivados</h3>
-				<p>Cards concluídos vão para <strong>Arquivados</strong>:</p>
+				<p>Cards concluídos vão automaticamente para <strong>Arquivados</strong> ao final de cada turno:</p>
 				<ul>
-					<li>A coluna fica <strong>colapsada</strong> (minimizada) por padrão</li>
-					<li>Clique no título "Arquivados" para expandir e ver os cards concluídos</li>
-					<li>Cards arquivados não podem mais ser movidos</li>
+					<li>A coluna fica <strong>colapsada</strong> (minimizada) por padrão para economizar espaço</li>
+					<li><strong>Clique no título "Arquivados"</strong> para expandir e ver os cards concluídos</li>
+					<li>Quando colapsada: largura de 40px com título vertical (de baixo para cima)</li>
+					<li>Quando expandida: largura normal mostrando todos os cards arquivados</li>
+					<li>Cards arquivados não podem mais ser movidos ou editados</li>
+					<li>É a única coluna clicável do board!</li>
 				</ul>
 			</section>
 
@@ -458,24 +631,30 @@
 				<ol>
 					<li><strong>Associe personagens aos cards:</strong>
 						<ul>
-							<li>Arraste um personagem da área de status (topo) para dentro de um card</li>
+							<li>Arraste um personagem da área de status (topo direito) para dentro de um card</li>
 							<li>Ou arraste de um card para outro</li>
 							<li>Cada personagem só pode trabalhar em 1 card por vez</li>
+							<li>Cada card só pode ter 1 personagem associado por vez</li>
+							<li>Personagens NÃO podem ser associados a cards no Backlog</li>
 						</ul>
 					</li>
 					<li><strong>Clique em "Iniciar Turno":</strong>
 						<ul>
 							<li>O contador de dias aumenta em 1</li>
-							<li>Cada personagem trabalha e reduz o indicador do card</li>
-							<li>Novos cards podem aparecer no Backlog</li>
-							<li>Cards em "Publicado" são arquivados automaticamente</li>
+							<li>Cada personagem trabalha e reduz o indicador <strong>da coluna atual</strong> do card</li>
+							<li>Se um indicador chega a 0, o card sobe automaticamente para o topo da coluna</li>
+							<li>Se o card está em Homologando, o sistema decide se há bugs (gera valor de Ajustes)</li>
+							<li>Personagens que terminaram o trabalho (indicador = 0) são liberados automaticamente</li>
+							<li>Novos cards podem aparecer no Backlog (máximo 5)</li>
+							<li>Cards em "Publicado" são arquivados automaticamente e você recebe o pagamento!</li>
 						</ul>
 					</li>
 					<li><strong>Verifique os resultados:</strong>
 						<ul>
-							<li>Indicadores chegaram a zero? <span class="emoji">✅</span></li>
-							<li>Cards prontos? Mova-os para a próxima coluna!</li>
+							<li>Indicadores chegaram a zero? <span class="emoji">✅</span> (ficam verdes)</li>
+							<li>Cards prontos? Mova-os para a próxima coluna usando o botão "Próxima Coluna"!</li>
 							<li>Personagens liberados? Associe-os a novos cards!</li>
+							<li>Dinheiro aumentou? Veja quanto ganhou com os cards arquivados!</li>
 						</ul>
 					</li>
 					<li><strong>Repita!</strong> Organize sua equipe e inicie o próximo turno</li>
@@ -489,10 +668,20 @@
 				<h3>Liberação Automática de Personagens</h3>
 				<p>Personagens são <strong>automaticamente liberados</strong> do card quando:</p>
 				<ul>
-					<li>O indicador da coluna onde estão chega a <strong>zero</strong></li>
-					<li>O card é <strong>arquivado</strong></li>
+					<li>O <strong>indicador da coluna atual</strong> chega a <strong>zero</strong> (não outros indicadores, apenas o da coluna onde o card está)</li>
+					<li>O card é <strong>arquivado</strong> (para evitar perder personagens)</li>
 				</ul>
 				<p>Você também pode <strong>remover manualmente</strong> um personagem clicando no <strong>×</strong> ao lado do nome dele no card.</p>
+				
+				<div class="warning-box">
+					<h4>⚠️ Atenção: Liberação é pela Coluna Atual</h4>
+					<p>Um personagem só é liberado quando o indicador <strong>correspondente à coluna onde o card está</strong> chega a zero. Por exemplo:</p>
+					<ul>
+						<li>Card em "Fazendo" com indicador "Fazendo" = 5: personagem continua trabalhando</li>
+						<li>Card em "Fazendo" com indicador "Fazendo" = 0: personagem é liberado automaticamente!</li>
+					</ul>
+					<p>Isso garante que o personagem seja liberado quando termina sua parte do trabalho.</p>
+				</div>
 			</section>
 
 			<!-- Chapter 6: Eficiência -->
@@ -596,13 +785,12 @@
 				</div>
 
 				<h3>Sistema de Bugs (Ajustes)</h3>
-				<p>A felicidade do QA impacta diretamente a chance de bugs:</p>
+				<p>Quando um personagem termina de testar um card em <strong>Homologando</strong>, há <strong>50% de chance</strong> de encontrar bugs:</p>
 				<ul>
-					<li><strong>QA Feliz</strong> (Eficiência 5-6): Apenas <strong>5% de chance</strong> de encontrar bugs</li>
-					<li><strong>QA Contente</strong> (Eficiência 3-4): <strong>25% de chance</strong> de encontrar bugs</li>
-					<li><strong>QA Insatisfeito</strong> (Eficiência 1-2): <strong>50% de chance</strong> de encontrar bugs</li>
+					<li><strong>Se encontrar bugs:</strong> O indicador "Ajustes" recebe um valor aleatório que precisa ser corrigido</li>
+					<li><strong>Se não encontrar bugs:</strong> Ajustes permanece 0 e o card pode ir direto para Publicado!</li>
 				</ul>
-				<p>Menos bugs = menos tempo em Ajustes = mais dinheiro mais rápido!</p>
+				<p>É questão de sorte - às vezes você pula a coluna de Ajustes, às vezes precisa corrigir bugs!</p>
 			</section>
 
 			<!-- Chapter 8: Dinheiro -->
@@ -656,6 +844,7 @@
 					<li>O pagamento só acontece no <strong>arquivamento automático</strong></li>
 					<li>Mover cards manualmente não gera pagamento</li>
 					<li>O dinheiro é salvo automaticamente</li>
+					<li>Uma animação suave mostra o dinheiro aumentando no contador</li>
 				</ul>
 
 				<div class="warning-box">
@@ -664,12 +853,170 @@
 				</div>
 			</section>
 
+			<!-- Chapter 9: Sistema de Desbloqueio -->
+			<section id="desbloqueio" class="chapter">
+				<h2><span class="chapter-icon">🔓</span>Sistema de Desbloqueio</h2>
+				<p>No início do jogo, você não tem acesso a todos os personagens!</p>
+
+				<h3>Personagens Iniciais</h3>
+				<p>Você começa com apenas <strong>3 personagens desbloqueados</strong>:</p>
+				<ul>
+					<li>🔵 <strong>Analista 1</strong></li>
+					<li>🟢 <strong>Programador 1</strong></li>
+					<li>🟡 <strong>QA/Tester 1</strong></li>
+				</ul>
+
+				<h3>Personagens Bloqueados</h3>
+				<p>Os outros 6 personagens aparecem como <strong>"offline"</strong> no painel de escritório:</p>
+				<ul>
+					<li>Analista 2 e 3</li>
+					<li>Programador 2 e 3</li>
+					<li>QA/Tester 2 e 3</li>
+				</ul>
+
+				<div class="tip-box">
+					<h4>💡 Como Desbloquear</h4>
+					<p>Novos personagens serão desbloqueados conforme você progride nos capítulos! Cada capítulo pode desbloquear novos membros para sua equipe.</p>
+				</div>
+
+				<h3>Efeito Visual de Login</h3>
+				<p>Quando você inicia o jogo, os personagens "logam" sequencialmente no escritório:</p>
+				<ul>
+					<li>Intervalo de 500ms entre cada entrada</li>
+					<li>Personagens bloqueados permanecem offline</li>
+					<li>Efeito puramente cosmético e divertido!</li>
+				</ul>
+			</section>
+
+			<!-- Chapter 10: Painel de Escritório -->
+			<section id="escritorio" class="chapter">
+				<h2><span class="chapter-icon">🏢</span>Painel de Escritório</h2>
+				<p>O painel de escritório à esquerda simula uma videochamada com sua equipe!</p>
+
+				<h3>Grid de Videochamada</h3>
+				<p>Layout 3×3 organizado por tipo de profissional:</p>
+				<ul>
+					<li><strong>Linha 1:</strong> Analista 1, Analista 2, Analista 3</li>
+					<li><strong>Linha 2:</strong> Programador 1, Programador 2, Programador 3</li>
+					<li><strong>Linha 3:</strong> QA/Tester 1, QA/Tester 2, QA/Tester 3</li>
+				</ul>
+
+				<h3>Status dos Personagens</h3>
+				<p>Cada personagem possui dois estados visuais:</p>
+				<ul>
+					<li><strong>Idle (Ocioso):</strong> Personagem está disponível, não associado a nenhum card</li>
+					<li><strong>Working (Trabalhando):</strong> Personagem está trabalhando em um card</li>
+				</ul>
+				<p>O sprite animado (GIF) muda automaticamente quando você associa ou remove um personagem de um card!</p>
+
+				<h3>Variedade Visual</h3>
+				<p>Cada personagem tem seu próprio computador, criando variedade visual no escritório!</p>
+
+				<h3>Informações Exibidas</h3>
+				<p>Cada tile de vídeo mostra:</p>
+				<ul>
+					<li><strong>Nome:</strong> Nome do personagem (Rony, Ana, etc.)</li>
+					<li><strong>Cargo:</strong> Função específica (Analista 1, Programador 2, QA/Tester 3)</li>
+				</ul>
+
+				<div class="tip-box">
+					<h4>💡 Dica Visual</h4>
+					<p>Quando você associa um personagem a um card, ele muda automaticamente para o estado de trabalho no escritório!</p>
+				</div>
+			</section>
+
+			<!-- Chapter 11: Sistema de Ajuda -->
+			<section id="ajuda" class="chapter">
+				<h2><span class="chapter-icon">❓</span>Sistema de Ajuda Contextual</h2>
+				<p>Cada coluna do board possui informações detalhadas disponíveis a qualquer momento!</p>
+
+				<h3>Ícone de Informação</h3>
+				<p>Ao lado do título de cada coluna, há um <strong>ícone ⓘ</strong>:</p>
+				<ul>
+					<li>Clique nele para abrir um modal informativo</li>
+					<li>Efeito hover com brilho azul</li>
+					<li>Disponível em todas as 8 colunas</li>
+				</ul>
+
+				<h3>Conteúdo dos Modais</h3>
+				<p>Cada modal contém:</p>
+				<ul>
+					<li><strong>O que é:</strong> Explicação da função da coluna no fluxo Kanban</li>
+					<li><strong>Como funciona:</strong> Mecânica específica do jogo</li>
+					<li><strong>Bônus de Felicidade:</strong> Qual personagem trabalha melhor nesta coluna</li>
+					<li><strong>Dica Estratégica:</strong> Sugestão de melhor uso</li>
+				</ul>
+
+				<h3>Como Usar</h3>
+				<p>Para fechar o modal:</p>
+				<ul>
+					<li>Clique no botão <strong>×</strong> no canto superior direito</li>
+					<li>Clique fora do conteúdo do modal (backdrop)</li>
+				</ul>
+
+				<div class="tip-box">
+					<h4>💡 Aprenda Jogando</h4>
+					<p>Use o sistema de ajuda sempre que tiver dúvidas sobre uma coluna! As informações estão sempre disponíveis sem pausar o jogo.</p>
+				</div>
+			</section>
+
+			<!-- Chapter 12: Controles e Persistência -->
+			<section id="controles" class="chapter">
+				<h2><span class="chapter-icon">🎮</span>Controles e Persistência</h2>
+				<p>O jogo oferece controles intuitivos e salva seu progresso automaticamente!</p>
+
+				<h3>Botões de Controle</h3>
+				<p>Na parte superior do painel de escritório, você encontra:</p>
+				<ul>
+					<li><strong>Iniciar Turno:</strong> Executa um dia de trabalho (personagens trabalham, cards são arquivados, backlog é preenchido)</li>
+					<li><strong>Reiniciar:</strong> Reseta completamente o jogo (apaga todo o progresso e sorteia novos talentos)</li>
+					<li><strong>Tutorial:</strong> Abre o tutorial interativo (disponível em todas as páginas)</li>
+					<li><strong>Manual:</strong> Abre este manual completo (você está aqui!)</li>
+				</ul>
+
+				<h3>Navegação Entre Modos</h3>
+				<ul>
+					<li><strong>Home:</strong> Volta para a tela inicial com seleção de modos</li>
+					<li><strong>Capítulo X:</strong> Avança para o próximo capítulo (só funciona quando a meta é atingida)</li>
+				</ul>
+
+				<h3>Salvamento Automático</h3>
+				<p>O jogo salva seu progresso automaticamente:</p>
+				<ul>
+					<li>Após cada turno</li>
+					<li>Ao associar/desassociar personagens</li>
+					<li>Ao mover cards entre colunas</li>
+				</ul>
+
+				<h3>O que é Salvo</h3>
+				<ul>
+					<li>📋 Todos os cards e seu progresso</li>
+					<li>👥 Personagens associados aos cards</li>
+					<li>💰 Dinheiro acumulado</li>
+					<li>📅 Contador de dias</li>
+					<li>🎯 Talentos dos personagens</li>
+					<li>🔓 Personagens desbloqueados</li>
+				</ul>
+
+				<h3>Modos Independentes</h3>
+				<p>Cada modo de jogo salva seu progresso separadamente. Você pode jogar Tutorial, Modo Livre e Capítulos sem um afetar o outro!</p>
+
+				<div class="warning-box">
+					<h4>⚠️ Atenção ao Reiniciar</h4>
+					<p>O botão <strong>"Reiniciar"</strong> apaga completamente o progresso do modo atual! Use com cuidado se quiser começar do zero.</p>
+				</div>
+			</section>
+
 		</div>
 
 		<!-- Footer -->
 		<div class="manual-footer">
 			<p><strong>RonyOffice</strong> - Office Simulator & Kanban Game</p>
+			<p>Versão 1.0.0 | Janeiro 2025</p>
 			<p>Agora que você conhece as regras, é hora de dominar o escritório! 🚀</p>
+			<p style="margin-top: 15px; opacity: 0.8;">
+				<em>Dica: Use o botão "Manual" em qualquer tela do jogo para consultar este guia!</em>
+			</p>
 		</div>
 
 		<!-- Back to Top Button -->

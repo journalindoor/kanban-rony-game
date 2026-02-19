@@ -98,6 +98,24 @@
   color: #2c3e50;
 }
 
+/* Botão decorativo dentro do texto do tutorial */
+.tutorial-decorative-button {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  vertical-align: middle;
+  margin: 0 4px;
+  cursor: default;
+  pointer-events: none;
+  user-select: none;
+}
+
 #tutorialMessageText {
   font-size: 14px;
   line-height: 1.6;

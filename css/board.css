@@ -138,29 +138,83 @@
   display:flex;
   justify-content:space-between;
   align-items:center;
+  gap:6px;
+  margin-bottom:8px;
+}
+
+.card-title-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px;
+  border-bottom:1px solid #eee;
+  margin-bottom:8px;
 }
 
 .card-title{
   font-weight:700;
   font-size:14px;
   color:#111;
+  flex:1;
 }
 
 .card-id{
-  background:rgba(43,138,239,0.08);
-  color:var(--accent);
+  font-weight:700;
+  font-size:14px;
+  color:#111;
+}
+
+.card-separator{
+  font-weight:700;
+  font-size:14px;
+  color:#111;
+}
+
+.card-birthday{
+  background:rgba(255,152,0,0.08);
+  color:#ff9800;
   padding:2px 8px;
   border-radius:999px;
   font-size:12px;
+}
+
+.card-leadtime{
+  background:rgba(76,175,80,0.08);
+  color:#4caf50;
+  padding:2px 8px;
+  border-radius:999px;
+  font-size:12px;
+}
+
+.card-cycletime{
+  background:rgba(156,39,176,0.08);
+  color:#9c27b0;
+  padding:2px 8px;
+  border-radius:999px;
+  font-size:12px;
+}
+
+/* Interactive cursor for informational elements */
+.card-id,
+.card-birthday,
+.card-leadtime,
+.card-cycletime{
+  cursor:help;
+}
+
+.card-id:hover,
+.card-birthday:hover,
+.card-leadtime:hover,
+.card-cycletime:hover{
+  opacity:0.8;
 }
 
 /* Card value area */
 .card-value{
   display:flex;
   justify-content:flex-end;
-  padding:6px 0;
-  border-bottom:1px solid #eee;
-  margin-bottom:8px;
+  align-items:center;
+  margin-left:auto;
 }
 
 .value-amount{

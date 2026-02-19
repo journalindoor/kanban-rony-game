@@ -26,7 +26,14 @@
 
   K.saveState = function(){
     const board = document.getElementById('board')
-    const state = { idCounter: (K._idCounter||1), columns: {}, dayCount: K.dayCount || 0, money: K.money || 0, chapter1GoalAchieved: K.chapter1GoalAchieved || false }
+    const state = { 
+      idCounter: (K._idCounter||1), 
+      columns: {}, 
+      dayCount: K.dayCount || 0, 
+      money: K.money || 0, 
+      chapter1GoalAchieved: K.chapter1GoalAchieved || false,
+      unlocksTriggered: K.unlocksTriggered || []
+    }
     K.columnNames.forEach(name=>{
       const zone = board.querySelector('.cards[data-col="'+name+'"]')
       state.columns[name] = []
@@ -35,6 +42,9 @@
           const id = parseInt(cardEl.getAttribute('data-id'),10) || null
           const title = (cardEl.querySelector('.card-title') || {}).textContent || 'Titulo do Card'
           const paid = cardEl.dataset.paid === 'true'
+          const birthday = Number(cardEl.dataset.birthday || 0)
+          const leadTime = Number(cardEl.dataset.leadTime || 0)
+          const cycleTime = Number(cardEl.dataset.cycleTime || 0)
           const indicators = {}
           cardEl.querySelectorAll('.indicator').forEach(ind=>{
             const label = (ind.querySelector('.ind-label') || {}).textContent || ''
@@ -42,7 +52,7 @@
             const value = Number.isFinite(raw) ? raw : 1
             if(label) indicators[label] = value
           })
-          state.columns[name].push({ id, title, indicators, paid })
+          state.columns[name].push({ id, title, indicators, paid, birthday, leadTime, cycleTime })
         })
       }
     })
@@ -71,6 +81,7 @@
       if(Number.isFinite(parsed.dayCount)) K.dayCount = parsed.dayCount
       if(Number.isFinite(parsed.money)) K.money = parsed.money
       K.chapter1GoalAchieved = parsed.chapter1GoalAchieved || false
+      K.unlocksTriggered = parsed.unlocksTriggered || []
       // if column difficulties saved, restore into K but enforce minimum 2
       if(parsed.columnDifficulties){
         K.columnDifficulties = K.columnDifficulties || {}

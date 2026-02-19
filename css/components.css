@@ -26,6 +26,18 @@
   transform:scale(1.03);
 }
 
+/* Role bloqueado */
+.role.role-locked{
+  opacity:0.3;
+  cursor:not-allowed;
+  filter:grayscale(1);
+  pointer-events:none;
+}
+
+.role.role-locked:hover{
+  transform:none;
+}
+
 /* Role colors by type */
 .role[data-role^="Analista"]{
   background:#2563eb;

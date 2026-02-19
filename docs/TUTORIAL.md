@@ -5,9 +5,38 @@
 
 ## Objetivo
 
-O tutorial ensina os fundamentos do jogo através de uma experiência guiada usando **3 cards específicos** que o jogador deve manipular diretamente.
+O tutorial ensina os fundamentos do jogo através de uma experiência guiada usando **3 cards específicos** que o jogador pode manipular livremente.
 
-**Filosofia:** O tutorial não ensina conceitos abstratos. Ele ensina mexendo em coisas reais.
+**Filosofia:** O tutorial não ensina conceitos abstratos. Ele ensina mexendo em coisas reais. **O tutorial nunca impede o jogador de jogar - é apenas um guia educativo.**
+
+---
+
+## Nova Arquitetura: Tutorial Não-Bloqueante
+
+### Mudança de Paradigma (Janeiro 2026)
+
+**ANTES:** Tutorial bloqueante
+- ❌ Travava botões
+- ❌ Bloqueava colunas
+- ❌ Impedia movimentação de cards
+- ❌ Forçava sequência obrigatória
+
+**AGORA:** Tutorial informativo
+- ✅ Apenas orienta e sugere
+- ✅ Jogador pode ignorar instruções
+- ✅ Todos os botões sempre funcionam
+- ✅ Cards podem ser movidos livremente
+- ✅ Dias podem ser avançados sem restrições
+
+### Princípio Fundamental
+
+> **O tutorial mostra, mas não manda.**
+> 
+> O jogador pode:
+> - Fechar os modais
+> - Ignorar as instruções
+> - Fazer ações diferentes das sugeridas
+> - Continuar jogando normalmente
 
 ---
 
@@ -125,27 +154,33 @@ O tutorial é dividido em **3 blocos** com foco progressivo:
 
 ### Tipos de Avanço
 
-1. **Manual**: Jogador clica em "Próximo"
-2. **Automático**: Jogador completa ação esperada (`waitFor`)
+1. **Manual (Primário)**: Jogador clica em "Próximo" ou "Fechar"
+2. **Tracking (Secundário)**: Sistema detecta ações para logs, mas não bloqueia
 
-### Eventos de Espera
+### Eventos de Espera (Apenas Informativos)
 
-Os passos podem definir `waitFor` para aguardar ações específicas:
+Os passos podem definir `waitFor` para **tracking** de ações sugeridas:
 
-- `startTurn`: Clicar no botão "Iniciar Turno"
-- `dragCard`: Mover um card entre colunas
-- `dragRole`: Associar um papel a um card
-- `moveCardButton`: Usar botão "Próxima coluna"
+- `startTurn`: Detecta clique no botão "Iniciar Turno"
+- `dragCard`: Detecta movimento de card entre colunas
+- `dragRole`: Detecta associação de papel a card
+- `moveCardButton`: Detecta uso do botão "Próxima coluna"
 
-### Controle de Ações
+⚠️ **IMPORTANTE:** Estes eventos **NÃO bloqueiam** o jogo. São apenas para logs e estatísticas.
 
-Cada passo define `allowedActions` - array de ações permitidas naquele momento:
+### Sistema de Permissões (Desabilitado)
+
+O sistema de `allowedActions` está **mantido por compatibilidade** mas **não bloqueia** mais nada:
 
 ```javascript
 allowedActions: ['startTurn', 'dragCard', 'dragRole']
 ```
 
-Ações não listadas são **bloqueadas temporariamente** pelo tutorial.
+- ✅ Todas as ações são sempre permitidas
+- ✅ Arrays de permissões ignorados
+- ✅ `isActionAllowed()` sempre retorna `true`
+
+**Razão:** Tutorial não-bloqueante - jogador tem controle total.
 
 ---
 
@@ -184,22 +219,35 @@ Ações não listadas são **bloqueadas temporariamente** pelo tutorial.
 
 ## Regras de Controle (Antibugs)
 
-### Filtro de Cards
+### Sistema de Tracking (Não-Bloqueante)
 
-O tutorial **só avança** quando ações envolvem:
-- Cards com ID 9001, 9002 ou 9003
+O tutorial **detecta** ações para tracking, mas **nunca bloqueia**:
+- Cards com ID 9001, 9002 ou 9003 são rastreados
+- Outras ações são igualmente permitidas
+- Sistema apenas registra eventos para logs
 
-Ações em outros cards:
-- ❌ Não avançam o tutorial
-- ✅ Não quebram o jogo
-- ⚠️ São ignoradas pelo sistema de tutorial
+### Comportamento das Ações
+
+✅ **Todas as ações sempre permitidas:**
+- Mover qualquer card
+- Associar qualquer papel
+- Avançar dias
+- Resetar jogo
+- Publicar cards
+- Arquivar cards
+
+⚠️ **Tracking opcional:**
+- Sistema registra eventos dos cards 9001-9003
+- Não interfere com o fluxo do jogo
+- Usado apenas para estatísticas
 
 ### Isolamento do Sistema
 
-⚠️ **Regra de Ouro:**
+⚠️ **Regra de Ouro (Mantida):**
 - Não criar `if (card.id >= 9000)` espalhado no código base do jogo
-- Todo filtro deve ficar **dentro do sistema de tutorial**
+- Todo tracking deve ficar **dentro do sistema de tutorial**
 - O jogo base não sabe que o tutorial existe
+- **NOVO:** Tutorial não interfere com o jogo base
 
 ---
 
@@ -207,19 +255,28 @@ Ações em outros cards:
 
 ### O Que NÃO Alterar
 
+❌ Textos dos modais (mantém pedagogia)
 ❌ Ordem dos passos
-❌ Quantidade de passos
-❌ Eventos (`waitFor`)
 ❌ Estrutura dos objetos de passo
 ❌ Regras do jogo base
 ❌ Modo livre ou capítulos
 
 ### O Que PODE Alterar
 
-✅ Textos (`title` e `message`)
+✅ Sistema de bloqueio (agora desabilitado)
+✅ Lógica de `isActionAllowed` (sempre true)
+✅ Comportamento dos hooks (apenas tracking)
 ✅ Cards do tutorial (títulos, indicadores)
 ✅ Sprites do Rony (`ronySprite`, `ronyFlip`)
 ✅ Elementos destacados (`highlight`)
+
+### Filosofia de Implementação
+
+**Princípio:** Tutorial como camada educativa, não como camada de controle
+
+- Tutorial **orienta** → não **controla**
+- Tutorial **sugere** → não **obriga**  
+- Tutorial **ensina** → não **trava**
 
 ---
 
