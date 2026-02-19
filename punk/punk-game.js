@@ -508,21 +508,59 @@ function checkCollisions() {
 	const playerBottom = State.playerY + hitbox.offsetY + hitbox.height;
 	
 	for (let obj of State.objects) {
-		const objLeft = obj.x;
-		const objRight = obj.x + obj.width;
-		const objTop = obj.y;
-		const objBottom = obj.y + obj.height;
-		
-		// Detecção AABB
-		if (
-			playerRight > objLeft &&
-			playerLeft < objRight &&
-			playerBottom > objTop &&
-			playerTop < objBottom
-		) {
-			// Colisão detectada
-			gameOver();
-			return;
+		if (obj.type === 'buraco') {
+			// Para buraco: cone tem colisão, buraco tem colisão
+			
+			// 1. Verificar colisão com o cone (triângulo)
+			const coneLeft = obj.x;
+			const coneRight = obj.x + obj.coneWidth;
+			const coneTop = obj.coneY;
+			const coneBottom = obj.coneY + obj.coneHeight;
+			
+			if (
+				playerRight > coneLeft &&
+				playerLeft < coneRight &&
+				playerBottom > coneTop &&
+				playerTop < coneBottom
+			) {
+				gameOver();
+				return;
+			}
+			
+			// 2. Verificar colisão com o buraco
+			const holeLeft = obj.x + obj.coneWidth;
+			const holeRight = obj.x + obj.coneWidth + obj.holeWidth;
+			const holeTop = obj.holeY;
+			const holeBottom = obj.holeY + obj.holeHeight;
+			
+			// Detecção AABB no buraco
+			if (
+				playerRight > holeLeft &&
+				playerLeft < holeRight &&
+				playerBottom > holeTop &&
+				playerTop < holeBottom
+			) {
+				gameOver();
+				return;
+			}
+		} else {
+			// Obstáculos normais
+			const objLeft = obj.x;
+			const objRight = obj.x + obj.width;
+			const objTop = obj.y;
+			const objBottom = obj.y + obj.height;
+			
+			// Detecção AABB
+			if (
+				playerRight > objLeft &&
+				playerLeft < objRight &&
+				playerBottom > objTop &&
+				playerTop < objBottom
+			) {
+				// Colisão detectada
+				gameOver();
+				return;
+			}
 		}
 	}
 }
@@ -573,36 +611,65 @@ function spawnObject() {
 	const obstacleTypes = [
 		// Tipo 1: Quadrado vermelho padrão
 		{
+			type: 'normal',
 			width: Config.objectSize,
 			height: Config.objectSize
 		},
 		// Tipo 2: Retângulo horizontal (largura 2x)
 		{
+			type: 'normal',
 			width: Config.objectSize * 2,
 			height: Config.objectSize
 		},
 		// Tipo 3: Retângulo vertical (altura 1.5x)
 		{
+			type: 'normal',
 			width: Config.objectSize,
 			height: Config.objectSize * 1.5
 		},
 		// Tipo 4: Quadradão (largura 2x, altura 1.5x)
 		{
+			type: 'normal',
 			width: Config.objectSize * 2,
 			height: Config.objectSize * 1.5
+		},
+		// Tipo 5: Buraco na pista com cone
+		{
+			type: 'buraco',
+			coneWidth: Config.objectSize / 2,
+			coneHeight: Config.objectSize,
+			holeWidth: Config.objectSize * 3,
+			holeHeight: Config.asphaltHeight, // altura completa do asfalto
+			width: Config.objectSize / 2 + Config.objectSize * 3, // cone + buraco
+			height: Config.asphaltHeight
 		}
 	];
 	
 	// Escolher tipo aleatório
-	const type = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
+	const obstacleType = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
 	
-	State.objects.push({
+	const obstacle = {
 		x: Config.width,
-		y: Config.groundY + Config.playerSize - type.height, // Alinhar base ao chão
-		width: type.width,
-		height: type.height,
-		color: Config.objectColor
-	});
+		y: Config.groundY + Config.playerSize - obstacleType.height,
+		width: obstacleType.width,
+		height: obstacleType.height,
+		color: Config.objectColor,
+		type: obstacleType.type || 'normal'
+	};
+	
+	// Se for buraco, adicionar propriedades extras
+	if (obstacleType.type === 'buraco') {
+		obstacle.coneWidth = obstacleType.coneWidth;
+		obstacle.coneHeight = obstacleType.coneHeight;
+		obstacle.holeWidth = obstacleType.holeWidth;
+		obstacle.holeHeight = obstacleType.holeHeight;
+		// Y do buraco: começa 2px acima do asfalto para garantir detecção de colisão
+		obstacle.holeY = Config.asphaltY + Config.playerSize - 2;
+		// Y do cone: alinhado ao chão como os quadrados vermelhos
+		obstacle.coneY = Config.groundY + Config.playerSize - obstacle.coneHeight;
+	}
+	
+	State.objects.push(obstacle);
 }
 
 // Inicializar prédios
@@ -725,6 +792,28 @@ function drawBuilding(ctx, building) {
 	}
 }
 
+// Desenhar cone de trânsito (triângulo)
+function drawCone(ctx, x, y, width, height) {
+	ctx.fillStyle = '#F97316'; // Laranja
+	ctx.beginPath();
+	ctx.moveTo(x + width / 2, y); // Topo do triângulo
+	ctx.lineTo(x, y + height); // Base esquerda
+	ctx.lineTo(x + width, y + height); // Base direita
+	ctx.closePath();
+	ctx.fill();
+}
+
+// Desenhar buraco com gradiente vertical
+function drawHole(ctx, x, y, width, height) {
+	// Criar gradiente vertical (azul céu → azul escuro)
+	const gradient = ctx.createLinearGradient(x, y, x, y + height);
+	gradient.addColorStop(0, '#5DADE2'); // Topo: mesma cor do céu
+	gradient.addColorStop(1, '#1B4F72'); // Base: azul escuro
+	
+	ctx.fillStyle = gradient;
+	ctx.fillRect(x, y, width, height);
+}
+
 // Renderizar
 function render() {
 	const ctx = Config.ctx;
@@ -774,19 +863,18 @@ function render() {
 			frameX = 64;
 			frameY = 64;
 		}
-		
-		// Desenhar frame específico do spritesheet
-		ctx.drawImage(
-			Config.playerImage,
-			frameX, frameY, // posição do recorte no spritesheet (sourceX, sourceY)
-			Config.spriteFrameWidth, Config.spriteFrameHeight, // tamanho do recorte
-			Config.playerX, State.playerY, // posição de destino no canvas
-			Config.playerSize, Config.playerSize // tamanho de destino
-		);
+	
+	// Desenhar frame específico do spritesheet
+	ctx.drawImage(
+		Config.playerImage,
+		frameX, frameY,
+		Config.spriteFrameWidth, Config.spriteFrameHeight,
+		Config.playerX, State.playerY,
+		Config.playerSize, Config.playerSize
+	);
 	} else {
 		// Fallback: desenhar retângulo se imagem não carregar
-		ctx.fillStyle = Config.playerColor;
-		ctx.fillRect(
+		ctx.fillStyle = Config.playerColor;		ctx.fillRect(
 			Config.playerX,
 			State.playerY,
 			Config.playerSize,
@@ -812,8 +900,16 @@ function render() {
 	
 	// Desenhar objetos
 	for (let obj of State.objects) {
-		ctx.fillStyle = obj.color;
-		ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+		if (obj.type === 'buraco') {
+			// Desenhar cone à esquerda (no nível do chão)
+			drawCone(ctx, obj.x, obj.coneY, obj.coneWidth, obj.coneHeight);
+			// Desenhar buraco à direita do cone (topo alinhado com base do triângulo)
+			drawHole(ctx, obj.x + obj.coneWidth, obj.holeY, obj.holeWidth, obj.holeHeight);
+		} else {
+			// Obstáculos normais
+			ctx.fillStyle = obj.color;
+			ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+		}
 	}
 	
 	// Desenhar HUD dentro do canvas com estilo futurista
