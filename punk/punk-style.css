@@ -77,6 +77,23 @@ body {
 	pointer-events: none;
 }
 
+/* Subtítulo do jogo */
+.game-subtitle {
+	position: absolute;
+	top: 70px;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 16px;
+	font-weight: normal;
+	color: #FFFFFF;
+	font-family: 'Courier New', monospace;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+	z-index: 10;
+	pointer-events: none;
+	text-align: center;
+	max-width: 90%;
+}
+
 /* HUD (fora da arena) */
 .hud {
 	display: flex;
@@ -312,6 +329,11 @@ body {
 		font-size: 24px;
 		top: 20px;
 	}
+	
+	.game-subtitle {
+		font-size: 14px;
+		top: 50px;
+	}
 }
 
 @media (max-width: 768px) {
@@ -323,6 +345,11 @@ body {
 	.game-title {
 		font-size: 20px;
 		top: 15px;
+	}
+	
+	.game-subtitle {
+		font-size: 12px;
+		top: 42px;
 	}
 	
 	.start-button {

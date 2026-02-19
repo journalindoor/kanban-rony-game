@@ -20,22 +20,22 @@ const Config = {
 	// Hitbox real do personagem por estado (área útil do sprite)
 	hitboxes: {
 		correndo: {
-			offsetX: 14, // 14px vazios à esquerda
-			offsetY: 0,
-			width: 44,   // de X=14 até X=57
-			height: 64   // de Y=0 até Y=63
+			offsetX: 19, // 14 + 5px
+			offsetY: 5,  // 0 + 5px
+			width: 34,   // 44 - 10px (5px de cada lado)
+			height: 54   // 64 - 10px (5px de cada lado)
 		},
 		pulando: {
-			offsetX: 15, // 15px vazios à esquerda
-			offsetY: 0,
-			width: 48,   // de X=15 até X=62
-			height: 55   // de Y=0 até Y=54
+			offsetX: 20, // 15 + 5px
+			offsetY: 5,  // 0 + 5px
+			width: 38,   // 48 - 10px (5px de cada lado)
+			height: 45   // 55 - 10px (5px de cada lado)
 		},
 		pendurado: {
-			offsetX: 3,  // 3px vazios à esquerda
-			offsetY: 6,  // 6px vazios no topo
-			width: 44,   // de X=3 até X=46
-			height: 52   // de Y=6 até Y=57
+			offsetX: 8,  // 3 + 5px
+			offsetY: 11, // 6 + 5px
+			width: 34,   // 44 - 10px (5px de cada lado)
+			height: 42   // 52 - 10px (5px de cada lado)
 		}
 	},
 	
@@ -140,12 +140,14 @@ function init() {
 		document.getElementById('rotateModal').style.display = 'flex';
 		document.getElementById('startButton').style.display = 'none';
 		document.getElementById('gameTitle').style.display = 'none';
+		document.getElementById('gameSubtitle').style.display = 'none';
 		
 		// Configurar botão de confirmação de rotação
 		document.getElementById('confirmRotateButton').addEventListener('click', () => {
 			document.getElementById('rotateModal').style.display = 'none';
 			document.getElementById('startButton').style.display = 'block';
 			document.getElementById('gameTitle').style.display = 'block';
+			document.getElementById('gameSubtitle').style.display = 'block';
 			
 			// Solicitar fullscreen
 			requestFullscreen();
@@ -276,6 +278,10 @@ function startGame() {
 	// Esconder botão e título
 	document.getElementById('startButton').style.display = 'none';
 	document.getElementById('gameTitle').style.display = 'none';
+	document.getElementById('gameSubtitle').style.display = 'none';
+	
+	// Mostrar botão de pulo
+	document.getElementById('jumpButton').style.display = 'block';
 	
 	// Inicializar prédios
 	initBuildings();
@@ -531,6 +537,9 @@ function gameOver() {
 	
 	// Mostrar botões de game over
 	document.getElementById('gameOverButtons').style.display = 'flex';
+	
+	// Esconder botão de pulo
+	document.getElementById('jumpButton').style.display = 'none';
 	
 	// Mostrar botão voltar
 	document.getElementById('backButton').style.display = 'block';
@@ -861,11 +870,16 @@ function render() {
 		ctx.fillStyle = '#FFFFFF';
 		ctx.font = 'bold 32px Courier New';
 		ctx.textAlign = 'center';
-		ctx.fillText('RONY RUNNER', Config.width / 2, Config.height / 2 - 60);
+		ctx.fillText('RONY RUNNER', Config.width / 2, Config.height / 2 - 100);
 		
+		// Mensagem de derrota
 		ctx.fillStyle = '#ff0000';
-		ctx.font = 'bold 48px Courier New';
-		ctx.fillText('Game Over', Config.width / 2, Config.height / 2);
+		ctx.font = 'bold 36px Courier New';
+		ctx.fillText('BATEU!', Config.width / 2, Config.height / 2 - 40);
+		
+		ctx.fillStyle = '#FFFFFF';
+		ctx.font = '20px Courier New';
+		ctx.fillText('Ainda bem que o Rony tem plano de saúde...', Config.width / 2, Config.height / 2);
 		ctx.textAlign = 'left';
 	}
 }
