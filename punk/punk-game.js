@@ -11,10 +11,17 @@ const Config = {
 	height: 400,
 	
 	// Personagem
-	playerSize: 30,
+	playerSize: 60,
 	playerColor: '#0088ff',
 	playerX: 150, // posição fixa na tela (meio-esquerda)
-	groundY: 300, // altura do chão
+	groundY: 280, // altura do chão (ajustado para personagem maior)
+	playerImage: null, // spritesheet do personagem
+	
+	// Animação do spritesheet
+	spriteFrameWidth: 64,
+	spriteFrameHeight: 64,
+	spriteTotalFrames: 6, // 384px / 64px = 6 frames
+	spriteFrameInterval: 100, // ms entre frames
 	
 	// Física
 	gravity: 0.6,
@@ -41,14 +48,20 @@ const State = {
 	
 	// Estado do personagem
 	playerState: 'noChao', // noChao, pulando, balancando
-	playerY: 300,
+	playerY: 280,
 	velocityY: 0,
 	gameOver: false,
+	buttonPressed: false, // rastreia se botão está pressionado
 	
 	// Teia/Pêndulo
 	webbedToPoint: null, // {x, y} ponto fixo no teto onde a teia está presa
 	webStartX: 0, // posição X inicial do ponto da teia
 	fixedPlayerY: 0, // Y congelado do personagem durante teia
+	webUsesRemaining: 2, // número de teias disponíveis no ar
+	
+	// Animação de peso corporal
+	webOffsetY: 0, // deslocamento visual durante teia
+	webOffsetDirection: 'down', // direção do movimento
 	
 	// Sistema de distância
 	distance: 0, // em metros
@@ -56,12 +69,32 @@ const State = {
 	lastTime: 0, // timestamp do último frame
 	timeAccumulator: 0, // acumulador para incrementar distância
 	victory: false, // vitória aos 99999m
+	
+	// Animação de spritesheet
+	currentFrame: 0, // frame atual (0-3)
+	lastFrameTime: 0, // timestamp da última troca de frame
 };
 
 // Inicializar
 function init() {
 	Config.canvas = document.getElementById('gameCanvas');
 	Config.ctx = Config.canvas.getContext('2d');
+	
+	// Carregar imagem do personagem
+	Config.playerImage = new Image();
+	
+	// Event listener para quando a imagem carregar com sucesso
+	Config.playerImage.onload = function() {
+		console.log('✅ Spritesheet do personagem carregado com sucesso!');
+	};
+	
+	// Event listener para caso a imagem falhe ao carregar
+	Config.playerImage.onerror = function() {
+		console.error('❌ Erro ao carregar spritesheet do personagem. Usando fallback.');
+		Config.playerImage = null; // Forçar uso do fallback
+	};
+	
+	Config.playerImage.src = 'punk/assets/corre-rony-spritesheet.png';
 	
 	// Botão começar
 	const startButton = document.getElementById('startButton');
@@ -71,33 +104,39 @@ function init() {
 	const restartButton = document.getElementById('restartButton');
 	restartButton.addEventListener('click', restartGame);
 	
-	// Event listeners para pulo
-	document.addEventListener('keydown', handleKeyPress);
-	document.addEventListener('mousedown', handleMouseClick);
-	document.addEventListener('touchstart', handleTouchStart);
+	// Botão de pulo (Único controle)
+	const jumpButton = document.getElementById('jumpButton');
+	
+	// Eventos de pressão (iniciar ação)
+	jumpButton.addEventListener('mousedown', handleButtonPress);
+	jumpButton.addEventListener('touchstart', handleButtonPress);
+	
+	// Eventos de soltar (encerrar ação)
+	jumpButton.addEventListener('mouseup', handleButtonRelease);
+	jumpButton.addEventListener('touchend', handleButtonRelease);
+	
+	// Soltar botão se mouse sair do botão
+	jumpButton.addEventListener('mouseleave', handleButtonRelease);
 	
 	console.log('🏃 Runner inicializado');
 }
 
-// Pulo por teclado
-function handleKeyPress(e) {
-	if (e.code === 'Space') {
-		e.preventDefault();
-		jump();
-	}
-}
-
-// Pulo por clique do mouse (botão esquerdo)
-function handleMouseClick(e) {
-	if (e.button === 0) { // botão esquerdo
-		jump();
-	}
-}
-
-// Pulo por toque na tela (telefones)
-function handleTouchStart(e) {
+// Botão pressionado
+function handleButtonPress(e) {
 	e.preventDefault();
+	State.buttonPressed = true;
 	jump();
+}
+
+// Botão solto
+function handleButtonRelease(e) {
+	e.preventDefault();
+	State.buttonPressed = false;
+	
+	// Se estiver balançando e soltar o botão, soltar a teia
+	if (State.playerState === 'balancando') {
+		soltarTeia();
+	}
 }
 
 // Função de pulo (controle principal)
@@ -109,9 +148,11 @@ function jump() {
 		State.velocityY = -Config.jumpForce;
 		State.playerState = 'pulando';
 	}
-	// ESTADO: pulando → ativar teia
+	// ESTADO: pulando → ativar teia (se tiver teias disponíveis)
 	else if (State.playerState === 'pulando') {
-		ativarTeia();
+		if (State.webUsesRemaining > 0) {
+			ativarTeia();
+		}
 	}
 	// ESTADO: balancando → ignorar input
 	else if (State.playerState === 'balancando') {
@@ -129,6 +170,13 @@ function ativarTeia() {
 	State.webbedToPoint = { x: webX, y: webY };
 	State.webStartX = webX; // salvar posição inicial
 	State.fixedPlayerY = State.playerY; // congelar Y atual
+	
+	// Decrementar usos disponíveis
+	State.webUsesRemaining--;
+	
+	// Resetar animação
+	State.webOffsetY = 0;
+	State.webOffsetDirection = 'down';
 	
 	// Mudar estado para balançando
 	State.playerState = 'balancando';
@@ -159,13 +207,19 @@ function startGame() {
 	State.velocityY = 0;
 	State.playerState = 'noChao';
 	State.gameOver = false;
+	State.buttonPressed = false;
 	State.distance = 0;
 	State.webbedToPoint = null;
 	State.webStartX = 0;
 	State.fixedPlayerY = 0;
+	State.webUsesRemaining = 2;
+	State.webOffsetY = 0;
+	State.webOffsetDirection = 'down';
 	State.lastTime = performance.now();
 	State.timeAccumulator = 0;
 	State.victory = false;
+	State.currentFrame = 0;
+	State.lastFrameTime = performance.now();
 	
 	// Iniciar loop
 	gameLoop();
@@ -207,12 +261,27 @@ function updateDistance() {
 	}
 }
 
+// Atualizar animação do spritesheet
+function updateSpriteAnimation() {
+	const currentTime = performance.now();
+	const elapsed = currentTime - State.lastFrameTime;
+	
+	// Trocar de frame se passou o intervalo
+	if (elapsed >= Config.spriteFrameInterval) {
+		State.currentFrame = (State.currentFrame + 1) % Config.spriteTotalFrames;
+		State.lastFrameTime = currentTime;
+	}
+}
+
 // Atualizar lógica
 function update() {
 	if (State.gameOver || State.victory) return;
 	
 	// Calcular deltaTime e atualizar distância
 	updateDistance();
+	
+	// Atualizar animação do spritesheet
+	updateSpriteAnimation();
 	
 	// Física do personagem
 	updatePlayerPhysics();
@@ -264,6 +333,8 @@ function updatePlayerPhysics() {
 			State.playerY = Config.groundY;
 			State.velocityY = 0;
 			State.playerState = 'noChao';
+			// Recarregar teias ao tocar o chão
+			State.webUsesRemaining = 2;
 		}
 	}
 }
@@ -276,8 +347,29 @@ function updatePendulum() {
 		return;
 	}
 	
-	// CONGELAR PERSONAGEM NO Y
-	State.playerY = State.fixedPlayerY;
+	// CONDIÇÃO 1: Botão solto
+	if (!State.buttonPressed) {
+		soltarTeia();
+		return;
+	}
+	
+	// CONGELAR PERSONAGEM NO Y (com deslocamento visual)
+	State.playerY = State.fixedPlayerY + State.webOffsetY;
+	
+	// Animação de peso corporal
+	if (State.webbedToPoint.x >= Config.playerX) {
+		// FASE 1: Teia vindo - descer levemente (efeito peso)
+		if (State.webOffsetY < 6) {
+			State.webOffsetY += 0.2;
+		}
+	} else {
+		// FASE 2: Teia passou - subir levemente (efeito impulso)
+		if (State.webOffsetY > 0) {
+			State.webOffsetY -= 0.2;
+		} else {
+			State.webOffsetY = 0; // garantir que não fique negativo
+		}
+	}
 	
 	// Mover ponto da teia para a esquerda (simulando que o personagem avança)
 	State.webbedToPoint.x -= Config.worldSpeed;
@@ -286,9 +378,9 @@ function updatePendulum() {
 	const distanciaPercorrida = State.webStartX - State.webbedToPoint.x;
 	const distanciaInicial = State.webStartX - Config.playerX;
 	
-	// CONDIÇÃO PARA SOLTAR A TEIA:
-	// Quando a teia percorreu a mesma distância que foi criada à frente
-	if (distanciaPercorrida >= distanciaInicial) {
+	// CONDIÇÃO 2: Limite traseiro (50% mais tempo)
+	// Quando a teia percorreu 1.5x a distância que foi criada à frente
+	if (distanciaPercorrida >= distanciaInicial * 1.5) {
 		soltarTeia();
 	}
 }
@@ -297,6 +389,10 @@ function updatePendulum() {
 function soltarTeia() {
 	State.webbedToPoint = null;
 	State.playerState = 'pulando';
+	
+	// Resetar animação
+	State.webOffsetY = 0;
+	State.webOffsetDirection = 'down';
 	
 	// Velocidade Y começa em 0 (cai reto)
 	State.velocityY = 0;
@@ -334,6 +430,7 @@ function gameOver() {
 	State.gameOver = true;
 	State.isRunning = false;
 	State.webbedToPoint = null; // remover teia se existir
+	State.buttonPressed = false; // garantir que botão não fica preso
 	updateBestDistance();
 	
 	// Mostrar botão reiniciar
@@ -392,13 +489,43 @@ function render() {
 	}
 	
 	// Desenhar personagem (fixo no X, mas move no Y)
-	ctx.fillStyle = Config.playerColor;
-	ctx.fillRect(
-		Config.playerX,
-		State.playerY,
-		Config.playerSize,
-		Config.playerSize
-	);
+	if (Config.playerImage && Config.playerImage.complete) {
+		let frameX = 0;
+		let frameY = 0;
+		
+		// Verificar estado do personagem para escolher o frame correto
+		if (State.playerState === 'noChao') {
+			// Corrida: usar frames 1-6 (índices 0-5) da primeira linha
+			frameX = State.currentFrame * Config.spriteFrameWidth;
+			frameY = 0;
+		} else if (State.playerState === 'pulando') {
+			// Pulo: frame 7 está na segunda linha, primeira posição (X=0, Y=64)
+			frameX = 0;
+			frameY = 64;
+		} else if (State.playerState === 'balancando') {
+			// Pendurado na teia: frame 8 está na segunda linha, segunda posição (X=64, Y=64)
+			frameX = 64;
+			frameY = 64;
+		}
+		
+		// Desenhar frame específico do spritesheet
+		ctx.drawImage(
+			Config.playerImage,
+			frameX, frameY, // posição do recorte no spritesheet (sourceX, sourceY)
+			Config.spriteFrameWidth, Config.spriteFrameHeight, // tamanho do recorte
+			Config.playerX, State.playerY, // posição de destino no canvas
+			Config.playerSize, Config.playerSize // tamanho de destino
+		);
+	} else {
+		// Fallback: desenhar retângulo se imagem não carregar
+		ctx.fillStyle = Config.playerColor;
+		ctx.fillRect(
+			Config.playerX,
+			State.playerY,
+			Config.playerSize,
+			Config.playerSize
+		);
+	}
 	
 	// Desenhar objetos
 	for (let obj of State.objects) {
