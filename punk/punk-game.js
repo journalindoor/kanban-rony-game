@@ -387,7 +387,7 @@ function update() {
 	}
 	
 	// Remover objetos fora da tela
-	State.objects = State.objects.filter(obj => obj.x + Config.objectSize > 0);
+	State.objects = State.objects.filter(obj => obj.x + obj.width > 0);
 	
 	// Verificar colisões
 	checkCollisions();
@@ -503,9 +503,9 @@ function checkCollisions() {
 	
 	for (let obj of State.objects) {
 		const objLeft = obj.x;
-		const objRight = obj.x + obj.size;
+		const objRight = obj.x + obj.width;
 		const objTop = obj.y;
-		const objBottom = obj.y + obj.size;
+		const objBottom = obj.y + obj.height;
 		
 		// Detecção AABB
 		if (
@@ -548,12 +548,50 @@ function updateBestDistance() {
 	}
 }
 
-// Criar objeto
+// Criar objeto com tipos variados
 function spawnObject() {
+	// Verificar se há espaço mínimo desde o último obstáculo
+	if (State.objects.length > 0) {
+		const lastObj = State.objects[State.objects.length - 1];
+		const lastObjEnd = lastObj.x + lastObj.width;
+		// Só spawnar se houver pelo menos 50px de distância
+		if (lastObjEnd > Config.width - 50) {
+			return; // Não spawnar ainda
+		}
+	}
+	
+	// Definir tipos de obstáculos
+	const obstacleTypes = [
+		// Tipo 1: Quadrado vermelho padrão
+		{
+			width: Config.objectSize,
+			height: Config.objectSize
+		},
+		// Tipo 2: Retângulo horizontal (largura 2x)
+		{
+			width: Config.objectSize * 2,
+			height: Config.objectSize
+		},
+		// Tipo 3: Retângulo vertical (altura 1.5x)
+		{
+			width: Config.objectSize,
+			height: Config.objectSize * 1.5
+		},
+		// Tipo 4: Quadradão (largura 2x, altura 1.5x)
+		{
+			width: Config.objectSize * 2,
+			height: Config.objectSize * 1.5
+		}
+	];
+	
+	// Escolher tipo aleatório
+	const type = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
+	
 	State.objects.push({
 		x: Config.width,
-		y: Config.groundY,
-		size: Config.objectSize,
+		y: Config.groundY + Config.playerSize - type.height, // Alinhar base ao chão
+		width: type.width,
+		height: type.height,
 		color: Config.objectColor
 	});
 }
@@ -766,7 +804,7 @@ function render() {
 	// Desenhar objetos
 	for (let obj of State.objects) {
 		ctx.fillStyle = obj.color;
-		ctx.fillRect(obj.x, obj.y, obj.size, obj.size);
+		ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
 	}
 	
 	// Desenhar HUD dentro do canvas com estilo futurista
