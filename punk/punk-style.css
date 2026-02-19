@@ -206,6 +206,61 @@ body {
 	z-index: 20;
 }
 
+/* Modal de rotação para celular */
+.rotate-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.95);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 9999;
+}
+
+.rotate-modal-content {
+	text-align: center;
+	padding: 30px;
+	max-width: 400px;
+}
+
+.rotate-text {
+	color: #fff;
+	font-size: 1.5rem;
+	font-family: 'Courier New', monospace;
+	margin: 15px 0;
+}
+
+.rotate-text:first-child {
+	font-size: 4rem;
+	margin-bottom: 20px;
+}
+
+.confirm-rotate-button {
+	padding: 15px 40px;
+	font-size: 1.3rem;
+	font-family: 'Courier New', monospace;
+	font-weight: bold;
+	color: #fff;
+	background: #2ECC71;
+	border: 3px solid #2ECC71;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	margin-top: 30px;
+}
+
+.confirm-rotate-button:hover {
+	background: #27AE60;
+	transform: scale(1.05);
+}
+
+.confirm-rotate-button:active {
+	transform: scale(0.95);
+}
+
 /* Botão de pulo dentro do retângulo */
 .jump-button {
 	position: absolute;
@@ -252,33 +307,53 @@ body {
 		width: 100%;
 		height: auto;
 	}
+	
+	.game-title {
+		font-size: 24px;
+		top: 20px;
+	}
 }
 
-@media (max-width: 600px) {
-	.punk-title {
-		font-size: 1.5rem;
+@media (max-width: 768px) {
+	.game-area {
+		width: 100%;
+		max-width: 100vw;
 	}
 	
-	.hud {
-		gap: 15px;
-		padding: 8px 10px;
-	}
-	
-	.hud-label {
-		font-size: 14px;
-	}
-	
-	.hud-value {
+	.game-title {
 		font-size: 20px;
+		top: 15px;
 	}
 	
-	.hud-unit {
-		font-size: 14px;
+	.start-button {
+		font-size: 1.2rem;
+		padding: 15px 30px;
 	}
 	
 	.jump-button {
-		padding: 12px 30px;
-		font-size: 1.1rem;
+		width: 60px;
+		height: 60px;
+		font-size: 1.8rem;
+		bottom: 15px;
+		right: 15px;
+	}
+	
+	.rotate-text {
+		font-size: 1.2rem;
+	}
+	
+	.rotate-text:first-child {
+		font-size: 3rem;
+	}
+}
+
+@media (max-width: 600px) {
+	.jump-button {
+		width: 55px;
+		height: 55px;
+		font-size: 1.5rem;
+		bottom: 10px;
+		right: 10px;
 	}
 }
 
