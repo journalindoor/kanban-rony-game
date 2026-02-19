@@ -62,6 +62,21 @@ body {
 	gap: 20px;
 }
 
+/* Título do jogo */
+.game-title {
+	position: absolute;
+	top: 30px;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 32px;
+	font-weight: bold;
+	color: #FFFFFF;
+	font-family: 'Courier New', monospace;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+	z-index: 10;
+	pointer-events: none;
+}
+
 /* HUD (fora da arena) */
 .hud {
 	display: flex;
@@ -100,8 +115,8 @@ body {
 }
 
 #gameCanvas {
-	border: 2px solid #00ff00;
-	background: #000;
+	border: 3px solid #1B4F72;
+	background: #5DADE2;
 	display: block;
 	max-width: 100%;
 	height: auto;
@@ -134,62 +149,97 @@ body {
 }
 
 .restart-button {
-	position: absolute;
-	top: 60%;
-	left: 50%;
-	transform: translate(-50%, -50%);
 	padding: 15px 35px;
 	font-size: 1.2rem;
 	font-family: 'Courier New', monospace;
 	font-weight: bold;
 	color: #fff;
-	background: #00cc00;
-	border: 3px solid #00ff00;
+	background: #2ECC71;
+	border: 3px solid #2ECC71;
 	cursor: pointer;
 	transition: all 0.3s ease;
+	border-radius: 8px;
 }
 
 .restart-button:hover {
-	background: #00ff00;
-	transform: translate(-50%, -50%) scale(1.1);
-	box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+	background: #27AE60;
+	transform: scale(1.1);
+	box-shadow: 0 0 20px rgba(46, 204, 113, 0.5);
 }
 
 .restart-button:active {
-	transform: translate(-50%, -50%) scale(0.95);
+	transform: scale(0.95);
 }
 
-/* Controles */
-.controls {
-	display: flex;
-	justify-content: center;
-	margin-top: 10px;
-}
-
-.jump-button {
-	padding: 15px 40px;
-	font-size: 1.3rem;
+.back-button {
+	padding: 15px 35px;
+	font-size: 1.2rem;
 	font-family: 'Courier New', monospace;
 	font-weight: bold;
-	color: #000;
-	background: #00ff00;
-	border: 3px solid #00ff00;
+	color: #fff;
+	background: #E74C3C;
+	border: 3px solid #E74C3C;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	border-radius: 8px;
+}
+
+.back-button:hover {
+	background: #C0392B;
+	transform: scale(1.1);
+	box-shadow: 0 0 20px rgba(231, 76, 60, 0.5);
+}
+
+.back-button:active {
+	transform: scale(0.95);
+}
+
+/* Container dos botões de Game Over */
+.game-over-buttons {
+	position: absolute;
+	top: 60%;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
+	justify-content: center;
+	gap: 16px;
+	z-index: 20;
+}
+
+/* Botão de pulo dentro do retângulo */
+.jump-button {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	font-size: 2rem;
+	font-family: 'Courier New', monospace;
+	font-weight: bold;
+	color: #fff;
+	background: #F39C12;
+	border: 4px solid #F39C12;
 	cursor: pointer;
 	transition: all 0.2s ease;
 	user-select: none;
 	-webkit-user-select: none;
 	-webkit-tap-highlight-color: transparent;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+	z-index: 10;
 }
 
 .jump-button:hover {
-	background: #00cc00;
-	box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
-	transform: scale(1.05);
+	background: #E67E22;
+	border-color: #E67E22;
+	box-shadow: 0 0 25px rgba(243, 156, 18, 0.6);
+	transform: scale(1.1);
 }
 
 .jump-button:active {
-	transform: scale(0.95);
-	background: #00aa00;
+	transform: scale(0.9);
+	background: #D68910;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 /* Responsividade */

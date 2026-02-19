@@ -9,34 +9,23 @@
 </head>
 <body>
 	<div id="punk-container">
-		<div class="punk-header">
-			<h1 class="punk-title">🏃 RUNNER</h1>
-			<a href="index.html" class="punk-back-link">← Voltar</a>
-		</div>
-
-		<!-- HUD fora da arena -->
-		<div class="hud">
-			<div class="hud-item">
-				<span class="hud-label">Distância:</span>
-				<span id="distanceDisplay" class="hud-value">00000</span>
-				<span class="hud-unit">m</span>
-			</div>
-			<div class="hud-item">
-				<span class="hud-label">Recorde:</span>
-				<span id="recordDisplay" class="hud-value">00000</span>
-				<span class="hud-unit">m</span>
-			</div>
-		</div>
-
 		<div class="game-area">
 			<canvas id="gameCanvas" width="800" height="400"></canvas>
+			
+			<!-- Título do jogo -->
+			<div id="gameTitle" class="game-title">RONY RUNNER</div>
+			
+			<!-- Botão começar -->
 			<button id="startButton" class="start-button">Começar</button>
-			<button id="restartButton" class="restart-button" style="display: none;">Reiniciar</button>
-		</div>
-
-		<!-- Botão de controle -->
-		<div class="controls">
-			<button id="jumpButton" class="jump-button">Pular 🕸️</button>
+			
+			<!-- Botões de Game Over -->
+			<div id="gameOverButtons" class="game-over-buttons" style="display: none;">
+				<button id="backButton" class="back-button">Voltar</button>
+				<button id="restartButton" class="restart-button">Reiniciar</button>
+			</div>
+			
+			<!-- Botão de pulo dentro do retângulo -->
+			<button id="jumpButton" class="jump-button">⬆️</button>
 		</div>
 	</div>
 
