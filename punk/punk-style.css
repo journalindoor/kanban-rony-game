@@ -15,22 +15,23 @@ body {
 	color: #fff;
 	min-height: 100vh;
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: center;
-	padding: 20px;
+	padding: 10px;
+	padding-top: 20px;
 }
 
 #punk-container {
 	width: 100%;
-	max-width: 500px;
+	max-width: 820px;
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	gap: 10px;
 }
 
 .punk-header {
 	text-align: center;
-	padding: 20px;
+	padding: 10px;
 }
 
 .punk-title {
@@ -64,12 +65,13 @@ body {
 /* HUD (fora da arena) */
 .hud {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: center;
-	gap: 40px;
-	padding: 15px 20px;
+	gap: 20px;
+	padding: 10px 15px;
 	background: rgba(0, 255, 0, 0.1);
 	border: 2px solid #00ff00;
-	margin-bottom: 10px;
+	margin-bottom: 5px;
 }
 
 .hud-item {
@@ -155,5 +157,78 @@ body {
 
 .restart-button:active {
 	transform: translate(-50%, -50%) scale(0.95);
+}
+
+/* Controles */
+.controls {
+	display: flex;
+	justify-content: center;
+	margin-top: 10px;
+}
+
+.jump-button {
+	padding: 15px 40px;
+	font-size: 1.3rem;
+	font-family: 'Courier New', monospace;
+	font-weight: bold;
+	color: #000;
+	background: #00ff00;
+	border: 3px solid #00ff00;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.jump-button:hover {
+	background: #00cc00;
+	box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+	transform: scale(1.05);
+}
+
+.jump-button:active {
+	transform: scale(0.95);
+	background: #00aa00;
+}
+
+/* Responsividade */
+@media (max-width: 850px) {
+	#punk-container {
+		max-width: 100%;
+	}
+	
+	#gameCanvas {
+		width: 100%;
+		height: auto;
+	}
+}
+
+@media (max-width: 600px) {
+	.punk-title {
+		font-size: 1.5rem;
+	}
+	
+	.hud {
+		gap: 15px;
+		padding: 8px 10px;
+	}
+	
+	.hud-label {
+		font-size: 14px;
+	}
+	
+	.hud-value {
+		font-size: 20px;
+	}
+	
+	.hud-unit {
+		font-size: 14px;
+	}
+	
+	.jump-button {
+		padding: 12px 30px;
+		font-size: 1.1rem;
+	}
 }
 
