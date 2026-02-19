@@ -36,9 +36,27 @@
 			
 			<!-- Botão de pulo dentro do retângulo -->
 			<button id="jumpButton" class="jump-button" style="display: none;">⬆️</button>
+			
+			<!-- Modal de pausa -->
+			<div id="pauseModal" class="pause-modal" style="display: none;">
+				<div class="pause-content">
+					<h2>JOGO PAUSADO</h2>
+					<button id="continueButton" class="continue-button">Continuar</button>
+				</div>
+			</div>
 		</div>
 	</div>
 
-	<script src="punk/punk-game.js"></script>
+	<!-- Scripts do jogo na ordem de dependências -->
+	<script src="punk/config.js"></script>
+	<script src="punk/state.js"></script>
+	<script src="punk/physics.js"></script>
+	<script src="punk/input.js"></script>
+	<script src="punk/obstacles.js"></script>
+	<script src="punk/buildings.js"></script>
+	<script src="punk/items.js"></script>
+	<script src="punk/collisions.js"></script>
+	<script src="punk/renderer.js"></script>
+	<script src="punk/game.js"></script>
 </body>
 </html>
