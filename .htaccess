@@ -1,6 +1,0 @@
-RewriteEngine On
-
-# Bloqueia acesso direto ao jogo
-RewriteCond %{HTTP_REFERER} !^https://ronyoffice.com.br/ [NC]
-RewriteCond %{HTTP_REFERER} !^https://www.ronyoffice.com.br/ [NC]
-RewriteRule ^ - [F,L]
