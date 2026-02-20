@@ -2,6 +2,9 @@
    Obstáculos e Objetos
    ============================================ */
 
+// Probabilidade de spawnar dois veículos pequenos juntos (25%)
+const DOUBLE_SMALL_VEHICLE_CHANCE = 0.25;
+
 // Criar objeto com tipos variados
 function spawnObject(config) {
 	// Verificar se há espaço mínimo desde o último obstáculo
@@ -14,33 +17,42 @@ function spawnObject(config) {
 		}
 	}
 	
-	// Definir tipos de obstáculos
-	const obstacleTypes = [
-		// Tipo 1: Carros pequenos (100px)
-		{
+	// Obter configurações da fase atual
+	const phase = getCurrentPhase();
+	const obstacleConfig = phase.obstacles;
+	
+	// Construir array de tipos disponíveis baseado na fase
+	const obstacleTypes = [];
+	
+	if (obstacleConfig.types.includes('small')) {
+		obstacleTypes.push({
 			type: 'normal',
-			width: config.objectSize * 2.5,  // 100px
-			height: config.objectSize * 2.5, // 100px
-			emoji: ['🚗', '🚕', '🚙', '🚓','🛻'][Math.floor(Math.random() * 5)], // 5 carros pequenos
+			width: obstacleConfig.small.width,
+			height: obstacleConfig.small.height,
+			emoji: obstacleConfig.small.emojis[Math.floor(Math.random() * obstacleConfig.small.emojis.length)],
 			size: 'small'
-		},
-		// Tipo 2: Carros médios (115px - 15% maiores)
-		{
+		});
+	}
+	
+	if (obstacleConfig.types.includes('medium')) {
+		obstacleTypes.push({
 			type: 'normal',
-			width: config.objectSize * 2.875,  // 115px
-			height: config.objectSize * 2.875, // 115px
-			emoji: ['🚐', '🚎','🚒','🚑'][Math.floor(Math.random() * 4)], // Minibus, Trólebus, caminhão de bombeiros e ambulancia
+			width: obstacleConfig.medium.width,
+			height: obstacleConfig.medium.height,
+			emoji: obstacleConfig.medium.emojis[Math.floor(Math.random() * obstacleConfig.medium.emojis.length)],
 			size: 'medium'
-		},
-		// Tipo 3: Carros grandes (110px)
-		{
+		});
+	}
+	
+	if (obstacleConfig.types.includes('large')) {
+		obstacleTypes.push({
 			type: 'normal',
-			width: config.objectSize * 2.75,  // 110px (reduzido de 120px)
-			height: config.objectSize * 2.75, // 110px
-			emoji: ['🚌', '🚚', '🚛'][Math.floor(Math.random() * 3)], // Ônibus, caminhões (sem trólebus)
+			width: obstacleConfig.large.width,
+			height: obstacleConfig.large.height,
+			emoji: obstacleConfig.large.emojis[Math.floor(Math.random() * obstacleConfig.large.emojis.length)],
 			size: 'large'
-		}
-	];
+		});
+	}
 	
 	// Escolher tipo aleatório
 	const obstacleType = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
@@ -70,6 +82,29 @@ function spawnObject(config) {
 	}
 	
 	State.objects.push(obstacle);
+	
+	// Lógica de spawn duplo apenas para veículos pequenos
+	if (obstacleType.size === 'small' && Math.random() < DOUBLE_SMALL_VEHICLE_CHANCE) {
+		// Spawnar segundo veículo pequeno com pequeno espaçamento
+		const gap = 15; // Espaçamento entre os dois veículos (quase colados)
+		
+		// Criar segundo veículo com emoji diferente (se possível)
+		const secondEmoji = obstacleConfig.small.emojis[Math.floor(Math.random() * obstacleConfig.small.emojis.length)];
+		
+		const secondObstacle = {
+			x: config.width + obstacleType.width + gap, // Posicionado após o primeiro com gap
+			y: config.groundY + config.playerSize - obstacleType.height + 20,
+			width: obstacleType.width,
+			height: obstacleType.height,
+			color: config.objectColor,
+			type: 'normal',
+			emoji: secondEmoji,
+			size: 'small'
+		};
+		
+		State.objects.push(secondObstacle);
+		console.log(`🚗🚗 Spawn duplo de veículos pequenos! (${obstacle.emoji} + ${secondObstacle.emoji})`);
+	}
 }
 
 // Atualizar posição dos obstáculos

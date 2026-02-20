@@ -11,66 +11,50 @@ const Config = {
 	// Personagem
 	playerSize: 60,
 	playerColor: '#0088ff',
-	playerX: 150, // posição fixa na tela (meio-esquerda)
-	groundY: 280, // altura do chão (ajustado para personagem maior)
-	playerImage: null, // spritesheet do personagem
-	playerImageNormal: null, // referência ao sprite normal
-	playerImagePunk: null, // spritesheet punk alternativo
+	playerX: 150,
+	groundY: 280,
+	playerImage: null,
+	playerImageNormal: null,
+	playerImagePunk: null,
 	
-	// Hitbox real do personagem por estado (área útil do sprite)
+	// Hitbox por estado
 	hitboxes: {
-		correndo: {
-			offsetX: 19, // 14 + 5px
-			offsetY: 5,  // 0 + 5px
-			width: 34,   // 44 - 10px (5px de cada lado)
-			height: 54   // 64 - 10px (5px de cada lado)
-		},
-		pulando: {
-			offsetX: 20, // 15 + 5px
-			offsetY: 5,  // 0 + 5px
-			width: 38,   // 48 - 10px (5px de cada lado)
-			height: 45   // 55 - 10px (5px de cada lado)
-		},
-		pendurado: {
-			offsetX: 8,  // 3 + 5px
-			offsetY: 11, // 6 + 5px
-			width: 34,   // 44 - 10px (5px de cada lado)
-			height: 42   // 52 - 10px (5px de cada lado)
-		}
+		correndo: { offsetX: 19, offsetY: 5, width: 34, height: 54 },
+		pulando: { offsetX: 20, offsetY: 5, width: 38, height: 45 },
+		pendurado: { offsetX: 8, offsetY: 11, width: 34, height: 42 }
 	},
 	
 	// Debug
-	debugHitbox: true, // visualizar hitbox para depuração
+	debugHitbox: true,
 	
-	// Animação do spritesheet
+	// Animação spritesheet
 	spriteFrameWidth: 64,
 	spriteFrameHeight: 64,
-	spriteTotalFrames: 6, // 384px / 64px = 6 frames
-	spriteFrameInterval: 100, // ms entre frames
+	spriteTotalFrames: 6,
+	spriteFrameIntervalNormal: 100,
+	spriteFrameIntervalPunk: 65,
 	
 	// Física
 	gravity: 0.6,
-	jumpForceNormal: 10.5,  // Pulo do Rony normal (mais baixo)
-	jumpForcePunk: 11.5,     // Pulo do Rony Punk (só um pouco mais alto)
+	jumpForceNormal: 10.5,
+	jumpForcePunk: 11.5,
+	ceilingY: 50,
 	
-	// Teia
-	ceilingY: 50, // topo da arena
-	
-	// Velocidade do mundo
-	worldSpeedNormal: 5,     // Velocidade base (Rony normal)
-	worldSpeedPunk: 8.5,     // Velocidade aumentada (Rony Punk - 70% mais rápido)
+	// Velocidade
+	worldSpeedNormal: 6,
+	worldSpeedPunk: 10,
 	
 	// Objetos
 	objectSize: 40,
 	objectColor: '#ff0000',
-	objectSpawnInterval: 2000, // a cada 2 segundos
+	objectSpawnInterval: 2000,
 	
 	// Cenário
-	asphaltY: 280, // início do asfalto (alinhado com groundY)
-	asphaltHeight: 120, // altura do asfalto
-	laneOffset: 0, // offset da faixa tracejada
-	laneSpeedBase: 3, // velocidade base da faixa (será multiplicada pelo modo)
-	laneDashWidth: 40, // largura dos traços
-	laneDashGap: 30, // espaço entre traços
-	buildingSpeedBase: 2, // velocidade base dos prédios (será multiplicada pelo modo)
+	asphaltY: 280,
+	asphaltHeight: 120,
+	laneOffset: 0,
+	laneSpeedBase: 3,
+	laneDashWidth: 40,
+	laneDashGap: 30,
+	buildingSpeedBase: 2
 };

@@ -4,12 +4,19 @@
 
 // Spawn de item guitarra com regras variadas
 function spawnGuitarItem(config) {
+	// Obter configurações da fase atual
+	const phase = getCurrentPhase();
+	const guitarConfig = phase.items.guitar;
+	
+	// Verificar se guitarra está habilitada nesta fase
+	if (!guitarConfig.enabled) return;
+	
 	// Não spawnar se já tem item ativo
 	if (State.guitarItem.active) return;
 	
-	// REGRA 1: Primeiro spawn aleatório entre 100-150m
-	if (!State.guitarItem.firstSpawnDone && State.distance >= 100) {
-		const randomSpawn = 100 + Math.floor(Math.random() * 51); // 100 a 150
+	// REGRA 1: Primeiro spawn aleatório (baseado na fase)
+	if (!State.guitarItem.firstSpawnDone && State.distance >= guitarConfig.firstSpawnMin) {
+		const randomSpawn = guitarConfig.firstSpawnMin + Math.floor(Math.random() * (guitarConfig.firstSpawnMax - guitarConfig.firstSpawnMin + 1));
 		
 		if (State.distance >= randomSpawn) {
 			spawnGuitar(config);
@@ -28,9 +35,9 @@ function spawnGuitarItem(config) {
 		return;
 	}
 	
-	// REGRA 2: Após perder guitarra, próximo spawn em X + 300m
+	// REGRA 2: Após perder guitarra, próximo spawn (baseado na fase)
 	if (State.guitarCollisionDistance > 0) {
-		const nextSpawnAfterCollision = State.guitarCollisionDistance + 300;
+		const nextSpawnAfterCollision = State.guitarCollisionDistance + guitarConfig.respawnAfterLoss;
 		
 		// Log de progresso a cada 50m
 		if (Math.floor(State.distance) % 50 === 0 && State.distance < nextSpawnAfterCollision) {
@@ -41,14 +48,14 @@ function spawnGuitarItem(config) {
 		if (State.distance >= nextSpawnAfterCollision && State.distance > State.guitarItem.lastSpawnDistance + 10) {
 			spawnGuitar(config);
 			State.guitarCollisionDistance = 0; // resetar contador
-			console.log(`🎸 SPAWNOU! Guitarra apareceu aos ${State.distance}m (300m após colisão em ${nextSpawnAfterCollision - 300}m)`);
+			console.log(`🎸 SPAWNOU! Guitarra apareceu aos ${State.distance}m (${guitarConfig.respawnAfterLoss}m após colisão em ${nextSpawnAfterCollision - guitarConfig.respawnAfterLoss}m)`);
 			return;
 		}
 	}
 	
-	// REGRA 3: Spawn normal a cada 150-200m se não tem guitarra
+	// REGRA 3: Spawn normal (baseado na fase)
 	const timeSinceLastSpawn = State.distance - State.guitarItem.lastSpawnDistance;
-	const randomInterval = 150 + Math.floor(Math.random() * 51); // 150 a 200
+	const randomInterval = guitarConfig.spawnIntervalMin + Math.floor(Math.random() * (guitarConfig.spawnIntervalMax - guitarConfig.spawnIntervalMin + 1));
 	
 	if (timeSinceLastSpawn >= randomInterval && State.distance > State.guitarItem.lastSpawnDistance + 100) {
 		spawnGuitar(config);

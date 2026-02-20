@@ -143,8 +143,11 @@ function updateSpriteAnimation(config) {
 	const currentTime = performance.now();
 	const elapsed = currentTime - State.lastFrameTime;
 	
+	// Intervalo dinâmico baseado no modo (Punk corre mais rápido)
+	const frameInterval = State.isPunkMode ? config.spriteFrameIntervalPunk : config.spriteFrameIntervalNormal;
+	
 	// Trocar de frame se passou o intervalo
-	if (elapsed >= config.spriteFrameInterval) {
+	if (elapsed >= frameInterval) {
 		State.currentFrame = (State.currentFrame + 1) % config.spriteTotalFrames;
 		State.lastFrameTime = currentTime;
 	}

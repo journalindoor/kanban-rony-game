@@ -4,8 +4,12 @@
 
 // Inicializar prédios
 function initBuildings(config) {
+	// Obter configurações da fase atual
+	const phase = getCurrentPhase();
+	const envConfig = phase.environment;
+	
 	State.buildings = [];
-	const buildingColors = ['#6B7280', '#4B5563', '#9CA3AF', '#374151', '#1F2937'];
+	const buildingColors = envConfig.colors;
 	let currentX = config.width;
 	
 	for (let i = 0; i < 8; i++) {

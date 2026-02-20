@@ -24,6 +24,9 @@ function requestFullscreen() {
 // Botão pressionado
 function handleButtonPress(config) {
 	return function(e) {
+		// Bloquear input se painel de leitura estiver aberto
+		if (isReadingPanelOpen) return;
+		
 		e.preventDefault();
 		State.buttonPressed = true;
 		jump(config);
@@ -31,8 +34,9 @@ function handleButtonPress(config) {
 }
 
 // Botão solto
-function handleButtonRelease(e) {
-	e.preventDefault();
+function handleButtonRelease(e) {	// Bloquear input se painel de leitura estiver aberto
+	if (isReadingPanelOpen) return;
+		e.preventDefault();
 	State.buttonPressed = false;
 	
 	// Se estiver balançando e soltar o botão, soltar a teia
