@@ -510,29 +510,73 @@ function drawReadingButton(ctx, canvasWidth) {
 	const y = ReadingSystem.buttonY;
 	const size = ReadingSystem.buttonSize;
 	
+	// Inicializar tempo de animação se há novo conteúdo e ainda não foi inicializado
+	if (ReadingSystem.hasNewContent && ReadingSystem.animationStartTime === 0) {
+		ReadingSystem.animationStartTime = performance.now();
+	} else if (!ReadingSystem.hasNewContent) {
+		ReadingSystem.animationStartTime = 0;
+	}
+	
+	// Calcular pulsação suave (apenas quando há novo conteúdo)
+	let pulseScale = 1;
+	let glowIntensity = 0;
+	
+	if (ReadingSystem.hasNewContent && ReadingSystem.animationStartTime > 0) {
+		const elapsed = performance.now() - ReadingSystem.animationStartTime;
+		const pulseSpeed = 0.002; // Velocidade da pulsação (mais lento = mais suave)
+		const pulseAmount = 0.06; // Quantidade de pulsação (6% de variação)
+		
+		// Pulsação suave usando sine wave
+		pulseScale = 1 + Math.sin(elapsed * pulseSpeed) * pulseAmount;
+		
+		// Intensidade do glow (0 a 1) também baseado em sine wave
+		glowIntensity = (Math.sin(elapsed * pulseSpeed) + 1) / 2; // Normalizar para 0-1
+	}
+	
+	// Aplicar escala de pulsação
+	const scaledSize = size * pulseScale;
+	const offsetX = (scaledSize - size) / 2;
+	const offsetY = (scaledSize - size) / 2;
+	const scaledX = x - offsetX;
+	const scaledY = y - offsetY;
+	
 	// Cor do botão (amarelo se há novo conteúdo, cinza caso contrário)
 	const buttonColor = ReadingSystem.hasNewContent ? '#FFFF00' : '#666666';
 	
+	// Glow externo (apenas quando há novo conteúdo)
+	if (ReadingSystem.hasNewContent && glowIntensity > 0) {
+		const glowSize = 4 * glowIntensity;
+		const glowAlpha = 0.4 * glowIntensity;
+		
+		ctx.fillStyle = `rgba(255, 255, 0, ${glowAlpha})`;
+		ctx.fillRect(
+			scaledX - glowSize,
+			scaledY - glowSize,
+			scaledSize + glowSize * 2,
+			scaledSize + glowSize * 2
+		);
+	}
+	
 	// Sombra pixel (2px offset, sem blur)
 	ctx.fillStyle = '#000000';
-	ctx.fillRect(x + 2, y + 2, size, size);
+	ctx.fillRect(scaledX + 2, scaledY + 2, scaledSize, scaledSize);
 	
 	// Fundo do botão
 	ctx.fillStyle = buttonColor;
-	ctx.fillRect(x, y, size, size);
+	ctx.fillRect(scaledX, scaledY, scaledSize, scaledSize);
 	
 	// Borda preta 2px
 	ctx.strokeStyle = '#000000';
 	ctx.lineWidth = 2;
-	ctx.strokeRect(x, y, size, size);
+	ctx.strokeRect(scaledX, scaledY, scaledSize, scaledSize);
 	
 	// Ícone de caderno simplificado (pixel art)
 	ctx.fillStyle = '#FFFFFF';
-	const iconPadding = 10;
-	const iconX = x + iconPadding;
-	const iconY = y + iconPadding;
-	const iconWidth = size - iconPadding * 2;
-	const iconHeight = size - iconPadding * 2;
+	const iconPadding = 10 * pulseScale;
+	const iconX = scaledX + iconPadding;
+	const iconY = scaledY + iconPadding;
+	const iconWidth = scaledSize - iconPadding * 2;
+	const iconHeight = scaledSize - iconPadding * 2;
 	
 	ctx.fillRect(iconX, iconY, iconWidth, iconHeight);
 	
@@ -540,12 +584,73 @@ function drawReadingButton(ctx, canvasWidth) {
 	ctx.fillStyle = '#000000';
 	for (let i = 1; i <= 3; i++) {
 		const lineY = iconY + (iconHeight / 4) * i;
-		ctx.fillRect(iconX + 4, lineY, iconWidth - 8, 2);
+		ctx.fillRect(iconX + 4 * pulseScale, lineY, iconWidth - 8 * pulseScale, 2 * pulseScale);
 	}
 	
 	// Espiral (círculos sólidos)
 	for (let i = 0; i < 3; i++) {
-		const spiralY = iconY + 8 + (i * 8);
-		ctx.fillRect(iconX - 4, spiralY, 4, 4);
+		const spiralY = iconY + 8 * pulseScale + (i * 8 * pulseScale);
+		ctx.fillRect(iconX - 4 * pulseScale, spiralY, 4 * pulseScale, 4 * pulseScale);
+	}
+	
+	// Badge "Novo" se houver conteúdo novo
+	if (ReadingSystem.hasNewContent) {
+		const badgeWidth = 32;
+		const badgeHeight = 12;
+		const badgeX = scaledX + scaledSize - badgeWidth + 2;
+		const badgeY = scaledY - 4;
+		
+		// Glow do badge (pulsante)
+		if (glowIntensity > 0) {
+			const badgeGlowAlpha = 0.5 * glowIntensity;
+			ctx.fillStyle = `rgba(255, 0, 0, ${badgeGlowAlpha})`;
+			ctx.fillRect(
+				badgeX - 2,
+				badgeY - 2,
+				badgeWidth + 4,
+				badgeHeight + 4
+			);
+		}
+		
+		// Fundo vermelho
+		ctx.fillStyle = '#CC0000';
+		ctx.fillRect(badgeX, badgeY, badgeWidth, badgeHeight);
+		
+		// Borda branca
+		ctx.strokeStyle = '#FFFFFF';
+		ctx.lineWidth = 1;
+		ctx.strokeRect(badgeX, badgeY, badgeWidth, badgeHeight);
+		
+		// Texto "Novo" com opacidade pulsante
+		const textAlpha = 0.7 + (glowIntensity * 0.3); // Varia de 0.7 a 1.0
+		ctx.fillStyle = `rgba(255, 255, 255, ${textAlpha})`;
+		ctx.font = 'bold 8px Arial';
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+		ctx.fillText('NOVO', badgeX + badgeWidth / 2, badgeY + badgeHeight / 2);
+		
+		// Resetar alinhamento
+		ctx.textAlign = 'left';
+		ctx.textBaseline = 'alphabetic';
+	}
+	
+	// Calcular escala do pulse (se estiver ativo - para quando fecha painel)
+	let closePulseScale = 1;
+	if (ReadingSystem.buttonPulseTime > 0) {
+		const elapsed = performance.now() - ReadingSystem.buttonPulseTime;
+		const pulseDuration = 300; // 300ms
+		
+		if (elapsed < pulseDuration) {
+			// Animação: 1 → 1.15 → 1
+			const progress = elapsed / pulseDuration;
+			const pulsePhase = Math.sin(progress * Math.PI); // 0 → 1 → 0
+			closePulseScale = 1 + (pulsePhase * 0.15);
+			
+			// Nota: Esta animação de fechamento é separada e sobrescreve a pulsação acima
+			// quando o painel é fechado
+		} else {
+			// Terminou a animação
+			ReadingSystem.buttonPulseTime = 0;
+		}
 	}
 }

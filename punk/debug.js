@@ -1,36 +1,91 @@
 /* ============================================
    🔧 Sistema de DEBUG
    Controles para testar fases e visualizar hitboxes
+   Ativação: Código Konami (Cima, Cima, Baixo, Baixo, Esquerda, Direita, Esquerda, Direita, B, A, Enter)
    ============================================ */
 
 // Variável global para controle de hitbox
 let debugHitbox = false;
 
+// Sistema de detecção do Konami Code
+const KonamiCode = {
+	// Sequência esperada: Cima, Cima, Baixo, Baixo, Esquerda, Direita, Esquerda, Direita, B, A, Enter
+	sequence: ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a', 'Enter'],
+	currentIndex: 0,
+	lastInputTime: 0,
+	timeout: 2000, // 2 segundos para resetar se não continuar a sequência
+	
+	// Verificar tecla pressionada
+	checkKey: function(key) {
+		const now = Date.now();
+		
+		// Resetar se passou muito tempo desde a última tecla
+		if (now - this.lastInputTime > this.timeout) {
+			this.currentIndex = 0;
+		}
+		
+		this.lastInputTime = now;
+		
+		// Verificar se a tecla está correta na sequência
+		if (key === this.sequence[this.currentIndex]) {
+			this.currentIndex++;
+			
+			// Sequência completa!
+			if (this.currentIndex === this.sequence.length) {
+				this.currentIndex = 0;
+				return true;
+			}
+		} else {
+			// Tecla errada, resetar sequência
+			this.currentIndex = 0;
+			
+			// Tentar novamente caso a tecla errada seja o início da sequência
+			if (key === this.sequence[0]) {
+				this.currentIndex = 1;
+			}
+		}
+		
+		return false;
+	},
+	
+	reset: function() {
+		this.currentIndex = 0;
+	}
+};
+
+// Alternar visibilidade do debug panel
+function toggleDebugPanel() {
+	const panel = document.getElementById('debugPanel');
+	panel.classList.toggle('active');
+	
+	if (panel.classList.contains('active')) {
+		console.log('🎮 DEBUG MODE ACTIVATED!');
+	} else {
+		console.log('🔒 Debug mode deactivated');
+	}
+}
+
+// Mostrar debug panel
+function showDebugPanel() {
+	const panel = document.getElementById('debugPanel');
+	panel.classList.add('active');
+	console.log('🎮 DEBUG MODE ACTIVATED!');
+}
+
+// Esconder debug panel
+function hideDebugPanel() {
+	const panel = document.getElementById('debugPanel');
+	panel.classList.remove('active');
+	console.log('🔒 Debug mode deactivated');
+}
+
 // Inicializar controles de debug
 function initDebugControls() {
-	// Botões de fase
-	const phaseBtn0 = document.getElementById('phaseBtn0');
-	const phaseBtn1 = document.getElementById('phaseBtn1');
-	const phaseBtn2 = document.getElementById('phaseBtn2');
+	// Gerar botões de fase dinamicamente
+	generatePhaseButtons();
 	
 	// Botão de hitbox
 	const hitboxToggleBtn = document.getElementById('hitboxToggleBtn');
-	
-	// Event listeners para botões de fase
-	phaseBtn0.addEventListener('click', () => {
-		switchPhase(0);
-		updatePhaseButtons();
-	});
-	
-	phaseBtn1.addEventListener('click', () => {
-		switchPhase(1);
-		updatePhaseButtons();
-	});
-	
-	phaseBtn2.addEventListener('click', () => {
-		switchPhase(2);
-		updatePhaseButtons();
-	});
 	
 	// Event listener para toggle de hitbox
 	hitboxToggleBtn.addEventListener('click', () => {
@@ -39,11 +94,64 @@ function initDebugControls() {
 		console.log(`🔧 Debug Hitbox: ${debugHitbox ? 'ON' : 'OFF'}`);
 	});
 	
+	// Adicionar botão de fechar ao debug panel
+	const debugTitle = document.querySelector('.debug-title');
+	const closeBtn = document.createElement('button');
+	closeBtn.textContent = '×';
+	closeBtn.className = 'debug-close-btn';
+	closeBtn.addEventListener('click', hideDebugPanel);
+	debugTitle.appendChild(closeBtn);
+	
+	// Listener global para Konami Code
+	document.addEventListener('keydown', (e) => {
+		// Verificar Konami Code
+		if (KonamiCode.checkKey(e.key)) {
+			showDebugPanel();
+		}
+		
+		// ESC para fechar debug panel
+		if (e.key === 'Escape') {
+			const panel = document.getElementById('debugPanel');
+			if (panel.classList.contains('active')) {
+				hideDebugPanel();
+				e.preventDefault();
+			}
+		}
+	});
+	
 	// Inicializar estado dos botões
 	updatePhaseButtons();
 	updateHitboxButton();
 	
-	console.log('🔧 Sistema de DEBUG inicializado');
+	console.log(`🔧 Sistema de DEBUG inicializado - ${Phases.length} fases disponíveis`);
+	console.log('🎮 Dica: Use o código Konami para ativar o debug menu!');
+}
+
+// Gerar botões de fase dinamicamente
+function generatePhaseButtons() {
+	const container = document.getElementById('phaseButtonsContainer');
+	container.innerHTML = ''; // Limpar container
+	
+	// Criar um botão para cada fase
+	Phases.forEach((phase, index) => {
+		const button = document.createElement('button');
+		button.id = `phaseBtn${index}`;
+		button.className = 'debug-btn phase-btn';
+		button.textContent = `Fase ${index}`;
+		
+		// Marcar fase atual como ativa
+		if (index === currentPhaseIndex) {
+			button.classList.add('active');
+		}
+		
+		// Event listener
+		button.addEventListener('click', () => {
+			switchPhase(index);
+			updatePhaseButtons();
+		});
+		
+		container.appendChild(button);
+	});
 }
 
 // Mudar de fase
@@ -52,6 +160,13 @@ function switchPhase(phaseIndex) {
 	
 	if (setPhase(phaseIndex)) {
 		console.log(`🌍 Mudança de fase: ${previousPhase} → ${getCurrentPhase().name}`);
+		
+		// Desbloquear a fase no painel de leitura
+		if (!ReadingSystem.unlockedPhases.includes(phaseIndex)) {
+			ReadingSystem.unlockedPhases.push(phaseIndex);
+			ReadingSystem.hasNewContent = true;
+			console.log(`📚 Fase ${phaseIndex} desbloqueada no painel de leitura`);
+		}
 		
 		// Se o jogo estiver rodando, atualizar o ambiente
 		if (State.isRunning) {
@@ -64,22 +179,18 @@ function switchPhase(phaseIndex) {
 
 // Atualizar estado visual dos botões de fase
 function updatePhaseButtons() {
-	const phaseBtn0 = document.getElementById('phaseBtn0');
-	const phaseBtn1 = document.getElementById('phaseBtn1');
-	const phaseBtn2 = document.getElementById('phaseBtn2');
-	
 	// Remover classe active de todos
-	phaseBtn0.classList.remove('active');
-	phaseBtn1.classList.remove('active');
-	phaseBtn2.classList.remove('active');
+	Phases.forEach((phase, index) => {
+		const button = document.getElementById(`phaseBtn${index}`);
+		if (button) {
+			button.classList.remove('active');
+		}
+	});
 	
 	// Adicionar classe active ao botão da fase atual
-	if (currentPhaseIndex === 0) {
-		phaseBtn0.classList.add('active');
-	} else if (currentPhaseIndex === 1) {
-		phaseBtn1.classList.add('active');
-	} else if (currentPhaseIndex === 2) {
-		phaseBtn2.classList.add('active');
+	const currentButton = document.getElementById(`phaseBtn${currentPhaseIndex}`);
+	if (currentButton) {
+		currentButton.classList.add('active');
 	}
 }
 

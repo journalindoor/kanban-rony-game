@@ -85,6 +85,9 @@ function init() {
 	// Clique no canvas (para botão de leitura)
 	Config.canvas.addEventListener('click', handleCanvasClick);
 	
+	// Mousemove no canvas (para mudar cursor quando sobre botão)
+	Config.canvas.addEventListener('mousemove', handleCanvasMouseMove);
+	
 	console.log('🏃 Runner inicializado');
 }
 
@@ -221,6 +224,29 @@ function update() {
 }
 
 // Handler de clique no canvas (botão de leitura)
+function handleCanvasMouseMove(event) {
+	if (isReadingPanelOpen || State.gameOver || State.victory || !State.isRunning) {
+		Config.canvas.style.cursor = 'default';
+		return;
+	}
+	
+	const rect = Config.canvas.getBoundingClientRect();
+	const mouseX = event.clientX - rect.left;
+	const mouseY = event.clientY - rect.top;
+	
+	// Verificar se o mouse está sobre o botão de leitura
+	const btnX = ReadingSystem.buttonX;
+	const btnY = ReadingSystem.buttonY;
+	const btnSize = ReadingSystem.buttonSize;
+	
+	if (mouseX >= btnX && mouseX <= btnX + btnSize &&
+	    mouseY >= btnY && mouseY <= btnY + btnSize) {
+		Config.canvas.style.cursor = 'pointer';
+	} else {
+		Config.canvas.style.cursor = 'default';
+	}
+}
+
 function handleCanvasClick(event) {
 	if (isReadingPanelOpen || State.gameOver || State.victory || !State.isRunning) return;
 	

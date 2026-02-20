@@ -35,7 +35,7 @@
 			</div>
 			
 			<!-- Botão de pulo dentro do retângulo -->
-			<button id="jumpButton" class="jump-button" style="display: none;">⬆️</button>
+			<button id="jumpButton" class="jump-button" style="display: none;">🕸️</button>
 			
 			<!-- Modal de pausa -->
 			<div id="pauseModal" class="pause-modal" style="display: none;">
@@ -51,8 +51,7 @@
 					<button id="readingCloseBtn" class="reading-close-btn" aria-label="Fechar painel"></button>
 					<div class="reading-index" id="readingIndex"></div>
 					<div class="reading-content" id="readingContent">
-						<h2 id="readingTitle"></h2>
-						<div id="readingText"></div>
+						<h2 id="readingTitle"></h2>					<h3 id="readingSubtitle" class="reading-subtitle"></h3>						<div id="readingText"></div>
 					</div>
 				</div>
 			</div>
@@ -64,10 +63,8 @@
 			
 			<div class="debug-section">
 				<p class="debug-label">Fases:</p>
-				<div class="debug-buttons">
-					<button id="phaseBtn0" class="debug-btn phase-btn active">Fase 0</button>
-					<button id="phaseBtn1" class="debug-btn phase-btn">Fase 1</button>
-					<button id="phaseBtn2" class="debug-btn phase-btn">Fase 2</button>
+				<div id="phaseButtonsContainer" class="debug-buttons">
+					<!-- Botões gerados dinamicamente -->
 				</div>
 			</div>
 			
