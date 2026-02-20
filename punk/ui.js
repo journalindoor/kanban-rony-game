@@ -29,6 +29,12 @@ const ReadingSystem = {
 	buttonY: 10,
 	buttonSize: 50,
 	
+	// Botão de fullscreen (mobile apenas)
+	fullscreenButtonX: 0,
+	fullscreenButtonY: 10,
+	fullscreenButtonSize: 50,
+	fullscreenButtonGap: 10, // Espaço entre botões
+	
 	// Conteúdos de leitura (fases + itens especiais)
 	// Ordem de exibição no grid 2x2: [?][🕸️] [0][1] [2]...
 	phaseContents: [

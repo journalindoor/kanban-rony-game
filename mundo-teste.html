@@ -35,7 +35,7 @@
 			</div>
 			
 			<!-- Botão de pulo dentro do retângulo -->
-			<button id="jumpButton" class="jump-button" style="display: none;">⬆️</button>
+			<button id="jumpButton" class="jump-button" style="display: none;">🕸️</button>
 			
 			<!-- Modal de pausa -->
 			<div id="pauseModal" class="pause-modal" style="display: none;">
@@ -44,11 +44,41 @@
 					<button id="continueButton" class="continue-button">Continuar</button>
 				</div>
 			</div>
+			<!-- Painel de Leitura (HTML Nativo - posicionado sobre o canvas) -->
+			<div id="readingPanel" class="reading-panel" style="display: none;">
+				<div class="reading-overlay"></div>
+				<div class="reading-container">
+					<button id="readingCloseBtn" class="reading-close-btn" aria-label="Fechar painel"></button>
+					<div class="reading-index" id="readingIndex"></div>
+					<div class="reading-content" id="readingContent">
+						<h2 id="readingTitle"></h2>					<h3 id="readingSubtitle" class="reading-subtitle"></h3>						<div id="readingText"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Área de DEBUG -->
+		<div id="debugPanel" class="debug-panel">
+			<h3 class="debug-title">🔧 DEBUG</h3>
+			
+			<div class="debug-section">
+				<p class="debug-label">Fases:</p>
+				<div id="phaseButtonsContainer" class="debug-buttons">
+					<!-- Botões gerados dinamicamente -->
+				</div>
+			</div>
+			
+			<div class="debug-section">
+				<p class="debug-label">Hitbox:</p>
+				<button id="hitboxToggleBtn" class="debug-btn hitbox-btn">OFF</button>
+			</div>
 		</div>
 	</div>
 
 	<!-- Scripts do jogo na ordem de dependências -->
 	<script src="punk/config.js"></script>
+	<script src="punk/phases.js"></script>
+	<script src="punk/ui.js"></script>
 	<script src="punk/state.js"></script>
 	<script src="punk/physics.js"></script>
 	<script src="punk/input.js"></script>
@@ -58,5 +88,6 @@
 	<script src="punk/collisions.js"></script>
 	<script src="punk/renderer.js"></script>
 	<script src="punk/game.js"></script>
+	<script src="punk/debug.js"></script>
 </body>
 </html>

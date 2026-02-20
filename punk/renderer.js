@@ -489,6 +489,11 @@ function render() {
 	// Desenhar botão de leitura (sempre visível durante o jogo)
 	if (State.isRunning && !isReadingPanelOpen) {
 		drawReadingButton(ctx, Config.width);
+		
+		// Desenhar botão de fullscreen (apenas em mobile)
+		if (isMobileDevice()) {
+			drawFullscreenButton(ctx, Config.width);
+		}
 	}
 	
 	// Mostrar Vitória
@@ -504,6 +509,12 @@ function render() {
 
 // Desenhar botão de leitura (estilo pixel art)
 function drawReadingButton(ctx, canvasWidth) {
+	// Verificar se ReadingSystem está disponível
+	if (typeof ReadingSystem === 'undefined') {
+		console.error('❌ ReadingSystem não definido em drawReadingButton');
+		return;
+	}
+	
 	// Posição do botão (canto superior direito)
 	ReadingSystem.buttonX = canvasWidth - ReadingSystem.buttonSize - 10;
 	const x = ReadingSystem.buttonX;
@@ -652,5 +663,110 @@ function drawReadingButton(ctx, canvasWidth) {
 			// Terminou a animação
 			ReadingSystem.buttonPulseTime = 0;
 		}
+	}
+}
+
+// Desenhar botão de fullscreen (estilo pixel art - apenas mobile)
+function drawFullscreenButton(ctx, canvasWidth) {
+	// Verificar se ReadingSystem está disponível
+	if (typeof ReadingSystem === 'undefined') {
+		console.error('❌ ReadingSystem não definido em drawFullscreenButton');
+		return;
+	}
+	
+	// Posição do botão (ao lado esquerdo do botão de leitura)
+	const readingBtnX = canvasWidth - ReadingSystem.buttonSize - 10;
+	ReadingSystem.fullscreenButtonX = readingBtnX - ReadingSystem.fullscreenButtonSize - ReadingSystem.fullscreenButtonGap;
+	
+	const x = ReadingSystem.fullscreenButtonX;
+	const y = ReadingSystem.fullscreenButtonY;
+	const size = ReadingSystem.fullscreenButtonSize;
+	
+	// Verificar se está em fullscreen
+	const inFullscreen = isFullscreen();
+	const buttonColor = inFullscreen ? '#00CC00' : '#666666'; // Verde se ativo, cinza se não
+	
+	// Sombra pixel (2px offset, sem blur)
+	ctx.fillStyle = '#000000';
+	ctx.fillRect(x + 2, y + 2, size, size);
+	
+	// Fundo do botão
+	ctx.fillStyle = buttonColor;
+	ctx.fillRect(x, y, size, size);
+	
+	// Borda preta 2px
+	ctx.strokeStyle = '#000000';
+	ctx.lineWidth = 2;
+	ctx.strokeRect(x, y, size, size);
+	
+	// Ícone de fullscreen (setas nos cantos)
+	ctx.fillStyle = '#FFFFFF';
+	ctx.strokeStyle = '#FFFFFF';
+	ctx.lineWidth = 3;
+	
+	const iconPadding = 12;
+	const iconSize = size - iconPadding * 2;
+	const iconX = x + iconPadding;
+	const iconY = y + iconPadding;
+	const arrowSize = 8;
+	
+	if (inFullscreen) {
+		// Ícone de sair do fullscreen (setas apontando para dentro)
+		// Canto superior esquerdo
+		ctx.beginPath();
+		ctx.moveTo(iconX + arrowSize, iconY);
+		ctx.lineTo(iconX, iconY);
+		ctx.lineTo(iconX, iconY + arrowSize);
+		ctx.stroke();
+		
+		// Canto superior direito
+		ctx.beginPath();
+		ctx.moveTo(iconX + iconSize - arrowSize, iconY);
+		ctx.lineTo(iconX + iconSize, iconY);
+		ctx.lineTo(iconX + iconSize, iconY + arrowSize);
+		ctx.stroke();
+		
+		// Canto inferior esquerdo
+		ctx.beginPath();
+		ctx.moveTo(iconX, iconY + iconSize - arrowSize);
+		ctx.lineTo(iconX, iconY + iconSize);
+		ctx.lineTo(iconX + arrowSize, iconY + iconSize);
+		ctx.stroke();
+		
+		// Canto inferior direito
+		ctx.beginPath();
+		ctx.moveTo(iconX + iconSize, iconY + iconSize - arrowSize);
+		ctx.lineTo(iconX + iconSize, iconY + iconSize);
+		ctx.lineTo(iconX + iconSize - arrowSize, iconY + iconSize);
+		ctx.stroke();
+	} else {
+		// Ícone de entrar em fullscreen (setas apontando para fora)
+		// Canto superior esquerdo
+		ctx.beginPath();
+		ctx.moveTo(iconX, iconY + arrowSize);
+		ctx.lineTo(iconX, iconY);
+		ctx.lineTo(iconX + arrowSize, iconY);
+		ctx.stroke();
+		
+		// Canto superior direito
+		ctx.beginPath();
+		ctx.moveTo(iconX + iconSize, iconY + arrowSize);
+		ctx.lineTo(iconX + iconSize, iconY);
+		ctx.lineTo(iconX + iconSize - arrowSize, iconY);
+		ctx.stroke();
+		
+		// Canto inferior esquerdo
+		ctx.beginPath();
+		ctx.moveTo(iconX + arrowSize, iconY + iconSize);
+		ctx.lineTo(iconX, iconY + iconSize);
+		ctx.lineTo(iconX, iconY + iconSize - arrowSize);
+		ctx.stroke();
+		
+		// Canto inferior direito
+		ctx.beginPath();
+		ctx.moveTo(iconX + iconSize - arrowSize, iconY + iconSize);
+		ctx.lineTo(iconX + iconSize, iconY + iconSize);
+		ctx.lineTo(iconX + iconSize, iconY + iconSize - arrowSize);
+		ctx.stroke();
 	}
 }

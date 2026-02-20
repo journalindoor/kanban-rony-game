@@ -21,6 +21,36 @@ function requestFullscreen() {
 	}
 }
 
+// Sair do fullscreen
+function exitFullscreen() {
+	if (document.exitFullscreen) {
+		document.exitFullscreen();
+	} else if (document.webkitExitFullscreen) {
+		document.webkitExitFullscreen();
+	} else if (document.mozCancelFullScreen) {
+		document.mozCancelFullScreen();
+	} else if (document.msExitFullscreen) {
+		document.msExitFullscreen();
+	}
+}
+
+// Verificar se está em fullscreen
+function isFullscreen() {
+	return !!(document.fullscreenElement || document.webkitFullscreenElement || 
+			  document.mozFullScreenElement || document.msFullscreenElement);
+}
+
+// Toggle fullscreen
+function toggleFullscreen() {
+	if (isFullscreen()) {
+		exitFullscreen();
+		console.log('🔲 Saindo do fullscreen');
+	} else {
+		requestFullscreen();
+		console.log('🔲 Entrando em fullscreen');
+	}
+}
+
 // Botão pressionado
 function handleButtonPress(config) {
 	return function(e) {

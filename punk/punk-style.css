@@ -256,7 +256,8 @@ body {
 	transform: scale(1.05);
 }
 
-.jump-button:active {
+.jump-button:active,
+.jump-button.pressed {
 	transform: scale(0.95);
 	background: #333333; /* Preto mais claro quando pressionado */
 	box-shadow: 0 0 6px rgba(255, 255, 255, 0.3);

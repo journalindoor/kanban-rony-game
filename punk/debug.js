@@ -81,77 +81,107 @@ function hideDebugPanel() {
 
 // Inicializar controles de debug
 function initDebugControls() {
-	// Gerar botões de fase dinamicamente
-	generatePhaseButtons();
+	console.log('🔧 Inicializando sistema de DEBUG...');
 	
-	// Botão de hitbox
-	const hitboxToggleBtn = document.getElementById('hitboxToggleBtn');
-	
-	// Event listener para toggle de hitbox
-	hitboxToggleBtn.addEventListener('click', () => {
-		debugHitbox = !debugHitbox;
-		updateHitboxButton();
-		console.log(`🔧 Debug Hitbox: ${debugHitbox ? 'ON' : 'OFF'}`);
-	});
-	
-	// Adicionar botão de fechar ao debug panel
-	const debugTitle = document.querySelector('.debug-title');
-	const closeBtn = document.createElement('button');
-	closeBtn.textContent = '×';
-	closeBtn.className = 'debug-close-btn';
-	closeBtn.addEventListener('click', hideDebugPanel);
-	debugTitle.appendChild(closeBtn);
-	
-	// Listener global para Konami Code
-	document.addEventListener('keydown', (e) => {
-		// Verificar Konami Code
-		if (KonamiCode.checkKey(e.key)) {
-			showDebugPanel();
+	try {
+		// Gerar botões de fase dinamicamente
+		generatePhaseButtons();
+		
+		// Botão de hitbox
+		const hitboxToggleBtn = document.getElementById('hitboxToggleBtn');
+		if (!hitboxToggleBtn) {
+			throw new Error('Botão de hitbox não encontrado');
 		}
 		
-		// ESC para fechar debug panel
-		if (e.key === 'Escape') {
-			const panel = document.getElementById('debugPanel');
-			if (panel.classList.contains('active')) {
-				hideDebugPanel();
-				e.preventDefault();
-			}
+		// Event listener para toggle de hitbox
+		hitboxToggleBtn.addEventListener('click', () => {
+			debugHitbox = !debugHitbox;
+			updateHitboxButton();
+			console.log(`🔧 Debug Hitbox: ${debugHitbox ? 'ON' : 'OFF'}`);
+		});
+		
+		// Adicionar botão de fechar ao debug panel
+		const debugTitle = document.querySelector('.debug-title');
+		if (debugTitle) {
+			const closeBtn = document.createElement('button');
+			closeBtn.textContent = '×';
+			closeBtn.className = 'debug-close-btn';
+			closeBtn.addEventListener('click', hideDebugPanel);
+			debugTitle.appendChild(closeBtn);
+		} else {
+			console.warn('⚠️ Debug title não encontrado');
 		}
-	});
-	
-	// Inicializar estado dos botões
-	updatePhaseButtons();
-	updateHitboxButton();
-	
-	console.log(`🔧 Sistema de DEBUG inicializado - ${Phases.length} fases disponíveis`);
-	console.log('🎮 Dica: Use o código Konami para ativar o debug menu!');
+		
+		// Listener global para Konami Code
+		document.addEventListener('keydown', (e) => {
+			try {
+				// Verificar Konami Code
+				if (KonamiCode.checkKey(e.key)) {
+					showDebugPanel();
+				}
+				
+				// ESC para fechar debug panel
+				if (e.key === 'Escape') {
+					const panel = document.getElementById('debugPanel');
+					if (panel && panel.classList.contains('active')) {
+						hideDebugPanel();
+						e.preventDefault();
+					}
+				}
+			} catch (error) {
+				console.error('❌ Erro no Konami Code handler:', error);
+			}
+		});
+		
+		// Inicializar estado dos botões
+		updatePhaseButtons();
+		updateHitboxButton();
+		
+		console.log(`✅ Sistema de DEBUG inicializado - ${Phases.length} fases disponíveis`);
+		console.log('🎮 Dica: Use o código Konami para ativar o debug menu!');
+	} catch (error) {
+		console.error('❌ ERRO ao inicializar DEBUG:', error);
+	}
 }
 
 // Gerar botões de fase dinamicamente
 function generatePhaseButtons() {
+	console.log('🔗 Gerando botões de fase...');
+	
 	const container = document.getElementById('phaseButtonsContainer');
+	if (!container) {
+		console.error('❌ Container de botões de fase não encontrado!');
+		return;
+	}
+	
 	container.innerHTML = ''; // Limpar container
 	
-	// Criar um botão para cada fase
-	Phases.forEach((phase, index) => {
-		const button = document.createElement('button');
-		button.id = `phaseBtn${index}`;
-		button.className = 'debug-btn phase-btn';
-		button.textContent = `Fase ${index}`;
-		
-		// Marcar fase atual como ativa
-		if (index === currentPhaseIndex) {
-			button.classList.add('active');
-		}
-		
-		// Event listener
-		button.addEventListener('click', () => {
-			switchPhase(index);
-			updatePhaseButtons();
+	try {
+		// Criar um botão para cada fase
+		Phases.forEach((phase, index) => {
+			const button = document.createElement('button');
+			button.id = `phaseBtn${index}`;
+			button.className = 'debug-btn phase-btn';
+			button.textContent = `Fase ${index}`;
+			
+			// Marcar fase atual como ativa
+			if (index === currentPhaseIndex) {
+				button.classList.add('active');
+			}
+			
+			// Event listener
+			button.addEventListener('click', () => {
+				switchPhase(index);
+				updatePhaseButtons();
+			});
+			
+			container.appendChild(button);
 		});
 		
-		container.appendChild(button);
-	});
+		console.log(`✅ ${Phases.length} botões de fase criados`);
+	} catch (error) {
+		console.error('❌ Erro ao gerar botões de fase:', error);
+	}
 }
 
 // Mudar de fase

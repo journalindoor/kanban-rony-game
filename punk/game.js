@@ -6,11 +6,20 @@
 // Inicializar
 function init() {
 	console.log('🚀 INIT chamado - Página carregada');
+	console.log('🌍 Ambiente:', window.location.href);
 	
-	Config.canvas = document.getElementById('gameCanvas');
-	Config.ctx = Config.canvas.getContext('2d');
-	
-	console.log('✅ Canvas inicializado:', Config.canvas ? 'OK' : 'ERRO');
+	try {
+		Config.canvas = document.getElementById('gameCanvas');
+		if (!Config.canvas) {
+			throw new Error('Canvas não encontrado!');
+		}
+		Config.ctx = Config.canvas.getContext('2d');
+		
+		console.log('✅ Canvas inicializado:', Config.canvas ? 'OK' : 'ERRO');
+	} catch (error) {
+		console.error('❌ ERRO ao inicializar canvas:', error);
+		return;
+	}
 	
 	// Mobile: modal de rotação
 	if (isMobileDevice()) {
@@ -29,45 +38,144 @@ function init() {
 	}
 	
 	// Carregar sprites
+	console.log('🖼️ Iniciando carregamento de sprites...');
+	
 	Config.playerImage = new Image();
 	Config.playerImageNormal = Config.playerImage;
-	Config.playerImage.onload = () => console.log('✅ Spritesheet normal carregado');
-	Config.playerImage.onerror = () => {
-		console.error('❌ Erro ao carregar spritesheet');
+	Config.playerImage.onload = () => {
+		console.log('✅ Spritesheet normal carregado');
+		console.log('   - Dimensões:', Config.playerImage.width, 'x', Config.playerImage.height);
+	};
+	Config.playerImage.onerror = (e) => {
+		console.error('❌ Erro ao carregar spritesheet normal:', e);
+		console.error('   - URL tentada:', Config.playerImage.src);
 		Config.playerImage = null;
 	};
 	Config.playerImage.src = 'punk/assets/corre-rony-spritesheet.png';
+	console.log('🔗 Carregando spritesheet normal de:', Config.playerImage.src);
 	
 	Config.playerImagePunk = new Image();
-	Config.playerImagePunk.onload = () => console.log('✅ Spritesheet PUNK carregado');
-	Config.playerImagePunk.onerror = () => {
-		console.error('❌ Erro ao carregar spritesheet PUNK');
+	Config.playerImagePunk.onload = () => {
+		console.log('✅ Spritesheet PUNK carregado');
+		console.log('   - Dimensões:', Config.playerImagePunk.width, 'x', Config.playerImagePunk.height);
+	};
+	Config.playerImagePunk.onerror = (e) => {
+		console.error('❌ Erro ao carregar spritesheet PUNK:', e);
+		console.error('   - URL tentada:', Config.playerImagePunk.src);
 		Config.playerImagePunk = Config.playerImageNormal;
 	};
 	Config.playerImagePunk.src = 'punk/assets/corre-punk-spritesheet.png';
+	console.log('🔗 Carregando spritesheet PUNK de:', Config.playerImagePunk.src);
 	
 	// Botões
-	document.getElementById('startButton').addEventListener('click', startGame);
-	document.getElementById('restartButton').addEventListener('click', restartGame);
-	document.getElementById('backButton').addEventListener('click', () => {
-		// Resetar flag de abertura automática para próxima entrada
-		resetReadingPanelAutoOpen();
-		window.location.href = 'index.html';
-	});
-	document.getElementById('continueButton').addEventListener('click', resumeGame);
+	console.log('🎮 Inicializando botões e event listeners...');
+	
+	const startButton = document.getElementById('startButton');
+	const restartButton = document.getElementById('restartButton');
+	const backButton = document.getElementById('backButton');
+	const continueButton = document.getElementById('continueButton');
+	
+	if (startButton) startButton.addEventListener('click', startGame);
+	if (restartButton) restartButton.addEventListener('click', restartGame);
+	if (backButton) {
+		backButton.addEventListener('click', () => {
+			// Resetar flag de abertura automática para próxima entrada
+			resetReadingPanelAutoOpen();
+			window.location.href = 'index.html';
+		});
+	}
+	if (continueButton) continueButton.addEventListener('click', resumeGame);
+	
+	console.log('✅ Botões inicializados');
 	
 	// Eventos de janela
 	document.addEventListener('visibilitychange', handleVisibilityChange);
 	window.addEventListener('blur', handleWindowBlur);
 	
+	// Listeners para mudanças de fullscreen e orientação (mobile)
+	if (isMobileDevice()) {
+		// Atualizar quando entrar/sair de fullscreen
+		document.addEventListener('fullscreenchange', () => {
+			console.log('🔄 Fullscreen mudou:', isFullscreen() ? 'ATIVO' : 'INATIVO');
+		});
+		document.addEventListener('webkitfullscreenchange', () => {
+			console.log('🔄 Fullscreen mudou (webkit):', isFullscreen() ? 'ATIVO' : 'INATIVO');
+		});
+		document.addEventListener('mozfullscreenchange', () => {
+			console.log('🔄 Fullscreen mudou (moz):', isFullscreen() ? 'ATIVO' : 'INATIVO');
+		});
+		
+		// Atualizar quando a orientação mudar
+		window.addEventListener('orientationchange', () => {
+			console.log('🔄 Orientação mudou:', screen.orientation?.type || window.orientation);
+		});
+		
+		// Atualizar quando a janela for redimensionada
+		window.addEventListener('resize', () => {
+			console.log('🔄 Janela redimensionada:', window.innerWidth, 'x', window.innerHeight);
+		});
+		
+		console.log('✅ Listeners de fullscreen e orientação adicionados');
+	}
+	
 	// Botão de pulo
 	const jumpButton = document.getElementById('jumpButton');
-	const buttonPressHandler = handleButtonPress(Config);
-	jumpButton.addEventListener('mousedown', buttonPressHandler);
-	jumpButton.addEventListener('touchstart', buttonPressHandler);
-	jumpButton.addEventListener('mouseup', handleButtonRelease);
-	jumpButton.addEventListener('touchend', handleButtonRelease);
-	jumpButton.addEventListener('mouseleave', handleButtonRelease);
+	if (jumpButton) {
+		const buttonPressHandler = handleButtonPress(Config);
+		jumpButton.addEventListener('mousedown', buttonPressHandler);
+		jumpButton.addEventListener('touchstart', buttonPressHandler);
+		jumpButton.addEventListener('mouseup', handleButtonRelease);
+		jumpButton.addEventListener('touchend', handleButtonRelease);
+		jumpButton.addEventListener('mouseleave', handleButtonRelease);
+		console.log('✅ Botão de pulo inicializado');
+	} else {
+		console.warn('⚠️ Botão de pulo não encontrado');
+	}
+	
+	// Listener de teclado para barra de espaço
+	let spacePressed = false;
+	document.addEventListener('keydown', (e) => {
+		// Bloquear se painel de leitura estiver aberto
+		if (isReadingPanelOpen) return;
+		
+		if (e.code === 'Space' && !spacePressed) {
+			e.preventDefault();
+			spacePressed = true;
+			
+			// Adicionar efeito visual no botão
+			if (jumpButton) {
+				jumpButton.classList.add('pressed');
+			}
+			
+			// Executar pulo
+			if (!State.buttonPressed) {
+				State.buttonPressed = true;
+				jump(Config);
+			}
+		}
+	});
+	
+	document.addEventListener('keyup', (e) => {
+		if (e.code === 'Space') {
+			e.preventDefault();
+			spacePressed = false;
+			
+			// Remover efeito visual do botão
+			if (jumpButton) {
+				jumpButton.classList.remove('pressed');
+			}
+			
+			// Soltar botão
+			if (State.buttonPressed) {
+				State.buttonPressed = false;
+				
+				// Se estiver balançando e soltar, soltar a teia
+				if (State.playerState === 'balancando') {
+					soltarTeia();
+				}
+			}
+		}
+	});
 	
 	// Botão de fechar painel de leitura
 	const closeBtn = document.getElementById('readingCloseBtn');
@@ -234,6 +342,19 @@ function handleCanvasMouseMove(event) {
 	const mouseX = event.clientX - rect.left;
 	const mouseY = event.clientY - rect.top;
 	
+	// Verificar se o mouse está sobre o botão de fullscreen (mobile apenas)
+	if (isMobileDevice()) {
+		const fsX = ReadingSystem.fullscreenButtonX;
+		const fsY = ReadingSystem.fullscreenButtonY;
+		const fsSize = ReadingSystem.fullscreenButtonSize;
+		
+		if (mouseX >= fsX && mouseX <= fsX + fsSize &&
+		    mouseY >= fsY && mouseY <= fsY + fsSize) {
+			Config.canvas.style.cursor = 'pointer';
+			return;
+		}
+	}
+	
 	// Verificar se o mouse está sobre o botão de leitura
 	const btnX = ReadingSystem.buttonX;
 	const btnY = ReadingSystem.buttonY;
@@ -253,6 +374,19 @@ function handleCanvasClick(event) {
 	const rect = Config.canvas.getBoundingClientRect();
 	const clickX = event.clientX - rect.left;
 	const clickY = event.clientY - rect.top;
+	
+	// Verificar se clicou no botão de fullscreen (mobile apenas)
+	if (isMobileDevice()) {
+		const fsX = ReadingSystem.fullscreenButtonX;
+		const fsY = ReadingSystem.fullscreenButtonY;
+		const fsSize = ReadingSystem.fullscreenButtonSize;
+		
+		if (clickX >= fsX && clickX <= fsX + fsSize &&
+		    clickY >= fsY && clickY <= fsY + fsSize) {
+			toggleFullscreen();
+			return;
+		}
+	}
 	
 	// Verificar se clicou no botão de leitura
 	const btnX = ReadingSystem.buttonX;
