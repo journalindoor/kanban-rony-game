@@ -131,6 +131,9 @@ function checkGuitarCollection(config) {
 		State.isPunkMode = true;
 		State.hasGuitarProtection = true;
 		
+		// Desbloquear item especial "Mundo Teia" no painel de leitura
+		unlockSpecialItem('mundoteia');
+		
 		// Trocar sprite
 		Config.playerImage = Config.playerImagePunk;
 		

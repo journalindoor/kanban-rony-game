@@ -2,34 +2,88 @@
    Renderização (Canvas, Sprites, HUD)
    ============================================ */
 
-// Desenhar prédio com detalhes
+// Desenhar céu em faixas horizontais (estilo retrô)
+function drawPixelSky(ctx, phase, width, height) {
+	const baseColor = phase.sky.color;
+	
+	// Criar faixas horizontais (sem gradiente suave)
+	const numStripes = 8;
+	const stripeHeight = height / numStripes;
+	
+	for (let i = 0; i < numStripes; i++) {
+		// Variação de cor discreta (sem gradiente)
+		let color;
+		if (phase.name === 'Cidade Noturna') {
+			// Noite: 3 tons discretos
+			if (i < 3) color = '#0a0a1e';
+			else if (i < 6) color = '#1a1a2e';
+			else color = '#2a2a3e';
+		} else {
+			// Dia: 3 tons de azul discretos
+			if (i < 3) color = '#87CEEB';
+			else if (i < 6) color = '#5DADE2';
+			else color = '#4A9FD8';
+		}
+		
+		ctx.fillStyle = color;
+		ctx.fillRect(0, i * stripeHeight, width, stripeHeight + 1);
+	}
+}
+
+// Desenhar prédio com estilo pixel art
 function drawBuilding(ctx, building, config) {
 	const phase = getCurrentPhase();
 	
+	// Arredondar posição para pixels inteiros
+	const x = Math.floor(building.x);
+	const width = Math.floor(building.width);
+	const height = config.asphaltY + config.playerSize;
+	
+	// Corpo do prédio
 	ctx.fillStyle = building.color;
-	ctx.fillRect(building.x, 0, building.width, config.asphaltY + config.playerSize);
+	ctx.fillRect(x, 0, width, height);
 	
-	// Porta no térreo
-	const doorWidth = building.width * 0.3;
+	// Borda lateral esquerda mais escura (volume pixel art)
+	ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+	ctx.fillRect(x, 0, 2, height);
+	
+	// Borda lateral direita mais clara (volume pixel art)
+	ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+	ctx.fillRect(x + width - 2, 0, 2, height);
+	
+	// Porta no térreo (alinhada ao grid de 8px)
+	const doorWidth = Math.floor(width * 0.3 / 8) * 8;
 	const doorHeight = 40;
-	const doorX = building.x + building.width / 2 - doorWidth / 2;
+	const doorX = x + Math.floor((width - doorWidth) / 2);
 	const doorY = config.asphaltY + config.playerSize - doorHeight;
-	ctx.fillStyle = '#1F2937';
+	ctx.fillStyle = '#000000';
 	ctx.fillRect(doorX, doorY, doorWidth, doorHeight);
+	ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+	ctx.fillRect(doorX + 2, doorY + 2, doorWidth - 4, doorHeight - 4);
 	
-	// Janelas em vários andares
-	const windowSize = 12;
-	const windowSpacingY = 35;
+	// Janelas em grid fixo 8x8px
+	const windowSize = 8;
+	const windowSpacing = 16;
 	const numWindows = building.width > 100 ? 3 : 2;
 	const numFloors = building.windowStates.length;
 	
 	for (let floor = 0; floor < numFloors; floor++) {
-		const windowY = config.asphaltY + config.playerSize - 60 - (floor * windowSpacingY);
+		const windowY = config.asphaltY + config.playerSize - 56 - (floor * 32);
 		
 		for (let i = 0; i < numWindows; i++) {
-			const windowX = building.x + (i + 1) * (building.width / (numWindows + 1)) - windowSize / 2;
-			ctx.fillStyle = building.windowStates[floor][i] ? phase.environment.windowLightColor : phase.environment.windowOffColor;
-			ctx.fillRect(windowX, windowY, windowSize, windowSize);
+			const windowX = Math.floor(x + (i + 1) * (width / (numWindows + 1)));
+			
+			// Janela (8x8px, sem suavização)
+			const isLit = building.windowStates[floor][i];
+			ctx.fillStyle = isLit ? phase.environment.windowLightColor : phase.environment.windowOffColor;
+			ctx.fillRect(windowX - 4, windowY, windowSize, windowSize);
+			
+			// Divisória central da janela (1px)
+			if (isLit) {
+				ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+				ctx.fillRect(windowX, windowY, 1, windowSize);
+				ctx.fillRect(windowX - 4, windowY + 4, windowSize, 1);
+			}
 		}
 	}
 }
@@ -45,13 +99,21 @@ function drawCone(ctx, x, y, width, height) {
 	ctx.fill();
 }
 
-// Desenhar buraco
+// Desenhar buraco (estilo pixel art - sem gradiente)
 function drawHole(ctx, x, y, width, height) {
-	const gradient = ctx.createLinearGradient(x, y, x, y + height);
-	gradient.addColorStop(0, '#5DADE2');
-	gradient.addColorStop(1, '#1B4F72');
-	ctx.fillStyle = gradient;
+	// Fundo escuro
+	ctx.fillStyle = '#1B4F72';
 	ctx.fillRect(x, y, width, height);
+	
+	// Padrão de pixels alternados (textura simples)
+	ctx.fillStyle = '#2A5F82';
+	for (let py = y; py < y + height; py += 4) {
+		for (let px = x; px < x + width; px += 4) {
+			if ((px + py) % 8 === 0) {
+				ctx.fillRect(px, py, 2, 2);
+			}
+		}
+	}
 }
 
 // Desenhar personagem
@@ -90,7 +152,7 @@ function drawPlayer(ctx, config) {
 		// Efeitos de transformação
 		if (State.isTransforming) {
 			const glowSize = 50 + Math.sin(State.transformTimer / 3) * 10;
-			ctx.font = `${glowSize}px Arial`;
+			ctx.font = `${Math.floor(glowSize)}px "Courier New", monospace`;
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'middle';
 			
@@ -112,16 +174,22 @@ function drawPlayer(ctx, config) {
 		ctx.fillRect(config.playerX, State.playerY, config.playerSize, config.playerSize);
 	}
 	
-	// Partículas de transformação
+	// Partículas de transformação (fade em steps discretos)
 	if (State.transformParticles.length > 0) {
-		ctx.font = '20px Arial';
+		ctx.font = '20px "Courier New", monospace';
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
 		
 		State.transformParticles.forEach(p => {
-			const alpha = p.life / 45;
+			// Opacidade em steps (1 → 0.66 → 0.33 → 0)
+			const lifePercent = p.life / 45;
+			let alpha;
+			if (lifePercent > 0.66) alpha = 1.0;
+			else if (lifePercent > 0.33) alpha = 0.66;
+			else alpha = 0.33;
+			
 			ctx.globalAlpha = alpha;
-			ctx.fillText(p.emoji, p.x, p.y);
+			ctx.fillText(p.emoji, Math.floor(p.x), Math.floor(p.y));
 		});
 		ctx.globalAlpha = 1.0;
 	}
@@ -139,7 +207,7 @@ function drawPlayer(ctx, config) {
 		ctx.lineWidth = 1;
 		ctx.strokeRect(hitboxX, hitboxY, hitbox.width, hitbox.height);
 		ctx.fillStyle = '#00ff00';
-		ctx.font = '10px Arial';
+		ctx.font = '10px "Courier New", monospace';
 		ctx.fillText('PLAYER', hitboxX, hitboxY - 2);
 	}
 }
@@ -162,79 +230,101 @@ function drawWeb(ctx, config) {
 	}
 }
 
-// Desenhar HUD
+// Desenhar HUD (estilo pixel art)
 function drawHUD(ctx, config) {
 	const hudX = 10;
 	const hudY = 10;
 	const hudWidth = 220;
 	const hudHeight = 60;
 	
-	// Fundo translúcido
-	ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-	ctx.beginPath();
-	ctx.roundRect(hudX, hudY, hudWidth, hudHeight, 8);
-	ctx.fill();
+	// Fundo sólido preto
+	ctx.fillStyle = '#000000';
+	ctx.fillRect(hudX, hudY, hudWidth, hudHeight);
 	
-	// Borda ciano
-	ctx.strokeStyle = '#22D3EE';
-	ctx.lineWidth = 2;
-	ctx.stroke();
+	// Borda clara 1px (estilo retrô)
+	ctx.strokeStyle = '#00FFFF';
+	ctx.lineWidth = 1;
+	ctx.strokeRect(hudX, hudY, hudWidth, hudHeight);
 	
-	// Texto do HUD
-	ctx.fillStyle = '#E0F2FE';
-	ctx.font = 'bold 16px Courier New';
+	// Sombra pixel (2px offset, sem blur)
+	ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+	ctx.fillRect(hudX + 2, hudY + 2, hudWidth, hudHeight);
+	
+	// Redesenhar fundo por cima da sombra
+	ctx.fillStyle = '#000000';
+	ctx.fillRect(hudX, hudY, hudWidth, hudHeight);
+	ctx.strokeStyle = '#00FFFF';
+	ctx.strokeRect(hudX, hudY, hudWidth, hudHeight);
+	
+	// Texto do HUD (sem suavização)
+	ctx.fillStyle = '#00FFFF';
+	ctx.font = '12px "Courier New", monospace';
 	ctx.textAlign = 'left';
 	
 	// Distância
 	const distanceStr = String(State.distance).padStart(5, '0');
-	ctx.fillText('Distância: ' + distanceStr + ' m', hudX + 12, hudY + 25);
+	ctx.fillText('DIST: ' + distanceStr + 'm', hudX + 8, hudY + 22);
 	
 	// Recorde
 	const bestStr = String(State.bestDistance).padStart(5, '0');
-	ctx.fillText('Recorde: ' + bestStr + ' m', hudX + 12, hudY + 48);
+	ctx.fillText('BEST: ' + bestStr + 'm', hudX + 8, hudY + 42);
 	
-	// Indicador de teias (se tiver guitarra)
+	// Indicador de teias
 	if (State.hasGuitarProtection) {
-		ctx.fillStyle = '#FFD700'; // dourado
-		ctx.font = 'bold 14px Courier New';
-		ctx.fillText('🕷️ Teias: ' + State.webUsesRemaining, hudX + 12, hudY + 70);
+		ctx.fillStyle = '#FFFF00';
+		ctx.font = '10px "Courier New", monospace';
+		ctx.fillText('WEBS: ' + State.webUsesRemaining, hudX + 8, hudY + 56);
 	}
 }
 
-// Desenhar tela de vitória
+// Desenhar tela de vitória (estilo pixel art)
 function drawVictory(ctx, config) {
-	ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+	// Overlay sólido
+	ctx.fillStyle = '#000000';
+	ctx.globalAlpha = 0.8;
 	ctx.fillRect(0, 0, config.width, config.height);
+	ctx.globalAlpha = 1.0;
 	
-	ctx.fillStyle = '#00ff00';
-	ctx.font = 'bold 48px Courier New';
+	// Texto com sombra pixel
+	ctx.fillStyle = '#006600';
+	ctx.font = 'bold 48px "Courier New", monospace';
 	ctx.textAlign = 'center';
-	ctx.fillText('Você venceu!', config.width / 2, config.height / 2);
-	ctx.fillStyle = '#fff';
-	ctx.font = '20px Courier New';
-	ctx.fillText('99999 metros percorridos!', config.width / 2, config.height / 2 + 50);
+	ctx.fillText('VOCE VENCEU!', config.width / 2 + 3, config.height / 2 - 17);
+	ctx.fillStyle = '#00FF00';
+	ctx.fillText('VOCE VENCEU!', config.width / 2, config.height / 2 - 20);
+	
+	ctx.fillStyle = '#CCCCCC';
+	ctx.font = '16px "Courier New", monospace';
+	ctx.fillText('99999 metros!', config.width / 2, config.height / 2 + 30);
 	ctx.textAlign = 'left';
 }
 
-// Desenhar tela de game over
+// Desenhar tela de game over (estilo pixel art)
 function drawGameOver(ctx, config) {
-	ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+	// Overlay sólido (sem transparência gradual)
+	ctx.fillStyle = '#000000';
+	ctx.globalAlpha = 0.8;
 	ctx.fillRect(0, 0, config.width, config.height);
+	ctx.globalAlpha = 1.0;
 	
-	// Título RONY RUNNER acima do Game Over
-	ctx.fillStyle = '#FFFFFF';
-	ctx.font = 'bold 32px Courier New';
+	// Título com sombra pixel
+	ctx.fillStyle = '#000000';
+	ctx.font = 'bold 32px "Courier New", monospace';
 	ctx.textAlign = 'center';
+	ctx.fillText('RONY RUNNER', config.width / 2 + 2, config.height / 2 - 98);
+	ctx.fillStyle = '#FFFFFF';
 	ctx.fillText('RONY RUNNER', config.width / 2, config.height / 2 - 100);
 	
-	// Mensagem de derrota
-	ctx.fillStyle = '#ff0000';
-	ctx.font = 'bold 36px Courier New';
+	// Mensagem de derrota com sombra
+	ctx.fillStyle = '#800000';
+	ctx.font = 'bold 36px "Courier New", monospace';
+	ctx.fillText('BATEU!', config.width / 2 + 2, config.height / 2 - 38);
+	ctx.fillStyle = '#FF0000';
 	ctx.fillText('BATEU!', config.width / 2, config.height / 2 - 40);
 	
-	ctx.fillStyle = '#FFFFFF';
-	ctx.font = '20px Courier New';
-	ctx.fillText('Ainda bem que o Rony tem plano de saúde...', config.width / 2, config.height / 2);
+	ctx.fillStyle = '#CCCCCC';
+	ctx.font = '16px "Courier New", monospace';
+	ctx.fillText('Ainda bem que o Rony tem plano de saude...', config.width / 2, config.height / 2 + 20);
 	ctx.textAlign = 'left';
 }
 
@@ -260,7 +350,7 @@ function drawGuitarItem(ctx) {
 	ctx.stroke();
 	
 	// Desenhar emoji (da fase)
-	ctx.font = '20px Arial';
+	ctx.font = '20px "Courier New", monospace';
 	ctx.textAlign = 'center';
 	ctx.textBaseline = 'middle';
 	ctx.fillText(guitarEmoji, centerX, centerY);
@@ -273,7 +363,7 @@ function drawGuitarItem(ctx) {
 		
 		// Label
 		ctx.fillStyle = '#00ff00';
-		ctx.font = '10px Arial';
+		ctx.font = '10px "Courier New", monospace';
 		ctx.fillText('GUITAR', State.guitarItem.x, State.guitarItem.y - 2);
 	}
 }
@@ -283,25 +373,38 @@ function render() {
 	const ctx = Config.ctx;
 	const phase = getCurrentPhase();
 	
-	// Limpar tela com fundo (cor da fase)
-	ctx.fillStyle = phase.sky.color;
-	ctx.fillRect(0, 0, Config.width, Config.height);
+	// Desabilitar suavização para visual pixel art
+	ctx.imageSmoothingEnabled = false;
+	
+	// Limpar tela com céu em faixas horizontais (estilo retrô)
+	drawPixelSky(ctx, phase, Config.width, Config.height);
 	
 	// Desenhar prédios no fundo
 	for (let building of State.buildings) {
 		drawBuilding(ctx, building, Config);
 	}
 	
-	// Desenhar asfalto (cor da fase)
+	// Desenhar asfalto com textura pixel
+	const asphaltY = Config.asphaltY + Config.playerSize;
 	ctx.fillStyle = phase.environment.asphaltColor;
-	ctx.fillRect(0, Config.asphaltY + Config.playerSize, Config.width, Config.asphaltHeight);
+	ctx.fillRect(0, asphaltY, Config.width, Config.asphaltHeight);
 	
-	// Desenhar faixa tracejada (cor da fase)
+	// Textura de asfalto (pixels alternados)
+	ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+	for (let py = asphaltY; py < asphaltY + Config.asphaltHeight; py += 4) {
+		for (let px = 0; px < Config.width; px += 4) {
+			if (Math.random() > 0.7) {
+				ctx.fillRect(px, py, 2, 2);
+			}
+		}
+	}
+	
+	// Faixa tracejada em blocos retangulares (não linhas suaves)
 	ctx.fillStyle = phase.environment.laneColor;
-	const laneY = Config.asphaltY + Config.playerSize + 25; // mais acima, próxima do centro
+	const laneY = Config.asphaltY + Config.playerSize + 25;
 	const dashPattern = Config.laneDashWidth + Config.laneDashGap;
 	for (let x = -dashPattern + (Config.laneOffset % dashPattern); x < Config.width; x += dashPattern) {
-		ctx.fillRect(x, laneY, Config.laneDashWidth, 4);
+		ctx.fillRect(Math.floor(x), laneY, Config.laneDashWidth, 6);
 	}
 	
 	// Atualizar offset da faixa (velocidade proporcional ao modo)
@@ -326,8 +429,8 @@ function render() {
 			drawHole(ctx, obj.x + obj.coneWidth, obj.holeY, obj.holeWidth, obj.holeHeight);
 		} else if (obj.emoji) {
 			// Obstáculo com emoji (carro)
-			const fontSize = Math.min(obj.width, obj.height);
-			ctx.font = `${fontSize}px Arial`;
+			const fontSize = Math.floor(Math.min(obj.width, obj.height));
+			ctx.font = `${fontSize}px "Courier New", monospace`;
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'middle';
 			ctx.fillText(obj.emoji, obj.x + obj.width / 2, obj.y + obj.height / 2);
@@ -360,7 +463,7 @@ function render() {
 				
 				// Label
 				ctx.fillStyle = '#00ff00';
-				ctx.font = '10px Arial';
+				ctx.font = '10px "Courier New", monospace';
 				ctx.fillText(obj.size.toUpperCase(), hitboxX, hitboxY - 2);
 			}
 		} else {
@@ -383,11 +486,10 @@ function render() {
 	// Desenhar HUD
 	drawHUD(ctx, Config);
 	
-	// Desenhar banner de fase (sobre o HUD)
-	drawPhaseBanner(ctx, Config.width);
-	
-	// Desenhar botão de leitura (UI fixa)
-	drawReadingButton(ctx, Config.width);
+	// Desenhar botão de leitura (sempre visível durante o jogo)
+	if (State.isRunning && !isReadingPanelOpen) {
+		drawReadingButton(ctx, Config.width);
+	}
 	
 	// Mostrar Vitória
 	if (State.victory) {
@@ -398,7 +500,52 @@ function render() {
 	if (State.gameOver) {
 		drawGameOver(ctx, Config);
 	}
+}
+
+// Desenhar botão de leitura (estilo pixel art)
+function drawReadingButton(ctx, canvasWidth) {
+	// Posição do botão (canto superior direito)
+	ReadingSystem.buttonX = canvasWidth - ReadingSystem.buttonSize - 10;
+	const x = ReadingSystem.buttonX;
+	const y = ReadingSystem.buttonY;
+	const size = ReadingSystem.buttonSize;
 	
-	// Desenhar painel de leitura POR ÚLTIMO - acima de TUDO
-	drawReadingPanel(ctx, Config.width, Config.height);
+	// Cor do botão (amarelo se há novo conteúdo, cinza caso contrário)
+	const buttonColor = ReadingSystem.hasNewContent ? '#FFFF00' : '#666666';
+	
+	// Sombra pixel (2px offset, sem blur)
+	ctx.fillStyle = '#000000';
+	ctx.fillRect(x + 2, y + 2, size, size);
+	
+	// Fundo do botão
+	ctx.fillStyle = buttonColor;
+	ctx.fillRect(x, y, size, size);
+	
+	// Borda preta 2px
+	ctx.strokeStyle = '#000000';
+	ctx.lineWidth = 2;
+	ctx.strokeRect(x, y, size, size);
+	
+	// Ícone de caderno simplificado (pixel art)
+	ctx.fillStyle = '#FFFFFF';
+	const iconPadding = 10;
+	const iconX = x + iconPadding;
+	const iconY = y + iconPadding;
+	const iconWidth = size - iconPadding * 2;
+	const iconHeight = size - iconPadding * 2;
+	
+	ctx.fillRect(iconX, iconY, iconWidth, iconHeight);
+	
+	// Linhas do caderno (pretas, grossas)
+	ctx.fillStyle = '#000000';
+	for (let i = 1; i <= 3; i++) {
+		const lineY = iconY + (iconHeight / 4) * i;
+		ctx.fillRect(iconX + 4, lineY, iconWidth - 8, 2);
+	}
+	
+	// Espiral (círculos sólidos)
+	for (let i = 0; i < 3; i++) {
+		const spiralY = iconY + 8 + (i * 8);
+		ctx.fillRect(iconX - 4, spiralY, 4, 4);
+	}
 }

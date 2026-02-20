@@ -49,7 +49,11 @@ function init() {
 	// Botões
 	document.getElementById('startButton').addEventListener('click', startGame);
 	document.getElementById('restartButton').addEventListener('click', restartGame);
-	document.getElementById('backButton').addEventListener('click', () => window.location.href = 'index.html');
+	document.getElementById('backButton').addEventListener('click', () => {
+		// Resetar flag de abertura automática para próxima entrada
+		resetReadingPanelAutoOpen();
+		window.location.href = 'index.html';
+	});
 	document.getElementById('continueButton').addEventListener('click', resumeGame);
 	
 	// Eventos de janela
@@ -65,7 +69,20 @@ function init() {
 	jumpButton.addEventListener('touchend', handleButtonRelease);
 	jumpButton.addEventListener('mouseleave', handleButtonRelease);
 	
-	// Canvas click (leitura)
+	// Botão de fechar painel de leitura
+	const closeBtn = document.getElementById('readingCloseBtn');
+	if (closeBtn) {
+		closeBtn.addEventListener('click', () => {
+			closeReadingPanel();
+			
+			// Mostrar apenas botão de pulo (botão de leitura está no canvas)
+			if (State.isRunning && !State.gameOver && !State.victory) {
+				document.getElementById('jumpButton').style.display = 'block';
+			}
+		});
+	}
+	
+	// Clique no canvas (para botão de leitura)
 	Config.canvas.addEventListener('click', handleCanvasClick);
 	
 	console.log('🏃 Runner inicializado');
@@ -80,17 +97,24 @@ function startGame() {
 	document.getElementById('startButton').style.display = 'none';
 	document.getElementById('gameTitle').style.display = 'none';
 	document.getElementById('gameSubtitle').style.display = 'none';
-	document.getElementById('jumpButton').style.display = 'block';
+	// jumpButton será mostrado quando fechar o painel
 	
 	initBuildings(Config);
 	resetState(Config);
 	
-	showPhaseBanner(getCurrentPhase().name);
-	unlockReadingContent();
+	// Abrir painel de leitura apenas na primeira entrada do jogo
+	if (!ReadingSystem.hasOpenedAutomatically) {
+		ReadingSystem.hasOpenedAutomatically = true;
+		unlockReadingContent();
+		openReadingPanel();
+	} else {
+		// Nas próximas vezes (reiniciar), apenas mostra os botões de UI
+		document.getElementById('jumpButton').style.display = 'block';
+	}
 	
 	gameLoop();
 	
-	console.log('🏃 Jogo iniciado!');
+	console.log('🏃 Jogo iniciado com painel de leitura!');
 	console.log(`🌍 Fase atual: ${getCurrentPhase().name}`);
 }
 
@@ -146,7 +170,6 @@ function update() {
 	
 	updateDistance();
 	updateSpriteAnimation(Config);
-	updatePhaseBanner();
 	updateBuildings(Config);
 	updatePlayerPhysics(Config);
 	
@@ -197,6 +220,26 @@ function update() {
 	checkCollisions(Config, gameOver);
 }
 
+// Handler de clique no canvas (botão de leitura)
+function handleCanvasClick(event) {
+	if (isReadingPanelOpen || State.gameOver || State.victory || !State.isRunning) return;
+	
+	const rect = Config.canvas.getBoundingClientRect();
+	const clickX = event.clientX - rect.left;
+	const clickY = event.clientY - rect.top;
+	
+	// Verificar se clicou no botão de leitura
+	const btnX = ReadingSystem.buttonX;
+	const btnY = ReadingSystem.buttonY;
+	const btnSize = ReadingSystem.buttonSize;
+	
+	if (clickX >= btnX && clickX <= btnX + btnSize &&
+	    clickY >= btnY && clickY <= btnY + btnSize) {
+		openReadingPanel();
+		document.getElementById('jumpButton').style.display = 'none';
+	}
+}
+
 // Game Over
 function gameOver() {
 	console.log('🚨 gameOver() CHAMADO!');
@@ -218,35 +261,6 @@ function gameOver() {
 	document.getElementById('restartButton').style.display = 'block';
 	
 	console.log('💥 TELA DE GAME OVER EXIBIDA');
-}
-
-// Handler de clique no canvas
-function handleCanvasClick(event) {
-	const rect = Config.canvas.getBoundingClientRect();
-	const clickX = event.clientX - rect.left;
-	const clickY = event.clientY - rect.top;
-	
-	// Fechar painel de leitura
-	if (isReadingPanelOpen && ReadingSystem.closeButtonBounds) {
-		const btn = ReadingSystem.closeButtonBounds;
-		if (clickX >= btn.x && clickX <= btn.x + btn.width &&
-		    clickY >= btn.y && clickY <= btn.y + btn.height) {
-			closeReadingPanel();
-			return;
-		}
-	}
-	
-	// Abrir painel de leitura
-	if (!isReadingPanelOpen) {
-		const btnX = ReadingSystem.buttonX;
-		const btnY = ReadingSystem.buttonY;
-		const btnSize = ReadingSystem.buttonSize;
-		
-		if (clickX >= btnX && clickX <= btnX + btnSize &&
-		    clickY >= btnY && clickY <= btnY + btnSize) {
-			openReadingPanel();
-		}
-	}
 }
 
 // Iniciar quando DOM carregar

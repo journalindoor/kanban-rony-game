@@ -44,6 +44,18 @@
 					<button id="continueButton" class="continue-button">Continuar</button>
 				</div>
 			</div>
+			<!-- Painel de Leitura (HTML Nativo - posicionado sobre o canvas) -->
+			<div id="readingPanel" class="reading-panel" style="display: none;">
+				<div class="reading-overlay"></div>
+				<div class="reading-container">
+					<button id="readingCloseBtn" class="reading-close-btn" aria-label="Fechar painel"></button>
+					<div class="reading-index" id="readingIndex"></div>
+					<div class="reading-content" id="readingContent">
+						<h2 id="readingTitle"></h2>
+						<div id="readingText"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 		
 		<!-- Área de DEBUG -->

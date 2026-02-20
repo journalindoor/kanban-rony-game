@@ -107,7 +107,7 @@ function drawDebugHitbox(ctx, x, y, width, height, label = '') {
 	// Desenhar label se fornecido
 	if (label) {
 		ctx.fillStyle = '#00ff00';
-		ctx.font = '10px Arial';
+		ctx.font = '10px "Courier New", monospace';
 		ctx.fillText(label, x, y - 2);
 	}
 }

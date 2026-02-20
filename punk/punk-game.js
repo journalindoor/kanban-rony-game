@@ -363,7 +363,7 @@ function updateSpriteAnimation() {
 
 // Atualizar lógica
 function update() {
-	if (State.gameOver || State.victory) return;
+	if (State.gameOver || State.victory || State.isPaused) return;
 	
 	// Calcular deltaTime e atualizar distância
 	updateDistance();

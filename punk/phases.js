@@ -147,7 +147,6 @@ function setPhase(phaseIndex) {
 		const phaseName = getCurrentPhase().name;
 		console.log(`🌍 Mudou para fase: ${phaseName}`);
 		
-		showPhaseBanner(phaseName);
 		unlockReadingContent();
 		
 		return true;
