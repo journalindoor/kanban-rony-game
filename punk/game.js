@@ -152,10 +152,10 @@ function update() {
 	
 	// Invencibilidade
 	if (State.isInvincible) {
-		State.invencibilityTimer--;
-		if (State.invencibilityTimer <= 0) {
+		State.invincibilityTimer--;
+		if (State.invincibilityTimer <= 0) {
 			State.isInvincible = false;
-			State.invencibilityTimer = 0;
+			State.invincibilityTimer = 0;
 			console.log('✨ Invencibilidade terminou');
 		}
 	}
