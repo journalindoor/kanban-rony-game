@@ -6,25 +6,28 @@
 function drawPixelSky(ctx, phase, width, height) {
 	const baseColor = phase.sky.color;
 	
-	// Criar faixas horizontais (sem gradiente suave)
+	// Criar faixas horizontais com variações do baseColor
 	const numStripes = 8;
 	const stripeHeight = height / numStripes;
 	
+	// Converter hex para RGB para criar variações
+	const hex = baseColor.replace('#', '');
+	const r = parseInt(hex.substr(0, 2), 16);
+	const g = parseInt(hex.substr(2, 2), 16);
+	const b = parseInt(hex.substr(4, 2), 16);
+	
 	for (let i = 0; i < numStripes; i++) {
-		// Variação de cor discreta (sem gradiente)
-		let color;
-		if (phase.name === 'Cidade Noturna') {
-			// Noite: 3 tons discretos
-			if (i < 3) color = '#0a0a1e';
-			else if (i < 6) color = '#1a1a2e';
-			else color = '#2a2a3e';
-		} else {
-			// Dia: 3 tons de azul discretos
-			if (i < 3) color = '#87CEEB';
-			else if (i < 6) color = '#5DADE2';
-			else color = '#4A9FD8';
-		}
+		// Criar 3 tons discretos baseados na cor da fase
+		let factor;
+		if (i < 3) factor = 1.1; // Mais claro no topo
+		else if (i < 6) factor = 1.0; // Tom base no meio
+		else factor = 0.9; // Mais escuro embaixo
 		
+		const newR = Math.min(255, Math.floor(r * factor));
+		const newG = Math.min(255, Math.floor(g * factor));
+		const newB = Math.min(255, Math.floor(b * factor));
+		
+		const color = `rgb(${newR}, ${newG}, ${newB})`;
 		ctx.fillStyle = color;
 		ctx.fillRect(0, i * stripeHeight, width, stripeHeight + 1);
 	}
@@ -58,7 +61,7 @@ function drawBuilding(ctx, building, config) {
 	const height = config.asphaltY + config.playerSize;
 	
 	// FASE 0: Baixada Fluminense
-	if (currentPhaseIndex === 0 && building.houseType) {
+	if (getCurrentBasePhase() === 0 && building.houseType) {
 		const houseHeight = building.houseHeight || 80;
 		const baseY = config.asphaltY + config.playerSize - houseHeight;
 		
@@ -363,11 +366,17 @@ function drawHUD(ctx, config) {
 	const bestStr = String(State.bestDistance).padStart(5, '0');
 	ctx.fillText('BEST: ' + bestStr + 'm', hudX + 8, hudY + 42);
 	
+	// Indicador de fase (debug)
+	const phaseId = getCurrentPhaseId();
+	ctx.fillStyle = '#FF00FF';
+	ctx.font = '10px "Courier New", monospace';
+	ctx.fillText('PHASE: ' + phaseId, hudX + 8, hudY + 56);
+	
 	// Indicador de teias
 	if (State.hasGuitarProtection) {
 		ctx.fillStyle = '#FFFF00';
 		ctx.font = '10px "Courier New", monospace';
-		ctx.fillText('WEBS: ' + State.webUsesRemaining, hudX + 8, hudY + 56);
+		ctx.fillText('WEBS: ' + State.webUsesRemaining, hudX + 120, hudY + 56);
 	}
 }
 
@@ -474,7 +483,7 @@ function render() {
 	drawPixelSky(ctx, phase, Config.width, Config.height);
 	
 	// Desenhar montanhas (fase 0 apenas)
-	if (currentPhaseIndex === 0 && State.mountains) {
+	if (getCurrentBasePhase() === 0 && State.mountains) {
 		for (let mountain of State.mountains) {
 			drawMountain(ctx, mountain, Config);
 		}
@@ -491,7 +500,7 @@ function render() {
 	ctx.fillRect(0, asphaltY, Config.width, Config.asphaltHeight);
 	
 	// FASE 0: Bueiros
-	if (currentPhaseIndex === 0) {
+	if (getCurrentBasePhase() === 0) {
 		const laneY = Config.asphaltY + Config.playerSize + 25;
 		const bueiroSpacing = 1200;
 		const offset = Math.floor(Config.laneOffset);
@@ -540,7 +549,7 @@ function render() {
 	}
 	
 	// Faixa tracejada (não desenhar na fase 0)
-	if (currentPhaseIndex !== 0) {
+	if (getCurrentBasePhase() !== 0) {
 		ctx.fillStyle = phase.environment.laneColor;
 		const laneY = Config.asphaltY + Config.playerSize + 25;
 		const dashPattern = Config.laneDashWidth + Config.laneDashGap;

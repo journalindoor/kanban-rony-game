@@ -107,22 +107,22 @@ const ReadingSystem = {
 // Desbloquear novo conteúdo
 function unlockReadingContent() {
 	ReadingSystem.hasNewContent = true;
-	const currentPhaseIndex = Phases.findIndex(p => p.name === getCurrentPhase().name);
-	if (currentPhaseIndex !== -1) {
-		// Desbloquear fase se ainda não estiver desbloqueada
-		if (!ReadingSystem.unlockedPhases.includes(currentPhaseIndex)) {
-			ReadingSystem.unlockedPhases.push(currentPhaseIndex);
-			console.log(`📖 Fase ${currentPhaseIndex} desbloqueada para leitura!`);
+	const phase = getCurrentPhase();
+	const basePhase = phase.basePhase;
+	
+	// Desbloquear fase base (não variante) para leitura
+	if (!ReadingSystem.unlockedPhases.includes(basePhase)) {
+		ReadingSystem.unlockedPhases.push(basePhase);
+		console.log(`📖 Fase base ${basePhase} desbloqueada para leitura!`);
+		
+		// Só mudar seleção se não for a primeira fase (deixar "?" selecionado no início)
+		if (basePhase !== 0) {
+			const contentIndex = ReadingSystem.phaseContents.findIndex(
+				c => c.type === 'phase' && c.phaseIndex === basePhase
+			);
 			
-			// Só mudar seleção se não for a primeira fase (deixar "?" selecionado no início)
-			if (currentPhaseIndex !== 0) {
-				const contentIndex = ReadingSystem.phaseContents.findIndex(
-					c => c.type === 'phase' && c.phaseIndex === currentPhaseIndex
-				);
-				
-				if (contentIndex !== -1) {
-					ReadingSystem.selectedPhaseIndex = contentIndex;
-				}
+			if (contentIndex !== -1) {
+				ReadingSystem.selectedPhaseIndex = contentIndex;
 			}
 		}
 	}

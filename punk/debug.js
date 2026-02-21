@@ -162,7 +162,10 @@ function generatePhaseButtons() {
 			const button = document.createElement('button');
 			button.id = `phaseBtn${index}`;
 			button.className = 'debug-btn phase-btn';
-			button.textContent = `Fase ${index}`;
+			
+			// Gerar ID da fase coerente (0a, 0b, 0c, 1, 2, etc)
+			const phaseId = phase.variant ? `${phase.basePhase}${phase.variant}` : `${phase.basePhase}`;
+			button.textContent = `Fase ${phaseId}`;
 			
 			// Marcar fase atual como ativa
 			if (index === currentPhaseIndex) {

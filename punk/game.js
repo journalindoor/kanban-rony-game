@@ -214,15 +214,11 @@ function startGame() {
 	initBuildings(Config);
 	resetState(Config);
 	
-	// Abrir painel de leitura apenas na primeira entrada do jogo
-	if (!ReadingSystem.hasOpenedAutomatically) {
-		ReadingSystem.hasOpenedAutomatically = true;
-		unlockReadingContent();
-		openReadingPanel();
-	} else {
-		// Nas próximas vezes (reiniciar), apenas mostra os botões de UI
-		document.getElementById('jumpButton').style.display = 'block';
-	}
+	// Desbloquear conteúdo de leitura sem abrir o painel automaticamente
+	unlockReadingContent();
+	
+	// Mostrar botões de UI
+	document.getElementById('jumpButton').style.display = 'block';
 	
 	gameLoop();
 	
@@ -282,6 +278,17 @@ function update() {
 	
 	updateDistance();
 	updateSpriteAnimation(Config);
+	
+	// Verificar transição de fase baseada na distância
+	const hadTransition = checkPhaseTransition(State.distance);
+	if (hadTransition) {
+		// Recriar elementos visuais da nova fase
+		// Passar isTransition=true para NÃO limpar buildings/montanhas antigas
+		initMountains(Config, true); // ← isTransition = true
+		initBuildings(Config, true); // ← isTransition = true
+		console.log(`✨ Elementos visuais recriados para fase ${getCurrentPhaseId()}`);
+	}
+	
 	updateMountains(Config);
 	updateBuildings(Config);
 	updatePlayerPhysics(Config);
