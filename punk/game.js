@@ -210,6 +210,7 @@ function startGame() {
 	document.getElementById('gameSubtitle').style.display = 'none';
 	// jumpButton será mostrado quando fechar o painel
 	
+	initMountains(Config);
 	initBuildings(Config);
 	resetState(Config);
 	
@@ -281,6 +282,7 @@ function update() {
 	
 	updateDistance();
 	updateSpriteAnimation(Config);
+	updateMountains(Config);
 	updateBuildings(Config);
 	updatePlayerPhysics(Config);
 	

@@ -30,28 +30,130 @@ function drawPixelSky(ctx, phase, width, height) {
 	}
 }
 
+// Desenhar montanha
+function drawMountain(ctx, mountain, config) {
+	const x = Math.floor(mountain.x);
+	const width = Math.floor(mountain.width);
+	const height = Math.floor(mountain.height);
+	const baseY = config.asphaltY + config.playerSize - 40;
+	
+	ctx.fillStyle = mountain.color;
+	ctx.beginPath();
+	ctx.moveTo(x, baseY);
+	ctx.lineTo(x + width * 0.3, baseY - height * 0.7);
+	ctx.quadraticCurveTo(
+		x + width * 0.5, baseY - height,
+		x + width * 0.7, baseY - height * 0.7
+	);
+	ctx.lineTo(x + width, baseY);
+	ctx.closePath();
+	ctx.fill();
+}
+
 // Desenhar prédio com estilo pixel art
 function drawBuilding(ctx, building, config) {
 	const phase = getCurrentPhase();
-	
-	// Arredondar posição para pixels inteiros
 	const x = Math.floor(building.x);
 	const width = Math.floor(building.width);
 	const height = config.asphaltY + config.playerSize;
 	
-	// Corpo do prédio
+	// FASE 0: Baixada Fluminense
+	if (currentPhaseIndex === 0 && building.houseType) {
+		const houseHeight = building.houseHeight || 80;
+		const baseY = config.asphaltY + config.playerSize - houseHeight;
+		
+		// Fachada
+		ctx.fillStyle = building.color;
+		ctx.fillRect(x, baseY, width, houseHeight);
+		
+		// Borda lateral escura
+		ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+		ctx.fillRect(x, baseY, 2, houseHeight);
+		
+		// Telhado
+		if (building.roofType === 'triangular') {
+			const roofColor = building.roofColor || '#8B4513';
+			ctx.fillStyle = roofColor;
+			ctx.beginPath();
+			ctx.moveTo(x - 4, baseY);
+			ctx.lineTo(x + width / 2, baseY - 20);
+			ctx.lineTo(x + width + 4, baseY);
+			ctx.closePath();
+			ctx.fill();
+		} else {
+			const roofColor = building.roofColor || '#5A3E2B';
+			ctx.fillStyle = roofColor;
+			ctx.fillRect(x, baseY - 8, width, 8);
+		}
+		
+		// Muro frontal (30% das casas)
+		if (building.hasWall) {
+			ctx.fillStyle = '#696969';
+			const wallHeight = 10;
+			ctx.fillRect(x, config.asphaltY + config.playerSize - wallHeight, width, wallHeight);
+			ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+			ctx.fillRect(x, config.asphaltY + config.playerSize - wallHeight, 1, wallHeight);
+		}
+		
+		// Placa de comércio
+		if (building.houseType === 'shop' && building.signText) {
+			ctx.fillStyle = '#FFD700';
+			ctx.fillRect(x + 4, baseY + 8, width - 8, 16);
+			ctx.fillStyle = '#000000';
+			ctx.font = 'bold 10px "Courier New", monospace';
+			ctx.textAlign = 'center';
+			ctx.fillText(building.signText, x + width / 2, baseY + 17);
+		}
+		
+		// Porta
+		const doorWidth = building.houseType === 'shop' ? width * 0.4 : width * 0.3;
+		const doorHeight = building.houseType === 'shop' ? 40 : 40;
+		const doorX = x + (width - doorWidth) / 2;
+		const doorY = config.asphaltY + config.playerSize - doorHeight;
+		ctx.fillStyle = '#3E2723';
+		ctx.fillRect(doorX, doorY, doorWidth, doorHeight);
+		ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+		ctx.fillRect(doorX + 2, doorY + 2, doorWidth - 4, doorHeight - 4);
+		
+		// Janelas (posicionadas acima da porta para evitar sobreposição)
+		const numWindows = building.houseType === 'wide' ? 3 : (building.houseType === 'shop' ? 1 : 2);
+		const windowY = baseY + 20;
+		const doorTopY = doorY;
+		
+		for (let i = 0; i < numWindows; i++) {
+			const windowX = x + (i + 1) * (width / (numWindows + 1));
+			const windowBottomY = windowY + 12;
+			
+			// Verificar se janela NÃO intersecta com porta
+			const windowLeft = windowX - 6;
+			const windowRight = windowX + 6;
+			const doorLeft = doorX;
+			const doorRight = doorX + doorWidth;
+			
+			// Desenhar apenas se janela está completamente acima da porta OU fora da área horizontal da porta
+			const isAboveDoor = windowBottomY < doorTopY;
+			const isLeftOfDoor = windowRight < doorLeft;
+			const isRightOfDoor = windowLeft > doorRight;
+			
+			if (isAboveDoor || isLeftOfDoor || isRightOfDoor) {
+				ctx.fillStyle = building.windowStates?.[0]?.[i] ? '#FCD34D' : '#4B5563';
+				ctx.fillRect(windowX - 6, windowY, 12, 12);
+				ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+				ctx.fillRect(windowX, windowY, 1, 12);
+				ctx.fillRect(windowX - 6, windowY + 6, 12, 1);
+			}
+		}
+		return;
+	}
+	
+	// Outras fases: prédios normais
 	ctx.fillStyle = building.color;
 	ctx.fillRect(x, 0, width, height);
-	
-	// Borda lateral esquerda mais escura (volume pixel art)
 	ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
 	ctx.fillRect(x, 0, 2, height);
-	
-	// Borda lateral direita mais clara (volume pixel art)
 	ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
 	ctx.fillRect(x + width - 2, 0, 2, height);
 	
-	// Porta no térreo (alinhada ao grid de 8px)
 	const doorWidth = Math.floor(width * 0.3 / 8) * 8;
 	const doorHeight = 40;
 	const doorX = x + Math.floor((width - doorWidth) / 2);
@@ -61,24 +163,16 @@ function drawBuilding(ctx, building, config) {
 	ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
 	ctx.fillRect(doorX + 2, doorY + 2, doorWidth - 4, doorHeight - 4);
 	
-	// Janelas em grid fixo 8x8px
 	const windowSize = 8;
-	const windowSpacing = 16;
 	const numWindows = building.width > 100 ? 3 : 2;
 	const numFloors = building.windowStates.length;
-	
 	for (let floor = 0; floor < numFloors; floor++) {
 		const windowY = config.asphaltY + config.playerSize - 56 - (floor * 32);
-		
 		for (let i = 0; i < numWindows; i++) {
 			const windowX = Math.floor(x + (i + 1) * (width / (numWindows + 1)));
-			
-			// Janela (8x8px, sem suavização)
 			const isLit = building.windowStates[floor][i];
 			ctx.fillStyle = isLit ? phase.environment.windowLightColor : phase.environment.windowOffColor;
 			ctx.fillRect(windowX - 4, windowY, windowSize, windowSize);
-			
-			// Divisória central da janela (1px)
 			if (isLit) {
 				ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
 				ctx.fillRect(windowX, windowY, 1, windowSize);
@@ -379,6 +473,13 @@ function render() {
 	// Limpar tela com céu em faixas horizontais (estilo retrô)
 	drawPixelSky(ctx, phase, Config.width, Config.height);
 	
+	// Desenhar montanhas (fase 0 apenas)
+	if (currentPhaseIndex === 0 && State.mountains) {
+		for (let mountain of State.mountains) {
+			drawMountain(ctx, mountain, Config);
+		}
+	}
+	
 	// Desenhar prédios no fundo
 	for (let building of State.buildings) {
 		drawBuilding(ctx, building, Config);
@@ -389,22 +490,63 @@ function render() {
 	ctx.fillStyle = phase.environment.asphaltColor;
 	ctx.fillRect(0, asphaltY, Config.width, Config.asphaltHeight);
 	
-	// Textura de asfalto (pixels alternados)
-	ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
-	for (let py = asphaltY; py < asphaltY + Config.asphaltHeight; py += 4) {
-		for (let px = 0; px < Config.width; px += 4) {
-			if (Math.random() > 0.7) {
-				ctx.fillRect(px, py, 2, 2);
+	// FASE 0: Bueiros
+	if (currentPhaseIndex === 0) {
+		const laneY = Config.asphaltY + Config.playerSize + 25;
+		const bueiroSpacing = 1200;
+		const offset = Math.floor(Config.laneOffset);
+		const width = 28;
+		const height = 14;
+		
+		for (let x = -bueiroSpacing + (offset % bueiroSpacing); x < Config.width + width; x += bueiroSpacing) {
+			const bueiroX = Math.floor(x);
+			const bueiroY = laneY - height / 2;
+			
+			ctx.fillStyle = '#1A1A1A';
+			ctx.beginPath();
+			ctx.ellipse(bueiroX + width/2, bueiroY + height/2, width/2, height/2, 0, 0, Math.PI * 2);
+			ctx.fill();
+			
+			ctx.strokeStyle = '#2B2B2B';
+			ctx.lineWidth = 1;
+			ctx.stroke();
+			
+			ctx.strokeStyle = '#0D0D0D';
+			ctx.lineWidth = 1;
+			ctx.beginPath();
+			ctx.ellipse(bueiroX + width/2, bueiroY + height - 2, width/2 - 2, height/2 - 2, 0, 0, Math.PI);
+			ctx.stroke();
+			
+			ctx.strokeStyle = '#252525';
+			ctx.lineWidth = 1;
+			ctx.beginPath();
+			ctx.moveTo(bueiroX + 6, bueiroY + height/2);
+			ctx.lineTo(bueiroX + width - 6, bueiroY + height/2);
+			ctx.stroke();
+			ctx.beginPath();
+			ctx.moveTo(bueiroX + width/2, bueiroY + 3);
+			ctx.lineTo(bueiroX + width/2, bueiroY + height - 3);
+			ctx.stroke();
+		}
+	} else {
+		ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+		for (let py = asphaltY; py < asphaltY + Config.asphaltHeight; py += 4) {
+			for (let px = 0; px < Config.width; px += 4) {
+				if (Math.random() > 0.7) {
+					ctx.fillRect(px, py, 2, 2);
+				}
 			}
 		}
 	}
 	
-	// Faixa tracejada em blocos retangulares (não linhas suaves)
-	ctx.fillStyle = phase.environment.laneColor;
-	const laneY = Config.asphaltY + Config.playerSize + 25;
-	const dashPattern = Config.laneDashWidth + Config.laneDashGap;
-	for (let x = -dashPattern + (Config.laneOffset % dashPattern); x < Config.width; x += dashPattern) {
-		ctx.fillRect(Math.floor(x), laneY, Config.laneDashWidth, 6);
+	// Faixa tracejada (não desenhar na fase 0)
+	if (currentPhaseIndex !== 0) {
+		ctx.fillStyle = phase.environment.laneColor;
+		const laneY = Config.asphaltY + Config.playerSize + 25;
+		const dashPattern = Config.laneDashWidth + Config.laneDashGap;
+		for (let x = -dashPattern + (Config.laneOffset % dashPattern); x < Config.width; x += dashPattern) {
+			ctx.fillRect(Math.floor(x), laneY, Config.laneDashWidth, 6);
+		}
 	}
 	
 	// Atualizar offset da faixa (velocidade proporcional ao modo)

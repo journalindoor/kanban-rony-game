@@ -6,7 +6,7 @@ const Phases = [
 	// Fase 0: Cidade Urbana / Bairro Residencial
 	{
 		name: 'Cidade Urbana',
-		sky: { color: '#5DADE2', gradient: null },
+		sky: { color: '#FF9F1C', gradient: null },
 		environment: {
 			type: 'buildings',
 			colors: ['#6B7280', '#4B5563', '#9CA3AF', '#374151', '#1F2937'],

@@ -35,6 +35,7 @@ const State = {
 	
 	// Cenário
 	buildings: [], // array de prédios
+	mountains: [], // array de montanhas (fase 0)
 	
 	// Animação de spritesheet
 	currentFrame: 0, // frame atual (0-3)
