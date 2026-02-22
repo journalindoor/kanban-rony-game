@@ -236,11 +236,14 @@ function drawPlayer(ctx, config) {
 			ctx.globalAlpha = blinkCycle === 0 ? 0.5 : 1.0;
 		}
 	
-		ctx.drawImage(
-			config.playerImage,
-			frameX, frameY,
-			config.spriteFrameWidth, config.spriteFrameHeight,
-			config.playerX, State.playerY,
+// Offset visual para personagem parecer estar dentro da rua
+	const visualOffsetY = 12;
+	
+	ctx.drawImage(
+		config.playerImage,
+		frameX, frameY,
+		config.spriteFrameWidth, config.spriteFrameHeight,
+		config.playerX, State.playerY + visualOffsetY,
 			config.playerSize, config.playerSize
 		);
 		
@@ -248,6 +251,7 @@ function drawPlayer(ctx, config) {
 		
 		// Efeitos de transformação
 		if (State.isTransforming) {
+			const visualOffsetY = 12;
 			const glowSize = 50 + Math.sin(State.transformTimer / 3) * 10;
 			ctx.font = `${Math.floor(glowSize)}px "Courier New", monospace`;
 			ctx.textAlign = 'center';
@@ -257,7 +261,7 @@ function drawPlayer(ctx, config) {
 			for (let i = 0; i < numGlows; i++) {
 				const angle = (Math.PI * 2 * i) / numGlows + State.transformTimer / 10;
 				const glowX = config.playerX + config.playerSize / 2 + Math.cos(angle) * 35;
-				const glowY = State.playerY + config.playerSize / 2 + Math.sin(angle) * 35;
+				const glowY = State.playerY + visualOffsetY + config.playerSize / 2 + Math.sin(angle) * 35;
 				
 				const alpha = State.transformTimer / 45;
 				ctx.globalAlpha = alpha * 0.8;
@@ -267,8 +271,9 @@ function drawPlayer(ctx, config) {
 		}
 	} else {
 		// Fallback
+		const visualOffsetY = 12;
 		ctx.fillStyle = config.playerColor;
-		ctx.fillRect(config.playerX, State.playerY, config.playerSize, config.playerSize);
+		ctx.fillRect(config.playerX, State.playerY + visualOffsetY, config.playerSize, config.playerSize);
 	}
 	
 	// Partículas de transformação (fade em steps discretos)
@@ -293,12 +298,13 @@ function drawPlayer(ctx, config) {
 	
 	// Debug hitbox
 	if (debugHitbox) {
+		const visualOffsetY = 12;
 		let hitbox = config.hitboxes.correndo;
 		if (State.playerState === 'pulando') hitbox = config.hitboxes.pulando;
 		else if (State.playerState === 'balancando') hitbox = config.hitboxes.pendurado;
 		
 		const hitboxX = config.playerX + hitbox.offsetX;
-		const hitboxY = State.playerY + hitbox.offsetY;
+		const hitboxY = State.playerY + hitbox.offsetY + visualOffsetY;
 		
 		ctx.strokeStyle = '#00ff00';
 		ctx.lineWidth = 1;
@@ -312,11 +318,12 @@ function drawPlayer(ctx, config) {
 // Desenhar teia
 function drawWeb(ctx, config) {
 	if (State.playerState === 'balancando' && State.webbedToPoint) {
+		const visualOffsetY = 12;
 		ctx.strokeStyle = '#fff';
 		ctx.lineWidth = 2;
 		ctx.beginPath();
 		ctx.moveTo(State.webbedToPoint.x, State.webbedToPoint.y);
-		ctx.lineTo(config.playerX + config.playerSize / 2, State.playerY + config.playerSize / 2);
+		ctx.lineTo(config.playerX + config.playerSize / 2, State.playerY + visualOffsetY + config.playerSize / 2);
 		ctx.stroke();
 		
 		// Desenhar ponto de ancoragem

@@ -24,13 +24,18 @@ function initMountains(config, isTransition = false) {
 		console.log(`🏔️ Transição: ${State.mountains.length} montanhas antigas continuarão se movendo`);
 	}
 	
-	let currentX = config.width + 100;
+	// Posição inicial depende do tipo de inicialização
+	// isTransition=false: pré-popular tela inteira (início do jogo)
+	// isTransition=true: criar fora da tela (transição de fase)
+	let currentX = isTransition ? config.width + 100 : -300;
 	
 	// Camadas de profundidade (distante, média, próxima)
+	// Mais montanhas na inicialização para preencher a tela
+	const countMultiplier = isTransition ? 1 : 3;
 	const layers = [
-		{ colors: ['#A8D5BA', '#9FCFB0'], speed: 0.15, count: 3, minWidth: 200, maxWidth: 350, minHeight: 80, maxHeight: 120 },
-		{ colors: ['#7FB77E', '#6FAF75'], speed: 0.3, count: 4, minWidth: 180, maxWidth: 300, minHeight: 100, maxHeight: 150 },
-		{ colors: ['#4E8C5A', '#3E7A4F'], speed: 0.5, count: 5, minWidth: 150, maxWidth: 250, minHeight: 120, maxHeight: 180 }
+		{ colors: ['#A8D5BA', '#9FCFB0'], speed: 0.15, count: 3 * countMultiplier, minWidth: 200, maxWidth: 350, minHeight: 80, maxHeight: 120 },
+		{ colors: ['#7FB77E', '#6FAF75'], speed: 0.3, count: 4 * countMultiplier, minWidth: 180, maxWidth: 300, minHeight: 100, maxHeight: 150 },
+		{ colors: ['#4E8C5A', '#3E7A4F'], speed: 0.5, count: 5 * countMultiplier, minWidth: 150, maxWidth: 250, minHeight: 120, maxHeight: 180 }
 	];
 	
 	layers.forEach((layer, layerIndex) => {

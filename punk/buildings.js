@@ -20,7 +20,10 @@ function initBuildings(config, isTransition = false) {
 		console.log(`🏘️ Transição: ${State.buildings.length} casas antigas continuarão se movendo`);
 	}
 	
-	let currentX = config.width + 100;
+	// Posição inicial depende do tipo de inicialização
+	// isTransition=false: pré-popular tela inteira (início do jogo)
+	// isTransition=true: criar fora da tela (transição de fase)
+	let currentX = isTransition ? config.width + 100 : -200;
 	
 	// FASE 0: Casas da Baixada Fluminense
 	if (getCurrentBasePhase() === 0) {
@@ -30,7 +33,10 @@ function initBuildings(config, isTransition = false) {
 		const houseTypes = ['simple', 'simple', 'wide', 'shop'];
 		const signTexts = ['BAR', 'MERCADO', 'OFICINA', 'LOJA'];
 		
-		for (let i = 0; i < 12; i++) {
+		// Número de casas: mais na inicialização para preencher a tela
+		const numHouses = isTransition ? 5 : 20;
+		
+		for (let i = 0; i < numHouses; i++) {
 			const houseType = houseTypes[Math.floor(Math.random() * houseTypes.length)];
 			const width = houseType === 'wide' ? (Math.random() * 40 + 100) : 
 			              houseType === 'shop' ? (Math.random() * 30 + 70) : 
@@ -71,7 +77,10 @@ function initBuildings(config, isTransition = false) {
 	}
 	
 	// Outras fases: prédios normais
-	for (let i = 0; i < 8; i++) {
+	// Número de prédios: mais na inicialização para preencher a tela
+	const numBuildings = isTransition ? 5 : 12;
+	
+	for (let i = 0; i < numBuildings; i++) {
 		const width = Math.random() * 80 + 60;
 		const height = config.height + 100;
 		const color = buildingColors[Math.floor(Math.random() * buildingColors.length)];
